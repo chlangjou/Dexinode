@@ -3,7 +3,7 @@ title: Specialist Validation
 owner: human
 executor: agent
 status: active
-active_stage: A3-benchmark-freeze
+active_stage: A4-general-baseline
 
 objective: >-
   Determine whether existing specialist model checkpoints exhibit reproducible,
@@ -35,46 +35,22 @@ stages:
   A1-candidate-scout:
     status: completed
     objective: identify one or more fair candidate sets
-    allowed_actions:
-      - web_research
-      - model_registry_research
-      - inspect_model_cards
-      - inspect_licenses
-      - estimate_runtime_requirements
-      - record_candidates
-    forbidden_actions:
-      - construct_formal_benchmark
-      - execute_comparative_benchmark
-      - fine_tune_model
-      - relax_candidate_constraints_without_human_review
-    required_outputs:
-      - experiments/gate-a/candidates.yaml
-    stop_for_human_review: true
 
   A2-candidate-eligibility:
     status: approved
-    activation: human_approval_required
     human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
     objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
   A3-benchmark-freeze:
-    status: completed-pending-human-review
-    activation: human_approved
-    human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
-    revision_request_record: gates/gate-a-specialization/reviews/a3-human-review-v1.md
-    revision_request_record_present_in_checkout: false
+    status: approved
     objective: construct and freeze a cross-skill benchmark and scoring policy
     active_benchmark_version: gate-a-cross-skill-v1.1.0
     active_benchmark_root: experiments/gate-a/benchmark-v1.1.0/
     supersedes_benchmark: experiments/gate-a/benchmark/
+    prior_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.md
+    approval_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
     required_case_counts: {mathematics: 48, software_coding: 48}
     required_difficulty_counts_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
-    coding_isolation_preflight:
-      required_before_coding_evaluation: true
-      policy_file: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
-      executable: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.py
-      current_receipt: experiments/gate-a/benchmark-v1.1.0/execution/preflight-receipt-a3.json
-      current_receipt_status: failed_closed_on_current_host
     approved_controls:
       total_context_tokens: 4096
       rendered_input_plus_generation_must_fit: true
@@ -84,17 +60,39 @@ stages:
       quantization: none
       external_tools: false
       cpu_only_is_permanent_constraint: false
-    forbidden_actions:
-      - execute_general_baseline
-      - execute_specialist_models
-      - inspect_model_results
-      - modify_gate_acceptance_criteria
-      - change_selected_candidate_set_without_human_review
-    stop_for_human_review: true
 
   A4-general-baseline:
-    status: inactive
-    objective: execute the general-purpose baseline on the frozen benchmark
+    status: active
+    activation: human_approved
+    human_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
+    objective: execute the general-purpose baseline on the frozen v1.1.0 benchmark
+    model:
+      id: Qwen/Qwen2.5-7B-Instruct
+      revision: a09a35458c702b33eeacc393d103063234e8bc28
+    benchmark: experiments/gate-a/benchmark-v1.1.0/
+    execution_order:
+      - record_exact_execution_host_and_runtime
+      - run_coding_isolation_preflight_on_exact_environment
+      - stop_if_preflight_fails
+      - execute_all_96_cases_if_preflight_passes
+      - score_with_frozen_deterministic_policy
+      - preserve_raw_responses_and_reproducibility_metadata
+      - stop_for_human_review
+    coding_isolation_preflight:
+      required_before_baseline_execution: true
+      policy_file: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
+      prior_failed_receipt: experiments/gate-a/benchmark-v1.1.0/execution/preflight-receipt-a3.json
+      passing_receipt_required_for_exact_a4_environment: true
+      fail_closed: true
+    forbidden_actions:
+      - modify_frozen_benchmark
+      - modify_scoring_rules
+      - modify_prompt_template
+      - change_candidate_set
+      - modify_gate_acceptance_criteria
+      - execute_specialist_models
+      - proceed_to_a5_without_human_review
+    stop_for_human_review: true
 
   A5-specialist-cross-evaluation:
     status: inactive
@@ -114,7 +112,7 @@ executor_permissions:
   research_candidates: true
   create_experiment_code: true
   modify_experiment_code: true
-  modify_benchmark_before_freeze: true
+  modify_benchmark_before_freeze: false
   modify_benchmark_after_freeze: false
   modify_acceptance_criteria: false
   replace_baseline_after_execution: false
