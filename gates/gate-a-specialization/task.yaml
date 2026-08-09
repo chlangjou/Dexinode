@@ -56,27 +56,11 @@ stages:
     human_review_record: gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md
     capability_matrix_accepted: false
     A6_authorized: false
-    strict_interface_execution_records:
-      mathematics_specialist:
-        run_id: a5-math-specialist-20260809T092120Z-ai01-gpu0
-        mathematics_accuracy: 0.0
-        software_coding_accuracy: 0.0
-        interpretation: output_interface_confounded_not_capability_zero
-      software_coding_specialist:
-        run_id: a5-coder-specialist-20260809T092120Z-ai01-gpu0
-        mathematics_accuracy: 0.25
-        software_coding_accuracy: 0.8125
-      general_reference:
-        run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
-        mathematics_accuracy: 0.2083333333
-        software_coding_accuracy: 0.75
 
   A5R1-interface-protocol-and-benchmark-freeze:
-    status: revision-required-after-human-review
+    status: revision-required-after-v1.2.1-human-review
     activation: human_approved_after_A5_interface_review
     contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
-    review_record: gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md
-    reviewed_commit: f4a808cde0e76860408011b1a1c69f38665d7b29
     objective: >-
       Freeze a fresh benchmark and common model-agnostic semantic handoff contract
       before executing any selected model.
@@ -85,42 +69,63 @@ stages:
       benchmark_version: gate-a-cross-skill-v1.2.0
       benchmark_root: experiments/gate-a/benchmark-v1.2.0/
       status: frozen-not-approved
+      review_record: gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md
+      rejection_scope: mathematics_structural_freshness
+      preserve_unchanged: true
+
+    v1_2_1:
+      benchmark_version: gate-a-cross-skill-v1.2.1
+      benchmark_root: experiments/gate-a/benchmark-v1.2.1/
+      status: frozen-not-approved-benchmark-definition-error
+      reviewed_commit: 33dc8227eee11ab462f111e3049b5e538d4ca9f7
+      review_record: gates/gate-a-specialization/reviews/a5r1-v1.2.1-human-review.md
       accepted_components:
+        mathematics_structural_freshness: true
+        freshness_audit: true
         semantic_adapter: true
         semantic_scoring_contract: true
         strict_interface_metrics: true
         neutral_template_and_runtime_controls: true
         synthetic_adapter_tests: true
         software_coding_case_set: true
-      rejected_component:
-        mathematics_case_set_structural_freshness: true
-      reason: >-
-        Exact prompt/constants/oracles are different from v1.1, but human review
-        found substantial near-isomorphic reuse of v1.1 mathematics problem
-        skeletons after selected-model behavior on those skeletons had already
-        been observed.
+        provenance_wording: true
+      benchmark_definition_errors:
+        - case_id: math-23
+          frozen_expected: "1/4"
+          verified_expected: "1/3"
+          reason: "24 favorable ordered distinct digit pairs out of 72"
+        - case_id: math-30
+          frozen_expected: 432
+          verified_expected: 240
+          reason: "surjection count 4^5 - 4*3^5 + 6*2^5 - 4"
       preserve_unchanged: true
 
     target_revision:
-      benchmark_version: gate-a-cross-skill-v1.2.1
-      benchmark_root: experiments/gate-a/benchmark-v1.2.1/
+      status: active
+      benchmark_version: gate-a-cross-skill-v1.2.2
+      benchmark_root: experiments/gate-a/benchmark-v1.2.2/
+      revision_scope: oracle-correction-and-complete-static-validation
+      carry_forward_from_v1_2_1:
+        structurally_fresh_math_case_constructions: true
+        software_coding_case_set: true
+        semantic_adapter_behavior: true
+        semantic_scoring_contract: true
+        strict_interface_metrics: true
+        neutral_template_and_runtime_controls: true
+        candidate_set_and_revisions: true
+        gate_acceptance_criteria: true
+      required_corrections:
+        math-23: "1/3"
+        math-30: 240
+      required_validation:
+        complete_48_math_oracle_recomputation: true
+        durable_oracle_validation_record: true
+        synthetic_adapter_tests: true
+        token_context_validation: true
+        version_hash_manifest_refresh: true
       selected_model_execution_allowed: false
-      reuse_approved_v1_2_adapter_scoring_template_allowed: true
-      required_case_counts: {mathematics: 48, software_coding: 48}
-      required_difficulty_counts_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
-      mathematics_cases_must_be_structurally_fresh_relative_to_v1_1: true
-      one_to_one_positional_mirroring_of_v1_1_math_forbidden: true
-      coefficient_or_constant_substitution_only_forbidden: true
-      recompute_math_oracles: true
-      recompute_token_counts: true
-      freshness_record_required: true
-      freshness_record_must_cover:
-        - exact_prompt_overlap
-        - exact_oracle_overlap
-        - exact_constant_overlap_where_practical
-        - structural_near_isomorphic_overlap_review
-      documentation_must_acknowledge_v1_1_outputs_were_observed: true
       selected_model_calibration_forbidden: true
+      stop_for_human_review: true
 
     common_controls_unchanged:
       common_neutral_chat_envelope: true
@@ -141,19 +146,19 @@ stages:
       - execute_coder_specialist
       - modify_v1_1_benchmark_or_runs
       - modify_v1_2_0_frozen_artifacts
+      - modify_v1_2_1_frozen_artifacts
       - modify_gate_acceptance_criteria
       - change_candidate_set
       - use_model_specific_chat_template
       - tune_adapter_or_cases_using_selected_model_performance
       - proceed_to_A5R2_without_human_review
-    stop_for_human_review: true
 
   A5R2-three-model-cross-evaluation:
     status: inactive
-    activation: human_approval_after_A5R1_v1_2_1
+    activation: human_approval_after_A5R1_v1_2_2
     objective: >-
       Execute General, Math specialist, and Coder specialist on the complete
-      approved v1.2.1 benchmark under one unchanged protocol without result
+      approved v1.2.2 benchmark under one unchanged protocol without result
       review between model runs.
 
   A6-evidence-report:
@@ -175,7 +180,7 @@ approved_execution_environment_for_future_runs:
 
 required_final_outputs:
   - experiments/gate-a/candidates.yaml
-  - experiments/gate-a/benchmark-v1.2.1/manifest.yaml
+  - experiments/gate-a/benchmark-v1.2.2/manifest.yaml
   - experiments/gate-a/runs/
   - gates/gate-a-specialization/evidence-report.md
 
