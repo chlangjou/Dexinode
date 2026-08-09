@@ -2,21 +2,14 @@ id: gate-a-specialization-v1
 title: Specialist Validation
 owner: human
 executor: agent
-status: completed-pending-human-review
-active_stage: A6-evidence-report
+status: completed
+active_stage: closed
+final_gate_decision: PASS
+final_decision_record: gates/gate-a-specialization/reviews/gate-a-final-human-decision.md
 
 objective: >-
   Determine whether existing specialist model checkpoints exhibit reproducible,
   measurable specialization relative to a closely related general-purpose baseline.
-
-constraints:
-  existing_models_only: true
-  fine_tuning_allowed: false
-  training_allowed: false
-  model_merging_allowed: false
-  orchestration_allowed: false
-  routing_allowed: false
-  final_gate_decision_by_agent: false
 
 selected_candidates:
   general:
@@ -29,158 +22,79 @@ selected_candidates:
     id: Qwen/Qwen2.5-Coder-7B-Instruct
     revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
 
-stages:
-  A1-candidate-scout:
-    status: completed
-
-  A2-candidate-eligibility:
-    status: approved
-    human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
-
-  A3-benchmark-freeze:
-    status: approved-historical-v1.1
-    benchmark_version: gate-a-cross-skill-v1.1.0
-    human_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
-
-  A4-general-baseline:
-    status: approved-historical-v1.1
-    run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
-    human_review_record: gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md
-
-  A5-specialist-cross-evaluation:
-    status: completed-reviewed-interface-confounded
-    benchmark_version: gate-a-cross-skill-v1.1.0
-    human_review_record: gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md
-    capability_matrix_accepted: false
-
-  A5R1-interface-protocol-and-benchmark-freeze:
-    status: approved
-    contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
-    historical_versions:
-      v1_2_0:
-        status: frozen-not-approved
-        benchmark_root: experiments/gate-a/benchmark-v1.2.0/
-        review_record: gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md
-        rejection_scope: mathematics_structural_freshness
-      v1_2_1:
-        status: frozen-not-approved-benchmark-definition-error
-        benchmark_root: experiments/gate-a/benchmark-v1.2.1/
-        reviewed_commit: 33dc8227eee11ab462f111e3049b5e538d4ca9f7
-        review_record: gates/gate-a-specialization/reviews/a5r1-v1.2.1-human-review.md
-    approved_revision:
-      benchmark_version: gate-a-cross-skill-v1.2.2
-      benchmark_root: experiments/gate-a/benchmark-v1.2.2/
-      reviewed_commit: cdd691472aa5f08c3284e881c1048956a7d52987
-      review_record: gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md
-      math_oracle_validation: "48/48 PASS"
-      synthetic_adapter_tests: "13/13 PASS"
-      corrected_oracles:
-        math-23: "1/3"
-        math-30: 240
-        math-37: "9/95"
-      coding_cases_byte_identical: true
-      adapter_behavior_unchanged: true
-      selected_model_execution_during_construction: false
-      A5R2_authorized: true
-
-  A5R2-three-model-cross-evaluation:
-    status: approved
-    benchmark_version: gate-a-cross-skill-v1.2.2
+final_evidence:
+  approved_benchmark:
+    version: gate-a-cross-skill-v1.2.2
+    root: experiments/gate-a/benchmark-v1.2.2/
+    freeze_commit: cdd691472aa5f08c3284e881c1048956a7d52987
+    review_record: gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md
+  cross_evaluation:
     reviewed_commit: 6168558b74fca06e1ef80f41b86cc997915c41b7
-    human_review_record: gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md
+    review_record: gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md
     evidence_summary: experiments/gate-a/a5r2-v1.2.2-cross-evaluation.md
-    machine_readable_summary: experiments/gate-a/a5r2-v1.2.2-cross-evaluation.yaml
-    orchestration_receipt: experiments/gate-a/runs/a5r2-orchestration-a5r2-retry4-general-20260809T142953Z-ai01-gpu0.json
-    invalid_attempt_record: experiments/gate-a/runs/a5r2-attempts-20260809T142953Z.yaml
-    run_order: [general, mathematics_specialist, software_coding_specialist]
-    result_inspection_between_rows: false
-    raw_rows_complete: true
-    raw_cases_per_row: 96
-    generation_failures: 0
-    run_ids:
-      general_baseline: a5r2-retry4-general-20260809T142953Z-ai01-gpu0
-      mathematics_specialist: a5r2-retry4-math-20260809T142953Z-ai01-gpu0
-      software_coding_specialist: a5r2-retry4-coder-20260809T142953Z-ai01-gpu0
-    scores:
-      general_baseline: {overall: 68, mathematics: 30, software_coding: 38}
-      mathematics_specialist: {overall: 64, mathematics: 44, software_coding: 20}
-      software_coding_specialist: {overall: 69, mathematics: 36, software_coding: 33}
-    maximum_rendered_input_tokens: 187
-    maximum_total_tokens_with_generation: 1211
-    context_margin_tokens: 2885
-    coding_judge_infrastructure_failures: 0
-    coding_judge_timeouts: {general: 1, mathematics_specialist: 1, software_coding_specialist: 0}
-    non_blocking_metadata_issue: >-
-      inference-receipt load_elapsed_seconds spans model loading plus generation;
-      do not interpret it as model-load latency.
-    A6_authorized: true
+    general: {overall: 68, mathematics: 30, software_coding: 38, total: 96}
+    mathematics_specialist: {overall: 64, mathematics: 44, software_coding: 20, total: 96}
+    software_coding_specialist: {overall: 69, mathematics: 36, software_coding: 33, total: 96}
+  evidence_report: gates/gate-a-specialization/evidence-report.md
+  machine_readable_summary: experiments/gate-a/a6-evidence-summary.yaml
+  a6_recommendation: PASS
 
-  A6-evidence-report:
-    status: completed-pending-human-review
-    authorization_record: gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md
-    evidence_report: gates/gate-a-specialization/evidence-report.md
-    machine_readable_summary: experiments/gate-a/a6-evidence-summary.yaml
-    recommendation: PASS
-    final_gate_decision: PENDING_HUMAN_REVIEW
-    acceptance_checks:
-      minimum_evidence_satisfied: true
-      comparability_satisfied: true
-      performance_signal_satisfied_for_at_least_one_specialist: true
-      specialization_signal_satisfied: true
-      unresolved_material_methodological_defect: false
-      strong_two_specialist_pass_preference_satisfied: false
-    primary_signals:
-      mathematics_specialist_minus_general_mathematics:
-        delta_percentage_points: 29.1667
-        bootstrap_95_ci_percentage_points: [16.6667, 41.6667]
-        pass: true
-      software_coding_specialist_minus_general_coding:
-        delta_percentage_points: -10.4167
-        bootstrap_95_ci_percentage_points: [-22.9167, 2.0833]
-        pass: false
-    Gate_B_authorized: false
+accepted_signals:
+  mathematics_specialist_primary_delta_percentage_points: 29.1667
+  mathematics_specialist_primary_bootstrap_95_ci_percentage_points: [16.6667, 41.6667]
+  mathematics_specialist_non_primary_coding_delta_percentage_points: -37.5
+  mathematics_specialist_non_primary_bootstrap_95_ci_percentage_points: [-52.0833, -22.9167]
+  software_coding_specialist_primary_delta_percentage_points: -10.4167
+  software_coding_specialist_primary_bootstrap_95_ci_percentage_points: [-22.9167, 2.0833]
+  minimum_evidence_satisfied: true
+  comparability_satisfied: true
+  performance_signal_satisfied_for_at_least_one_specialist: true
+  specialization_signal_satisfied: true
+  unresolved_material_methodological_defect: false
+  strong_two_specialist_pass_preference_satisfied: false
 
-frozen_common_controls:
-  common_neutral_chat_envelope: true
-  common_model_agnostic_output_contract: true
-  primary_semantic_score_separate_from_strict_interface_compliance: true
-  deterministic_normalization: true
-  llm_judge: false
-  total_context_tokens: 4096
-  max_new_tokens: 1024
-  checkpoint_dtype: bfloat16
-  quantization: none
-  external_tools: false
-  gate_acceptance_criteria_unchanged: true
+interpretation:
+  result_class: single-specialist-pass
+  summary: >-
+    Gate A demonstrates that a same-family specialist checkpoint can exhibit a
+    large reproducible domain-specific advantage, but checkpoint labels are not
+    themselves evidence of specialization. The Math checkpoint is validated;
+    the Coder checkpoint did not demonstrate a coding advantage on this gate.
+  architectural_consequence: >-
+    Dexinode capability routing must use empirically measured skill profiles and
+    explicit handoff contracts/adapters rather than trusting checkpoint names.
 
-approved_execution_environment:
-  host: ai01
-  docker_engine: 29.5.3
-  runtime: runc
-  selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
-  selected_gpu_class: NVIDIA L40
-  formal_inference_memory: 40g
-  formal_inference_cpus: 16
-  package_runtime_reference: experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/runtime-definition.json
-  judge_v2_receipt: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
+historical_stages:
+  A1-candidate-scout: completed
+  A2-candidate-eligibility: approved
+  A3-benchmark-freeze: approved-historical-v1.1
+  A4-general-baseline: approved-historical-v1.1
+  A5-specialist-cross-evaluation: completed-reviewed-interface-confounded
+  A5R1-interface-protocol-and-benchmark-freeze: approved-v1.2.2
+  A5R2-three-model-cross-evaluation: approved
+  A6-evidence-report: completed
 
-required_final_outputs:
-  - experiments/gate-a/candidates.yaml
-  - experiments/gate-a/benchmark-v1.2.2/manifest.yaml
-  - experiments/gate-a/runs/
-  - gates/gate-a-specialization/evidence-report.md
+preserved_historical_benchmarks:
+  gate-a-cross-skill-v1.1.0: historical-interface-confounded-evidence
+  gate-a-cross-skill-v1.2.0: frozen-not-approved-structural-freshness
+  gate-a-cross-skill-v1.2.1: frozen-not-approved-benchmark-definition-error
+  gate-a-cross-skill-v1.2.2: approved-final-measurement-benchmark
 
-executor_permissions:
-  research_candidates: false
-  create_experiment_code: true
-  modify_experiment_code: true
-  modify_acceptance_criteria: false
-  replace_baseline_after_execution: false
-  declare_gate_pass: false
-  declare_gate_fail: false
+non_blocking_metadata_issue: >-
+  A5R2 inference-receipt load_elapsed_seconds spans model loading plus generation
+  and must not be interpreted as model-load latency; it does not affect scoring
+  or comparability.
+
+gate_b:
+  authorized: true
+  authorization_scope: protocol_and_benchmark_design
+  task: gates/gate-b-orchestration/task.yaml
+  selected_model_execution_authorized: false
+  note: >-
+    Gate B must freeze and receive human approval for its own benchmark, router,
+    resource parity, scoring and acceptance protocol before selected-model runs.
 
 handoff:
   durable_state: git
-  status_file: status/current.md
-  final_decision: human_review
-  next_action: human_assign_gate_a_pass_fail_or_inconclusive
+  gate_closed: true
+  next_gate: gate-b-orchestration-v1

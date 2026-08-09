@@ -1,92 +1,72 @@
 # Current Research Status
 
-- Updated: 2026-08-09
-- Active gate: Gate A — Specialist Validation
-- Gate decision: **PENDING HUMAN REVIEW**
+- Updated: 2026-08-10
+- Active gate: **Gate B — Orchestration Advantage**
+- Gate A final decision: **PASS**
+- Gate B decision: **PENDING**
 - Session handoff: `HANDOFF.md`
-- Active stage: **A6 — evidence report complete pending final human decision**
+- Active stage: **B1 — protocol, router, benchmark and acceptance freeze design**
 
-## Objective
+## Gate A — closed PASS
 
-Determine whether existing specialized small-model checkpoints exhibit reproducible, measurable skill specialization relative to a closely related general-purpose baseline.
+Final human decision:
 
-## Frozen candidate set
+`gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
 
-- General: `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
-- Math specialist: `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
-- Coder specialist: `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
+Gate A demonstrated reproducible specialization in at least one same-family checkpoint under the frozen v1.2.2 protocol:
 
-Gate acceptance criteria remain unchanged.
+- General mathematics: 30/48 = 62.50%;
+- Math specialist mathematics: 44/48 = 91.67%;
+- Math specialist primary-domain delta: **+29.17 pp**;
+- paired-bootstrap 95% CI: **[+16.67, +41.67] pp**;
+- Math specialist coding delta: **-37.50 pp**, demonstrating a concentrated specialization/tradeoff profile;
+- Coder specialist did not demonstrate a coding advantage over General.
 
-## A5R1 — approved
+Final Gate A classification: **single-specialist PASS**. The stronger preference for two independently validated specialists was not satisfied.
 
-Approved benchmark: `gate-a-cross-skill-v1.2.2`
+Architectural consequence: Dexinode must route using empirically measured capability profiles and explicit handoff contracts/adapters, not checkpoint labels alone.
 
-- reviewed commit: `cdd691472aa5f08c3284e881c1048956a7d52987`;
-- human review: `gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`;
-- 48/48 Math oracle validation PASS;
-- `math-23 = 1/3`, `math-30 = 240`, `math-37 = 9/95`;
-- coding set byte-identical to accepted v1.2 predecessor;
-- semantic adapter/scoring behavior unchanged;
-- synthetic adapter tests 13/13 PASS;
-- no selected model executed during benchmark construction.
+## Gate B — active design stage
 
-## A5R2 — approved
+Gate definition:
 
-Reviewed commit: `6168558b74fca06e1ef80f41b86cc997915c41b7`
+`gates/gate-b-orchestration/README.md`
 
-Human review:
+Controlling task:
 
-`gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md`
+`gates/gate-b-orchestration/task.yaml`
 
-Decision: **APPROVED**. A6 authorized.
+Proposed acceptance criteria:
 
-Accepted capability matrix:
+`gates/gate-b-orchestration/acceptance.yaml`
 
-| Role | Overall | Math | Coding |
-|---|---:|---:|---:|
-| General baseline | 68/96 (70.83%) | 30/48 (62.50%) | 38/48 (79.17%) |
-| Math specialist | 64/96 (66.67%) | 44/48 (91.67%) | 20/48 (41.67%) |
-| Coder specialist | 69/96 (71.88%) | 36/48 (75.00%) | 33/48 (68.75%) |
+### Bounded hypothesis
 
-Execution validity accepted:
+On a fresh 96-case mixed Math/Coding benchmark, a frozen deterministic prompt-only router using the Gate A empirical skill registry should outperform a General-only policy by at least **10 percentage points overall**, with a paired-bootstrap 95% confidence interval excluding zero, while using exactly **one model inference per task** under the same generation budget.
 
-- all three rows generated 96/96 responses with zero generation failures;
-- frozen order General → Math → Coder; no result inspection between rows;
-- frozen benchmark/template/adapter/scoring/candidate revisions/acceptance criteria unchanged after execution began;
-- four failed attempts stopped in General preflight before model load/output and remain preserved;
-- accepted coding judge rows had zero infrastructure failures; General and Math each had one frozen-policy 2-second timeout;
-- post-execution scorer edit affected elapsed-time receipt metadata only; rows were rescored from preserved raw outputs without model reruns.
+### Initial empirical registry
 
-Non-blocking metadata issue: `load_elapsed_seconds` in the inference receipt spans model load plus generation and must not be interpreted as model-load latency.
+- Mathematics → validated `Qwen/Qwen2.5-Math-7B-Instruct`;
+- Software coding → `Qwen/Qwen2.5-7B-Instruct`;
+- Unknown/unsupported → General fallback;
+- `Qwen/Qwen2.5-Coder-7B-Instruct` is **not** treated as a validated coding specialist because Gate A did not establish a coding advantage.
 
-## A6 — complete pending final human decision
+### B1 required design outputs
 
-Evidence report:
+Before any Gate B selected-model execution:
 
-`gates/gate-a-specialization/evidence-report.md`
+1. create and statically validate a fresh 96-case benchmark (48 Math / 48 Coding);
+2. create a deterministic CPU-only prompt-only router and synthetic tests;
+3. validate all Math oracles and Coding evaluator tests;
+4. prove the router cannot access hidden domain labels, expected answers, evaluator tests, or model outputs;
+5. freeze token/context and common inference controls;
+6. freeze General-only and skill-routed one-call-per-task policies;
+7. freeze acceptance criteria and stop for human review.
 
-Machine-readable summary:
+## Gate B execution authorization
 
-`experiments/gate-a/a6-evidence-summary.yaml`
+**Selected-model execution is NOT authorized during B1.**
 
-Recommendation: **PASS**.
+No Gate B General/Math/Coder checkpoint may be executed or inspected until the B1 benchmark/router/protocol artifacts are complete and human-approved.
 
-Key frozen-criteria findings:
-
-- minimum evidence: satisfied;
-- candidate comparability: satisfied;
-- Math specialist primary-domain delta: **+29.17 pp**, paired-bootstrap 95% CI **[+16.67, +41.67] pp** — passes ≥10 pp and excludes zero;
-- Math specialist non-primary coding delta: **−37.50 pp**, CI **[−52.08, −22.92] pp** — strong domain-specific tradeoff;
-- Coder specialist primary coding delta: **−10.42 pp**, CI **[−22.92, +2.08] pp** — does not demonstrate claimed coding advantage;
-- specialization signal: satisfied by the Math specialist's concentrated profile;
-- unresolved material methodological defect: none identified;
-- strong two-specialist pass preference: **not satisfied**.
-
-This is therefore a **single-specialist PASS recommendation, not a strong two-specialist pass**.
-
-## Next human checkpoint
-
-The human owner must now assign the final Gate A decision: PASS, FAIL, or INCONCLUSIVE.
-
-Gate B remains inactive until an explicit human Gate A PASS decision is recorded. No additional model execution is required for the current Gate A evidence set.
+The current work is static research/design only. Multi-step agent chains, recursive delegation, networking, federation, reputation, and settlement remain outside Gate B v1 scope.
