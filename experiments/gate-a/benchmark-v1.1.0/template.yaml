@@ -1,0 +1,36 @@
+schema_version: 1
+template_id: qwen-neutral-role-delimiter-v1
+status: frozen
+purpose: >-
+  Provide identical semantic system and user messages to the General, Math,
+  and Coder checkpoints while using the shared Qwen role delimiters.
+system_content: >-
+  You are a helpful assistant. Follow the task instructions exactly. Return
+  only the requested answer format.
+user_content_source: case.prompt
+rendering:
+  system_prefix: |
+    <|im_start|>system
+  system_suffix: |
+    <|im_end|>
+  user_prefix: |
+    <|im_start|>user
+  user_suffix: |
+    <|im_end|>
+  assistant_prefix: |
+    <|im_start|>assistant
+  rendered_form: |
+    <|im_start|>system
+    {system_content}<|im_end|>
+    <|im_start|>user
+    {case.prompt}<|im_end|>
+    <|im_start|>assistant
+constraints:
+  repository_chat_templates_ignored: true
+  external_tools: false
+  add_generation_prompt: true
+  system_messages_per_case: 1
+  user_messages_per_case: 1
+  assistant_messages_per_case: 0
+  semantic_system_content_identical: true
+  semantic_user_content_identical: true

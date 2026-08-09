@@ -1,0 +1,159 @@
+schema_version: 1
+benchmark_id: gate-a-cross-skill-v1
+version: 1.0.0
+status: frozen
+freeze_scope: "Cases, case order, prompt template, scoring rules, provenance, and context policy."
+created_at: 2026-08-09
+gate: gate-a-specialization-v1
+stage: A3-benchmark-construction-and-freeze
+
+question: >-
+  Do the approved mathematics and software-coding specialist checkpoints show
+  differentiated competency profiles relative to the Qwen2.5 general baseline
+  when all three receive the same complete cross-skill benchmark?
+
+human_approved_inputs:
+  review_record: "gates/gate-a-specialization/reviews/a2-human-review.md"
+  candidate_set: qwen2.5-7b-instruct-math-coder
+  controls:
+    selected_models_unchanged: true
+    total_context_tokens: 4096
+    rendered_input_plus_max_new_tokens_must_fit: true
+    shared_neutral_chat_template: true
+    identical_semantic_messages: true
+    checkpoint_dtype: bfloat16
+    quantization: none
+    external_tools: false
+
+models:
+  - id: Qwen/Qwen2.5-7B-Instruct
+    role: general_baseline
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Math-7B-Instruct
+    role: mathematics_specialist
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Coder-7B-Instruct
+    role: software_coding_specialist
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    parameter_count: 7615616512
+all_models_run_complete_benchmark: true
+model_case_matrix: "3 models x 32 cases; no specialist-only subset or early stopping."
+
+coverage:
+  total_cases: 32
+  domains:
+    mathematics:
+      case_file: cases/math.yaml
+      cases: 16
+      primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      categories: [algebra, modular_arithmetic, combinatorics, probability, geometry, sequences, number_theory, matrices, calculus, inequalities, optimization]
+    software_coding:
+      case_file: cases/coding.yaml
+      cases: 16
+      primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      categories: [lists, intervals, strings, matrices, parsing, graphs, stacks, grouping, ranges, nested_access]
+  general_baseline_reporting: "Report separate mathematics and software-coding accuracy; neither domain is designated primary for General."
+  case_order: "math-01 through math-16, then code-01 through code-16"
+  difficulty_balance: "Author-labeled foundational/intermediate only; labels are descriptive and were not calibrated from model results."
+
+prompt_template:
+  file: template.yaml
+  template_id: qwen-neutral-role-delimiter-v1
+  repository_chat_templates_ignored: true
+  system_content: "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format."
+  user_content: "The case prompt, unchanged."
+  role_delimiters: "<|im_start|>system/user/assistant and <|im_end|> exactly as recorded in template.yaml."
+  no_tools: true
+
+context_policy:
+  common_hard_limit_tokens: 4096
+  max_new_tokens: 1024
+  maximum_rendered_input_tokens: 3072
+  enforcement: "Count the fully rendered template with the pinned identical tokenizer assets; reject any case where input_tokens + 1024 > 4096."
+  token_count_file: token_counts.yaml
+  tokenizer_reference: "Qwen/Qwen2.5-7B-Instruct tokenizer.json at revision a09a35458c702b33eeacc393d103063234e8bc28; tokenizer assets are byte-identical across the selected set."
+
+inference_policy_for_later_runs:
+  runtime: "Transformers 4.41.1, PyTorch 2.2.2+cu121, safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, Python 3.10.12"
+  dtype: bfloat16
+  quantization: none
+  device_policy: "Same device and runtime for all models; CPU-only is the currently verified host, but human-approved host changes must be recorded before A4."
+  model_loading: "One pinned revision at a time; trust_remote_code=false; use_fast_tokenizer=true; low_cpu_mem_usage=true; no repository generation defaults."
+  generation:
+    do_sample: false
+    num_beams: 1
+    repetition_penalty: 1.0
+    max_new_tokens: 1024
+    seed: 0
+  external_tools: false
+
+scoring:
+  file: scoring.yaml
+  deterministic: true
+  llm_judge: false
+  case_weights: equal
+  domain_accuracy: "Mean of the 16 binary case scores in each domain."
+  overall_accuracy: "Mean of all 32 binary case scores."
+  specialist_primary_non_primary: "Use the domain mapping above; report both domain scores for every model."
+  raw_response_preservation: required
+  invalid_run_handling: "Follow scoring.yaml; preserve infrastructure failures and do not overwrite invalid runs."
+
+provenance:
+  source_selection: >-
+    Original self-authored cases created for this repository on 2026-08-09.
+    The selection covers deterministic algebra, discrete mathematics,
+    probability, geometry, calculus, data structures, parsing, graph traversal,
+    and string/list algorithms without requiring external datasets, tools, or
+    network access.
+  external_dataset_assets: none
+  external_sources_copied: none
+  benchmark_content_license: "No separate project license has been chosen; repository owner review is required before external redistribution."
+  authoring_record: "Cases and scoring were defined before any selected model was executed and without observing model outputs."
+
+contamination_and_validity:
+  status: "Risk recorded; absence of contamination is not claimed."
+  known_exact_overlap: "None intentionally copied from a named dataset or published test set."
+  residual_risk: >-
+    The cases use common textbook mathematics and standard programming tasks;
+    related examples may exist in pretraining data, especially for basic
+    algorithms and arithmetic. Self-authorship and fresh constants reduce but
+    do not eliminate exact or semantic overlap risk.
+  contamination_check_performed: false
+  mitigations:
+    - "No benchmark case was selected or modified using model results."
+    - "No public benchmark answer key or test corpus was imported."
+    - "A3 records all case text and deterministic oracles in Git for audit."
+    - "A6 must report contamination as an unresolved limitation rather than infer clean data."
+  coding_specific_risks:
+    - "Function specifications resemble common interview/educational problems."
+    - "Committed evaluator tests must not be shown to the models during later execution."
+  math_specific_risks:
+    - "Short arithmetic and algebra items may be memorized or solved from familiar templates."
+
+freeze_validation:
+  cases_defined_before_model_execution: true
+  scoring_defined_before_model_execution: true
+  benchmark_cases_immutable_after_freeze: true
+  expected_model_outputs_present: false
+  comparative_runs_present: false
+  benchmark_results_present: false
+  freeze_commit: "The Git commit adding this manifest and referenced artifacts."
+
+files:
+  README.md:
+    sha256: d482656b8a5ca412023123faa1fa4151b1736ea2a106a955b976253662f29cc8
+  cases/math.yaml:
+    sha256: be11ca21808e481d9c6052288ee34cc121db8863bb369f82d906e89e0bedaad7
+  cases/coding.yaml:
+    sha256: 26f86b34f23bbf116fc7a150b56ee3423e7e821d0c87b4623ffa1d08b271e809
+  template.yaml:
+    sha256: 6c9c85a8de379eca375fbdea38853ea644a63ddfcebd724f05f1ea1a074bc94d
+  scoring.yaml:
+    sha256: 34eeb2ea0ee4fd041b30286793826af9c6ebcb32d8cbb39f1e1ddbf5717a307f
+  token_counts.yaml:
+    sha256: 637e7e6e22b95036e4c00831130004901f8cb1dcc7a9579265cac05d159158b8
+  manifest_self_hash: "Not applicable; the freeze Git commit is the identity of this manifest."

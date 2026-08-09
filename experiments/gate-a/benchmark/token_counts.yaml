@@ -1,0 +1,60 @@
+schema_version: 1
+token_count_id: gate-a-cross-skill-v1-token-counts
+benchmark_version: gate-a-cross-skill-v1.0.0
+tokenizer:
+  model_reference: Qwen/Qwen2.5-7B-Instruct
+  revision: a09a35458c702b33eeacc393d103063234e8bc28
+  tokenizer_class: Qwen2TokenizerFast
+  tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+template:
+  template_id: qwen-neutral-role-delimiter-v1
+  system_content: "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format."
+  rendered_form: |
+    <|im_start|>system
+    {system_content}<|im_end|>
+    <|im_start|>user
+    {case.prompt}<|im_end|>
+    <|im_start|>assistant
+  add_special_tokens: false
+generation_budget:
+  max_new_tokens: 1024
+  hard_total_context_tokens: 4096
+  all_cases_fit: true
+summary:
+  case_count: 32
+  min_rendered_input_tokens: 62
+  max_rendered_input_tokens: 115
+  max_rendered_input_plus_generation_tokens: 1139
+cases:
+  - {id: math-01, rendered_input_tokens: 64, input_plus_max_new_tokens: 1088}
+  - {id: math-02, rendered_input_tokens: 84, input_plus_max_new_tokens: 1108}
+  - {id: math-03, rendered_input_tokens: 74, input_plus_max_new_tokens: 1098}
+  - {id: math-04, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-05, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-06, rendered_input_tokens: 76, input_plus_max_new_tokens: 1100}
+  - {id: math-07, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-08, rendered_input_tokens: 63, input_plus_max_new_tokens: 1087}
+  - {id: math-09, rendered_input_tokens: 73, input_plus_max_new_tokens: 1097}
+  - {id: math-10, rendered_input_tokens: 83, input_plus_max_new_tokens: 1107}
+  - {id: math-11, rendered_input_tokens: 63, input_plus_max_new_tokens: 1087}
+  - {id: math-12, rendered_input_tokens: 65, input_plus_max_new_tokens: 1089}
+  - {id: math-13, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-14, rendered_input_tokens: 64, input_plus_max_new_tokens: 1088}
+  - {id: math-15, rendered_input_tokens: 66, input_plus_max_new_tokens: 1090}
+  - {id: math-16, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: code-01, rendered_input_tokens: 90, input_plus_max_new_tokens: 1114}
+  - {id: code-02, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: code-03, rendered_input_tokens: 86, input_plus_max_new_tokens: 1110}
+  - {id: code-04, rendered_input_tokens: 103, input_plus_max_new_tokens: 1127}
+  - {id: code-05, rendered_input_tokens: 91, input_plus_max_new_tokens: 1115}
+  - {id: code-06, rendered_input_tokens: 98, input_plus_max_new_tokens: 1122}
+  - {id: code-07, rendered_input_tokens: 104, input_plus_max_new_tokens: 1128}
+  - {id: code-08, rendered_input_tokens: 115, input_plus_max_new_tokens: 1139}
+  - {id: code-09, rendered_input_tokens: 100, input_plus_max_new_tokens: 1124}
+  - {id: code-10, rendered_input_tokens: 96, input_plus_max_new_tokens: 1120}
+  - {id: code-11, rendered_input_tokens: 95, input_plus_max_new_tokens: 1119}
+  - {id: code-12, rendered_input_tokens: 97, input_plus_max_new_tokens: 1121}
+  - {id: code-13, rendered_input_tokens: 114, input_plus_max_new_tokens: 1138}
+  - {id: code-14, rendered_input_tokens: 100, input_plus_max_new_tokens: 1124}
+  - {id: code-15, rendered_input_tokens: 103, input_plus_max_new_tokens: 1127}
+  - {id: code-16, rendered_input_tokens: 86, input_plus_max_new_tokens: 1110}

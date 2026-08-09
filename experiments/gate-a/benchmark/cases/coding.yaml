@@ -1,0 +1,361 @@
+schema_version: 1
+case_file: gate-a-cross-skill-v1-software-coding
+domain: software_coding
+case_count: 16
+authoring_status: authored-before-model-execution
+execution_environment:
+  language: python
+  version: "3.10"
+  dependencies: standard_library_only
+  network: disabled
+  filesystem: disabled
+  subprocess: disabled
+  time_limit_seconds_per_test_case: 2
+cases:
+  - id: code-01
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      dedupe_runs(values: list[int]) -> list[int]. Return a new list with each
+      consecutive run replaced by its first value. Preserve order and do not
+      modify the input list. Output only the function source, with no markdown
+      or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: dedupe_runs
+      tests:
+        - args: [[1, 1, 2, 2, 2, 3, 1]]
+          expected: [1, 2, 3, 1]
+        - args: [[]]
+          expected: []
+        - args: [[0, 0, -1, -1, 0]]
+          expected: [0, -1, 0]
+
+  - id: code-02
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      merge_intervals(intervals: list[list[int]]) -> list[list[int]]. Return
+      intervals sorted by start, merging overlapping or touching closed
+      intervals. Return a new list and do not modify the input. Output only the
+      function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: merge_intervals
+      tests:
+        - args: [[[1, 3], [2, 5], [7, 8], [8, 10]]]
+          expected: [[1, 5], [7, 10]]
+        - args: [[]]
+          expected: []
+        - args: [[[5, 5], [1, 2], [2, 4]]]
+          expected: [[1, 4], [5, 5]]
+
+  - id: code-03
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly first_unique(s: str) -> str | None.
+      Return the first character whose total frequency is one, preserving case.
+      Return None if no such character exists. Output only the function source,
+      with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: first_unique
+      tests:
+        - args: [swiss]
+          expected: w
+        - args: [aabbcc]
+          expected: null
+        - args: [Aab]
+          expected: A
+
+  - id: code-04
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      rotate_matrix(grid: list[list[int]], k: int) -> list[list[int]]. Rotate a
+      rectangular matrix 90 degrees clockwise k times, where k may be any
+      nonnegative integer. Return a new matrix; for an empty matrix return [].
+      Output only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: rotate_matrix
+      tests:
+        - args: [[[1, 2], [3, 4]], 1]
+          expected: [[3, 1], [4, 2]]
+        - args: [[[1, 2, 3], [4, 5, 6]], 1]
+          expected: [[4, 1], [5, 2], [6, 3]]
+        - args: [[[1, 2], [3, 4]], 2]
+          expected: [[4, 3], [2, 1]]
+        - args: [[], 7]
+          expected: []
+
+  - id: code-05
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly is_balanced(text: str) -> bool.
+      Check (), [], and {} nesting while ignoring all other characters. Return
+      False for a mismatched, prematurely closed, or unclosed bracket. Output
+      only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: is_balanced
+      tests:
+        - args: ["()[]{}"]
+          expected: true
+        - args: ["(]"]
+          expected: false
+        - args: ["a{b[c](d)}"]
+          expected: true
+        - args: ["([)]"]
+          expected: false
+
+  - id: code-06
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      top_k_frequent(nums: list[int], k: int) -> list[int]. Return the k values
+      with highest frequency, breaking ties by smaller numeric value. Return
+      fewer values if k exceeds the number of distinct values. Output only the
+      function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: top_k_frequent
+      tests:
+        - args: [[4, 1, 2, 2, 3, 3, 3, 4, 4], 2]
+          expected: [3, 4]
+        - args: [[1, 1, 2, 2, 3], 2]
+          expected: [1, 2]
+        - args: [[5, 5, 4], 5]
+          expected: [5, 4]
+
+  - id: code-07
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly parse_kv(line: str) ->
+      dict[str, str]. Parse semicolon-separated key=value pairs. Trim
+      whitespace around keys and values, ignore empty segments, split each
+      nonempty segment at its first equals sign, and let the last duplicate key
+      win. Output only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: parse_kv
+      tests:
+        - args: [" a=1; b = two ;a=3;; "]
+          expected: {a: "3", b: two}
+        - args: ["x=left=right;y=  "]
+          expected: {x: left=right, y: ""}
+        - args: [""]
+          expected: {}
+
+  - id: code-08
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      shortest_path_length(grid: list[list[int]]) -> int. The rectangular grid
+      contains 0 for open and 1 for blocked cells. Starting at the top-left,
+      return the shortest four-directional move count to the bottom-right, or
+      -1 if unreachable. The endpoints are not blocked in valid inputs. Output
+      only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: shortest_path_length
+      tests:
+        - args: [[[0, 0, 1], [1, 0, 0], [1, 1, 0]]]
+          expected: 4
+        - args: [[[0, 1], [1, 0]]]
+          expected: -1
+        - args: [[[0]]]
+          expected: 0
+
+  - id: code-09
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly eval_rpn(tokens: list[str]) ->
+      int. Evaluate a valid reverse-Polish expression containing integer
+      operands and the binary operators +, -, *, and /. Division must truncate
+      toward zero to an integer. Return the integer result. Output only the
+      function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: eval_rpn
+      tests:
+        - args: [["2", "1", "+", "3", "*"]]
+          expected: 9
+        - args: [["4", "13", "5", "/", "+"]]
+          expected: 6
+        - args: [["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]]
+          expected: 22
+
+  - id: code-10
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      group_anagrams(words: list[str]) -> list[list[str]]. Group words whose
+      characters have the same multiset, preserving original word order within
+      each group and first-seen group order. Matching is case-sensitive. Output
+      only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: group_anagrams
+      tests:
+        - args: [[eat, tea, tan, ate, nat, bat]]
+          expected: [[eat, tea, ate], [tan, nat], [bat]]
+        - args: [["", a, ""]]
+          expected: [["", ""], [a]]
+        - args: [[Ab, ba, AB]]
+          expected: [[Ab], [ba], [AB]]
+
+  - id: code-11
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      count_overlapping(text: str, pattern: str) -> int. Count every starting
+      position at which pattern occurs in text, including overlapping matches.
+      Return 0 when pattern is empty or longer than text. Output only the
+      function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: count_overlapping
+      tests:
+        - args: [aaaa, aa]
+          expected: 3
+        - args: [banana, ana]
+          expected: 2
+        - args: [short, longer]
+          expected: 0
+        - args: [abc, ""]
+          expected: 0
+
+  - id: code-12
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      compress_ranges(nums: list[int]) -> str. Sort and deduplicate the input,
+      then format consecutive runs as start-end and singletons as start. Join
+      runs with commas and return an empty string for empty input. Output only
+      the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: compress_ranges
+      tests:
+        - args: [[5, 4, 3, 3, 1, 8, 7]]
+          expected: "1,3-5,7-8"
+        - args: [[]]
+          expected: ""
+        - args: [[1]]
+          expected: "1"
+        - args: [[2, 4, 6]]
+          expected: 2,4,6
+
+  - id: code-13
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      safe_get(data, path: list[object], default=None). Traverse dictionaries
+      by key and lists by integer index. Return the value at the full path, or
+      default if a key is missing, a type is wrong, or an index is out of range.
+      Do not raise for those lookup failures. Output only the function source,
+      with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: safe_get
+      tests:
+        - args: [{a: {b: [10, 20]}}, [a, b, 1], -1]
+          expected: 20
+        - args: [{a: {b: [10, 20]}}, [a, c], missing]
+          expected: missing
+        - args: [{a: 3}, [a, 0], null]
+          expected: null
+        - args: [{a: [1]}, [a, 2], 99]
+          expected: 99
+
+  - id: code-14
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: foundational
+    prompt: >-
+      Write Python 3.10 source defining exactly chunked(values: list[object],
+      size: int) -> list[list[object]]. Split values into consecutive chunks of
+      at most size, preserving order. Assume size is positive. Return a new
+      list and do not modify values. Output only the function source, with no
+      markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: chunked
+      tests:
+        - args: [[1, 2, 3, 4, 5], 2]
+          expected: [[1, 2], [3, 4], [5]]
+        - args: [[], 3]
+          expected: []
+        - args: [[a, b], 5]
+          expected: [[a, b]]
+
+  - id: code-15
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      missing_ranges(nums: list[int], lower: int, upper: int) -> list[list[int]].
+      Return inclusive ranges of integers in [lower, upper] absent from nums.
+      Treat nums as unordered and possibly duplicated. Return ranges sorted by
+      start. Output only the function source, with no markdown or explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: missing_ranges
+      tests:
+        - args: [[0, 1, 3, 50, 75], 0, 99]
+          expected: [[2, 2], [4, 49], [51, 74], [76, 99]]
+        - args: [[1, 1, 2, 3], 1, 3]
+          expected: []
+        - args: [[], -2, 2]
+          expected: [[-2, 2]]
+
+  - id: code-16
+    domain: software_coding
+    skill_axis: software_coding
+    difficulty: intermediate
+    prompt: >-
+      Write Python 3.10 source defining exactly
+      longest_unique_substring(s: str) -> int. Return the length of the longest
+      contiguous substring containing no repeated character. Return 0 for an
+      empty string. Output only the function source, with no markdown or
+      explanation.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: longest_unique_substring
+      tests:
+        - args: [abcabcbb]
+          expected: 3
+        - args: [bbbbb]
+          expected: 1
+        - args: [""]
+          expected: 0
+        - args: [pwwkew]
+          expected: 3

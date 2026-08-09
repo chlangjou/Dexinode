@@ -1,0 +1,124 @@
+schema_version: 1
+token_count_id: gate-a-cross-skill-v1.1.0-token-counts
+benchmark_version: gate-a-cross-skill-v1.1.0
+tokenizer:
+  model_reference: Qwen/Qwen2.5-7B-Instruct
+  revision: a09a35458c702b33eeacc393d103063234e8bc28
+  tokenizer_class: Qwen2TokenizerFast
+  tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+template:
+  template_id: qwen-neutral-role-delimiter-v1
+  system_content: "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format."
+  rendered_form: |
+    <|im_start|>system
+    {system_content}<|im_end|>
+    <|im_start|>user
+    {case.prompt}<|im_end|>
+    <|im_start|>assistant
+  add_special_tokens: false
+generation_budget:
+  max_new_tokens: 1024
+  hard_total_context_tokens: 4096
+  all_cases_fit: true
+summary:
+  case_count: 96
+  min_rendered_input_tokens: 56
+  max_rendered_input_tokens: 113
+  max_rendered_input_plus_generation_tokens: 1137
+cases:
+  - {id: math-01, rendered_input_tokens: 67, input_plus_max_new_tokens: 1091}
+  - {id: math-02, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-03, rendered_input_tokens: 71, input_plus_max_new_tokens: 1095}
+  - {id: math-04, rendered_input_tokens: 65, input_plus_max_new_tokens: 1089}
+  - {id: math-05, rendered_input_tokens: 57, input_plus_max_new_tokens: 1081}
+  - {id: math-06, rendered_input_tokens: 75, input_plus_max_new_tokens: 1099}
+  - {id: math-07, rendered_input_tokens: 74, input_plus_max_new_tokens: 1098}
+  - {id: math-08, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-09, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-10, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-11, rendered_input_tokens: 79, input_plus_max_new_tokens: 1103}
+  - {id: math-12, rendered_input_tokens: 71, input_plus_max_new_tokens: 1095}
+  - {id: math-13, rendered_input_tokens: 71, input_plus_max_new_tokens: 1095}
+  - {id: math-14, rendered_input_tokens: 74, input_plus_max_new_tokens: 1098}
+  - {id: math-15, rendered_input_tokens: 68, input_plus_max_new_tokens: 1092}
+  - {id: math-16, rendered_input_tokens: 83, input_plus_max_new_tokens: 1107}
+  - {id: math-17, rendered_input_tokens: 68, input_plus_max_new_tokens: 1092}
+  - {id: math-18, rendered_input_tokens: 65, input_plus_max_new_tokens: 1089}
+  - {id: math-19, rendered_input_tokens: 76, input_plus_max_new_tokens: 1100}
+  - {id: math-20, rendered_input_tokens: 67, input_plus_max_new_tokens: 1091}
+  - {id: math-21, rendered_input_tokens: 64, input_plus_max_new_tokens: 1088}
+  - {id: math-22, rendered_input_tokens: 67, input_plus_max_new_tokens: 1091}
+  - {id: math-23, rendered_input_tokens: 56, input_plus_max_new_tokens: 1080}
+  - {id: math-24, rendered_input_tokens: 73, input_plus_max_new_tokens: 1097}
+  - {id: math-25, rendered_input_tokens: 70, input_plus_max_new_tokens: 1094}
+  - {id: math-26, rendered_input_tokens: 79, input_plus_max_new_tokens: 1103}
+  - {id: math-27, rendered_input_tokens: 78, input_plus_max_new_tokens: 1102}
+  - {id: math-28, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-29, rendered_input_tokens: 79, input_plus_max_new_tokens: 1103}
+  - {id: math-30, rendered_input_tokens: 62, input_plus_max_new_tokens: 1086}
+  - {id: math-31, rendered_input_tokens: 77, input_plus_max_new_tokens: 1101}
+  - {id: math-32, rendered_input_tokens: 68, input_plus_max_new_tokens: 1092}
+  - {id: math-33, rendered_input_tokens: 65, input_plus_max_new_tokens: 1089}
+  - {id: math-34, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-35, rendered_input_tokens: 76, input_plus_max_new_tokens: 1100}
+  - {id: math-36, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-37, rendered_input_tokens: 66, input_plus_max_new_tokens: 1090}
+  - {id: math-38, rendered_input_tokens: 106, input_plus_max_new_tokens: 1130}
+  - {id: math-39, rendered_input_tokens: 74, input_plus_max_new_tokens: 1098}
+  - {id: math-40, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: math-41, rendered_input_tokens: 58, input_plus_max_new_tokens: 1082}
+  - {id: math-42, rendered_input_tokens: 61, input_plus_max_new_tokens: 1085}
+  - {id: math-43, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-44, rendered_input_tokens: 69, input_plus_max_new_tokens: 1093}
+  - {id: math-45, rendered_input_tokens: 99, input_plus_max_new_tokens: 1123}
+  - {id: math-46, rendered_input_tokens: 93, input_plus_max_new_tokens: 1117}
+  - {id: math-47, rendered_input_tokens: 73, input_plus_max_new_tokens: 1097}
+  - {id: math-48, rendered_input_tokens: 77, input_plus_max_new_tokens: 1101}
+  - {id: code-01, rendered_input_tokens: 85, input_plus_max_new_tokens: 1109}
+  - {id: code-02, rendered_input_tokens: 90, input_plus_max_new_tokens: 1114}
+  - {id: code-03, rendered_input_tokens: 87, input_plus_max_new_tokens: 1111}
+  - {id: code-04, rendered_input_tokens: 86, input_plus_max_new_tokens: 1110}
+  - {id: code-05, rendered_input_tokens: 84, input_plus_max_new_tokens: 1108}
+  - {id: code-06, rendered_input_tokens: 95, input_plus_max_new_tokens: 1119}
+  - {id: code-07, rendered_input_tokens: 88, input_plus_max_new_tokens: 1112}
+  - {id: code-08, rendered_input_tokens: 97, input_plus_max_new_tokens: 1121}
+  - {id: code-09, rendered_input_tokens: 112, input_plus_max_new_tokens: 1136}
+  - {id: code-10, rendered_input_tokens: 80, input_plus_max_new_tokens: 1104}
+  - {id: code-11, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: code-12, rendered_input_tokens: 100, input_plus_max_new_tokens: 1124}
+  - {id: code-13, rendered_input_tokens: 98, input_plus_max_new_tokens: 1122}
+  - {id: code-14, rendered_input_tokens: 111, input_plus_max_new_tokens: 1135}
+  - {id: code-15, rendered_input_tokens: 90, input_plus_max_new_tokens: 1114}
+  - {id: code-16, rendered_input_tokens: 93, input_plus_max_new_tokens: 1117}
+  - {id: code-17, rendered_input_tokens: 96, input_plus_max_new_tokens: 1120}
+  - {id: code-18, rendered_input_tokens: 109, input_plus_max_new_tokens: 1133}
+  - {id: code-19, rendered_input_tokens: 85, input_plus_max_new_tokens: 1109}
+  - {id: code-20, rendered_input_tokens: 101, input_plus_max_new_tokens: 1125}
+  - {id: code-21, rendered_input_tokens: 89, input_plus_max_new_tokens: 1113}
+  - {id: code-22, rendered_input_tokens: 98, input_plus_max_new_tokens: 1122}
+  - {id: code-23, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: code-24, rendered_input_tokens: 113, input_plus_max_new_tokens: 1137}
+  - {id: code-25, rendered_input_tokens: 88, input_plus_max_new_tokens: 1112}
+  - {id: code-26, rendered_input_tokens: 87, input_plus_max_new_tokens: 1111}
+  - {id: code-27, rendered_input_tokens: 86, input_plus_max_new_tokens: 1110}
+  - {id: code-28, rendered_input_tokens: 97, input_plus_max_new_tokens: 1121}
+  - {id: code-29, rendered_input_tokens: 97, input_plus_max_new_tokens: 1121}
+  - {id: code-30, rendered_input_tokens: 102, input_plus_max_new_tokens: 1126}
+  - {id: code-31, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: code-32, rendered_input_tokens: 87, input_plus_max_new_tokens: 1111}
+  - {id: code-33, rendered_input_tokens: 85, input_plus_max_new_tokens: 1109}
+  - {id: code-34, rendered_input_tokens: 106, input_plus_max_new_tokens: 1130}
+  - {id: code-35, rendered_input_tokens: 101, input_plus_max_new_tokens: 1125}
+  - {id: code-36, rendered_input_tokens: 94, input_plus_max_new_tokens: 1118}
+  - {id: code-37, rendered_input_tokens: 104, input_plus_max_new_tokens: 1128}
+  - {id: code-38, rendered_input_tokens: 91, input_plus_max_new_tokens: 1115}
+  - {id: code-39, rendered_input_tokens: 105, input_plus_max_new_tokens: 1129}
+  - {id: code-40, rendered_input_tokens: 96, input_plus_max_new_tokens: 1120}
+  - {id: code-41, rendered_input_tokens: 92, input_plus_max_new_tokens: 1116}
+  - {id: code-42, rendered_input_tokens: 99, input_plus_max_new_tokens: 1123}
+  - {id: code-43, rendered_input_tokens: 108, input_plus_max_new_tokens: 1132}
+  - {id: code-44, rendered_input_tokens: 94, input_plus_max_new_tokens: 1118}
+  - {id: code-45, rendered_input_tokens: 88, input_plus_max_new_tokens: 1112}
+  - {id: code-46, rendered_input_tokens: 89, input_plus_max_new_tokens: 1113}
+  - {id: code-47, rendered_input_tokens: 94, input_plus_max_new_tokens: 1118}
+  - {id: code-48, rendered_input_tokens: 102, input_plus_max_new_tokens: 1126}

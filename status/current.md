@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A3 — Benchmark Construction and Freeze
+- Active execution stage: A4 — General Baseline
 
 ## Objective
 
@@ -11,66 +11,94 @@ Determine whether existing specialized small-model checkpoints exhibit reproduci
 
 The immediate purpose is to establish whether distinct competency surfaces exist strongly enough to justify a later orchestration/routing experiment.
 
-## Current assumptions
+## Approved candidate set
 
-- Prefer the same model family and generation.
-- Prefer similar parameter scale and compatible inference architecture.
-- Use existing published checkpoints only during Gate A.
-- Do not fine-tune or create specialist models during Gate A.
-- Do not test multi-agent orchestration during Gate A.
-- Capability claims are not evidence; candidates must eventually be cross-evaluated on a frozen benchmark.
+- general baseline: `Qwen/Qwen2.5-7B-Instruct`
+- mathematics specialist: `Qwen/Qwen2.5-Math-7B-Instruct`
+- coding specialist: `Qwen/Qwen2.5-Coder-7B-Instruct`
 
-## Human decision: A2 approved
+A2 eligibility is approved. The durable record is:
 
-A2 — Candidate Eligibility is APPROVED.
+`gates/gate-a-specialization/reviews/a2-human-review.md`
 
-Selected candidate set remains:
+## A3 benchmark history
 
-- `Qwen/Qwen2.5-7B-Instruct`
-- `Qwen/Qwen2.5-Math-7B-Instruct`
-- `Qwen/Qwen2.5-Coder-7B-Instruct`
+### v1.0.0 — preserved, not approved for execution
 
-The durable review record is `gates/gate-a-specialization/reviews/a2-human-review.md`.
+`gate-a-cross-skill-v1.0.0` was frozen before model execution, then human-reviewed as **CHANGES REQUIRED** because of limited per-domain sample size, ceiling-effect risk, and the need for actual bounded coding isolation.
 
-Approved controls for A3:
+The frozen v1.0.0 artifacts remain unchanged in:
 
-- enforce `rendered_input_tokens + max_new_tokens <= 4096` for every benchmark case;
-- freeze one neutral Qwen role-delimiter chat template with identical semantic system/user content for all three models;
-- use official BF16 checkpoints with no quantization for the initial inference policy;
-- keep external tools disabled for Gate A comparative inference;
-- CPU-only execution is not a permanent Gate constraint. A different execution host may be approved before A4 provided all compared models use the same environment/policy and the change is recorded before results are observed.
+`experiments/gate-a/benchmark/`
 
-A2 verified exact revisions, common 7,615,616,512-parameter scale, shared Qwen2ForCausalLM architecture and Qwen2.5-7B foundation, byte-identical tokenizer assets, Apache-2.0 licensing, artifact identity, and the material Math context/chat-template confounders.
+The durable review is:
 
-## Active bounded task: A3 — Benchmark Construction and Freeze
+`gates/gate-a-specialization/reviews/a3-human-review-v1.md`
 
-Construct and freeze a cross-skill benchmark that fairly measures the approved mathematics and software-coding specialization axes.
+### v1.1.0 — APPROVED
 
-A3 must:
+The superseding benchmark is frozen in:
 
-- include both mathematics and software-coding domains;
-- require every selected model to eventually run the complete benchmark;
-- measure primary and non-primary skill performance;
-- define benchmark cases and scoring rules before model results are observed;
-- use deterministic scoring wherever practical;
-- record benchmark provenance and contamination risks;
-- obey the approved 4096-token common context envelope;
-- freeze the shared neutral chat template and scoring policy in Git;
-- produce a versioned benchmark manifest.
+`experiments/gate-a/benchmark-v1.1.0/`
 
-A3 must NOT:
+Human review approves v1.1.0 for A4 subject to execution preflight. The durable review is:
 
-- download or execute the candidate models for comparative evaluation;
-- run the general baseline or specialist checkpoints;
-- inspect model results while constructing or tuning the benchmark;
+`gates/gate-a-specialization/reviews/a3-human-review-v1.1.md`
+
+Approved benchmark properties:
+
+- 48 mathematics + 48 software-coding cases, 96 total;
+- every selected model must eventually run all 96 cases;
+- 10 foundational, 24 intermediate, and 14 advanced cases per domain;
+- deterministic scoring, equal case weights, no LLM judge;
+- neutral shared Qwen role-delimiter template with identical semantic messages;
+- `rendered_input_tokens + max_new_tokens <= 4096` for every case;
+- BF16, no quantization, no external tools;
+- explicit provenance, contamination limitations, and difficulty-stratified reporting;
+- Gate acceptance criteria and candidate set remain unchanged.
+
+No selected model output was used to construct either benchmark version.
+
+## Execution blocker discovered during A3
+
+Coding evaluation is fail-closed behind the bounded-isolation preflight defined in:
+
+`experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml`
+
+The A3 preflight on host `ai01` failed because bubblewrap could not establish the required network namespace (`NETLINK_ROUTE: Operation not permitted`). The failed receipt is preserved at:
+
+`experiments/gate-a/benchmark-v1.1.0/execution/preflight-receipt-a3.json`
+
+This is an execution-host blocker, not a benchmark-definition failure.
+
+## Active bounded task: A4 — General Baseline
+
+Execute only the pinned general baseline:
+
+- model: `Qwen/Qwen2.5-7B-Instruct`
+- revision: `a09a35458c702b33eeacc393d103063234e8bc28`
+- benchmark: `gate-a-cross-skill-v1.1.0`
+
+Required order:
+
+1. record the exact execution host, runtime, device, and environment;
+2. run the frozen coding-isolation preflight on that exact environment;
+3. if preflight fails, stop without executing the baseline and report the blocker;
+4. if preflight passes, execute the general baseline over all 96 frozen cases using the approved common inference policy;
+5. preserve the passing preflight receipt, raw per-case responses, per-case scores/reasons, timing, failures, and reproducibility metadata;
+6. stop for human review before A5.
+
+A4 must NOT:
+
+- modify the frozen v1.1.0 benchmark, scoring, or template;
 - modify Gate acceptance criteria;
-- change the selected candidate set without human review.
-
-When the benchmark is constructed and frozen, update the durable evidence and stop for human review before A4.
+- change the candidate set;
+- execute Math or Coder specialist checkpoints;
+- proceed to A5.
 
 ## Next human checkpoint
 
-Review the frozen benchmark, scoring policy, provenance/contamination treatment, and common prompt/template policy. A4 remains inactive until that review is recorded.
+Review the A4 execution environment/preflight and, if baseline execution occurs, the complete general-model run evidence. A5 remains inactive until that review is recorded.
 
 ## Future gate
 

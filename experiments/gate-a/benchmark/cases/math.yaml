@@ -1,0 +1,203 @@
+schema_version: 1
+case_file: gate-a-cross-skill-v1-mathematics
+domain: mathematics
+case_count: 16
+authoring_status: authored-before-model-execution
+cases:
+  - id: math-01
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      Solve for x in the equation 7x - 13 = 50. Return one line exactly in
+      the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 9
+    scoring_rule: exact_integer
+
+  - id: math-02
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      Solve the system 2x + 3y = 19 and x - y = 2. Return one line exactly in
+      the form ANSWER: {"x": <integer>, "y": <integer>} with the keys in that
+      order.
+    expected:
+      type: json_object
+      value: {x: 5, y: 3}
+    scoring_rule: exact_json_object
+
+  - id: math-03
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      Find the smallest positive integer n such that n is congruent to 4
+      modulo 7 and congruent to 9 modulo 11. Return one line exactly in the
+      form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 53
+    scoring_rule: exact_integer
+
+  - id: math-04
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      The roots of x^2 - 9x + 14 = 0 are distinct. Return the larger root in
+      one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 7
+    scoring_rule: exact_integer
+
+  - id: math-05
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      How many four-digit decimal strings have no repeated digit and do not
+      begin with zero? Return one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 4536
+    scoring_rule: exact_integer
+
+  - id: math-06
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      A fair six-sided die is rolled twice. What is the probability that the
+      sum is at least 10? Return the reduced fraction in one line exactly in
+      the form ANSWER: <numerator>/<denominator>.
+    expected:
+      type: rational
+      value: "1/6"
+    scoring_rule: exact_reduced_rational
+
+  - id: math-07
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      A rectangle has perimeter 50 units, and its length is 3 units greater
+      than its width. Return its area in one line exactly in the form ANSWER:
+      <integer>.
+    expected:
+      type: integer
+      value: 154
+    scoring_rule: exact_integer
+
+  - id: math-08
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      An arithmetic sequence has first term 7 and common difference 4. Return
+      its twentieth term in one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 83
+    scoring_rule: exact_integer
+
+  - id: math-09
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      The mean of three numbers is 14. If a fourth number, 26, is added, what
+      is the new mean? Return one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 17
+    scoring_rule: exact_integer
+
+  - id: math-10
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      Compute both the greatest common divisor and the least common multiple
+      of 84 and 126. Return one line exactly in the form ANSWER:
+      {"gcd": <integer>, "lcm": <integer>} with the keys in that order.
+    expected:
+      type: json_object
+      value: {gcd: 42, lcm: 252}
+    scoring_rule: exact_json_object
+
+  - id: math-11
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      Find the determinant of the matrix [[3, 2], [5, 4]]. Return one line
+      exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 2
+    scoring_rule: exact_integer
+
+  - id: math-12
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      Evaluate the definite integral from 0 to 3 of (2x + 1) dx. Return one
+      line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 12
+    scoring_rule: exact_integer
+
+  - id: math-13
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      Solve 2^(x + 1) = 32 for x. Return one line exactly in the form ANSWER:
+      <integer>.
+    expected:
+      type: integer
+      value: 4
+    scoring_rule: exact_integer
+
+  - id: math-14
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      How many integers x satisfy the strict inequality |2x - 5| < 7? Return
+      one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 6
+    scoring_rule: exact_integer
+
+  - id: math-15
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: foundational
+    prompt: >-
+      A five-element set is given. How many of its subsets have size 2 or size
+      3? Return one line exactly in the form ANSWER: <integer>.
+    expected:
+      type: integer
+      value: 20
+    scoring_rule: exact_integer
+
+  - id: math-16
+    domain: mathematics
+    skill_axis: mathematics
+    difficulty: intermediate
+    prompt: >-
+      For positive integers a and b with a + b = 20, what is the maximum
+      possible value of ab? Return one line exactly in the form ANSWER:
+      <integer>.
+    expected:
+      type: integer
+      value: 100
+    scoring_rule: exact_integer
