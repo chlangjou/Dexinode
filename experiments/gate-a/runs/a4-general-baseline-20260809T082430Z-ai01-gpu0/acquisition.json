@@ -1,0 +1,167 @@
+{
+  "artifact_file_count": 27,
+  "artifact_total_bytes": 15242807157,
+  "download_elapsed_seconds": 13.952342748641968,
+  "files": [
+    {
+      "path": ".huggingface/.gitignore",
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "size_bytes": 1
+    },
+    {
+      "path": ".huggingface/download/LICENSE.metadata",
+      "sha256": "004c271f1ed7934748875db3562770bdefe3eabf94e76c48897b2a184d7e6c33",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/README.md.metadata",
+      "sha256": "f425b490e4a91de6d969baa0c68182c02a42f8264dd49394a671dbbb116cfb2e",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/config.json.metadata",
+      "sha256": "245f98b10a5b2dbc68fc0f383d5e8ebf2743e3024b9905e5ecf0deb571e37942",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/generation_config.json.metadata",
+      "sha256": "7e387d17515e1efa53167e62a9292f6a11b1b97ce5f9d07fbbfd358503f49fde",
+      "size_bytes": 100
+    },
+    {
+      "path": ".huggingface/download/merges.txt.metadata",
+      "sha256": "8d970a69b7569767c49d06fbcfeaf69fe6be5f03bd8ff190417d9a62a01fbf8d",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/model-00001-of-00004.safetensors.metadata",
+      "sha256": "1a3b8594fb12f114eb2038ced20539a57e33aa93e283f08255d5e782ac93d25e",
+      "size_bytes": 125
+    },
+    {
+      "path": ".huggingface/download/model-00002-of-00004.safetensors.metadata",
+      "sha256": "3c9be681fa7ced4b1f1f9e7968ac4deea901314e532e0be8f378d0535ffc98ce",
+      "size_bytes": 123
+    },
+    {
+      "path": ".huggingface/download/model-00003-of-00004.safetensors.metadata",
+      "sha256": "32c4fa79aa1a4bb0bb9ee3702394bf159a0513ffc8ec555de990c2a1517b115a",
+      "size_bytes": 125
+    },
+    {
+      "path": ".huggingface/download/model-00004-of-00004.safetensors.metadata",
+      "sha256": "c25ef3f5d562daec42e4020d8e60fac4ccb2a3008529d354e7edf023c7617286",
+      "size_bytes": 125
+    },
+    {
+      "path": ".huggingface/download/model.safetensors.index.json.metadata",
+      "sha256": "5a3d1f66fe22d800a66fbb0788c7dbc67a2e37ce582cb26d181128a3afa7b3c7",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/tokenizer.json.metadata",
+      "sha256": "7cc1d1daaa1902c88e70ad50d905824f9273f56f984ee25a1a8fb5056a69fc57",
+      "size_bytes": 101
+    },
+    {
+      "path": ".huggingface/download/tokenizer_config.json.metadata",
+      "sha256": "18889e5e4c273d9819ec998858a8a31f7a208e13f3b2bac6c2032a0961ada3ba",
+      "size_bytes": 100
+    },
+    {
+      "path": ".huggingface/download/vocab.json.metadata",
+      "sha256": "66e3586b1ea779524a01c4bcf1c79d19c90fcdd6758276a41ea041c6b4092a02",
+      "size_bytes": 101
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "size_bytes": 11343
+    },
+    {
+      "path": "README.md",
+      "sha256": "f366f33bbf6bcadbb7d87f0a21a7b65584a56b8d58b0743c77c88bee625b93a6",
+      "size_bytes": 6240
+    },
+    {
+      "path": "config.json",
+      "sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "size_bytes": 663
+    },
+    {
+      "path": "generation_config.json",
+      "sha256": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f",
+      "size_bytes": 243
+    },
+    {
+      "path": "merges.txt",
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "size_bytes": 1671839
+    },
+    {
+      "path": "model-00001-of-00004.safetensors",
+      "sha256": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "size_bytes": 3945441440
+    },
+    {
+      "path": "model-00002-of-00004.safetensors",
+      "sha256": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "size_bytes": 3864726352
+    },
+    {
+      "path": "model-00003-of-00004.safetensors",
+      "sha256": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "size_bytes": 3864726424
+    },
+    {
+      "path": "model-00004-of-00004.safetensors",
+      "sha256": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+      "size_bytes": 3556377672
+    },
+    {
+      "path": "model.safetensors.index.json",
+      "sha256": "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028",
+      "size_bytes": 27752
+    },
+    {
+      "path": "tokenizer.json",
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "size_bytes": 7031645
+    },
+    {
+      "path": "tokenizer_config.json",
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "size_bytes": 7305
+    },
+    {
+      "path": "vocab.json",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "size_bytes": 2776833
+    }
+  ],
+  "hf_cache": "/gate-cache/huggingface",
+  "model_dir": "/gate-cache/models/qwen2.5-7b-instruct",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "operation": "general_model_acquisition",
+  "package_versions": {
+    "PyYAML": "6.0.1",
+    "accelerate": "0.30.1",
+    "cuda_available": "True",
+    "cuda_device_count": "1",
+    "huggingface-hub": "0.23.4",
+    "platform": "Linux-5.15.0-181-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "safetensors": "0.4.3",
+    "tokenizers": "0.19.1",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_build": "12.1",
+    "transformers": "4.41.1"
+  },
+  "requested_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "resolved_revision_after_download": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "resolved_revision_before_download": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "schema_version": 1,
+  "snapshot_path": "/gate-cache/models/qwen2.5-7b-instruct",
+  "status": "pass",
+  "timestamp_utc": "2026-08-09T08:49:18.029999Z"
+}

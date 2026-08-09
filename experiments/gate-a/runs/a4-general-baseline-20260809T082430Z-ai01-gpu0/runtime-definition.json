@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "run_id": "a4-general-baseline-20260809T082430Z-ai01-gpu0",
+  "status": "defined_and_preflighted_before_model_acquisition",
+  "timestamp_utc": "2026-08-09T08:38:00Z",
+  "model_scope": {
+    "authorized_model_only": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "specialist_models_executed": false
+  },
+  "base_image": {
+    "reference": "nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04",
+    "repo_digest": "sha256:f4d8e1264366940438f0353da6f289c7bef069d993d111f8106086ccd18c4a30",
+    "cuda_image_version": "12.1.1",
+    "platform": "linux/amd64"
+  },
+  "inference_image": {
+    "reference": "dexinode/gate-a-general-baseline:a4-general-baseline-20260809T082430Z-ai01-gpu0-v2",
+    "image_id": "sha256:4f3ed9321ae0bdf3e5b64876003e877fe3a641a8993d8a61a1abb76f9be315d1",
+    "size_bytes": 8662992862,
+    "entrypoint": ["python3", "/opt/gate-a/run_inference.py"],
+    "dockerfile_sha256": "04c8fee583593e39c59cec1b2f13ef5a6c6d2a874417a355fba031d6d5ad03b9",
+    "runner_sha256": "91b753de8a0de6ec9c31c3aa30306a0723a05909f682cd9eb6bfd62b6ffed5a7"
+  },
+  "runtime": {
+    "python": "3.10.12",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_build": "12.1",
+    "transformers": "4.41.1",
+    "safetensors": "0.4.3",
+    "accelerate": "0.30.1",
+    "tokenizers": "0.19.1",
+    "numpy": "1.26.4",
+    "huggingface_hub": "0.23.4",
+    "yaml": "6.0.1",
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_device_name": "NVIDIA L40",
+    "bf16_supported": true
+  },
+  "inference_launch_policy": {
+    "runtime": "runc",
+    "gpu_selection": "--gpus \"device=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664\"",
+    "network_during_acquisition": "bridge",
+    "network_during_preflight_and_inference": "none",
+    "root_filesystem": "read-only",
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "capabilities": "drop-all",
+    "no_new_privileges": true,
+    "ipc": "private",
+    "memory": "4g",
+    "cpus": 4,
+    "host_run_evidence_mount": "/run (the run directory only)",
+    "benchmark_mount": "/benchmark:ro",
+    "model_cache_mount": "dexinode-gate-a-general-20260809T082430Z-cache:/gate-cache"
+  },
+  "frozen_generation_policy": {
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "trust_remote_code": false,
+    "use_fast_tokenizer": true,
+    "low_cpu_mem_usage": true,
+    "max_new_tokens": 1024,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "external_tools": false,
+    "repository_chat_templates_ignored": true,
+    "template_id": "qwen-neutral-role-delimiter-v1"
+  },
+  "cache": {
+    "volume": "dexinode-gate-a-general-20260809T082430Z-cache",
+    "driver": "local",
+    "mountpoint": "/data/docker/lib/docker/volumes/dexinode-gate-a-general-20260809T082430Z-cache/_data",
+    "independent_of_existing_ollama_storage": true,
+    "existing_ollama_model_mount_used": false
+  },
+  "nonfinal_attempts": [
+    {
+      "image_reference": "dexinode/gate-a-general-baseline:a4-general-baseline-20260809T082430Z-ai01-gpu0",
+      "image_id": "sha256:906b1bbee1bfddc76622e1785e3620de0df72b33e6547ae3d471b882f55846dd",
+      "status": "invalid_pre_result_runtime_probe",
+      "reason": "the image entrypoint routed a direct -c package probe to run_inference.py; no model was acquired or executed",
+      "preserved": true
+    }
+  ],
+  "scope_controls": {
+    "model_download_before_runtime_definition": false,
+    "model_output_inspected_before_runtime_definition": false,
+    "math_specialist_executed": false,
+    "coder_specialist_executed": false,
+    "benchmark_cases_executed": false,
+    "benchmark_modified": false,
+    "gate_acceptance_modified": false
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "benchmark_version": "gate-a-cross-skill-v1.1.0",
+  "case_count": 96,
+  "effective_model_device": "cuda:0",
+  "effective_model_dtype": "torch.bfloat16",
+  "generated_records": 96,
+  "generation_policy": {
+    "do_sample": false,
+    "external_tools": false,
+    "max_new_tokens": 1024,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0
+  },
+  "gpu_before_generation": {
+    "nvidia_smi": {
+      "command": "nvidia-smi --query-gpu=index,uuid,name,driver_version,memory.total,memory.used,memory.free,pci.bus_id,utilization.gpu --format=csv,noheader",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "0, GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664, NVIDIA L40, 550.107.02, 46068 MiB, 15671 MiB, 29703 MiB, 00000000:26:00.0, 10 %"
+    },
+    "torch_bfloat16_supported": true,
+    "torch_cuda_available": true,
+    "torch_cuda_device_count": 1,
+    "torch_device_name": "NVIDIA L40"
+  },
+  "load_elapsed_seconds": 5.650724172592163,
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "package_versions": {
+    "PyYAML": "6.0.1",
+    "accelerate": "0.30.1",
+    "cuda_available": "True",
+    "cuda_device_count": "1",
+    "huggingface-hub": "0.23.4",
+    "platform": "Linux-5.15.0-181-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "safetensors": "0.4.3",
+    "tokenizers": "0.19.1",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_build": "12.1",
+    "transformers": "4.41.1"
+  },
+  "quantized": false,
+  "raw_output": "/run/raw-responses.jsonl",
+  "schema_version": 1,
+  "status": "complete",
+  "timestamp_utc": "2026-08-09T08:54:13.065443Z"
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "run_id": "a4-general-baseline-20260809T082430Z-ai01-gpu0",
+  "status": "pass",
+  "timestamp_utc": "2026-08-09T08:24:30Z",
+  "host": "ai01",
+  "repository_filesystem": {
+    "path": "/home/rd/Dexinode",
+    "available_bytes": 76588146688,
+    "available_human": "72G",
+    "used_percent": 75
+  },
+  "docker_filesystem": {
+    "path": "/data",
+    "available_bytes": 5173907976192,
+    "available_human": "4.8T",
+    "used_percent": 6
+  },
+  "memory": {
+    "total_bytes": 1081957761024,
+    "available_bytes": 1026192548,
+    "available_human": "978GiB",
+    "swap_total_bytes": 8589934592,
+    "swap_free_bytes": 8369916
+  },
+  "docker": {
+    "engine": "29.5.3",
+    "runtime": "runc",
+    "root_dir": "/data/docker/lib/docker",
+    "cgroup_driver": "systemd",
+    "cgroup_version": "2",
+    "containers_running_at_check": 38,
+    "memory_limit": true,
+    "gpu_device_requests_available": true
+  },
+  "selected_gpu": {
+    "index": 0,
+    "uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "name": "NVIDIA L40",
+    "driver_version": "550.107.02",
+    "memory_total_mib": 46068,
+    "memory_used_mib": 4,
+    "memory_free_mib": 45370,
+    "pci_bus_id": "00000000:26:00.0",
+    "utilization_gpu_percent": 0
+  },
+  "host_gpu_inventory_at_check": [
+    {
+      "index": 0,
+      "uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+      "name": "NVIDIA L40",
+      "memory_free_mib": 45370
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-f2090f97-4792-49a7-18df-48b6c2bf95c3",
+      "name": "NVIDIA L40",
+      "memory_free_mib": 45370
+    }
+  ],
+  "existing_services": {
+    "ollama": "running; not stopped or modified",
+    "open-webui": "running healthy; not stopped or modified"
+  },
+  "decision": "Resources sufficient for the pinned BF16 General baseline; continue without stopping unrelated services."
+}

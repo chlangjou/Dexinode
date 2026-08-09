@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A4b — General Baseline Execution
+- Active execution stage: A4b — General Baseline Execution (completed; pending human review)
 
 ## Objective
 
@@ -86,6 +86,33 @@ Authorized model:
 
 A4b is now authorized to download and execute **only the pinned General baseline**.
 
+### A4b execution — COMPLETE, PENDING HUMAN REVIEW
+
+Run: `experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/`
+
+- The pinned General model resolved exactly to revision
+  `a09a35458c702b33eeacc393d103063234e8bc28` in the dedicated Gate cache.
+- All 96 frozen cases generated successfully and all 96 were scored; no Math
+  or Coder specialist was downloaded or executed.
+- Deterministic result: 46/96 overall (`0.4791666667`); mathematics 10/48
+  (`0.2083333333`); software-coding 36/48 (`0.75`).
+- Difficulty results: mathematics foundational 4/10, intermediate 6/24,
+  advanced 0/14; software-coding foundational 9/10, intermediate 19/24,
+  advanced 8/14.
+- The approved single GPU was visible: NVIDIA L40,
+  `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`; sampled peak use was 16193 MiB.
+- The coding judge-v2 preflight passed on the exact execution environment.
+  All 48 coding judge containers were cleaned up; one case reached the
+  approved 2-second watchdog and was scored 0 with preserved timing evidence.
+- No infrastructure-invalid cases remained in the final scoring pass. The
+  initial acquisition failure and two superseded scorer receipts remain
+  preserved under the run directory.
+
+Durable evidence includes the runtime/image and container manifest, model
+artifact inventory, inference and judge preflight receipts, all raw responses,
+per-case scores/reasons/timing, scoring metrics, and reproducible scripts.
+Model weights remain outside Git in the dedicated Docker volume.
+
 Required execution order:
 
 1. create/use a Gate-specific model/cache location independent of existing Ollama storage;
@@ -112,7 +139,9 @@ A4b must NOT:
 
 ## Next human checkpoint
 
-Review the completed General baseline run, raw evidence, scoring, runtime identity, and any failures or exclusions. A5 remains inactive until that review is recorded.
+Review the completed General baseline run, raw evidence, scoring, runtime
+identity, and failures/exclusions. A5 remains inactive until that review is
+recorded.
 
 ## Future gate
 

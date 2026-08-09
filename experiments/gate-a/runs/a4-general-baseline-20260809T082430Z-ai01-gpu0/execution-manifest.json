@@ -1,0 +1,124 @@
+{
+  "schema_version": "a4b-execution-manifest-v1",
+  "status": "complete_pending_human_review",
+  "run_id": "a4-general-baseline-20260809T082430Z-ai01-gpu0",
+  "host": "ai01",
+  "docker": {
+    "engine": "29.5.3",
+    "runtime": "runc",
+    "root_dir": "/data/docker/lib/docker",
+    "cgroup_version": "2",
+    "resource_preflight": "resource-preflight.json"
+  },
+  "authorized_model": {
+    "id": "Qwen/Qwen2.5-7B-Instruct",
+    "requested_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "resolved_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "artifact_receipt": "acquisition.json",
+    "artifact_file_count": 27,
+    "artifact_total_bytes": 15242807157,
+    "cache_volume": "dexinode-gate-a-general-20260809T082430Z-cache",
+    "cache_is_independent_of_ollama": true,
+    "ollama_model_storage_used": false
+  },
+  "inference_image": {
+    "reference": "dexinode/gate-a-general-baseline:a4-general-baseline-20260809T082430Z-ai01-gpu0-v2",
+    "image_id": "sha256:4f3ed9321ae0bdf3e5b64876003e877fe3a641a8993d8a61a1abb76f9be315d1",
+    "base_image": "nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04@sha256:f4d8e1264366940438f0353da6f289c7bef069d993d111f8106086ccd18c4a30",
+    "dockerfile_sha256": "04c8fee583593e39c59cec1b2f13ef5a6c6d2a874417a355fba031d6d5ad03b9",
+    "runner_sha256": "91b753de8a0de6ec9c31c3aa30306a0723a05909f682cd9eb6bfd62b6ffed5a7",
+    "runtime_identity": "runtime-definition.json"
+  },
+  "inference_container": {
+    "name": "dexinode-gate-a4b-inference-20260809T082430Z",
+    "id": "41d15d48509bca36fd471c652b21ab246412982222e028e18e67c98fb014fdc8",
+    "started_at": "2026-08-09T08:51:25.718059536Z",
+    "finished_at": "2026-08-09T08:54:13.571507972Z",
+    "elapsed_seconds": 167.853448,
+    "exit_code": 0,
+    "oom_killed": false,
+    "runtime": "runc",
+    "network": "none",
+    "ipc": "private",
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+    "cap_drop": ["ALL"],
+    "no_new_privileges": true,
+    "memory": "40g",
+    "cpus": 16,
+    "gpu_device_request": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "mounts": [
+      "dexinode-gate-a-general-20260809T082430Z-cache:/gate-cache:ro",
+      "dexinode-gate-a-general-20260809T082430Z-inference-output:/run:rw (temporary, removed after receipt copy)",
+      "/home/rd/Dexinode/experiments/gate-a/benchmark-v1.1.0:/benchmark:ro"
+    ],
+    "raw_execution_receipt": "inference-execution.json",
+    "raw_responses": "raw-responses.jsonl"
+  },
+  "gpu": {
+    "selected_uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "selected_name": "NVIDIA L40",
+    "driver": "550.107.02",
+    "visible_gpu_count_preflight": 1,
+    "visible_gpu_uuid_preflight": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "peak_observed_memory_used_mib": 16193,
+    "peak_observation_method": "host nvidia-smi samples during formal inference; sampled peak, not hardware trace maximum",
+    "sampled_memory_used_mib": [16031, 16103, 16187, 16193]
+  },
+  "frozen_controls": {
+    "benchmark": "gate-a-cross-skill-v1.1.0",
+    "case_count": 96,
+    "math_cases": 48,
+    "coding_cases": 48,
+    "template": "qwen-neutral-role-delimiter-v1",
+    "repository_chat_templates_ignored": true,
+    "max_new_tokens": 1024,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "external_tools": false,
+    "max_rendered_input_tokens": 113,
+    "max_rendered_input_plus_generation_tokens": 1137,
+    "context_limit": 4096
+  },
+  "preflights": {
+    "inference": "inference-preflight.json",
+    "coding_judge": "coding-isolation-preflight.json",
+    "approved_judge_policy": "experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json",
+    "inference_container": {
+      "name": "dexinode-gate-a4b-inference-preflight-20260809T082430Z",
+      "id": "94719afa7e4b0a02ece49c8e4f565658257e533e215457013f3bfc916765bb92"
+    },
+    "coding_judge_container": "dexinode-gate-a4b-judge-preflight-20260809T082430Z"
+  },
+  "scoring": {
+    "scoring_policy": "experiments/gate-a/benchmark-v1.1.0/scoring.yaml",
+    "summary": "scoring-summary.json",
+    "metrics": "metrics.json",
+    "per_case_results": "per-case-results.jsonl",
+    "coding_judge_records": "coding-judge-records.jsonl",
+    "coding_judge_containers_completed": 48,
+    "coding_judge_containers_cleaned": 48,
+    "coding_judge_timeouts": 1,
+    "coding_judge_infrastructure_failures": 0
+  },
+  "phase_timing_seconds": {
+    "model_acquisition_container": 15.825680,
+    "formal_inference_container": 167.853448,
+    "judge_preflight": 0.328764,
+    "deterministic_scoring": 16.522884,
+    "bounded_phases_sum_excluding_image_build": 200.530776
+  },
+  "nonfinal_attempts": [
+    "acquisition-attempt-1-failure.json",
+    "scoring-attempt-1-judge-stdin-failure/",
+    "scoring-attempt-2-generic-failure-reason/",
+    "runtime-definition.json.nonfinal_attempts"
+  ],
+  "specialist_models_executed": false,
+  "benchmark_modified": false,
+  "gate_acceptance_modified": false
+}
