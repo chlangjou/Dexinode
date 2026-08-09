@@ -6,7 +6,7 @@ Repository: `chlangjou/Dexinode`
 
 Canonical/default branch: `main`.
 
-Snapshot date: 2026-08-09.
+Snapshot date: 2026-08-10.
 
 ## Start here in a new session
 
@@ -19,110 +19,104 @@ Then read, in order:
 1. `AGENTS.md`
 2. this file
 3. `status/current.md`
-4. `gates/gate-a-specialization/task.yaml`
-5. `gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md`
-6. `gates/gate-a-specialization/evidence-report.md`
-7. `experiments/gate-a/a6-evidence-summary.yaml`
+4. `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
+5. `gates/gate-b-orchestration/README.md`
+6. `gates/gate-b-orchestration/task.yaml`
+7. `gates/gate-b-orchestration/acceptance.yaml`
 
 Git is the durable source of truth. Do not reconstruct project state from old chat logs when repository state is available.
 
 ## Current state
 
-Active gate: **Gate A — Specialist Validation**.
+Gate A — Specialist Validation: **PASS / CLOSED**.
 
-Active bounded stage: **A6 — evidence report complete pending final human decision**.
+Active gate: **Gate B — Orchestration Advantage**.
 
-Gate decision: **PENDING HUMAN REVIEW**.
+Active bounded stage: **B1 — protocol, router, benchmark and acceptance freeze design**.
 
-Gate B remains inactive.
+Gate B decision: **PENDING**.
 
-No additional model execution is required for the current Gate A evidence set.
+No Gate B selected-model execution is currently authorized.
 
-## Frozen benchmark and candidates
+## Gate A final result
 
-Approved benchmark:
+Final human decision:
 
-`gate-a-cross-skill-v1.2.2`
+`gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
 
-Benchmark root:
-
-`experiments/gate-a/benchmark-v1.2.2/`
-
-Candidates:
-
-- General: `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
-- Math: `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
-- Coder: `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
-
-A5R1 human review:
-
-`gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`
-
-## A5R2 — human approved
-
-Reviewed commit:
-
-`6168558b74fca06e1ef80f41b86cc997915c41b7`
-
-Human review:
-
-`gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md`
-
-Decision: **APPROVED**. A6 was authorized.
-
-Accepted capability matrix:
-
-| Role | Overall | Math | Coding |
-|---|---:|---:|---:|
-| General baseline | 68/96 (70.83%) | 30/48 (62.50%) | 38/48 (79.17%) |
-| Math specialist | 64/96 (66.67%) | 44/48 (91.67%) | 20/48 (41.67%) |
-| Coder specialist | 69/96 (71.88%) | 36/48 (75.00%) | 33/48 (68.75%) |
-
-All three models generated all 96 cases under the same frozen protocol in order General → Math → Coder, with no between-row result review. Four earlier failures stopped during General preflight before model load/output and remain preserved.
-
-One non-blocking receipt issue is recorded: `load_elapsed_seconds` includes generation and is not a model-load-latency measurement. It does not affect scoring or comparability.
-
-## A6 — complete
-
-Evidence report:
+A6 evidence report:
 
 `gates/gate-a-specialization/evidence-report.md`
 
-Machine-readable summary:
+Accepted key result:
 
-`experiments/gate-a/a6-evidence-summary.yaml`
+- General Math: 30/48 = 62.50%;
+- Math specialist Math: 44/48 = 91.67%;
+- Math specialist primary-domain advantage: **+29.17 pp**;
+- paired-bootstrap 95% CI: **[+16.67, +41.67] pp**;
+- Math specialist Coding tradeoff: **-37.50 pp**;
+- Coder checkpoint did not establish a Coding advantage over General.
 
-Recommendation: **PASS**.
+Interpretation: Gate A is a **single-specialist PASS**. Specialist capability exists, but checkpoint labels are not trusted without empirical validation.
 
-The recommendation is based on the frozen acceptance criteria:
+Dexinode skill identity should therefore be treated as approximately:
 
-- minimum evidence satisfied;
-- candidate comparability satisfied;
-- Math specialist primary-domain improvement = **+29.17 pp**, paired-bootstrap 95% CI **[+16.67, +41.67] pp**;
-- Math specialist non-primary coding change = **−37.50 pp**, CI **[−52.08, −22.92] pp**, demonstrating a concentrated specialization/tradeoff profile;
-- Coder specialist does **not** demonstrate a coding advantage: **−10.42 pp**, CI **[−22.92, +2.08] pp**;
-- no unresolved material methodological defect remains after A5R2 human review.
+**checkpoint + explicit handoff contract/adapter + measured capability profile**.
 
-Therefore the frozen criteria support a **single-specialist PASS recommendation**. The strong preference for two specialists in different domains is **not satisfied**.
+## Gate B bounded question
 
-Architectural implication retained from Gate A: specialist identity should be empirically registered/validated, and a Dexinode skill should be treated closer to **checkpoint + explicit handoff contract/adapter**, rather than trusting checkpoint labels alone.
+Gate B does not yet attempt full multi-agent collaboration. It first asks whether skill-aware selection alone creates measurable value.
 
-## Current bounded human action
+> On a fresh mixed mathematics/software-coding benchmark, can a frozen deterministic router using only task prompt text and the empirically validated Gate A skill registry outperform a General-only policy while using exactly one model inference per task?
 
-The human owner must assign the final Gate A decision:
+Primary comparison:
 
-- PASS;
-- FAIL; or
-- INCONCLUSIVE.
+1. **General-only** — all cases to `Qwen/Qwen2.5-7B-Instruct`.
+2. **Skill-routed** — Math to the validated Math specialist; Coding and fallback to General.
 
-A6 may recommend but cannot assign that final result.
+The Gate A Coder checkpoint is not treated as a validated coding specialist in this first routing gate.
 
-If the human records **PASS**, the next repository action is to close Gate A, activate Gate B — Orchestration Advantage, and define Gate B's bounded hypothesis/acceptance protocol **before** running any orchestration experiment.
+## Proposed Gate B acceptance signal
 
-Do not activate Gate B until the final Gate A decision is explicitly recorded.
+Before model execution, B1 currently proposes freezing:
+
+- fresh benchmark: 96 cases, 48 Math + 48 Coding;
+- exact Gate A prompt reuse: 0;
+- deterministic CPU-only router;
+- router input: task prompt only;
+- exactly one model inference per case for both policies;
+- same context/generation controls;
+- no retries, fallback model calls, voting or ensemble;
+- primary signal: routed overall accuracy at least **+10 pp** over General-only;
+- paired-bootstrap 95% CI of the overall improvement must exclude zero;
+- routed Math advantage at least +10 pp with CI excluding zero;
+- routed Coding degradation no worse than 5 pp;
+- routing accuracy at least 95% against hidden evaluation labels.
+
+These criteria remain **proposed until B1 human review/freeze**. No Gate B result may be observed before that freeze.
+
+## Active bounded task — B1
+
+Static design only:
+
+1. author a fresh Gate B benchmark under `experiments/gate-b/benchmark-v1.0.0/`;
+2. independently validate all Math oracles and Coding evaluators;
+3. create a deterministic prompt-only router under `experiments/gate-b/router-v1/`;
+4. add synthetic router tests and information-boundary checks;
+5. freeze scoring, token/context validation, execution policy and resource parity;
+6. execute **no General, Math, or Coder checkpoint**;
+7. stop for human review before B2/B3.
+
+Do not broaden B1 into multi-step orchestration, recursive delegation, networking, federation, reputation, settlement, or training.
+
+## Minimal execution-Agent instruction
+
+Once the B1 Agent branch is based on current `main`, the execution Agent can be told:
+
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, and all files under `gates/gate-b-orchestration/`. Execute only active stage B1 exactly as recorded in Git. Build and statically validate the fresh benchmark/router/protocol, execute no selected model, preserve evidence, update durable status, commit, stop for human review, and do not push until instructed.
 
 ## More detail
 
-- References and evidence map: `docs/handoff/references.md`
-- Condensed research history: `docs/handoff/history.md`
+- Gate A evidence: `gates/gate-a-specialization/evidence-report.md`
+- Gate A final decision: `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
 - Live status: `status/current.md`
