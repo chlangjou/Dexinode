@@ -88,7 +88,7 @@ stages:
       selected_model_execution: false
 
     target_revision:
-      status: active
+      status: completed-pending-human-review
       benchmark_version: gate-b-orchestration-v1.1.0
       benchmark_root: experiments/gate-b/benchmark-v1.1.0/
       router_root: experiments/gate-b/router-v2/
@@ -129,6 +129,19 @@ stages:
         reuse_general_outputs_when_treatment_routes_general: true
         compose_routed_policy_from_frozen_route_decisions: true
         protocol_change_after_first_selected_model_output: forbidden
+      completion:
+        benchmark_frozen: true
+        benchmark_manifest: experiments/gate-b/benchmark-v1.1.0/manifest.yaml
+        router_frozen: true
+        router_manifest: experiments/gate-b/router-v2/router.py
+        structural_freshness_audit: experiments/gate-b/benchmark-v1.1.0/freshness-audit.yaml
+        math_oracle_validation: "48/48 PASS"
+        coding_evaluator_validation: "48/48 PASS"
+        adapter_tests: "13/13 PASS"
+        router_tests: "5/5 PASS; 96/96 benchmark routes"
+        token_context_validation: "96/96 PASS; max input 124; context margin 2948"
+        selected_model_execution: false
+        human_review_required: true
 
   B2-router-static-qualification:
     status: inactive
@@ -169,4 +182,4 @@ forbidden_actions_during_B1R:
 handoff:
   durable_state: git
   final_decision: human_review
-  next_action: execute_B1R_static_revision_then_stop_for_human_review
+  next_action: human_review_of_B1R_then_explicit_authorization_for_B2

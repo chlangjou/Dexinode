@@ -64,8 +64,10 @@ This isolates the value of **selecting the right existing skill** rather than bu
 
 ## Current stage
 
-**B1 — complete pending human review.**
+**B1R — complete pending human review.**
 
-The frozen design is recorded under `experiments/gate-b/benchmark-v1.0.0/` and
-`experiments/gate-b/router-v1/`. No Gate B model execution is authorized until
-the human reviews and approves B1. B2 remains inactive.
+The fresh frozen design is recorded under
+`experiments/gate-b/benchmark-v1.1.0/` and `experiments/gate-b/router-v2/`.
+The prior v1.0.0/router-v1 artifacts remain preserved and unchanged. Static
+validation is complete, but no Gate B model execution is authorized until the
+human reviews and approves B1R. B2 remains inactive.

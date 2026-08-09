@@ -1,0 +1,28 @@
+schema_version: 1
+protocol_id: gate-b-orchestration-v1.1.0-protocol
+benchmark_version: gate-b-orchestration-v1.1.0
+status: frozen-pending-human-review
+sequence:
+  - phase: route_freeze
+    action: "Compute all 96 deterministic route decisions from semantic_task only; persist the receipt before the first selected-model response."
+  - phase: general_baseline
+    action: "Run Qwen/Qwen2.5-7B-Instruct once on all 96 cases in frozen order and preserve every response before any specialist phase."
+  - phase: routed_specialist
+    action: "Run the Mathematics specialist only for frozen mathematics_specialist routes; reuse preserved General responses for general_baseline routes."
+  - phase: score
+    action: "Apply the unchanged semantic adapter and coding judge-v2 policy to matched case IDs, then compute paired metrics."
+controls:
+  no_between_phase_result_review: true
+  no_protocol_change_after_first_selected_output: true
+  one_model_inference_per_logical_policy_and_case: true
+  general_outputs_reused_for_general_routes: true
+  route_decisions_frozen_before_model_output: true
+  selected_models: [Qwen/Qwen2.5-7B-Instruct, Qwen/Qwen2.5-Math-7B-Instruct]
+  revisions: {general: a09a35458c702b33eeacc393d103063234e8bc28, mathematics: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d}
+  dtype: bfloat16
+  quantization: none
+  max_new_tokens: 1024
+  total_context_tokens: 4096
+  external_tools: false
+  deterministic_generation: {do_sample: false, num_beams: 1, repetition_penalty: 1.0, seed: 0}
+  coding_judge: approved_judge_v2_cpu_sandbox

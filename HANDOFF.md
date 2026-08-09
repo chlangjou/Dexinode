@@ -29,11 +29,26 @@ Gate A — Specialist Validation: **PASS / CLOSED**.
 
 Active gate: **Gate B — Orchestration Advantage**.
 
-Active bounded stage: **B1R — structural freshness and router-boundary revision**.
+Active bounded stage: **B1R — complete, pending human review**.
 
 Gate B decision: **PENDING**.
 
 No Gate B selected-model execution is authorized.
+
+## B1R completion
+
+Commit artifacts freeze `gate-b-orchestration-v1.1.0` and `router-v2` without
+modifying v1.0.0/router-v1. The fresh benchmark has 96 cases (48 Math, 48
+Coding), 10/24/14 difficulty counts per domain, a case-by-case structural
+freshness audit, and a semantic-task-only router boundary. Exact semantic-task
+overlap with Gate A is zero; no selected-model output or per-case result was
+used for case selection.
+
+Static validation is complete: Math oracle 48/48 PASS, Coding evaluator 48/48
+PASS, adapter 13/13 PASS, router 5/5 PASS with 96/96 routes, and tokenizer
+context 96/96 PASS (maximum 124 input tokens; margin 2948). No Gate B selected
+model was executed. The next decision is human approval of B1R before B2 or
+any model execution; do not push until instructed.
 
 ## Why B1 v1.0.0 was not approved
 
@@ -59,9 +74,9 @@ Two methodological blockers remain:
 1. **Structural freshness** — exact prompt overlap is zero, but multiple Gate B cases are near-isomorphic or semantically identical to Gate A executed cases. Examples include the exact 17-mod-43 modular inverse, the same T_8 tiling recurrence, 90-degree rotation, line-region counting, surjection counting, bounded compositions and Catalan evaluation.
 2. **Router information boundary** — router-v1 uses standardized model-output/handoff contract phrases (`python 3.10`, `implementation block`, `integer`, `fraction`, etc.), so its 96/96 result partly classifies benchmark formatting rather than semantic task content.
 
-## Active B1R target
+## Preserved B1R target and evidence
 
-Create new immutable artifacts:
+The immutable artifacts are:
 
 - benchmark: `gate-b-orchestration-v1.1.0`
 - root: `experiments/gate-b/benchmark-v1.1.0/`
