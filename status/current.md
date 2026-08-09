@@ -3,128 +3,98 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A4a — Docker Execution Environment Qualification (qualified; pending human review)
+- Active execution stage: A4a — Docker Execution Environment Qualification (judge hardening required)
 
 ## Objective
 
 Determine whether existing specialized small-model checkpoints exhibit reproducible, measurable skill specialization relative to a closely related general-purpose baseline.
 
-The immediate purpose is to establish whether distinct competency surfaces exist strongly enough to justify a later orchestration/routing experiment.
+## Frozen Gate A controls
 
-## Approved candidate set
+Approved candidate set:
 
 - general baseline: `Qwen/Qwen2.5-7B-Instruct`
 - mathematics specialist: `Qwen/Qwen2.5-Math-7B-Instruct`
 - coding specialist: `Qwen/Qwen2.5-Coder-7B-Instruct`
 
-A2 eligibility is approved. The durable record is:
+Approved benchmark: `experiments/gate-a/benchmark-v1.1.0/`.
 
-`gates/gate-a-specialization/reviews/a2-human-review.md`
+The frozen benchmark, scoring rules, neutral prompt template, model revisions, candidate set, and Gate acceptance criteria remain unchanged. No selected model has been executed yet.
 
-## Approved benchmark
+## A4 attempt 1 — preserved fail-closed blocker
 
-Gate A execution uses the frozen superseding benchmark:
-
-`experiments/gate-a/benchmark-v1.1.0/`
-
-Human approval record:
-
-`gates/gate-a-specialization/reviews/a3-human-review-v1.1.md`
-
-Key frozen controls remain unchanged:
-
-- 48 mathematics + 48 software-coding cases, 96 total;
-- every selected model eventually runs all 96 cases;
-- deterministic scoring, equal case weights, no LLM judge;
-- neutral shared Qwen role-delimiter template;
-- `rendered_input_tokens + max_new_tokens <= 4096`;
-- BF16, no quantization, no external tools;
-- Gate acceptance criteria and candidate set unchanged.
-
-## A4 attempt 1 — valid fail-closed blocker
-
-Run ID: `a4-general-baseline-20260809T064011Z-ai01`
+Run `a4-general-baseline-20260809T064011Z-ai01` stopped before model execution because host-side bubblewrap could not establish the required network namespace.
 
 Evidence:
 
 - `experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/environment.json`
 - `experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json`
 
-The host-side bubblewrap preflight failed before model execution:
-
-`bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted`
-
-No General, Math, or Coder model was executed. Human review accepts this as an execution-context blocker, not a Gate or benchmark failure.
-
-Durable review:
+Human review classified this as an execution-context blocker, not a Gate or benchmark failure:
 
 `gates/gate-a-specialization/reviews/a4-preflight-human-review.md`
 
-## Human-approved execution direction
+## A4a Docker qualification — review result
 
-Qualify Docker on `ai01` as the Gate A execution substrate before any model download or inference.
+Agent qualification commit reviewed: `8ad46c50cd15a298b45c46613c676c09e9d6cea9`.
 
-Existing `ollama` and `open-webui` containers are out of scope for modification. They may be inspected read-only only as infrastructure evidence. Do not alter their configuration, mounts, permissions, model cache, lifecycle, or network.
+Durable evidence root:
 
-The intended topology is:
+`experiments/gate-a/execution/a4-docker-qualification/`
 
-1. a dedicated Gate A inference container using one explicitly selected NVIDIA L40 GPU;
-2. a separate CPU-only coding judge container with fail-closed isolation;
-3. a Gate-specific model/cache location independent of existing Ollama storage when model execution is later authorized.
+Human review:
 
-The Docker qualification contract is:
+`gates/gate-a-specialization/reviews/a4a-docker-qualification-human-review.md`
 
-`gates/gate-a-specialization/execution/a4-docker-qualification.yaml`
+### Dedicated inference GPU path — APPROVED
 
-This is an explicit human-approved execution-policy amendment. It does not modify the frozen benchmark cases, scoring, prompt template, candidate set, or Gate acceptance criteria.
+The Docker GPU path on `ai01` is accepted:
 
-## Active bounded task: A4a — Docker Execution Environment Qualification
+- Docker Engine 29.5.3, runtime `runc`;
+- exactly one selected NVIDIA L40 is exposed;
+- selected host GPU 0 UUID: `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
+- Docker `DeviceRequest` contains only that UUID;
+- the probe container observed exactly one GPU and the UUID matched;
+- existing `ollama` and `open-webui` services were not modified;
+- no selected Qwen checkpoint or benchmark case was executed.
 
-Qualification only. Do not download or execute any selected Qwen model and do not run benchmark cases.
+The generic CUDA image's default `NVIDIA_VISIBLE_DEVICES=all` value is not treated as additional GPU exposure because the controlling device request and observed device inventory both show only the selected UUID.
 
-Completed on `ai01` with both required paths passing:
+GPU qualification does not need to be repeated solely for the judge revision. Repeat it if the inference host/image/runtime/selected GPU or relevant NVIDIA container configuration changes.
 
-- dedicated disposable GPU probe: PASS; exactly one visible GPU, host GPU 0 `NVIDIA L40`, UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
-- separate CPU-only judge probe: PASS; 19/19 isolation checks true, plus a passing 3-second host watchdog probe;
-- no selected model was downloaded or executed, no benchmark case ran, and existing `ollama`/`open-webui` containers were inspected read-only only and remained unchanged.
+### CPU coding judge — CHANGES REQUIRED
 
-Durable evidence:
+The current Docker judge demonstrated strong isolation controls, including no network, no GPU, no host/Docker/model-cache mounts, read-only root, private tmpfs, dropped capabilities, `NoNewPrivs=1`, cgroup bounds, file-size enforcement, and a host watchdog.
 
-- `experiments/gate-a/execution/a4-docker-qualification/environment.json`
-- `experiments/gate-a/execution/a4-docker-qualification/inference-gpu-preflight.json`
-- `experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight.json`
-- `experiments/gate-a/execution/a4-docker-qualification/README.md`
-- `experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe.py`
+However, the frozen Gate A v1.1.0 coding-isolation policy requires:
 
-The receipts preserve nonfinal failed/invalid attempts. A residual policy note is recorded: actual GPU visibility is constrained by Docker's UUID device request even though the generic CUDA image carries a default `NVIDIA_VISIBLE_DEVICES=all`; an explicit environment reassertion attempt failed before the visibility probe and was not substituted for the passing qualification. The later judge runner must retain the recorded host-side 3-second wall-clock watchdog.
+- one process (`process_count: 1`);
+- a mandatory `subprocess_denied` probe;
+- no subprocess/shell/job-control/external-process capability exposed to model code;
+- a 2-second per-test timeout.
 
-Required work:
+The reviewed A4a judge used `--pids-limit 32`, `--ulimit nproc=32:32`, a 3-second watchdog, and did not test subprocess denial. These controls are bounded but weaker than the frozen process policy, so A4a is not yet fully approved.
 
-1. record Docker engine/runtime and host identity;
-2. inspect existing `ollama`/`open-webui` read-only only as needed to confirm NVIDIA Docker infrastructure;
-3. qualify a dedicated disposable GPU container that sees exactly one selected L40 and record GPU/driver/CUDA/container identity;
-4. qualify a separate CPU-only judge container with no network, no GPU, read-only root, private tmpfs, dropped capabilities, `no-new-privileges`, hidden host worktree/home/Docker socket/model cache, and bounded CPU/memory/PIDs/time/output;
-5. preserve machine-readable receipts for both qualification paths;
-6. stop for human review.
+## Active bounded task
 
-A4a must NOT:
+Revise and rerun **only the Docker judge qualification**.
 
-- download or execute General, Math, or Coder checkpoints;
-- run benchmark cases;
-- modify the frozen benchmark;
-- modify Gate acceptance criteria;
-- modify/restart/recreate `ollama` or `open-webui`;
-- repermission or use the existing Ollama model bind mount;
-- use a privileged judge container or mount the Docker socket into it;
-- weaken isolation merely to obtain a pass;
-- proceed to baseline inference.
+Required revision:
+
+1. target `--pids-limit 1` and `--ulimit nproc=1:1` so the Python judge is the only process;
+2. add a `subprocess_denied` probe that attempts to start an external child process and must fail;
+3. qualify a 2-second host-side wall-clock watchdog;
+4. preserve the 1 MiB file-size limit;
+5. retain or strengthen all previously passing network/filesystem/GPU/capability/no-new-privileges/resource checks;
+6. preserve invalid/failed attempts;
+7. preferably run as a non-root container user if practical, and record the effective UID.
+
+Do not rerun the GPU qualification unless its execution identity changes.
+
+Do not download or execute General, Math, or Coder checkpoints. Do not run benchmark cases. Do not modify/restart/recreate `ollama` or `open-webui`. Do not modify the frozen benchmark or Gate acceptance criteria.
 
 ## Next human checkpoint
 
-Review and accept or reject the Docker GPU qualification, judge-isolation receipts, image digests, exact launch flags, and host-side watchdog. If accepted, authorize A4b General Baseline execution on this exact policy. A4b remains inactive until that decision.
+Review the revised judge receipt against the frozen A3 isolation policy. If accepted, authorize A4b General Baseline execution using the approved single-L40 inference path and exact approved judge policy.
 
-A5 remains inactive.
-
-## Future gate
-
-Gate B — Orchestration Advantage — remains inactive until Gate A receives a human PASS decision.
+A4b and A5 remain inactive.
