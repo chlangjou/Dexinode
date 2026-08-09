@@ -1,0 +1,50 @@
+schema_version: 1
+execution_id: gate-a-a5r2-v1.2.2-three-model-cross-evaluation
+benchmark_id: gate-a-cross-skill-v1.2.2
+purpose: durable_record_of_preserved_preflight_failures_before_successful_retry
+selected_model_outputs_created: false
+attempts:
+  - attempt_id: a5r2-attempt-1-gpu-hook
+    run_role: general_baseline_preflight
+    run_directory: experiments/gate-a/runs/a5r2-general-20260809T142953Z-ai01-gpu0/
+    status: stopped_preflight_failure
+    exit_code: 125
+    failure: >-
+      Docker NVIDIA CDI hook failed before container process start:
+      fork/exec /usr/bin/nvidia-cdi-hook: resource temporarily unavailable.
+    diagnosis: >-
+      The formal runner had judge-only pids/nproc limits; the disposable GPU
+      probe reproduced the same failure and succeeded after those limits were
+      removed. No model process or candidate output was created.
+    evidence_log: experiments/gate-a/runs/a5r2-general-20260809T142953Z-ai01-gpu0/container-preflight.log
+  - attempt_id: a5r2-attempt-2-output-bind
+    run_role: general_baseline_preflight
+    run_directory: experiments/gate-a/runs/a5r2-retry1-general-20260809T142953Z-ai01-gpu0/
+    status: stopped_preflight_failure
+    exit_code: 1
+    failure: >-
+      The runner completed tokenizer/GPU checks but could not write its
+      preflight receipt because the /run bind mount was not explicitly rw under
+      the read-only root policy. No model was loaded and no candidate output
+      was created.
+    evidence_log: experiments/gate-a/runs/a5r2-retry1-general-20260809T142953Z-ai01-gpu0/container-preflight.log
+  - attempt_id: a5r2-attempt-3-invalid-mount-syntax
+    run_role: general_baseline_preflight
+    run_directory: experiments/gate-a/runs/a5r2-retry2-general-20260809T142953Z-ai01-gpu0/
+    status: stopped_preflight_failure
+    exit_code: 125
+    failure: >-
+      Docker rejected the explicit bind-mount suffix `rw`; Docker requires a
+      key=value mount field. No container process, model, or candidate output
+      was created.
+    evidence_log: experiments/gate-a/runs/a5r2-retry2-general-20260809T142953Z-ai01-gpu0/container-preflight.log
+  - attempt_id: a5r2-attempt-4-host-bind-permission
+    run_role: general_baseline_preflight
+    run_directory: experiments/gate-a/runs/a5r2-retry3-general-20260809T142953Z-ai01-gpu0/
+    status: stopped_preflight_failure
+    exit_code: 1
+    failure: >-
+      The container reached the runner but the host bind-mounted /run path
+      remained unwritable under the execution environment. No model was loaded
+      and no candidate output was created.
+    evidence_log: experiments/gate-a/runs/a5r2-retry3-general-20260809T142953Z-ai01-gpu0/container-preflight.log

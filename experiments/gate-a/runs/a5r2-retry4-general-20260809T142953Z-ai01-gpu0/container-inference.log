@@ -1,0 +1,109 @@
+COMMAND docker run --rm --name dexinode-gate-a5r2-run-1 --gpus device=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664 --network none --ipc private --read-only --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m --cap-drop ALL --security-opt no-new-privileges:true --memory 40g --cpus 16 --log-driver json-file --log-opt max-size=64k --log-opt max-file=1 --mount type=volume,source=dexinode-gate-a-general-20260809T082430Z-cache,target=/gate-cache,readonly --mount type=bind,source=/home/rd/Dexinode/experiments/gate-a/benchmark-v1.2.2,target=/benchmark,readonly --mount type=bind,source=/home/rd/Dexinode/experiments/gate-a/execution/a5r2_runner.py,target=/opt/gate-a/a5r2_runner.py,readonly --mount type=volume,source=dexinode-gate-a5r2-retry4-general-20260809T142953Z-output,target=/run --entrypoint python3 sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f /opt/gate-a/a5r2_runner.py run --model-id Qwen/Qwen2.5-7B-Instruct --model-role general_baseline --model-revision a09a35458c702b33eeacc393d103063234e8bc28 --model-dir /gate-cache/models/qwen2.5-7b-instruct --benchmark-root /benchmark --receipt /run/inference-receipt.json --raw-output /run/raw-responses.jsonl
+/usr/local/lib/python3.10/dist-packages/transformers/utils/hub.py:124: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.08s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.13it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.29it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.41it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.30it/s]
+/usr/local/lib/python3.10/dist-packages/transformers/generation/configuration_utils.py:515: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0.7` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`.
+  warnings.warn(
+/usr/local/lib/python3.10/dist-packages/transformers/generation/configuration_utils.py:520: UserWarning: `do_sample` is set to `False`. However, `top_p` is set to `0.8` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_p`.
+  warnings.warn(
+/usr/local/lib/python3.10/dist-packages/transformers/generation/configuration_utils.py:537: UserWarning: `do_sample` is set to `False`. However, `top_k` is set to `20` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_k`.
+  warnings.warn(
+CASE 1/96 math-01 status=generated
+CASE 2/96 math-02 status=generated
+CASE 3/96 math-03 status=generated
+CASE 4/96 math-04 status=generated
+CASE 5/96 math-05 status=generated
+CASE 6/96 math-06 status=generated
+CASE 7/96 math-07 status=generated
+CASE 8/96 math-08 status=generated
+CASE 9/96 math-09 status=generated
+CASE 10/96 math-10 status=generated
+CASE 11/96 math-11 status=generated
+CASE 12/96 math-12 status=generated
+CASE 13/96 math-13 status=generated
+CASE 14/96 math-14 status=generated
+CASE 15/96 math-15 status=generated
+CASE 16/96 math-16 status=generated
+CASE 17/96 math-17 status=generated
+CASE 18/96 math-18 status=generated
+CASE 19/96 math-19 status=generated
+CASE 20/96 math-20 status=generated
+CASE 21/96 math-21 status=generated
+CASE 22/96 math-22 status=generated
+CASE 23/96 math-23 status=generated
+CASE 24/96 math-24 status=generated
+CASE 25/96 math-25 status=generated
+CASE 26/96 math-26 status=generated
+CASE 27/96 math-27 status=generated
+CASE 28/96 math-28 status=generated
+CASE 29/96 math-29 status=generated
+CASE 30/96 math-30 status=generated
+CASE 31/96 math-31 status=generated
+CASE 32/96 math-32 status=generated
+CASE 33/96 math-33 status=generated
+CASE 34/96 math-34 status=generated
+CASE 35/96 math-35 status=generated
+CASE 36/96 math-36 status=generated
+CASE 37/96 math-37 status=generated
+CASE 38/96 math-38 status=generated
+CASE 39/96 math-39 status=generated
+CASE 40/96 math-40 status=generated
+CASE 41/96 math-41 status=generated
+CASE 42/96 math-42 status=generated
+CASE 43/96 math-43 status=generated
+CASE 44/96 math-44 status=generated
+CASE 45/96 math-45 status=generated
+CASE 46/96 math-46 status=generated
+CASE 47/96 math-47 status=generated
+CASE 48/96 math-48 status=generated
+CASE 49/96 code-01 status=generated
+CASE 50/96 code-02 status=generated
+CASE 51/96 code-03 status=generated
+CASE 52/96 code-04 status=generated
+CASE 53/96 code-05 status=generated
+CASE 54/96 code-06 status=generated
+CASE 55/96 code-07 status=generated
+CASE 56/96 code-08 status=generated
+CASE 57/96 code-09 status=generated
+CASE 58/96 code-10 status=generated
+CASE 59/96 code-11 status=generated
+CASE 60/96 code-12 status=generated
+CASE 61/96 code-13 status=generated
+CASE 62/96 code-14 status=generated
+CASE 63/96 code-15 status=generated
+CASE 64/96 code-16 status=generated
+CASE 65/96 code-17 status=generated
+CASE 66/96 code-18 status=generated
+CASE 67/96 code-19 status=generated
+CASE 68/96 code-20 status=generated
+CASE 69/96 code-21 status=generated
+CASE 70/96 code-22 status=generated
+CASE 71/96 code-23 status=generated
+CASE 72/96 code-24 status=generated
+CASE 73/96 code-25 status=generated
+CASE 74/96 code-26 status=generated
+CASE 75/96 code-27 status=generated
+CASE 76/96 code-28 status=generated
+CASE 77/96 code-29 status=generated
+CASE 78/96 code-30 status=generated
+CASE 79/96 code-31 status=generated
+CASE 80/96 code-32 status=generated
+CASE 81/96 code-33 status=generated
+CASE 82/96 code-34 status=generated
+CASE 83/96 code-35 status=generated
+CASE 84/96 code-36 status=generated
+CASE 85/96 code-37 status=generated
+CASE 86/96 code-38 status=generated
+CASE 87/96 code-39 status=generated
+CASE 88/96 code-40 status=generated
+CASE 89/96 code-41 status=generated
+CASE 90/96 code-42 status=generated
+CASE 91/96 code-43 status=generated
+CASE 92/96 code-44 status=generated
+CASE 93/96 code-45 status=generated
+CASE 94/96 code-46 status=generated
+CASE 95/96 code-47 status=generated
+CASE 96/96 code-48 status=generated
+A5R2_INFERENCE_COMPLETE generated=96/96 failed=0

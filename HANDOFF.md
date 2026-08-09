@@ -31,7 +31,7 @@ Active gate: **Gate A — Specialist Validation**.
 
 Gate decision: **PENDING HUMAN REVIEW**.
 
-Active bounded stage: **A5R2 — three-model cross-evaluation**.
+Active bounded stage: **A5R2 — complete pending human review**.
 
 A5R1 is complete and human-approved. A6 remains inactive.
 
@@ -76,19 +76,22 @@ Accepted evidence includes:
 
 Prior benchmark versions and runs remain preserved as audit history.
 
-## Active task: A5R2
+## A5R2 completion: pending human review
 
-Run the complete approved benchmark on all three frozen checkpoints, under one unchanged protocol, in this frozen order:
+All three frozen checkpoints completed all 96 v1.2.2 cases under the unchanged protocol, in order General → Math → Coder. Results were not inspected between rows. A6 remains inactive.
 
-1. General — `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
-2. Math — `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
-3. Coder — `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
+Evidence summary: `experiments/gate-a/a5r2-v1.2.2-cross-evaluation.md`
+Machine-readable index: `experiments/gate-a/a5r2-v1.2.2-cross-evaluation.yaml`
 
-Every model receives all 96 v1.2.2 cases in the same order: Math 01–48, then Coding 01–48.
+| Role | Overall | Math | Coding |
+|---|---:|---:|---:|
+| General baseline | 68/96 (0.7083) | 30/48 (0.6250) | 38/48 (0.7917) |
+| Math specialist | 64/96 (0.6667) | 44/48 (0.9167) | 20/48 (0.4167) |
+| Coder specialist | 69/96 (0.7188) | 36/48 (0.7500) | 33/48 (0.6875) |
 
-Do **not** inspect or human-review model results between rows. Do not change benchmark cases, prompts, adapter behavior, scoring, inference settings, or acceptance criteria after seeing results. Do not performance-early-stop. A genuine infrastructure or methodological failure may stop the sequence, but the invalid/partial evidence must be preserved.
+All rows have 96 generated responses and zero generation failures. Raw outputs, inference receipts, per-case adapter/scoring results, judge records, metrics, and the four preserved preflight failures are committed under `experiments/gate-a/runs/`. Maximum rendered input was 187 tokens; maximum including the 1024-token allowance was 1211, leaving 2885 tokens in the 4096-token envelope.
 
-After all three comparable rows finish, stop for human review before A6.
+Human review is required next. Do not authorize or execute A6 until review is complete.
 
 ## Frozen execution policy
 
@@ -134,9 +137,9 @@ Preserve enough evidence to reproduce and review every row:
 
 Do not authorize or execute A6. Stop after all three A5R2 rows are complete and committed.
 
-## Minimal execution-Agent instruction
+## Minimal next-session instruction
 
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-a-specialization/task.yaml`, and the approved v1.2.2 human review. Execute only active stage A5R2 exactly as frozen in Git. Run General, then Math, then Coder on all 96 cases without inspecting results between rows or changing protocol. Preserve all evidence, update durable status, commit, stop for human review, and do not push until instructed.
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-a-specialization/task.yaml`, and the A5R2 evidence summary. Review the completed three-row evidence and await human direction. Do not authorize or execute A6, and do not push until instructed.
 
 ## More detail
 

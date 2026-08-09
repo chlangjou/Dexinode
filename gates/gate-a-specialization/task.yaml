@@ -2,7 +2,7 @@ id: gate-a-specialization-v1
 title: Specialist Validation
 owner: human
 executor: agent
-status: active
+status: completed-pending-human-review
 active_stage: A5R2-three-model-cross-evaluation
 
 objective: >-
@@ -156,7 +156,7 @@ stages:
       gate_acceptance_criteria_unchanged: true
 
   A5R2-three-model-cross-evaluation:
-    status: active
+    status: completed-pending-human-review
     activation: human_approval_after_A5R1_v1_2_2_satisfied
     human_authorization_record: gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md
     benchmark_version: gate-a-cross-skill-v1.2.2
@@ -178,6 +178,28 @@ stages:
       genuine_infrastructure_or_methodological_failure_may_stop_run: true
       invalid_runs_must_be_preserved: true
       human_review_required_after_all_three_comparable_rows: true
+    completion:
+      status: complete_pending_human_review
+      evidence_summary: experiments/gate-a/a5r2-v1.2.2-cross-evaluation.md
+      machine_readable_summary: experiments/gate-a/a5r2-v1.2.2-cross-evaluation.yaml
+      orchestration_receipt: experiments/gate-a/runs/a5r2-orchestration-a5r2-retry4-general-20260809T142953Z-ai01-gpu0.json
+      invalid_attempt_record: experiments/gate-a/runs/a5r2-attempts-20260809T142953Z.yaml
+      run_ids:
+        general_baseline: a5r2-retry4-general-20260809T142953Z-ai01-gpu0
+        mathematics_specialist: a5r2-retry4-math-20260809T142953Z-ai01-gpu0
+        software_coding_specialist: a5r2-retry4-coder-20260809T142953Z-ai01-gpu0
+      raw_rows_complete: true
+      raw_cases_per_row: 96
+      generation_failures: 0
+      scores:
+        general_baseline: {overall: 68, mathematics: 30, software_coding: 38}
+        mathematics_specialist: {overall: 64, mathematics: 44, software_coding: 20}
+        software_coding_specialist: {overall: 69, mathematics: 36, software_coding: 33}
+      maximum_rendered_input_tokens: 187
+      maximum_total_tokens_with_generation: 1211
+      context_margin_tokens: 2885
+      result_inspection_between_rows: false
+      A6_authorized: false
     A6_authorized: false
 
   A6-evidence-report:

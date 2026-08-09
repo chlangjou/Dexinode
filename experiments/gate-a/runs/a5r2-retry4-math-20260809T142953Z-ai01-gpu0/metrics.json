@@ -1,0 +1,125 @@
+{
+  "adapter": "experiments/gate-a/benchmark-v1.2.2/adapter/semantic_adapter.py",
+  "benchmark_id": "gate-a-cross-skill-v1.2.2",
+  "case_count": 96,
+  "coding_judge_policy": {
+    "cap_drop": [
+      "ALL"
+    ],
+    "cpus": "0.5",
+    "docker_socket": "none",
+    "file_size_bytes": 1048576,
+    "gpu_devices": "none",
+    "host_mounts": "none",
+    "image": "python:3.10-slim@sha256:63669fd2563fa90b0442fa7b568e66e3667755636cda086d7bcaaa895f66fe39",
+    "log_max_file": 1,
+    "log_max_size": "64k",
+    "memory": "256m",
+    "network": "none",
+    "no_new_privileges": true,
+    "nproc": "1:1",
+    "pids_limit": 1,
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "user": "0:0",
+    "watchdog_kill_after_seconds": 1,
+    "watchdog_seconds": 2
+  },
+  "difficulty": {
+    "mathematics": {
+      "advanced": {
+        "accuracy": 0.9285714285714286,
+        "correct": 13,
+        "total": 14
+      },
+      "foundational": {
+        "accuracy": 0.8,
+        "correct": 8,
+        "total": 10
+      },
+      "intermediate": {
+        "accuracy": 0.9583333333333334,
+        "correct": 23,
+        "total": 24
+      }
+    },
+    "software_coding": {
+      "advanced": {
+        "accuracy": 0.2857142857142857,
+        "correct": 4,
+        "total": 14
+      },
+      "foundational": {
+        "accuracy": 0.7,
+        "correct": 7,
+        "total": 10
+      },
+      "intermediate": {
+        "accuracy": 0.375,
+        "correct": 9,
+        "total": 24
+      }
+    }
+  },
+  "failed_or_invalid_cases": [
+    "math-02",
+    "math-09",
+    "math-27",
+    "math-42",
+    "code-01",
+    "code-02",
+    "code-09",
+    "code-13",
+    "code-14",
+    "code-15",
+    "code-16",
+    "code-17",
+    "code-20",
+    "code-22",
+    "code-23",
+    "code-26",
+    "code-27",
+    "code-28",
+    "code-29",
+    "code-31",
+    "code-33",
+    "code-34",
+    "code-35",
+    "code-37",
+    "code-38",
+    "code-40",
+    "code-41",
+    "code-43",
+    "code-44",
+    "code-46",
+    "code-47",
+    "code-48"
+  ],
+  "mathematics": {
+    "accuracy": 0.9166666666666666,
+    "correct": 44,
+    "total": 48
+  },
+  "model_id": "Qwen/Qwen2.5-Math-7B-Instruct",
+  "model_revision": "ef9926d75ab1d54532f6a30dd5e760355eb9aa4d",
+  "model_role": "math_specialist",
+  "overall": {
+    "accuracy": 0.6666666666666666,
+    "correct": 64,
+    "total": 96
+  },
+  "scored_case_count": 96,
+  "scoring_elapsed_seconds": 15.006760718300939,
+  "scoring_policy": "experiments/gate-a/benchmark-v1.2.2/scoring.yaml",
+  "software_coding": {
+    "accuracy": 0.4166666666666667,
+    "correct": 20,
+    "total": 48
+  },
+  "strict_interface": {
+    "coding_single_clean_source_block": 0,
+    "coding_total": 48,
+    "math_canonical_answer_contract": 0,
+    "math_total": 48
+  }
+}

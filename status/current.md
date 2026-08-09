@@ -4,7 +4,7 @@
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
 - Session handoff: `HANDOFF.md`
-- Active execution stage: A5R2 — three-model cross-evaluation
+- Active execution stage: A5R2 — complete pending human review
 
 ## Objective
 
@@ -52,27 +52,28 @@ Accepted validation evidence:
 
 v1.1, v1.2.0, v1.2.1, and all historical run evidence remain preserved.
 
-## Active bounded task — A5R2
+## A5R2 complete — pending human review
 
-Execute all three frozen checkpoints on the complete approved v1.2.2 benchmark.
+All three authorized checkpoints completed all 96 frozen v1.2.2 cases in order (General → Math → Coder) under one unchanged protocol. No result review occurred between rows, no performance early stop occurred, and A6 remains inactive.
 
-Frozen order:
+Evidence summary: `experiments/gate-a/a5r2-v1.2.2-cross-evaluation.md`
+Machine-readable index: `experiments/gate-a/a5r2-v1.2.2-cross-evaluation.yaml`
 
-1. General baseline
-2. Math specialist
-3. Coder specialist
+| Role | Overall | Math | Coding |
+|---|---:|---:|---:|
+| General baseline | 68/96 (0.7083) | 30/48 (0.6250) | 38/48 (0.7917) |
+| Math specialist | 64/96 (0.6667) | 44/48 (0.9167) | 20/48 (0.4167) |
+| Coder specialist | 69/96 (0.7188) | 36/48 (0.7500) | 33/48 (0.6875) |
 
-Each model receives the same 96 cases in the same order: `math-01..48`, then `code-01..48`.
+Validation and preservation:
 
-Execution constraints:
+- all three rows: 96/96 generated, frozen order, zero generation failures;
+- maximum rendered input 187 tokens; maximum with generation allowance 1211; context margin 2885;
+- coding judge infrastructure failures: 0; timeouts: General 1, Math 1, Coder 0;
+- four preflight failures are preserved with logs in `experiments/gate-a/runs/a5r2-attempts-20260809T142953Z.yaml`; no failed attempt loaded a model or created candidate output;
+- raw responses, inference receipts, adapter/per-case results, judge records, and metrics are preserved under the three retry4 run directories.
 
-- one unchanged benchmark, template, adapter, scoring contract, inference policy, and judge policy for all three rows;
-- no result-driven protocol or benchmark changes;
-- no human/model-result review between rows;
-- no performance-based early stopping;
-- preserve raw outputs, adapter decisions, per-case scores, metadata, failures, and invalid runs;
-- only a genuine infrastructure or methodological failure may stop the sequence before all three comparable rows complete;
-- A6 remains inactive until all three rows are completed and accepted.
+The benchmark, prompt/template, adapter, scoring contract, inference controls, candidate revisions, and acceptance criteria were not changed after execution began. A scorer receipt-field fix was applied only after all three formal rows completed; the rows were rescored from preserved raw outputs without model reruns.
 
 ## Approved execution substrate
 
@@ -88,6 +89,6 @@ Execution constraints:
 
 ## Next human checkpoint
 
-After General + Math + Coder have each completed all 96 v1.2.2 cases under the same frozen protocol, review the complete three-row evidence before authorizing A6.
+Review the complete A5R2 three-row evidence and decide whether to authorize A6. The Gate decision remains **PENDING HUMAN REVIEW**; this agent does not declare PASS or FAIL.
 
 Gate B remains inactive until Gate A receives a human PASS decision.

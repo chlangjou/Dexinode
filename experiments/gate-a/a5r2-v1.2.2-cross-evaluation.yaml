@@ -1,0 +1,154 @@
+schema_version: 1
+execution_id: gate-a-a5r2-v1.2.2-three-model-cross-evaluation
+benchmark_id: gate-a-cross-skill-v1.2.2
+benchmark_root: experiments/gate-a/benchmark-v1.2.2/
+benchmark_freeze_commit: cdd691472aa5f08c3284e881c1048956a7d52987
+status: complete_pending_human_review
+gate_decision: pending_human_review
+run_order:
+  - general_baseline
+  - mathematics_specialist
+  - software_coding_specialist
+case_order: math-01..math-48, code-01..code-48
+controls:
+  dtype: bfloat16
+  quantization: none
+  external_tools: false
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  do_sample: false
+  num_beams: 1
+  repetition_penalty: 1.0
+  seed: 0
+  template: neutral Qwen role-delimiter; repository/model-specific templates ignored
+  benchmark_changes_after_first_row: false
+  result_review_between_rows: false
+  performance_early_stop: false
+  llm_judge: false
+  coding_judge: approved CPU-only judge-v2
+candidate_set:
+  general_baseline:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    run_id: a5r2-retry4-general-20260809T142953Z-ai01-gpu0
+  mathematics_specialist:
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    run_id: a5r2-retry4-math-20260809T142953Z-ai01-gpu0
+  software_coding_specialist:
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    run_id: a5r2-retry4-coder-20260809T142953Z-ai01-gpu0
+execution_substrate:
+  host: ai01
+  docker_engine: 29.5.3
+  runtime: runc
+  gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+  gpu_class: NVIDIA L40
+  runner_image_digest: sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f
+  runner_sha256: 6fade29b03f66d453b61b7deaa370aea5bf6cc92d748228d855522d0d7dd24bf
+  python: 3.10.12
+  torch: 2.2.2+cu121
+  transformers: 4.41.1
+  tokenizers: 0.19.1
+rows:
+  - role: general_baseline
+    run_id: a5r2-retry4-general-20260809T142953Z-ai01-gpu0
+    raw_responses: experiments/gate-a/runs/a5r2-retry4-general-20260809T142953Z-ai01-gpu0/raw-responses.jsonl
+    per_case_results: experiments/gate-a/runs/a5r2-retry4-general-20260809T142953Z-ai01-gpu0/per-case-results.jsonl
+    coding_judge_records: experiments/gate-a/runs/a5r2-retry4-general-20260809T142953Z-ai01-gpu0/coding-judge-records.jsonl
+    inference_receipt: experiments/gate-a/runs/a5r2-retry4-general-20260809T142953Z-ai01-gpu0/inference-receipt.json
+    metrics: experiments/gate-a/runs/a5r2-retry4-general-20260809T142953Z-ai01-gpu0/metrics.json
+    case_count: 96
+    generated_records: 96
+    failed_records: 0
+    input_tokens_max: 187
+    input_plus_generation_max: 1211
+    formal_inference_elapsed_seconds: 626.8907185038552
+    overall: {correct: 68, total: 96, accuracy: 0.7083333333333334}
+    mathematics: {correct: 30, total: 48, accuracy: 0.625}
+    software_coding: {correct: 38, total: 48, accuracy: 0.7916666666666666}
+    strict_interface: {math_canonical_answer_contract: 19, coding_single_clean_source_block: 0}
+    coding_judge: {records: 48, infrastructure_failures: 0, timeouts: 1, passes: 38}
+  - role: mathematics_specialist
+    run_id: a5r2-retry4-math-20260809T142953Z-ai01-gpu0
+    raw_responses: experiments/gate-a/runs/a5r2-retry4-math-20260809T142953Z-ai01-gpu0/raw-responses.jsonl
+    per_case_results: experiments/gate-a/runs/a5r2-retry4-math-20260809T142953Z-ai01-gpu0/per-case-results.jsonl
+    coding_judge_records: experiments/gate-a/runs/a5r2-retry4-math-20260809T142953Z-ai01-gpu0/coding-judge-records.jsonl
+    inference_receipt: experiments/gate-a/runs/a5r2-retry4-math-20260809T142953Z-ai01-gpu0/inference-receipt.json
+    metrics: experiments/gate-a/runs/a5r2-retry4-math-20260809T142953Z-ai01-gpu0/metrics.json
+    case_count: 96
+    generated_records: 96
+    failed_records: 0
+    input_tokens_max: 187
+    input_plus_generation_max: 1211
+    formal_inference_elapsed_seconds: 1159.9826050233096
+    overall: {correct: 64, total: 96, accuracy: 0.6666666666666666}
+    mathematics: {correct: 44, total: 48, accuracy: 0.9166666666666666}
+    software_coding: {correct: 20, total: 48, accuracy: 0.4166666666666667}
+    strict_interface: {math_canonical_answer_contract: 0, coding_single_clean_source_block: 0}
+    coding_judge: {records: 43, infrastructure_failures: 0, timeouts: 1, passes: 20}
+  - role: software_coding_specialist
+    run_id: a5r2-retry4-coder-20260809T142953Z-ai01-gpu0
+    raw_responses: experiments/gate-a/runs/a5r2-retry4-coder-20260809T142953Z-ai01-gpu0/raw-responses.jsonl
+    per_case_results: experiments/gate-a/runs/a5r2-retry4-coder-20260809T142953Z-ai01-gpu0/per-case-results.jsonl
+    coding_judge_records: experiments/gate-a/runs/a5r2-retry4-coder-20260809T142953Z-ai01-gpu0/coding-judge-records.jsonl
+    inference_receipt: experiments/gate-a/runs/a5r2-retry4-coder-20260809T142953Z-ai01-gpu0/inference-receipt.json
+    metrics: experiments/gate-a/runs/a5r2-retry4-coder-20260809T142953Z-ai01-gpu0/metrics.json
+    case_count: 96
+    generated_records: 96
+    failed_records: 0
+    input_tokens_max: 187
+    input_plus_generation_max: 1211
+    formal_inference_elapsed_seconds: 1013.9394701691344
+    overall: {correct: 69, total: 96, accuracy: 0.71875}
+    mathematics: {correct: 36, total: 48, accuracy: 0.75}
+    software_coding: {correct: 33, total: 48, accuracy: 0.6875}
+    strict_interface: {math_canonical_answer_contract: 0, coding_single_clean_source_block: 0}
+    coding_judge: {records: 48, infrastructure_failures: 0, timeouts: 0, passes: 33}
+uncertainty:
+  method: bootstrap over cases, percentile 95% interval, 20000 resamples, random.Random seed 0
+  domain_accuracy:
+    general_baseline:
+      mathematics: {observed: 0.625, ci95: [0.4791666666666667, 0.75]}
+      software_coding: {observed: 0.7916666666666666, ci95: [0.6666666666666666, 0.8958333333333334]}
+    mathematics_specialist:
+      mathematics: {observed: 0.9166666666666666, ci95: [0.8333333333333334, 0.9791666666666666]}
+      software_coding: {observed: 0.4166666666666667, ci95: [0.2708333333333333, 0.5625]}
+    software_coding_specialist:
+      mathematics: {observed: 0.75, ci95: [0.625, 0.875]}
+      software_coding: {observed: 0.6875, ci95: [0.5625, 0.8125]}
+  paired_specialist_minus_general:
+    mathematics_specialist:
+      mathematics: {observed: 0.2916666666666667, ci95: [0.16666666666666666, 0.4166666666666667]}
+      software_coding: {observed: -0.375, ci95: [-0.5208333333333334, -0.22916666666666666]}
+    software_coding_specialist:
+      mathematics: {observed: 0.125, ci95: [-0.020833333333333332, 0.2708333333333333]}
+      software_coding: {observed: -0.10416666666666667, ci95: [-0.22916666666666666, 0.020833333333333332]}
+token_validation:
+  case_count: 96
+  max_rendered_input_tokens: 187
+  max_new_tokens: 1024
+  max_total_budget: 1211
+  context_envelope: 4096
+  remaining_context_margin: 2885
+  all_cases_satisfied_bound: true
+preserved_invalid_attempts:
+  record: experiments/gate-a/runs/a5r2-attempts-20260809T142953Z.yaml
+  count: 4
+  candidate_outputs_created_in_failed_attempts: false
+  causes:
+    - NVIDIA CDI hook resource exhaustion caused by initial judge-only limits
+    - unwritable preflight output bind
+    - invalid Docker mount suffix syntax
+    - unwritable host bind under the execution environment
+  successful_retry: a5r2-retry4
+provenance:
+  observed_v1_1_interface_confounder_informed_remediation: true
+  selected_model_raw_outputs_used_as_adapter_fixtures: false
+  expected_values_used_to_select_generated_candidates: false
+  model_execution_rows_completed_before_result_inspection: true
+  selected_model_execution_during_benchmark_construction: false
+  selected_model_execution_in_this_evaluation: true
+  note: A5R2 is the authorized selected-model evaluation; no result review occurred between model rows.
+human_review_required_next: true
