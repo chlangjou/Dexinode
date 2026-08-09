@@ -5,28 +5,22 @@
 - Gate A final decision: **PASS / CLOSED**
 - Gate B decision: **PENDING**
 - Session handoff: `HANDOFF.md`
-- Active stage: **B1R — complete, pending human review**
+- Active stage: **B1R2 — oracle and semantic-contract remediation**
 
 ## Gate A retained result
 
 Gate A established a single-specialist PASS: the Math specialist had a +29.17 pp Mathematics advantage over General with paired-bootstrap 95% CI [+16.67, +41.67] pp; the Coder checkpoint did not establish a Coding advantage. Dexinode therefore uses empirically measured capability profiles rather than checkpoint labels alone.
 
-Final decision record:
+## Gate B hypothesis and unchanged thresholds
 
-`gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
+Gate B asks whether the validated Math specialist can be routed on a structurally fresh mixed workload to improve over General-only while both logical policies use one model inference per task.
 
-## Gate B bounded hypothesis
+Primary policies remain:
 
-Test whether an evidence-based router can convert a validated specialist capability into a measurable mixed-workload advantage over General-only while each logical policy uses exactly one model inference per task.
+- General-only: General for all 96 tasks;
+- Skill-routed: Math specialist for frozen Mathematics routes, General for Coding/fallback.
 
-Initial registry remains:
-
-- Mathematics → `Qwen/Qwen2.5-Math-7B-Instruct`;
-- Software Coding → `Qwen/Qwen2.5-7B-Instruct`;
-- fallback → General;
-- Qwen2.5-Coder is not treated as a validated Coding specialist.
-
-The primary Gate B thresholds remain unchanged:
+Thresholds remain unchanged:
 
 - routed overall accuracy ≥ General-only +10 pp;
 - paired-bootstrap 95% CI for overall delta excludes zero;
@@ -34,104 +28,79 @@ The primary Gate B thresholds remain unchanged:
 - routed Coding degradation no worse than 5 pp;
 - router domain accuracy ≥95%.
 
-## B1 v1.0.0 — static work accepted in part, benchmark NOT approved
+No selected-model execution is currently authorized.
 
-Reviewed commit:
+## B1 v1.0.0 — frozen not approved
 
-`7228c973130ed6032226118873a140927c48f17f`
+Reviewed commit: `7228c973130ed6032226118873a140927c48f17f`.
 
-Human review:
+Human review: `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`.
 
-`gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
+Decision: **CHANGES REQUIRED** because structural freshness was insufficient and router-v1 used handoff/output-contract cues. Artifacts remain preserved under `experiments/gate-b/benchmark-v1.0.0/` and `experiments/gate-b/router-v1/`.
 
-Decision: **CHANGES REQUIRED**. B2 and all selected-model execution remain unauthorized.
+## B1R v1.1.0 — frozen not approved
 
-Accepted B1 work includes:
+Reviewed commit: `48d768799bba4d5f3862359eddeb44cf134a962e`.
 
-- 96-case 48/48 balanced design and 10/24/14 difficulty counts;
-- no Gate B selected-model execution during B1;
-- 48/48 Math oracle validation, including pre-execution correction of math-27 to 24;
-- 48/48 Coding evaluator validation and 121/121 reference tests PASS;
-- Gate A adapter reused byte-identically with 13/13 tests PASS;
-- max rendered input 188; max with generation 1212; context margin 2884;
-- frozen model/runtime/scoring controls and unchanged numerical acceptance thresholds.
+Human review: `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`.
 
-### Blocking finding 1 — structural freshness
+Decision: **CHANGES REQUIRED**. B2 and selected-model execution remain unauthorized.
 
-Exact prompt overlap is zero, but v1.0.0 contains many Gate A near-isomorphic or semantically identical case constructions. Material Math examples include:
+### Accepted B1R work
 
-- `math-23` repeats Gate A inverse of 17 mod 43;
-- `math-39` repeats the same T_8 Fibonacci-like tiling recurrence;
-- `math-08` repeats the 90-degree CCW coordinate rotation construction;
-- `math-33` repeats line-region counting with only n changed;
-- `math-35` repeats the surjection inclusion-exclusion skeleton;
-- `math-37` repeats bounded-composition inclusion-exclusion structure;
-- `math-43` repeats adjacent Catalan-number evaluation.
+The prior two methodological blockers were successfully remediated:
 
-Because Gate B's expected treatment advantage comes primarily from Math routing, this is a material out-of-sample transfer confounder.
+- structural freshness: accepted; 48/48 Math and 48/48 Coding case-by-case audit PASS, exact semantic-task overlap with Gate A = 0;
+- router boundary: accepted for this bounded Gate; router-v2 sees `semantic_task` only before handoff/output instructions are appended;
+- adapter reused byte-identically; 13/13 tests PASS;
+- router tests 5/5, benchmark routes 96/96;
+- token/context validation: max input 124, max with generation allowance 1148, margin 2948;
+- later execution sequence frozen as route-freeze → General 96 once → Math specialist frozen Math routes only → compose/score, with no between-phase result review;
+- numerical acceptance thresholds unchanged;
+- no Gate B selected model executed or inspected.
 
-### Blocking finding 2 — router information boundary
+Router-v2's 96/96 score is benchmark-specific: all Coding semantic tasks begin with `Implement`, so this Gate does not claim a general-purpose/paraphrase-robust router.
 
-Router v1 uses benchmark handoff/output-contract phrases such as `python 3.10`, `python or unlabeled`, `implementation block`, `integer`, and `fraction`. The 96/96 route score therefore partly measures benchmark formatting rather than semantic task selection.
+### Blocking Math oracle defects
 
-Dexinode should route on semantic task text **before** applying a skill's handoff/output contract.
+Independent human recomputation of all 48 Math cases found two errors in v1.1.0:
 
-## Active bounded task — B1R
+- `math-14`: three-digit distinct-digit multiples of 5. Frozen `64`; correct **136** (72 ending in 0 plus 64 ending in 5).
+- `math-37`: expected maximum of two fair d6. Frozen `41/9`; correct **161/36**.
 
-Status: **COMPLETE — PENDING HUMAN REVIEW**.
+The other 46 Math expected values were independently accepted.
 
-Created and froze `gate-b-orchestration-v1.1.0` under
-`experiments/gate-b/benchmark-v1.1.0/` and `router-v2` under
-`experiments/gate-b/router-v2/`. v1.0.0 and router-v1 are unchanged. The new
-benchmark has 48 fresh Math and 48 fresh Coding cases with 10/24/14 difficulty
-counts per domain. The case-by-case structural audit reports 48/48 Math and
-48/48 Coding freshness PASS; exact semantic-task text overlap with Gate A is
-zero, and no Gate A per-case result or raw output was used.
+### Blocking Coding semantic-contract defects
 
-Static validation completed without selected-model execution:
+Human review found prompt/evaluator mismatches or ambiguities that must be removed before model execution. At minimum:
 
-- independent Math oracle validation: 48/48 PASS;
-- independent Coding evaluator validation: 48/48 PASS;
-- accepted adapter copied byte-identically and synthetic tests: 13/13 PASS;
-- semantic-task-only router-v2 tests: 5/5 PASS and 96/96 benchmark routes;
-- pinned tokenizer validation: 96/96 PASS, maximum rendered input 124,
-  maximum with 1024 generation 1148, context margin 2948.
+- `code-02`: six-character wording conflicts with valid `#A0c9FF` (7 chars total);
+- `code-09`: named keys vs "integer keys" wording;
+- `code-21`: diagonal traversal rule ambiguous relative to evaluator;
+- `code-38`: objective should explicitly be sum of per-part element products;
+- `code-42`: which repeated character occurrences are removed is underspecified.
 
-The frozen protocol computes route decisions from semantic task text only before
-model output, then runs General once on all 96 cases and the Math specialist
-only for frozen Math routes, reusing General outputs for General routes. No
-between-phase result review, retry, fallback call, or protocol change is
-permitted. Gate B acceptance thresholds and selected revisions are unchanged.
+A complete 48/48 prompt-to-evaluator semantic-contract audit is required rather than patching only the known examples.
 
-No Gate B General, Math, or Coder checkpoint was executed. B2/B3/B4 remain
-inactive. Human review is required before any selected-model execution.
+## Active bounded task — B1R2
 
-Frozen B1R artifacts:
+Target benchmark: `gate-b-orchestration-v1.1.1`.
 
-- benchmark: `gate-b-orchestration-v1.1.0`
-- root: `experiments/gate-b/benchmark-v1.1.0/`
-- router: `experiments/gate-b/router-v2/`
+Target root: `experiments/gate-b/benchmark-v1.1.1/`.
 
-Requirements are controlled by:
+B1R2 must:
 
-- `gates/gate-b-orchestration/task.yaml`
-- `gates/gate-b-orchestration/acceptance.yaml`
-- `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
-
-Key requirements:
-
-1. preserve v1.0.0/router-v1 unchanged as frozen-not-approved history;
-2. replace positional mirrors, constant/coefficient substitutions and near-isomorphic Gate A case reuse;
-3. produce case-by-case structural freshness audit against Gate A definitions;
-4. use Gate A case definitions only for structural comparison — no Gate A per-case results/raw outputs/postmortem-driven case selection;
-5. independently revalidate all Math oracles and all Coding evaluator fixtures;
-6. expose only semantic task text to router; handoff/output contract and metadata remain invisible;
-7. add reporting-only coarse task-family metadata invisible to router;
-8. freeze one later execution sequence with no result review between General evidence collection and specialist-selected evidence collection;
-9. execute **no selected model** during B1R and stop for human review.
+1. preserve v1.0.0/router-v1 and v1.1.0/router-v2 unchanged;
+2. correct `math-14 = 136` and `math-37 = 161/36`;
+3. independently recompute all 48 Math oracles and record durable evidence;
+4. audit all 48 Coding semantic tasks against their evaluators, correcting ambiguous/inconsistent wording while preserving intended task constructions where possible;
+5. re-run all Coding reference evaluator validation;
+6. preserve accepted structural freshness and router information-boundary controls;
+7. re-run adapter/router/token/context/static validation and refresh hashes;
+8. keep all Gate B numerical thresholds unchanged;
+9. execute or inspect **no General, Math, or Coder selected model**;
+10. stop for human review before B2.
 
 ## Execution authorization
 
-**No Gate B General/Math/Coder selected-model execution is authorized.**
-
-B2 and later stages remain inactive until B1R is human-approved.
+**No Gate B selected-model execution is authorized. B2 remains inactive until v1.1.1 is human-approved.**
