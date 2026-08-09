@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A1 — Candidate Scout
+- Active execution stage: A1 — Candidate Scout complete; pending human review
 
 ## Objective
 
@@ -20,50 +20,39 @@ The immediate purpose is to establish whether distinct competency surfaces exist
 - Do not test multi-agent orchestration during Gate A.
 - Capability claims are not evidence; candidates must eventually be cross-evaluated on a frozen benchmark.
 
-## Active task
+## Completed bounded task: A1 — Candidate Scout
 
-Execute **A1 — Candidate Scout** only.
+Recorded one credible candidate set in `experiments/gate-a/candidates.yaml`:
 
-Find one or more candidate model sets containing:
+- general baseline: `Qwen/Qwen2.5-7B-Instruct`;
+- mathematics specialist: `Qwen/Qwen2.5-Math-7B-Instruct`;
+- coding specialist: `Qwen/Qwen2.5-Coder-7B-Instruct`.
 
-- at least one general-purpose baseline checkpoint;
-- at least two specialist checkpoints representing at least two distinguishable skill domains;
-- sufficient common lineage and parameter comparability for a fair specialization test.
+The set has traceable Qwen/Qwen2.5-7B lineage, comparable nominal 7.61B
+parameter scale, public immutable revisions, Apache-2.0 licenses, and official
+specialization evidence. Runtime feasibility is conditional: the current host
+has 1.0 TiB RAM but no usable CUDA GPU, so CPU/offload execution is possible in
+principle but throughput is unverified.
 
-Record findings in `experiments/gate-a/candidates.yaml`.
+The principal unresolved confounder is that the Math checkpoint's published
+config has a 4K context window while the general and Coder checkpoints expose
+131K. Tokenizer/chat-template equivalence, exact artifact checksums, and actual
+runtime feasibility remain A2 work.
 
-Do not construct the formal benchmark or run comparative evaluation until candidate eligibility has been reviewed.
+No benchmark was constructed, frozen, or executed. No model weights were
+downloaded or modified.
 
-## Required A1 evidence
+## Next bounded action after human review
 
-For every candidate record:
+Human review must choose one of:
 
-- public model identifier and source;
-- base family and generation;
-- parameter count;
-- base checkpoint / lineage when known;
-- claimed specialization;
-- license;
-- runtime feasibility;
-- evidence source for the specialization claim;
-- comparability concerns;
-- confidence in lineage information.
-
-## Stop conditions for A1
-
-Stop and request human review when either:
-
-1. at least one credible candidate set satisfying the A1 requirements has been identified; or
-2. reasonable search has not found a fair candidate set and further progress would require weakening the Gate constraints.
-
-## Next human decision
-
-Review the candidate set and choose one of:
-
-- approve candidate set and activate A2/A3;
+- approve this candidate set and activate A2/A3;
 - request more candidate research;
 - revise Gate A assumptions;
 - mark Gate A candidate discovery INCONCLUSIVE.
+
+Until that decision is recorded, do not construct the formal benchmark or run
+comparative evaluation.
 
 ## Future gate
 

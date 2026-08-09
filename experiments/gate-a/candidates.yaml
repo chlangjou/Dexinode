@@ -1,52 +1,189 @@
 schema_version: 1
 gate: gate-a-specialization-v1
 stage: A1-candidate-scout
-status: research-in-progress
+status: candidate-set-identified-pending-human-review
 updated: 2026-08-09
 
-candidate_sets: []
+scout:
+  completed_at: 2026-08-09
+  method:
+    - "Reviewed the active Gate A contracts and existing repository evidence before research."
+    - "Reviewed official Qwen Hugging Face model cards, model trees, configs, licenses, and Qwen technical announcements."
+    - "Recorded immutable model revisions where the public model tree exposed them."
+    - "Estimated runtime feasibility from published artifact sizes and the current host hardware; did not download weights or run inference."
+  host_observation:
+    cpu: "2 x Intel Xeon Gold 6426Y; 64 logical CPUs visible"
+    memory: "1.0 TiB RAM visible"
+    cuda: "No usable NVIDIA driver/GPU detected by nvidia-smi"
+  limitations:
+    - "This is candidate scouting only; no formal benchmark, comparative inference, or task scoring was executed."
+    - "A2 must re-resolve and checksum the exact revisions before model execution."
+    - "A2 must independently verify tokenizer/chat-template equivalence and the context-window confounder."
 
-# Add candidate sets using the structure below.
-#
-# - id: example-family-set
-#   family: ExampleFamily
-#   generation: ExampleGeneration
-#   rationale: >-
-#     Why this set is suitable for a fair specialization comparison.
-#   general_baseline:
-#     id: provider/general-model
-#     source: https://...
-#     revision: null
-#     parameter_count: null
-#     base_family: ExampleFamily
-#     generation: ExampleGeneration
-#     base_checkpoint: null
-#     license: null
-#     runtime_feasibility: unknown
-#     claimed_skill: general-purpose
-#     claim_evidence: null
-#     lineage_confidence: unknown
-#     comparability_concerns: []
-#   specialists:
-#     - id: provider/specialist-a
-#       source: https://...
-#       revision: null
-#       parameter_count: null
-#       base_family: ExampleFamily
-#       generation: ExampleGeneration
-#       base_checkpoint: null
-#       license: null
-#       runtime_feasibility: unknown
-#       claimed_skill: skill-a
-#       claim_evidence: null
-#       lineage_confidence: unknown
-#       comparability_concerns: []
-#   set_level_confounders: []
-#   recommendation: investigate
+candidate_sets:
+  - id: qwen2.5-7b-instruct-math-coder
+    family: Qwen2.5
+    generation: "Qwen2.5 generation (2024 release)"
+    rationale: >-
+      This set contains one general-purpose instruction checkpoint and two
+      official Qwen specialist checkpoints at the same nominal 7B size. The
+      public model trees trace all three checkpoints to Qwen/Qwen2.5-7B, and
+      the general, Math, and Coder model cards expose the same Qwen2 causal
+      architecture dimensions and Apache-2.0 licensing. The specialists make
+      two distinguishable claimed domains available: mathematics and coding.
+    eligibility_summary:
+      general_models: 1
+      specialist_models: 2
+      skill_domains:
+        - mathematics
+        - software_coding
+      common_foundation: Qwen/Qwen2.5-7B
+      nominal_parameter_count: 7.61B
+      architecture: Qwen2ForCausalLM
+      common_architecture_dimensions:
+        hidden_size: 3584
+        layers: 28
+        attention_heads: 28
+        key_value_heads: 4
+        vocabulary_size: 152064
+        tensor_type: bfloat16
+      license: Apache-2.0
+      runtime_feasibility: conditional
+      runtime_summary: >-
+        Published BF16 artifacts are approximately 15.2 GB per checkpoint.
+        They fit in the current host's RAM for CPU/offload execution, but no
+        usable CUDA GPU is available and CPU throughput has not been measured.
+        Public quantized derivatives exist, but A2 must choose one identical
+        quantization policy for every model and record the exact artifacts.
+    general_baseline:
+      id: Qwen/Qwen2.5-7B-Instruct
+      source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct"
+      revision: a09a35458c702b33eeacc393d103063234e8bc28
+      revision_source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/tree/a09a35458c702b33eeacc393d103063234e8bc28"
+      parameter_count: 7.61B
+      parameter_count_non_embedding: 6.53B
+      base_family: Qwen2.5
+      generation: "Qwen2.5 generation"
+      base_checkpoint: Qwen/Qwen2.5-7B
+      license: Apache-2.0
+      license_source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/blob/a09a35458c702b33eeacc393d103063234e8bc28/LICENSE"
+      runtime_feasibility: conditional
+      runtime_details: >-
+        The model tree reports approximately 15.2 GB of BF16 repository
+        weights. The current host has sufficient system RAM for CPU/offload
+        execution, but no usable CUDA GPU was detected.
+      claimed_skill: general-purpose
+      claim_evidence:
+        - source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct"
+          observation: "Official card describes an instruction-tuned Qwen2.5 model rather than a domain-specific variant."
+        - source: "https://qwenlm.github.io/blog/qwen2.5/"
+          observation: "Qwen announces Qwen2.5 as the general model line alongside separate Coder and Math expert lines."
+      lineage_confidence: high
+      lineage_evidence:
+        - source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct"
+          observation: "Model tree lists Qwen/Qwen2.5-7B as the base model."
+      comparability_concerns:
+        - "The baseline and specialists all receive instruction/post-training, but their post-training data and objectives differ by design."
+        - "Tokenizer and chat-template identity is plausible from the shared vocabulary/config dimensions but not independently diffed; verify in A2."
+        - "The baseline exposes a 131072-token sliding-window configuration; benchmark prompts must not give it an advantage over the Math checkpoint's shorter context."
 
-search_notes: []
+    specialists:
+      - id: Qwen/Qwen2.5-Math-7B-Instruct
+        source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct"
+        revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+        revision_source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct/tree/ef9926d75ab1d54532f6a30dd5e760355eb9aa4d"
+        parameter_count: "7.61B nominal; HF UI rounds this repository to 8B"
+        parameter_count_non_embedding: "Not stated in the card; same 7B Qwen2 dimensions as the baseline, to verify from the index/config at A2"
+        base_family: Qwen2.5
+        generation: "Qwen2.5-Math generation"
+        base_checkpoint: Qwen/Qwen2.5-7B
+        license: Apache-2.0
+        license_source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct/blob/ef9926d75ab1d54532f6a30dd5e760355eb9aa4d/LICENSE"
+        runtime_feasibility: conditional
+        runtime_details: >-
+          The official card provides Transformers/vLLM/SGLang loading paths;
+          the current host can hold the approximately 15 GB BF16-scale model
+          in system RAM, but CPU throughput and any quantized artifact remain
+          untested.
+        claimed_skill: mathematics
+        claim_evidence:
+          - source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct"
+            observation: "Official card says Qwen2.5-Math mainly supports English and Chinese mathematics and recommends it for math problems."
+          - source: "https://qwenlm.github.io/blog/qwen2.5-math/"
+            observation: "Qwen describes math-specific pretraining and post-training, CoT/TIR support, and releases a 7B instruction model."
+        lineage_confidence: high
+        lineage_evidence:
+          - source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct"
+            observation: "Model tree lists Qwen/Qwen2.5-7B and Qwen/Qwen2.5-Math-7B in its lineage."
+          - source: "https://qwenlm.github.io/blog/qwen2.5-math/"
+            observation: "Qwen states that Qwen2.5-Math uses the Qwen2.5 series base model for parameter initialization."
+        comparability_concerns:
+          - "The published Math config uses max_position_embeddings/sliding_window 4096, unlike the general and Coder configs' 131072-token window; this is a material context-capacity confounder."
+          - "The specialist was additionally pretrained and post-trained on math-specific data, including tool-integrated reasoning; formal evaluation must define whether external tools are disallowed or part of the model policy."
+          - "The exact parameter total is inferred from the shared 7B architecture and rounded HF display; verify from the immutable revision before A2."
+          - "The model card reports contamination analysis for math data; benchmark contamination and overlap still require a separate A3 treatment."
+
+      - id: Qwen/Qwen2.5-Coder-7B-Instruct
+        source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct"
+        revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+        revision_source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct/tree/c03e6d358207e414f1eca0bb1891e29f1db0e242"
+        parameter_count: 7.61B
+        parameter_count_non_embedding: 6.53B
+        base_family: Qwen2.5
+        generation: "Qwen2.5-Coder generation"
+        base_checkpoint: Qwen/Qwen2.5-7B
+        license: Apache-2.0
+        license_source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct/blob/c03e6d358207e414f1eca0bb1891e29f1db0e242/LICENSE"
+        runtime_feasibility: conditional
+        runtime_details: >-
+          The model tree reports approximately 15.2 GB of BF16 repository
+          weights. The current host has sufficient system RAM for CPU/offload
+          execution, but no usable CUDA GPU was detected.
+        claimed_skill: software_coding
+        claim_evidence:
+          - source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct"
+            observation: "Official card calls this a code-specific Qwen2.5-Coder model and exposes code-related tags."
+          - source: "https://qwenlm.github.io/blog/qwen2.5-coder-family/"
+            observation: "Qwen describes Qwen2.5-Coder as dedicated to open CodeLLMs and reports a 7B Apache-2.0 variant."
+        lineage_confidence: high
+        lineage_evidence:
+          - source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct"
+            observation: "Model tree lists Qwen/Qwen2.5-7B and Qwen/Qwen2.5-Coder-7B in its lineage."
+          - source: "https://arxiv.org/abs/2409.12186"
+            observation: "Technical report describes Qwen2.5-Coder as built upon the Qwen2.5 architecture and continued-pretrained on code data."
+        comparability_concerns:
+          - "The specialist received continued pretraining on a large code-heavy corpus and code-focused post-training, so gains may reflect both specialization and additional/domain-weighted training."
+          - "The model retains general and math capabilities according to its technical report; coding advantage must be compared against the full cross-skill profile rather than coding score alone."
+          - "Tokenizer/chat-template identity and exact runtime behavior remain to be verified in A2."
+
+    set_level_confounders:
+      - "All three are instruction-tuned checkpoints, but the specialists have materially different domain-weighted training pipelines; this is the intended specialization contrast, not a controlled single-variable intervention."
+      - "The Math checkpoint's 4K context limit is materially shorter than the other two checkpoints' 131K configuration. A fair benchmark may need to constrain all cases to the Math limit, subject to human approval in A2/A3."
+      - "The public model cards expose different Transformers versions in config metadata (baseline 4.43.1, Math 4.43.1, Coder 4.44.0); A2 must pin one compatible runtime and record any required model-specific exceptions."
+      - "The current host has no usable GPU, so CPU-only execution may be slow. Runtime feasibility is conditional, not experimentally demonstrated."
+      - "Math and coding benchmark contamination and training-data overlap are unresolved until benchmark construction and freeze."
+    recommendation: advance-to-A2-eligibility-review
+
+search_notes:
+  - source: "https://qwenlm.github.io/blog/qwen2.5/"
+    observation: "Official Qwen announcement identifies Qwen2.5-Coder and Qwen2.5-Math as specialized expert model lines, and lists the 7B sizes and Apache-2.0 licensing for the eligible sizes."
+  - source: "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/tree/main"
+    observation: "Observed main revision a09a35458c702b33eeacc393d103063234e8bc28, 15.2 GB repository, Apache-2.0, and Qwen/Qwen2.5-7B base lineage."
+  - source: "https://huggingface.co/Qwen/Qwen2.5-Math-7B-Instruct/tree/main"
+    observation: "Observed main revision ef9926d75ab1d54532f6a30dd5e760355eb9aa4d, Apache-2.0, and 4K context config."
+  - source: "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct/tree/main"
+    observation: "Observed main revision c03e6d358207e414f1eca0bb1891e29f1db0e242, 15.2 GB repository, Apache-2.0, and 7.61B/28-layer architecture."
+  - source: "https://qwenlm.github.io/blog/qwen2.5-math/"
+    observation: "Official math-specialization claim and training/evaluation description."
+  - source: "https://qwenlm.github.io/blog/qwen2.5-coder-family/"
+    observation: "Official coding-specialization claim, architecture/parameter table, and license description."
+  - observation: "Current host inspection on 2026-08-09 found 64 logical CPUs, 1.0 TiB RAM, and no usable NVIDIA CUDA driver/GPU."
 
 human_review:
   status: pending
   selected_candidate_set: null
-  notes: null
+  notes: >-
+    Human review must decide whether this candidate set is sufficiently fair
+    to activate A2/A3, especially given the Math checkpoint's shorter context
+    window and the current host's CPU-only runtime. Do not construct or run the
+    formal benchmark until that decision is recorded.
