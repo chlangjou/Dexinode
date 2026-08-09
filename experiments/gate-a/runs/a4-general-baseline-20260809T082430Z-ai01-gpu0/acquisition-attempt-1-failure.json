@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "a4-general-baseline-20260809T082430Z-ai01-gpu0",
+  "status": "failed_after_download_before_receipt",
+  "timestamp_utc": "2026-08-09T08:47:39Z",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "requested_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "container_name": "dexinode-gate-a-a4b-acquire-20260809T082430Z",
+  "container_id": "6ec63847c01be7fb03c57e677c1409d79f4410c842d4bcf43876f5c6448db90c",
+  "image_id": "sha256:4f3ed9321ae0bdf3e5b64876003e877fe3a641a8993d8a61a1abb76f9be315d1",
+  "exit_code": 1,
+  "download_observation": "Hugging Face client reported 13/13 files fetched before the receipt write failure; no model inference occurred.",
+  "failure": {
+    "type": "PermissionError",
+    "message": "[Errno 13] Permission denied: '/run/acquisition.json'"
+  },
+  "cache_volume": "dexinode-gate-a-general-20260809T082430Z-cache",
+  "cache_independent_of_ollama": true,
+  "preserved": true,
+  "replacement_policy": "Create a new acquisition attempt using a disposable output volume; do not overwrite this failure record."
+}
