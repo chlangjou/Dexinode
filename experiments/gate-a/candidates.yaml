@@ -1,0 +1,52 @@
+schema_version: 1
+gate: gate-a-specialization-v1
+stage: A1-candidate-scout
+status: research-in-progress
+updated: 2026-08-09
+
+candidate_sets: []
+
+# Add candidate sets using the structure below.
+#
+# - id: example-family-set
+#   family: ExampleFamily
+#   generation: ExampleGeneration
+#   rationale: >-
+#     Why this set is suitable for a fair specialization comparison.
+#   general_baseline:
+#     id: provider/general-model
+#     source: https://...
+#     revision: null
+#     parameter_count: null
+#     base_family: ExampleFamily
+#     generation: ExampleGeneration
+#     base_checkpoint: null
+#     license: null
+#     runtime_feasibility: unknown
+#     claimed_skill: general-purpose
+#     claim_evidence: null
+#     lineage_confidence: unknown
+#     comparability_concerns: []
+#   specialists:
+#     - id: provider/specialist-a
+#       source: https://...
+#       revision: null
+#       parameter_count: null
+#       base_family: ExampleFamily
+#       generation: ExampleGeneration
+#       base_checkpoint: null
+#       license: null
+#       runtime_feasibility: unknown
+#       claimed_skill: skill-a
+#       claim_evidence: null
+#       lineage_confidence: unknown
+#       comparability_concerns: []
+#   set_level_confounders: []
+#   recommendation: investigate
+
+search_notes: []
+
+human_review:
+  status: pending
+  selected_candidate_set: null
+  notes: null
