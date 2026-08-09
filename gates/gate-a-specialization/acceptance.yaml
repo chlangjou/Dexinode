@@ -1,0 +1,71 @@
+id: gate-a-specialization-v1
+status: proposed-until-formal-run
+freeze_point: before-A4-general-baseline
+final_decision_owner: human
+
+minimum_evidence:
+  general_models: 1
+  specialist_models: 2
+  skill_domains: 2
+  all_models_same_frozen_benchmark: true
+  raw_per_case_results_preserved: true
+  reproducibility_metadata_complete: true
+  failed_and_invalid_runs_preserved: true
+
+comparability:
+  same_or_traceable_foundation_family_required: true
+  similar_parameter_scale_required: true
+  public_checkpoint_required: true
+  model_revision_recorded: true
+  lineage_confidence_recorded: true
+  material_confounders_reported: true
+
+performance_signal:
+  primary_metric: task_accuracy_or_domain_appropriate_equivalent
+  minimum_absolute_primary_skill_improvement_percentage_points: 10
+  uncertainty_requirement:
+    method: bootstrap
+    confidence_level: 0.95
+    improvement_interval_must_exclude_zero: true
+
+specialization_signal:
+  required: true
+  description: >-
+    The observed advantage should be domain-specific or materially concentrated
+    in the model's claimed specialization. A uniformly stronger model is not,
+    by itself, sufficient evidence of specialization.
+  acceptable_evidence:
+    - claimed_primary_domain_is_models_largest_or_clearly_dominant_relative_advantage
+    - cross_skill_matrix_shows_distinct_competency_profiles
+
+pass_recommendation_requires:
+  - minimum_evidence_satisfied
+  - comparability_satisfied
+  - performance_signal_satisfied_for_at_least_one_specialist
+  - specialization_signal_satisfied
+  - no_unresolved_material_methodological_defect
+
+strong_pass_preference:
+  description: >-
+    Prefer evidence from at least two specialists in different domains, each
+    demonstrating a domain-specific advantage, before using Gate A as the basis
+    for Gate B orchestration design.
+
+fail_recommendation_requires:
+  - fair_candidate_set_existed
+  - benchmark_and_scoring_valid
+  - sufficient_execution_completed
+  - predefined_specialization_threshold_not_met
+
+inconclusive_conditions:
+  - no_fair_candidate_set
+  - unresolved_lineage_or_parameter_comparability
+  - license_or_runtime_prevents_fair_test
+  - benchmark_contamination_or_scoring_defect
+  - insufficient_sample_or_statistical_power
+  - post_freeze_methodological_defect
+
+agent_output_rule:
+  allowed: recommend_pass_fail_or_inconclusive
+  required_final_label: PENDING HUMAN REVIEW
+  may_assign_final_gate_result: false

@@ -1,0 +1,101 @@
+id: gate-a-specialization-v1
+title: Specialist Validation
+owner: human
+executor: agent
+status: active
+active_stage: A1-candidate-scout
+
+objective: >-
+  Determine whether existing specialist model checkpoints exhibit reproducible,
+  measurable specialization relative to a closely related general-purpose baseline.
+
+constraints:
+  existing_models_only: true
+  fine_tuning_allowed: false
+  training_allowed: false
+  model_merging_allowed: false
+  orchestration_allowed: false
+  routing_allowed: false
+  networking_required: false
+  benchmark_mutation_after_freeze: false
+  final_gate_decision_by_agent: false
+
+candidate_requirements:
+  minimum_general_models: 1
+  minimum_specialist_models: 2
+  minimum_skill_domains: 2
+  same_family_preferred: true
+  same_generation_preferred: true
+  similar_parameter_scale_preferred: true
+  public_checkpoint_required: true
+  usable_license_required: true
+  runtime_feasibility_required: true
+
+stages:
+  A1-candidate-scout:
+    status: active
+    objective: identify one or more fair candidate sets
+    allowed_actions:
+      - web_research
+      - model_registry_research
+      - inspect_model_cards
+      - inspect_licenses
+      - estimate_runtime_requirements
+      - record_candidates
+    forbidden_actions:
+      - construct_formal_benchmark
+      - execute_comparative_benchmark
+      - fine_tune_model
+      - relax_candidate_constraints_without_human_review
+    required_outputs:
+      - experiments/gate-a/candidates.yaml
+    stop_for_human_review: true
+
+  A2-candidate-eligibility:
+    status: inactive
+    activation: human_approval_required
+    objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
+
+  A3-benchmark-freeze:
+    status: inactive
+    activation: human_approval_required
+    objective: construct and freeze a cross-skill benchmark and scoring policy
+
+  A4-general-baseline:
+    status: inactive
+    objective: execute the general-purpose baseline on the frozen benchmark
+
+  A5-specialist-cross-evaluation:
+    status: inactive
+    objective: execute every specialist across the complete frozen benchmark
+
+  A6-evidence-report:
+    status: inactive
+    objective: summarize evidence without declaring the final Gate decision
+
+required_final_outputs:
+  - experiments/gate-a/candidates.yaml
+  - experiments/gate-a/benchmark/manifest.yaml
+  - experiments/gate-a/runs/
+  - gates/gate-a-specialization/evidence-report.md
+
+executor_permissions:
+  research_candidates: true
+  create_experiment_code: true
+  modify_experiment_code: true
+  modify_benchmark_before_freeze: true
+  modify_benchmark_after_freeze: false
+  modify_acceptance_criteria: false
+  replace_baseline_after_execution: false
+  declare_gate_pass: false
+  declare_gate_fail: false
+
+completion_states:
+  - evidence_complete
+  - blocked
+  - inconclusive
+
+handoff:
+  durable_state: git
+  status_file: status/current.md
+  final_decision: human_review
