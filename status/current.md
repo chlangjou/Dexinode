@@ -3,6 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
+- Session handoff: `HANDOFF.md`
 - Active execution stage: A5R1 — v1.2.2 oracle-correction and complete static validation
 
 ## Objective
@@ -82,6 +83,10 @@ These are `benchmark_definition_error` findings under the frozen scoring policy.
 Human spot-checking of the other visible foundational/intermediate/advanced cases did not identify another oracle defect, but that does not replace full static validation.
 
 ## Active bounded task — v1.2.2
+
+Prepared Agent branch:
+
+`agent/gate-a-a5r1-v1.2.2-oracle-validation`
 
 Create a narrow corrective benchmark version:
 
