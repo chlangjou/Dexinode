@@ -58,10 +58,11 @@ stages:
     objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
   A3-benchmark-freeze:
-    status: completed-pending-human-review
+    status: revision-required
     activation: human_approved
-    human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
-    objective: construct and freeze a cross-skill benchmark and scoring policy
+    prior_frozen_benchmark: gate-a-cross-skill-v1.0.0
+    latest_human_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.md
+    objective: construct and freeze a statistically useful cross-skill benchmark and scoring policy
     approved_controls:
       total_context_tokens: 4096
       rendered_input_plus_generation_must_fit: true
@@ -71,7 +72,18 @@ stages:
       quantization: none
       external_tools: false
       cpu_only_is_permanent_constraint: false
+    revision_requirements:
+      preserve_v1_0_0_unchanged: true
+      minimum_cases_per_domain: 48
+      minimum_total_cases: 96
+      planned_difficulty_distribution_required: true
+      reduce_ceiling_effect_risk: true
+      deterministic_scoring_required: true
+      coding_execution_isolation_required_before_scored_runs: true
+      acceptance_criteria_unchanged: true
+      no_candidate_model_execution_during_revision: true
     forbidden_actions:
+      - modify_frozen_v1_0_0_in_place
       - execute_general_baseline
       - execute_specialist_models
       - inspect_model_results
