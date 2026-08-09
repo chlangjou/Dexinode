@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A3 — Benchmark Construction and Freeze (complete; pending human review)
+- Active execution stage: A3 — Benchmark Construction and Freeze (revision required)
 
 ## Objective
 
@@ -30,9 +30,9 @@ Selected candidate set remains:
 - `Qwen/Qwen2.5-Math-7B-Instruct`
 - `Qwen/Qwen2.5-Coder-7B-Instruct`
 
-The durable review record is `gates/gate-a-specialization/reviews/a2-human-review.md`.
+The durable A2 review record is `gates/gate-a-specialization/reviews/a2-human-review.md`.
 
-Approved controls for A3:
+Approved controls remain:
 
 - enforce `rendered_input_tokens + max_new_tokens <= 4096` for every benchmark case;
 - freeze one neutral Qwen role-delimiter chat template with identical semantic system/user content for all three models;
@@ -40,60 +40,56 @@ Approved controls for A3:
 - keep external tools disabled for Gate A comparative inference;
 - CPU-only execution is not a permanent Gate constraint. A different execution host may be approved before A4 provided all compared models use the same environment/policy and the change is recorded before results are observed.
 
-A2 verified exact revisions, common 7,615,616,512-parameter scale, shared Qwen2ForCausalLM architecture and Qwen2.5-7B foundation, byte-identical tokenizer assets, Apache-2.0 licensing, artifact identity, and the material Math context/chat-template confounders.
+## A3 v1.0.0 review: changes required
 
-## A3 — Benchmark Construction and Freeze: complete pending human review
+Agent produced and froze `gate-a-cross-skill-v1.0.0` at commit
+`6b8d3c0854cc1770e459ec9454ee7d78afd049ce` without executing any selected model.
+The process discipline, deterministic scoring approach, provenance record, common
+template, and context controls were acceptable.
 
-Construct and freeze a cross-skill benchmark that fairly measures the approved mathematics and software-coding specialization axes.
+Human review did **not** authorize A4. The durable review record is:
 
-A3 must:
+`gates/gate-a-specialization/reviews/a3-human-review-v1.md`
 
-- include both mathematics and software-coding domains;
-- require every selected model to eventually run the complete benchmark;
-- measure primary and non-primary skill performance;
-- define benchmark cases and scoring rules before model results are observed;
-- use deterministic scoring wherever practical;
-- record benchmark provenance and contamination risks;
-- obey the approved 4096-token common context envelope;
-- freeze the shared neutral chat template and scoring policy in Git;
-- produce a versioned benchmark manifest.
+The benchmark must be revised before execution because:
 
-A3 must NOT:
+1. 16 binary cases per domain provide coarse 6.25-percentage-point granularity and are weakly matched to the predefined >=10 percentage-point signal plus 95% bootstrap interval requirement;
+2. the current math and coding sets contain many foundational/intermediate tasks and present a material ceiling-effect risk for capable 7B models;
+3. coding-score validity requires actual bounded isolation for generated Python before scored A4/A5 execution.
 
-- download or execute the candidate models for comparative evaluation;
-- run the general baseline or specialist checkpoints;
-- inspect model results while constructing or tuning the benchmark;
-- modify Gate acceptance criteria;
-- change the selected candidate set without human review.
+The frozen v1.0.0 files are historical evidence and must not be edited in place.
 
-Completed and frozen as `gate-a-cross-skill-v1.0.0` in
-`experiments/gate-a/benchmark/`:
+## Active bounded task: revise and re-freeze A3 benchmark
 
-- 32 self-authored cases: 16 mathematics and 16 software-coding, with every
-  approved model assigned the complete set and both primary/non-primary domain
-  scores defined;
-- deterministic exact-answer mathematics scoring and deterministic Python 3.10
-  unit-test scoring, with equal case weights and no LLM judge;
-- the neutral Qwen role-delimiter template and later-run inference policy;
-- pinned-tokenizer measurements for every rendered case: maximum input 115
-  tokens and maximum input plus the 1,024-token generation budget 1,139, within
-  the approved 4,096-token envelope;
-- benchmark provenance, source selection, scoring rationale, contamination
-  risks, and freeze validation in the versioned manifest.
+Create a new benchmark version that supersedes v1.0.0 for Gate A execution.
 
-No candidate weights were downloaded or executed for evaluation, and no model
-outputs, comparative runs, or benchmark results are present. The benchmark
-cases, order, template, and scoring rules are frozen in Git; any correction
-requires a new benchmark version.
+Required design constraints:
 
-A3 is complete; stop for human review before A4.
+- at least 48 mathematics cases and 48 software-coding cases (>=96 total), unless a different pre-execution size is analytically justified and returned for human approval;
+- preserve both cross-skill domains and require all three models to run the complete benchmark later;
+- plan a meaningful difficulty distribution in both domains, approximately 20–25% foundational, 45–55% intermediate, and 25–30% advanced;
+- retain deterministic scoring and equal predeclared case weights unless a change is justified before any model output is observed;
+- reduce ceiling-effect risk with materially more discriminating intermediate/advanced tasks;
+- preserve the approved neutral shared template and 4,096-token total context envelope;
+- keep provenance and contamination risks explicit;
+- record coding execution isolation as a mandatory execution preflight requirement;
+- do not modify Gate acceptance criteria.
+
+Do NOT:
+
+- edit the frozen v1.0.0 artifacts in place;
+- execute the General, Math, or Coder checkpoints;
+- inspect selected-model outputs while revising cases;
+- tune difficulty from selected-model performance;
+- proceed to A4.
+
+When the revised benchmark is constructed and frozen, commit it, update durable state, and stop again for human review.
 
 ## Next human checkpoint
 
-Review the frozen benchmark, scoring policy, provenance/contamination treatment,
-common prompt/template policy, and later-run execution controls. Approve or
-request a new benchmark version; A4 remains inactive until that review is
-recorded.
+Review the superseding benchmark version for statistical usefulness, difficulty balance, deterministic scoring, provenance/contamination treatment, context/template compliance, and execution-isolation requirements.
+
+A4 remains inactive.
 
 ## Future gate
 
