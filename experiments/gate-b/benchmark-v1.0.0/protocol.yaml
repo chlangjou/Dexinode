@@ -1,0 +1,73 @@
+schema_version: 1
+protocol_id: gate-b-orchestration-v1.0.0
+status: frozen-pending-human-review
+question: >-
+  Does prompt-only skill-aware model selection improve fresh mixed-workload
+  semantic accuracy over General-only when both policies make exactly one model
+  inference per task?
+benchmark_id: gate-b-orchestration-v1.0.0
+run_order:
+  - policy: general_only
+    route: general_baseline
+  - policy: skill_routed
+    route: router-v1
+policy_invariants:
+  all_cases: 96
+  cases_per_domain: 48
+  same_frozen_case_order: math-01..math-48_then_code-01..code-48
+  model_calls_per_case: 1
+  retries: false
+  fallback_second_model_call: false
+  voting: false
+  ensemble: false
+  result_driven_rerouting: false
+  external_tools: false
+  router_input: task_prompt_only
+  router_execution: deterministic_cpu_only
+  route_before_model_output: true
+  hidden_domain_labels_to_router: false
+  expected_answers_to_router: false
+  coding_tests_to_router: false
+  model_outputs_to_router: false
+inference_controls:
+  dtype: bfloat16
+  quantization: none
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  do_sample: false
+  num_beams: 1
+  repetition_penalty: 1.0
+  seed: 0
+  template: qwen-neutral-role-delimiter-v1
+  repository_chat_templates_ignored: true
+  network: none
+  host: ai01
+  gpu_class: NVIDIA L40
+  formal_memory: 40g
+  formal_cpus: 16
+  selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+runtime:
+  python: 3.10.12
+  torch: 2.2.2+cu121
+  transformers: 4.41.1
+  tokenizers: 0.19.1
+  safetensors: 0.4.3
+  accelerate: 0.30.1
+  judge: approved CPU-only judge-v2
+candidate_set:
+  general_baseline:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+  mathematics_specialist:
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+  excluded_coder_specialist:
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    used_as_validated_route: false
+router_registry:
+  mathematics: mathematics_specialist
+  software_coding: general_baseline
+  fallback: general_baseline
+acceptance_reference: gates/gate-b-orchestration/acceptance.yaml
+selected_model_execution_during_B1: false

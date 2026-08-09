@@ -1,11 +1,16 @@
 id: gate-b-orchestration-acceptance-v1
-status: proposed-until-B1-human-freeze
+status: revision-required-before-freeze
 final_decision_owner: human
+review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
+rejected_benchmark_version: gate-b-orchestration-v1.0.0
+target_benchmark_version: gate-b-orchestration-v1.1.0
+selected_model_execution_before_approval: false
+thresholds_changed_from_initial_proposal: false
 
 question: >-
-  Does a frozen evidence-based skill router improve fresh mixed-workload semantic
-  accuracy relative to a General-only policy when both use exactly one model
-  inference per task and the same generation budget?
+  Does a frozen evidence-based semantic-task router improve fresh mixed-workload
+  semantic accuracy relative to a General-only policy when both logical policies
+  use exactly one model inference per task and the same generation budget?
 
 minimum_evidence:
   fresh_total_cases: 96
@@ -21,14 +26,26 @@ minimum_evidence:
 
 freshness_and_leakage_controls:
   exact_gate_a_prompt_reuse_allowed: false
+  structural_case_freshness_required: true
+  one_to_one_positional_mirror_allowed: false
+  coefficient_or_constant_substitution_only_allowed: false
+  near_isomorphic_gate_a_case_reuse_allowed: false
+  case_by_case_structural_audit_required: true
   selected_model_calibration_allowed: false
   gate_a_per_case_win_loss_used_for_case_selection: false
   gate_a_raw_outputs_used_as_router_fixtures: false
+  gate_a_retrospective_postmortem_used_for_case_selection: false
   gate_a_human_approved_aggregate_capability_profile_allowed: true
-  router_may_read_prompt_only: true
+
+router_information_boundary:
+  router_may_read_semantic_task_text_only: true
+  handoff_or_output_contract_visible_to_router: false
   router_may_read_hidden_domain_label: false
   router_may_read_expected_answer: false
   router_may_read_coding_evaluator_tests: false
+  router_may_read_case_metadata: false
+  router_may_read_model_output: false
+  router_is_deterministic_cpu_only: true
 
 primary_policies:
   general_only:
@@ -43,17 +60,25 @@ primary_policies:
     coder_checkpoint_used_as_validated_coding_specialist: false
 
 resource_parity:
-  model_calls_per_case_equal: true
+  logical_model_calls_per_case_equal: true
   total_context_envelope_equal: true
   max_new_tokens_equal: true
   dtype_equal: true
   quantization_equal: true
   generation_policy_equal: true
   external_tools_equal: true
-  routed_fallback_model_call_allowed: false
+  routed_fallback_second_model_call_allowed: false
   ensemble_or_voting_allowed: false
   result_driven_rerouting_allowed: false
-  router: deterministic_cpu_only
+  reuse_general_output_when_both_policies_select_same_model_and_prompt: allowed
+
+execution_freeze:
+  one_orchestrated_selected_model_sequence_required: true
+  result_review_between_general_and_specialist_collection: false
+  general_run_all_cases_once: true
+  specialist_run_only_frozen_router_selected_cases: true
+  treatment_composed_from_frozen_routing_decisions: true
+  protocol_changes_after_first_selected_model_output: forbidden
 
 primary_orchestration_signal:
   metric: overall_semantic_accuracy_delta_routed_minus_general
@@ -78,11 +103,16 @@ router_quality:
   minimum_domain_routing_accuracy: 0.95
   measured_against_hidden_evaluation_domain_labels: true
   route_decision_made_before_model_output: true
+  reporting_only_note: >-
+    Routing accuracy is a sanity condition for this minimal Gate B; Gate B does
+    not claim to establish a general-purpose learned router.
 
 pass_recommendation_requires:
   - minimum_evidence_satisfied
   - freshness_and_leakage_controls_satisfied
+  - router_information_boundary_satisfied
   - resource_parity_satisfied
+  - execution_freeze_satisfied
   - primary_orchestration_signal_satisfied
   - validated_math_skill_signal_satisfied
   - non_target_protection_satisfied
@@ -96,7 +126,9 @@ fail_recommendation_requires:
 
 inconclusive_conditions:
   - benchmark_oracle_or_evaluator_defect
+  - structural_freshness_defect
   - router_contract_changed_after_selected_model_results
+  - router_information_boundary_broken
   - resource_parity_broken
   - insufficient_sample_or_statistical_power
   - post_freeze_methodological_defect
@@ -111,6 +143,7 @@ secondary_metrics:
   - output_tokens
   - inference_elapsed_seconds
   - router_elapsed_seconds
+  - task_family_accuracy
 
 agent_output_rule:
   allowed: recommend_pass_fail_or_inconclusive

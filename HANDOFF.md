@@ -8,13 +8,9 @@ Canonical/default branch: `main`.
 
 Snapshot date: 2026-08-10.
 
-## Start here in a new session
+## Start here
 
-The user should be able to say only:
-
-> Read `HANDOFF.md` from the Dexinode repository and continue from the current bounded task.
-
-Then read, in order:
+Read, in order:
 
 1. `AGENTS.md`
 2. this file
@@ -23,8 +19,9 @@ Then read, in order:
 5. `gates/gate-b-orchestration/README.md`
 6. `gates/gate-b-orchestration/task.yaml`
 7. `gates/gate-b-orchestration/acceptance.yaml`
+8. `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
 
-Git is the durable source of truth. Do not reconstruct project state from old chat logs when repository state is available.
+Git is the durable source of truth.
 
 ## Current state
 
@@ -32,91 +29,76 @@ Gate A — Specialist Validation: **PASS / CLOSED**.
 
 Active gate: **Gate B — Orchestration Advantage**.
 
-Active bounded stage: **B1 — protocol, router, benchmark and acceptance freeze design**.
+Active bounded stage: **B1R — structural freshness and router-boundary revision**.
 
 Gate B decision: **PENDING**.
 
-No Gate B selected-model execution is currently authorized.
+No Gate B selected-model execution is authorized.
 
-## Gate A final result
+## Why B1 v1.0.0 was not approved
 
-Final human decision:
+Agent commit:
 
-`gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
+`7228c973130ed6032226118873a140927c48f17f`
 
-A6 evidence report:
+Preserved artifacts:
 
-`gates/gate-a-specialization/evidence-report.md`
+- `experiments/gate-b/benchmark-v1.0.0/`
+- `experiments/gate-b/router-v1/`
 
-Accepted key result:
+Human review:
 
-- General Math: 30/48 = 62.50%;
-- Math specialist Math: 44/48 = 91.67%;
-- Math specialist primary-domain advantage: **+29.17 pp**;
-- paired-bootstrap 95% CI: **[+16.67, +41.67] pp**;
-- Math specialist Coding tradeoff: **-37.50 pp**;
-- Coder checkpoint did not establish a Coding advantage over General.
+`gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
 
-Interpretation: Gate A is a **single-specialist PASS**. Specialist capability exists, but checkpoint labels are not trusted without empirical validation.
+Decision: **CHANGES REQUIRED**.
 
-Dexinode skill identity should therefore be treated as approximately:
+The static validation itself was strong: Math 48/48 PASS, Coding 48/48 cases and 121/121 reference tests PASS, adapter tests 13/13, router tests 6/6, context fit confirmed, and no Gate B selected model was executed.
 
-**checkpoint + explicit handoff contract/adapter + measured capability profile**.
+Two methodological blockers remain:
 
-## Gate B bounded question
+1. **Structural freshness** — exact prompt overlap is zero, but multiple Gate B cases are near-isomorphic or semantically identical to Gate A executed cases. Examples include the exact 17-mod-43 modular inverse, the same T_8 tiling recurrence, 90-degree rotation, line-region counting, surjection counting, bounded compositions and Catalan evaluation.
+2. **Router information boundary** — router-v1 uses standardized model-output/handoff contract phrases (`python 3.10`, `implementation block`, `integer`, `fraction`, etc.), so its 96/96 result partly classifies benchmark formatting rather than semantic task content.
 
-Gate B does not yet attempt full multi-agent collaboration. It first asks whether skill-aware selection alone creates measurable value.
+## Active B1R target
 
-> On a fresh mixed mathematics/software-coding benchmark, can a frozen deterministic router using only task prompt text and the empirically validated Gate A skill registry outperform a General-only policy while using exactly one model inference per task?
+Create new immutable artifacts:
 
-Primary comparison:
+- benchmark: `gate-b-orchestration-v1.1.0`
+- root: `experiments/gate-b/benchmark-v1.1.0/`
+- router: `experiments/gate-b/router-v2/`
 
-1. **General-only** — all cases to `Qwen/Qwen2.5-7B-Instruct`.
-2. **Skill-routed** — Math to the validated Math specialist; Coding and fallback to General.
+Do not patch v1.0.0/router-v1 in place.
 
-The Gate A Coder checkpoint is not treated as a validated coding specialist in this first routing gate.
+The revision must:
 
-## Proposed Gate B acceptance signal
+- preserve the accepted 96-case balance, difficulty distribution, adapter behavior, numerical acceptance thresholds and execution controls;
+- replace positional mirrors, constant/coefficient substitutions and near-isomorphic Gate A case constructions;
+- record a case-by-case structural freshness audit against Gate A definitions;
+- use Gate A definitions only for structural comparison, never per-case results/raw outputs or the retrospective Coder postmortem to select cases;
+- independently recompute all Math oracles and all Coding evaluator expected values;
+- expose only semantic task text to the router; model-facing handoff/output instructions are applied after routing and remain invisible to router-v2;
+- keep task-family metadata reporting-only and invisible to routing;
+- freeze later selected-model execution as one orchestrated sequence with no result review between General evidence collection and specialist-selected evidence collection;
+- execute no selected model during B1R;
+- stop for human review before B2.
 
-Before model execution, B1 currently proposes freezing:
+## Gate B hypothesis and unchanged thresholds
 
-- fresh benchmark: 96 cases, 48 Math + 48 Coding;
-- exact Gate A prompt reuse: 0;
-- deterministic CPU-only router;
-- router input: task prompt only;
-- exactly one model inference per case for both policies;
-- same context/generation controls;
-- no retries, fallback model calls, voting or ensemble;
-- primary signal: routed overall accuracy at least **+10 pp** over General-only;
-- paired-bootstrap 95% CI of the overall improvement must exclude zero;
-- routed Math advantage at least +10 pp with CI excluding zero;
-- routed Coding degradation no worse than 5 pp;
-- routing accuracy at least 95% against hidden evaluation labels.
+Primary policies remain:
 
-These criteria remain **proposed until B1 human review/freeze**. No Gate B result may be observed before that freeze.
+1. General-only — General for every task.
+2. Skill-routed — Math specialist for validated Mathematics tasks; General for Coding/fallback.
 
-## Active bounded task — B1
+Both logical policies use exactly one model inference per task.
 
-Static design only:
+Thresholds remain:
 
-1. author a fresh Gate B benchmark under `experiments/gate-b/benchmark-v1.0.0/`;
-2. independently validate all Math oracles and Coding evaluators;
-3. create a deterministic prompt-only router under `experiments/gate-b/router-v1/`;
-4. add synthetic router tests and information-boundary checks;
-5. freeze scoring, token/context validation, execution policy and resource parity;
-6. execute **no General, Math, or Coder checkpoint**;
-7. stop for human review before B2/B3.
+- routed overall ≥ General +10 pp;
+- paired-bootstrap 95% CI for overall delta excludes zero;
+- routed Math ≥ General Math +10 pp with CI excluding zero;
+- Coding degradation no worse than 5 pp;
+- routing accuracy ≥95%.
 
-Do not broaden B1 into multi-step orchestration, recursive delegation, networking, federation, reputation, settlement, or training.
+## Minimal B1R Agent instruction
 
-## Minimal execution-Agent instruction
-
-Once the B1 Agent branch is based on current `main`, the execution Agent can be told:
-
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, and all files under `gates/gate-b-orchestration/`. Execute only active stage B1 exactly as recorded in Git. Build and statically validate the fresh benchmark/router/protocol, execute no selected model, preserve evidence, update durable status, commit, stop for human review, and do not push until instructed.
-
-## More detail
-
-- Gate A evidence: `gates/gate-a-specialization/evidence-report.md`
-- Gate A final decision: `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
-- Live status: `status/current.md`
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`. Execute only active stage B1R. Preserve v1.0.0/router-v1 unchanged, create v1.1.0/router-v2 with structural freshness and pre-handoff semantic routing boundaries, run complete static validation only, execute no selected model, update durable status, commit, stop for human review, and do not push until instructed.

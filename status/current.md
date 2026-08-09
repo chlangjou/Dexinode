@@ -2,71 +2,108 @@
 
 - Updated: 2026-08-10
 - Active gate: **Gate B — Orchestration Advantage**
-- Gate A final decision: **PASS**
+- Gate A final decision: **PASS / CLOSED**
 - Gate B decision: **PENDING**
 - Session handoff: `HANDOFF.md`
-- Active stage: **B1 — protocol, router, benchmark and acceptance freeze design**
+- Active stage: **B1R — structural freshness and router-boundary revision**
 
-## Gate A — closed PASS
+## Gate A retained result
 
-Final human decision:
+Gate A established a single-specialist PASS: the Math specialist had a +29.17 pp Mathematics advantage over General with paired-bootstrap 95% CI [+16.67, +41.67] pp; the Coder checkpoint did not establish a Coding advantage. Dexinode therefore uses empirically measured capability profiles rather than checkpoint labels alone.
+
+Final decision record:
 
 `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
 
-Gate A demonstrated reproducible specialization in at least one same-family checkpoint under the frozen v1.2.2 protocol:
+## Gate B bounded hypothesis
 
-- General mathematics: 30/48 = 62.50%;
-- Math specialist mathematics: 44/48 = 91.67%;
-- Math specialist primary-domain delta: **+29.17 pp**;
-- paired-bootstrap 95% CI: **[+16.67, +41.67] pp**;
-- Math specialist coding delta: **-37.50 pp**, demonstrating a concentrated specialization/tradeoff profile;
-- Coder specialist did not demonstrate a coding advantage over General.
+Test whether an evidence-based router can convert a validated specialist capability into a measurable mixed-workload advantage over General-only while each logical policy uses exactly one model inference per task.
 
-Final Gate A classification: **single-specialist PASS**. The stronger preference for two independently validated specialists was not satisfied.
+Initial registry remains:
 
-Architectural consequence: Dexinode must route using empirically measured capability profiles and explicit handoff contracts/adapters, not checkpoint labels alone.
+- Mathematics → `Qwen/Qwen2.5-Math-7B-Instruct`;
+- Software Coding → `Qwen/Qwen2.5-7B-Instruct`;
+- fallback → General;
+- Qwen2.5-Coder is not treated as a validated Coding specialist.
 
-## Gate B — active design stage
+The primary Gate B thresholds remain unchanged:
 
-Gate definition:
+- routed overall accuracy ≥ General-only +10 pp;
+- paired-bootstrap 95% CI for overall delta excludes zero;
+- routed Math advantage ≥ +10 pp with CI excluding zero;
+- routed Coding degradation no worse than 5 pp;
+- router domain accuracy ≥95%.
 
-`gates/gate-b-orchestration/README.md`
+## B1 v1.0.0 — static work accepted in part, benchmark NOT approved
 
-Controlling task:
+Reviewed commit:
 
-`gates/gate-b-orchestration/task.yaml`
+`7228c973130ed6032226118873a140927c48f17f`
 
-Proposed acceptance criteria:
+Human review:
 
-`gates/gate-b-orchestration/acceptance.yaml`
+`gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
 
-### Bounded hypothesis
+Decision: **CHANGES REQUIRED**. B2 and all selected-model execution remain unauthorized.
 
-On a fresh 96-case mixed Math/Coding benchmark, a frozen deterministic prompt-only router using the Gate A empirical skill registry should outperform a General-only policy by at least **10 percentage points overall**, with a paired-bootstrap 95% confidence interval excluding zero, while using exactly **one model inference per task** under the same generation budget.
+Accepted B1 work includes:
 
-### Initial empirical registry
+- 96-case 48/48 balanced design and 10/24/14 difficulty counts;
+- no Gate B selected-model execution during B1;
+- 48/48 Math oracle validation, including pre-execution correction of math-27 to 24;
+- 48/48 Coding evaluator validation and 121/121 reference tests PASS;
+- Gate A adapter reused byte-identically with 13/13 tests PASS;
+- max rendered input 188; max with generation 1212; context margin 2884;
+- frozen model/runtime/scoring controls and unchanged numerical acceptance thresholds.
 
-- Mathematics → validated `Qwen/Qwen2.5-Math-7B-Instruct`;
-- Software coding → `Qwen/Qwen2.5-7B-Instruct`;
-- Unknown/unsupported → General fallback;
-- `Qwen/Qwen2.5-Coder-7B-Instruct` is **not** treated as a validated coding specialist because Gate A did not establish a coding advantage.
+### Blocking finding 1 — structural freshness
 
-### B1 required design outputs
+Exact prompt overlap is zero, but v1.0.0 contains many Gate A near-isomorphic or semantically identical case constructions. Material Math examples include:
 
-Before any Gate B selected-model execution:
+- `math-23` repeats Gate A inverse of 17 mod 43;
+- `math-39` repeats the same T_8 Fibonacci-like tiling recurrence;
+- `math-08` repeats the 90-degree CCW coordinate rotation construction;
+- `math-33` repeats line-region counting with only n changed;
+- `math-35` repeats the surjection inclusion-exclusion skeleton;
+- `math-37` repeats bounded-composition inclusion-exclusion structure;
+- `math-43` repeats adjacent Catalan-number evaluation.
 
-1. create and statically validate a fresh 96-case benchmark (48 Math / 48 Coding);
-2. create a deterministic CPU-only prompt-only router and synthetic tests;
-3. validate all Math oracles and Coding evaluator tests;
-4. prove the router cannot access hidden domain labels, expected answers, evaluator tests, or model outputs;
-5. freeze token/context and common inference controls;
-6. freeze General-only and skill-routed one-call-per-task policies;
-7. freeze acceptance criteria and stop for human review.
+Because Gate B's expected treatment advantage comes primarily from Math routing, this is a material out-of-sample transfer confounder.
 
-## Gate B execution authorization
+### Blocking finding 2 — router information boundary
 
-**Selected-model execution is NOT authorized during B1.**
+Router v1 uses benchmark handoff/output-contract phrases such as `python 3.10`, `python or unlabeled`, `implementation block`, `integer`, and `fraction`. The 96/96 route score therefore partly measures benchmark formatting rather than semantic task selection.
 
-No Gate B General/Math/Coder checkpoint may be executed or inspected until the B1 benchmark/router/protocol artifacts are complete and human-approved.
+Dexinode should route on semantic task text **before** applying a skill's handoff/output contract.
 
-The current work is static research/design only. Multi-step agent chains, recursive delegation, networking, federation, reputation, and settlement remain outside Gate B v1 scope.
+## Active bounded task — B1R
+
+Create a new immutable revision:
+
+- benchmark: `gate-b-orchestration-v1.1.0`
+- root: `experiments/gate-b/benchmark-v1.1.0/`
+- router: `experiments/gate-b/router-v2/`
+
+Requirements are controlled by:
+
+- `gates/gate-b-orchestration/task.yaml`
+- `gates/gate-b-orchestration/acceptance.yaml`
+- `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
+
+Key requirements:
+
+1. preserve v1.0.0/router-v1 unchanged as frozen-not-approved history;
+2. replace positional mirrors, constant/coefficient substitutions and near-isomorphic Gate A case reuse;
+3. produce case-by-case structural freshness audit against Gate A definitions;
+4. use Gate A case definitions only for structural comparison — no Gate A per-case results/raw outputs/postmortem-driven case selection;
+5. independently revalidate all Math oracles and all Coding evaluator fixtures;
+6. expose only semantic task text to router; handoff/output contract and metadata remain invisible;
+7. add reporting-only coarse task-family metadata invisible to router;
+8. freeze one later execution sequence with no result review between General evidence collection and specialist-selected evidence collection;
+9. execute **no selected model** during B1R and stop for human review.
+
+## Execution authorization
+
+**No Gate B General/Math/Coder selected-model execution is authorized.**
+
+B2 and later stages remain inactive until B1R is human-approved.
