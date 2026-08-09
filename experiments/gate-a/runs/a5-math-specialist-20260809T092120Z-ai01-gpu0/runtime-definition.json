@@ -1,0 +1,85 @@
+{
+  "schema_version": "a5-runtime-definition-v1",
+  "status": "defined_before_specialist_acquisition",
+  "run_id": "a5-math-specialist-20260809T092120Z-ai01-gpu0",
+  "model": {
+    "id": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "role": "mathematics_specialist",
+    "revision": "ef9926d75ab1d54532f6a30dd5e760355eb9aa4d",
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "specialist_default_chat_template_ignored": true
+  },
+  "host": "ai01",
+  "docker": {"engine": "29.5.3", "runtime": "runc", "cgroup_version": "2"},
+  "base_image": {
+    "reference": "nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04",
+    "repo_digest": "sha256:f4d8e1264366940438f0353da6f289c7bef069d993d111f8106086ccd18c4a30"
+  },
+  "inference_image": {
+    "reference": "dexinode/gate-a-math-specialist:a5-math-specialist-20260809T092120Z-ai01-gpu0",
+    "image_id": "sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f",
+    "size_bytes": 8662993036,
+    "dockerfile_sha256": "04c8fee583593e39c59cec1b2f13ef5a6c6d2a874417a355fba031d6d5ad03b9",
+    "runner_sha256": "8fc0fcf277a164d8b34f5eb9c61cefdb5180541e80572655cc95d798c0eed371",
+    "score_script_sha256": "2a3ce7d2915c5e3ebd75e9a80c0a3138396801fc6f030804e1a2c45cccdd0b46"
+  },
+  "runtime": {
+    "python": "3.10.12",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_build": "12.1",
+    "transformers": "4.41.1",
+    "safetensors": "0.4.3",
+    "accelerate": "0.30.1",
+    "tokenizers": "0.19.1",
+    "huggingface_hub": "0.23.4",
+    "numpy": "1.26.4",
+    "PyYAML": "6.0.1"
+  },
+  "formal_inference_policy": {
+    "gpu_uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "gpu_count": 1,
+    "memory": "40g",
+    "cpus": 16,
+    "network": "none",
+    "ipc": "private",
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+    "cap_drop": ["ALL"],
+    "no_new_privileges": true,
+    "cache_mount_read_only": true,
+    "benchmark_mount_read_only": true
+  },
+  "generation_policy": {
+    "max_new_tokens": 1024,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "external_tools": false
+  },
+  "prompt_policy": {
+    "template_id": "qwen-neutral-role-delimiter-v1",
+    "repository_chat_templates_ignored": true,
+    "system_content": "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format.",
+    "context_limit_tokens": 4096,
+    "max_rendered_input_tokens": 113,
+    "max_rendered_input_plus_generation_tokens": 1137
+  },
+  "cache": {
+    "volume": "dexinode-gate-a5-math-20260809T092120Z-cache",
+    "model_dir": "/gate-cache/models/qwen2.5-math-7b-instruct",
+    "hf_cache": "/gate-cache/huggingface",
+    "independent_of_ollama": true,
+    "existing_ollama_storage_used": false
+  },
+  "benchmark": "gate-a-cross-skill-v1.1.0",
+  "resource_preflight": "resource-preflight.json",
+  "scope_controls": {
+    "general_baseline_rerun": false,
+    "coder_specialist_executed_before_this_run": false,
+    "benchmark_modified": false,
+    "scoring_modified": false,
+    "acceptance_criteria_modified": false
+  }
+}

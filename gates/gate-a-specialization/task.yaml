@@ -130,7 +130,7 @@ stages:
         specialists_executed: false
 
   A5-specialist-cross-evaluation:
-    status: active
+    status: completed_pending_human_review
     activation: human_approved_after_A4b
     human_authorization: gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md
     objective: execute every approved specialist across the complete frozen benchmark
@@ -172,6 +172,41 @@ stages:
       - all raw responses and per-case deterministic scores for both specialists
       - exact model/revision/artifact/runtime/GPU receipts for both runs
       - cross-skill metrics for both domains and all difficulty bands
+    execution_records:
+      mathematics_specialist:
+        run_id: a5-math-specialist-20260809T092120Z-ai01-gpu0
+        evidence_root: experiments/gate-a/runs/a5-math-specialist-20260809T092120Z-ai01-gpu0/
+        resolved_revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+        generated_cases: 96
+        scored_cases: 96
+        mathematics_accuracy: 0.0
+        software_coding_accuracy: 0.0
+        overall_accuracy: 0.0
+        difficulty_accuracy:
+          mathematics: {foundational: 0.0, intermediate: 0.0, advanced: 0.0}
+          software_coding: {foundational: 0.0, intermediate: 0.0, advanced: 0.0}
+        coding_judge_preflight: pass
+        coding_judge_timeouts: 0
+        infrastructure_invalid_cases: 0
+        gpu_peak_observed_memory_mib: null
+      software_coding_specialist:
+        run_id: a5-coder-specialist-20260809T092120Z-ai01-gpu0
+        evidence_root: experiments/gate-a/runs/a5-coder-specialist-20260809T092120Z-ai01-gpu0/
+        resolved_revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+        generated_cases: 96
+        scored_cases: 96
+        mathematics_accuracy: 0.25
+        software_coding_accuracy: 0.8125
+        overall_accuracy: 0.53125
+        difficulty_accuracy:
+          mathematics: {foundational: 0.4, intermediate: 0.25, advanced: 0.1428571429}
+          software_coding: {foundational: 0.9, intermediate: 0.9166666667, advanced: 0.5714285714}
+        coding_judge_preflight: pass
+        coding_judge_timeouts: 0
+        infrastructure_invalid_cases: 0
+        gpu_peak_observed_memory_mib: null
+      comparison_summary: experiments/gate-a/runs/a5-specialist-cross-evaluation-summary.md
+      human_review_required: true
     forbidden_actions:
       - modify_frozen_benchmark
       - modify_scoring_rules

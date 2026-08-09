@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A5 — Specialist Cross-Evaluation
+- Active execution stage: A5 — Specialist Cross-Evaluation (completed; pending human review)
 
 ## Objective
 
@@ -118,9 +118,41 @@ A5 must NOT:
 - change GPU/resource/runtime policy after observing specialist results;
 - proceed to A6.
 
+### A5 execution — COMPLETE, PENDING HUMAN REVIEW
+
+Both approved specialists completed the complete frozen 96-case benchmark under
+the comparable A4b policy. Neither the General baseline nor any other model was
+rerun.
+
+Math specialist run:
+
+- run: `experiments/gate-a/runs/a5-math-specialist-20260809T092120Z-ai01-gpu0/`;
+- revision: `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`;
+- mathematics: 0/48; software coding: 0/48; overall: 0/96;
+- difficulty: mathematics 0/10, 0/24, 0/14; coding 0/10, 0/24, 0/14;
+- 96/96 generated and 96/96 scored; no infrastructure-invalid case or judge timeout.
+
+Coder specialist run:
+
+- run: `experiments/gate-a/runs/a5-coder-specialist-20260809T092120Z-ai01-gpu0/`;
+- revision: `c03e6d358207e414f1eca0bb1891e29f1db0e242`;
+- mathematics: 12/48; software coding: 39/48; overall: 51/96;
+- difficulty: mathematics 4/10, 6/24, 2/14; coding 9/10, 22/24, 8/14;
+- 96/96 generated and 96/96 scored; no infrastructure-invalid case or judge timeout.
+
+The descriptive three-row comparison is preserved in
+`experiments/gate-a/runs/a5-specialist-cross-evaluation-summary.md`. Both run
+directories preserve exact model revisions, 27-file artifact inventories,
+runtime/image/resource/preflight receipts, raw responses, per-case scores and
+reasons, coding judge records, timing, and reproducible scripts. No benchmark,
+prompt, scorer, judge policy, candidate set, or acceptance criterion changed.
+
 ## Next human checkpoint
 
-Review both complete specialist runs and confirm that all three model rows are comparable. If accepted, authorize A6 to compute the cross-skill competency matrix, specialist-minus-General deltas, frozen bootstrap uncertainty, specialization concentration, and a Gate recommendation.
+Review both complete specialist runs and confirm that all three model rows are
+comparable. If accepted, authorize A6 to compute the cross-skill competency
+matrix, specialist-minus-General deltas, frozen bootstrap uncertainty,
+specialization concentration, and a Gate recommendation.
 
 ## Future gate
 

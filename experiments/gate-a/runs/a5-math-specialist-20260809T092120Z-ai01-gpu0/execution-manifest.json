@@ -1,0 +1,87 @@
+{
+  "schema_version": "a5-execution-manifest-v1",
+  "status": "complete_pending_human_review",
+  "run_id": "a5-math-specialist-20260809T092120Z-ai01-gpu0",
+  "model": {
+    "id": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "role": "mathematics_specialist",
+    "requested_revision": "ef9926d75ab1d54532f6a30dd5e760355eb9aa4d",
+    "resolved_revision": "ef9926d75ab1d54532f6a30dd5e760355eb9aa4d",
+    "dtype": "bfloat16",
+    "quantization": "none"
+  },
+  "host": "ai01",
+  "docker": {"engine": "29.5.3", "runtime": "runc"},
+  "image": {
+    "reference": "dexinode/gate-a-math-specialist:a5-math-specialist-20260809T092120Z-ai01-gpu0",
+    "image_id": "sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f",
+    "base_digest": "sha256:f4d8e1264366940438f0353da6f289c7bef069d993d111f8106086ccd18c4a30",
+    "runtime_definition": "runtime-definition.json"
+  },
+  "benchmark": {
+    "version": "gate-a-cross-skill-v1.1.0",
+    "math_cases": 48,
+    "coding_cases": 48,
+    "total_cases": 96,
+    "template": "qwen-neutral-role-delimiter-v1",
+    "context_limit": 4096,
+    "max_rendered_input_plus_generation": 1137
+  },
+  "formal_inference": {
+    "container": "inference-container.json",
+    "preflight": "inference-preflight.json",
+    "generated_records": 96,
+    "failed_records": 0,
+    "elapsed_seconds": 1209.657464,
+    "gpu_uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "gpu_name": "NVIDIA L40",
+    "gpu_peak_observed_memory_mib": null,
+    "gpu_peak_note": "No continuous sampler was attached; selected GPU identity and pre-generation visibility are recorded."
+  },
+  "acquisition": {
+    "receipt": "acquisition.json",
+    "container": "acquisition-container.json",
+    "artifact_file_count": 27,
+    "artifact_total_bytes": 15242805799,
+    "elapsed_seconds": 489.68261528015137,
+    "cache_volume": "dexinode-gate-a5-math-20260809T092120Z-cache",
+    "cache_independent_of_ollama": true,
+    "weights_committed": false
+  },
+  "scoring": {
+    "summary": "scoring-summary.json",
+    "metrics": "metrics.json",
+    "per_case_results": "per-case-results.jsonl",
+    "coding_judge_records": "coding-judge-records.jsonl",
+    "coding_isolation_preflight": "coding-isolation-preflight.json",
+    "scoring_elapsed_seconds": 1.8749455381184816,
+    "judge_policy": "experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json",
+    "coding_cases_sent_to_judge": 6,
+    "coding_cases_rejected_before_execution": 42,
+    "judge_timeouts": 0,
+    "judge_infrastructure_failures": 0
+  },
+  "metrics": {
+    "mathematics": {"correct": 0, "total": 48, "accuracy": 0.0},
+    "software_coding": {"correct": 0, "total": 48, "accuracy": 0.0},
+    "overall": {"correct": 0, "total": 96, "accuracy": 0.0},
+    "difficulty": {
+      "mathematics": {"foundational": "0/10", "intermediate": "0/24", "advanced": "0/14"},
+      "software_coding": {"foundational": "0/10", "intermediate": "0/24", "advanced": "0/14"}
+    }
+  },
+  "phase_timing_seconds": {
+    "acquisition": 489.68261528015137,
+    "judge_preflight": 0.35100615955889225,
+    "formal_inference": 1209.657464,
+    "scoring": 1.8749455381184816,
+    "bounded_phases_sum": 1701.5660309778286
+  },
+  "invalid_or_superseded_attempts": [],
+  "general_baseline_rerun": false,
+  "coder_specialist_executed_in_this_run": false,
+  "benchmark_modified": false,
+  "scoring_modified": false,
+  "prompt_modified": false,
+  "gate_acceptance_modified": false
+}
