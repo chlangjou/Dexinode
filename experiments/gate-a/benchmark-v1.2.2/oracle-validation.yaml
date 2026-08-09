@@ -1,0 +1,440 @@
+schema_version: 1
+validation_id: gate-a-cross-skill-v1.2.2-math-oracle-validation
+benchmark_version: gate-a-cross-skill-v1.2.2
+source_cases: cases/math.yaml
+source_prior_version: experiments/gate-a/benchmark-v1.2.1/cases/math.yaml
+validation_scope: all_48_mathematics_cases
+selected_model_used: false
+llm_judge_used: false
+
+methodology:
+  implementation: >-
+    Independent Python standard-library calculations using exact integer
+    arithmetic, fractions.Fraction, direct bounded enumeration, recurrences,
+    inclusion-exclusion, and exact matrix/vector or number-theory identities.
+    The case file was parsed only to compare its frozen expected values with
+    the independently recomputed values; no model output was involved.
+  rational_policy: >-
+    Every rational recomputation uses Fraction and is compared in reduced,
+    denominator-positive form.
+  enumeration_policy: >-
+    Bounded combinatorial, lattice, partition, Pell, and optimization cases
+    use exhaustive standard-library enumeration over the mathematically stated
+    finite domain where listed.
+  pass_definition: >-
+    PASS requires the proposed v1.2.2 expected value, after type-appropriate
+    normalization, to equal the independent recomputation.
+
+summary:
+  total_cases: 48
+  passed: 48
+  failed: 0
+  result: PASS
+
+oracle_corrections:
+  - case_id: math-23
+    v1_2_1_expected: "1/4"
+    v1_2_2_expected: "1/3"
+    reason: >-
+      Ordered distinct pairs total 9*8=72. Residue classes modulo 3 each
+      contain three digits; favorable ordered pairs are 3*2 + 3*3 + 3*3 = 24,
+      so the reduced probability is 24/72=1/3.
+  - case_id: math-30
+    v1_2_1_expected: 432
+    v1_2_2_expected: 240
+    reason: >-
+      Surjections from five labeled balls to four labeled boxes are counted by
+      4^5 - C(4,1)3^5 + C(4,2)2^5 - C(4,3)1^5 = 1024-972+192-4=240.
+  - case_id: math-37
+    v1_2_1_expected: "63/665"
+    v1_2_2_expected: "9/95"
+    reason: >-
+      The conditional probability is (2^6-1)/(3^6-2^6)=63/665. The frozen
+      prompt requires a reduced fraction, and gcd(63,665)=7, so the canonical
+      reduced value is 9/95.
+
+cases:
+  - case_id: math-01
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 15
+    independently_recomputed: 15
+    validation_method: exact_integer_formula
+    evidence: "360/24 = 15 sides."
+    pass: true
+  - case_id: math-02
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 4
+    independently_recomputed: 4
+    validation_method: exact_factorial_integer
+    evidence: "Compute factorial(25) exactly, remove trailing decimal zeroes, and take the final digit; it is 4."
+    pass: true
+  - case_id: math-03
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 15
+    independently_recomputed: 15
+    validation_method: exact_inclusion_exclusion
+    evidence: "Neither = 71 - (38 + 29 - 11) = 15."
+    pass: true
+  - case_id: math-04
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_frozen_expected: {x: 3, y: 2}
+    independently_recomputed: {x: 3, y: 2}
+    validation_method: exact_coordinate_transformation
+    evidence: "The counterclockwise rotation (x,y)->(-y,x) maps (2,-3) to (3,2)."
+    pass: true
+  - case_id: math-05
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 405
+    independently_recomputed: 405
+    validation_method: exact_integer_search
+    evidence: "The first multiple of 9 above 400 is (floor(400/9)+1)*9 = 405."
+    pass: true
+  - case_id: math-06
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 16
+    independently_recomputed: 16
+    validation_method: exact_line_arrangement_recurrence
+    evidence: "Regions = 1 + sum(k for k=1..5) = 1+15 = 16."
+    pass: true
+  - case_id: math-07
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 37
+    independently_recomputed: 37
+    validation_method: exact_integer_substitution
+    evidence: "a_6 = 6^2 + 1 = 37."
+    pass: true
+  - case_id: math-08
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 21
+    independently_recomputed: 21
+    validation_method: exact_pythagorean_identity
+    evidence: "The missing leg is sqrt(29^2-20^2) = sqrt(441) = 21."
+    pass: true
+  - case_id: math-09
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "-4/3"
+    independently_recomputed: "-4/3"
+    validation_method: exact_fraction_roots
+    evidence: "Solutions are 4 and -16/3; their sum is 4-16/3 = -4/3."
+    pass: true
+  - case_id: math-10
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 55
+    independently_recomputed: 55
+    validation_method: exact_binomial_coefficient
+    evidence: "Choosing two handshaking participants gives C(11,2) = 55."
+    pass: true
+  - case_id: math-11
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 54
+    independently_recomputed: 54
+    validation_method: exact_linear_equation
+    evidence: "(x/3+2)/5=4 implies x/3=18 and x=54."
+    pass: true
+  - case_id: math-12
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 2
+    independently_recomputed: 2
+    validation_method: exact_polynomial_symmetric_identity
+    evidence: "The t^2 coefficient is minus the root sum: -(2-5+1)=2."
+    pass: true
+  - case_id: math-13
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "1/4"
+    independently_recomputed: "1/4"
+    validation_method: exact_conditional_counting
+    evidence: "There are 12 face cards and 3 heart face cards, so 3/12=1/4."
+    pass: true
+  - case_id: math-14
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 60
+    independently_recomputed: 60
+    validation_method: exact_multiset_permutation_formula
+    evidence: "BANANA has multiplicities A^3,N^2,B^1; 6!/(3!2!)=60."
+    pass: true
+  - case_id: math-15
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "45/4"
+    independently_recomputed: "45/4"
+    validation_method: exact_fraction_variance
+    evidence: "Mean=13/2; squared deviations sum to 45; dividing by four gives 45/4."
+    pass: true
+  - case_id: math-16
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 40
+    independently_recomputed: 40
+    validation_method: exact_bipartite_edge_formula
+    evidence: "|E(K_(5,8))| = 5*8 = 40."
+    pass: true
+  - case_id: math-17
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 38
+    independently_recomputed: 38
+    validation_method: exact_modular_inverse_check
+    evidence: "17*38 = 646 = 15*43+1, so 38 is the inverse modulo 43."
+    pass: true
+  - case_id: math-18
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 34
+    independently_recomputed: 34
+    validation_method: independent_recurrence_evaluation
+    evidence: "T_0=T_1=1 and T_n=T_(n-1)+T_(n-2) give T_8=34."
+    pass: true
+  - case_id: math-19
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 289
+    independently_recomputed: 289
+    validation_method: exact_dot_product
+    evidence: "The tangent normal is (8,15), so c=(8,15) dot (8,15)=64+225=289."
+    pass: true
+  - case_id: math-20
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: -18
+    independently_recomputed: -18
+    validation_method: exact_rational_equation_reduction
+    evidence: "Clearing denominators gives x^2-x-18=0; Vieta gives root product -18."
+    pass: true
+  - case_id: math-21
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 945
+    independently_recomputed: 945
+    validation_method: exact_constrained_binomial_counting
+    evidence: "C(7,2)C(6,3)+C(7,3)C(6,2)=420+525=945."
+    pass: true
+  - case_id: math-22
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 195
+    independently_recomputed: 195
+    validation_method: exact_divisor_sum_identity
+    evidence: "72=2^3*3^2, so sigma(72)=(1+2+4+8)(1+3+9)=15*13=195."
+    pass: true
+  - case_id: math-23
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "1/3"
+    independently_recomputed: "1/3"
+    validation_method: direct_ordered_pair_enumeration_and_Fraction
+    evidence: "There are 72 ordered pairs; favorable residue counts are 6+9+9=24; Fraction(24,72)=1/3."
+    pass: true
+  - case_id: math-24
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 10
+    independently_recomputed: 10
+    validation_method: exact_matrix_multiplication
+    evidence: "(AB)_(2,1) = 3*2+4*1 = 10."
+    pass: true
+  - case_id: math-25
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 34
+    independently_recomputed: 34
+    validation_method: exact_polynomial_derivative
+    evidence: "f'(x)=9x^2-2, hence f'(2)=36-2=34."
+    pass: true
+  - case_id: math-26
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 125
+    independently_recomputed: 125
+    validation_method: independent_recurrence_evaluation
+    evidence: "Starting at 1, the five updates 2a+3 produce 5,13,29,61,125."
+    pass: true
+  - case_id: math-27
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 16
+    independently_recomputed: 16
+    validation_method: direct_bounded_lattice_enumeration
+    evidence: "Enumeration of -9<=x,y<=9 solving x^2+y^2=85 finds 16 ordered pairs."
+    pass: true
+  - case_id: math-28
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 97
+    independently_recomputed: 97
+    validation_method: exact_Legendre_valuation
+    evidence: "v_2(100!)=floor(100/2)+floor(100/4)+...=50+25+12+6+3+1=97."
+    pass: true
+  - case_id: math-29
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 180
+    independently_recomputed: 180
+    validation_method: exact_right_triangle_area
+    evidence: "9^2+40^2=41^2, so area=9*40/2=180."
+    pass: true
+  - case_id: math-30
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 240
+    independently_recomputed: 240
+    validation_method: exact_inclusion_exclusion
+    evidence: "4^5-4*3^5+6*2^5-4*1^5=1024-972+192-4=240."
+    pass: true
+  - case_id: math-31
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 65
+    independently_recomputed: 65
+    validation_method: exact_difference_of_squares_identity
+    evidence: "x^2-y^2=(x+y)(x-y)=13*5=65."
+    pass: true
+  - case_id: math-32
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 58
+    independently_recomputed: 58
+    validation_method: exact_circle_angle_identity
+    evidence: "An inscribed angle is half its central angle: 116/2=58 degrees."
+    pass: true
+  - case_id: math-33
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 511
+    independently_recomputed: 511
+    validation_method: exact_number_theory_identity
+    evidence: "gcd(2^72-1,2^45-1)=2^gcd(72,45)-1=2^9-1=511."
+    pass: true
+  - case_id: math-34
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 720
+    independently_recomputed: 720
+    validation_method: exact_circular_arrangement_formula
+    evidence: "Seven people around a round table give (7-1)!=720."
+    pass: true
+  - case_id: math-35
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "1/8"
+    independently_recomputed: "1/8"
+    validation_method: exact_independent_order_constraints
+    evidence: "Each of the three disjoint ordered-pair constraints has probability 1/2; product=(1/2)^3=1/8."
+    pass: true
+  - case_id: math-36
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 90
+    independently_recomputed: 90
+    validation_method: exact_factor_pair_enumeration
+    evidence: "299=13*23; x-y=13 and x+y=23 satisfy the bound, giving x=18,y=5 and xy=90."
+    pass: true
+  - case_id: math-37
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "9/95"
+    independently_recomputed: "9/95"
+    validation_method: exact_conditional_occupancy_counting_and_Fraction
+    evidence: "A nonempty assignments count is 3^6-2^6=665; B-empty and A-nonempty count is 2^6-1=63; Fraction(63,665)=9/95."
+    pass: true
+  - case_id: math-38
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 123
+    independently_recomputed: 123
+    validation_method: independent_second_order_recurrence
+    evidence: "The sequence is 2,3,7,18,47,123 under a_n=3a_(n-1)-a_(n-2)."
+    pass: true
+  - case_id: math-39
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 82
+    independently_recomputed: 82
+    validation_method: exact_two_by_two_determinant
+    evidence: "Area=|det[[8,3],[2,11]]|=|88-6|=82."
+    pass: true
+  - case_id: math-40
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 39
+    independently_recomputed: 39
+    validation_method: direct_modular_enumeration
+    evidence: "Distinct nonzero residues are {1,3,4,9,10,12}; their sum is 39."
+    pass: true
+  - case_id: math-41
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 42
+    independently_recomputed: 42
+    validation_method: exact_Catalan_formula
+    evidence: "Triangulations of a seven-gon are Catalan C_5 = binom(10,5)/6 = 42."
+    pass: true
+  - case_id: math-42
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 294
+    independently_recomputed: 294
+    validation_method: direct_positive_triple_enumeration
+    evidence: "Exhaustively enumerate positive triples satisfying x+2y+4z=40; maximum xyz is 294 at (x,y,z)=(14,7,3)."
+    pass: true
+  - case_id: math-43
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "1/20"
+    independently_recomputed: "1/20"
+    validation_method: exact_polynomial_integration_and_Fraction
+    evidence: "Integral of x(1-x)^3 is 1/2-1+3/4-1/5=1/20."
+    pass: true
+  - case_id: math-44
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 258
+    independently_recomputed: 258
+    validation_method: exact_cycle_coloring_formula
+    evidence: "For q=3 and n=8, (q-1)^n+(q-1)=2^8+2=258."
+    pass: true
+  - case_id: math-45
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 10
+    independently_recomputed: 10
+    validation_method: direct_distinct_partition_enumeration
+    evidence: "Recursive enumeration of strictly increasing positive-part partitions summing to 10 yields 10."
+    pass: true
+  - case_id: math-46
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 4
+    independently_recomputed: 4
+    validation_method: direct_bounded_Pell_enumeration
+    evidence: "Enumeration for 1<=y<=500 finds (x,y)=(3,2),(17,12),(99,70),(577,408), exactly four."
+    pass: true
+  - case_id: math-47
+    expected_type: rational
+    expected_schema: reduced_fraction_denominator_positive
+    proposed_frozen_expected: "43/30"
+    independently_recomputed: "43/30"
+    validation_method: exact_fraction_continued_fraction
+    evidence: "1+1/(2+1/(3+1/4)) = 43/30 after Fraction reduction."
+    pass: true
+  - case_id: math-48
+    expected_type: integer
+    expected_schema: signed_base10_integer
+    proposed_frozen_expected: 80
+    independently_recomputed: 80
+    validation_method: exact_bounded_composition_inclusion_exclusion
+    evidence: "Total C(12,3)=220; four violations each C(7,3)=35; pair violations are impossible, so 220-4*35=80."
+    pass: true

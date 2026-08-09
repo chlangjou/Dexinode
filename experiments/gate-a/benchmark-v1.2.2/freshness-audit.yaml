@@ -1,0 +1,113 @@
+schema_version: 1
+audit_id: gate-a-cross-skill-v1.2.2-math-structural-freshness-v1
+benchmark_version: gate-a-cross-skill-v1.2.2
+inherited_structural_audit: experiments/gate-a/benchmark-v1.2.1/freshness-audit.yaml
+structural_math_set_carried_forward_unchanged: true
+scope:
+  target_domain: mathematics
+  target_cases: 48
+  comparison_benchmark: experiments/gate-a/benchmark-v1.1.0/cases/math.yaml
+  rejected_intermediate_benchmark: experiments/gate-a/benchmark-v1.2.0/cases/math.yaml
+  audit_status: pass-pending-human-review
+  selected_model_results_consulted_for_v1_2_1_case_selection: false
+  selected_model_results_consulted_for_v1_2_2_oracle_correction: false
+  selected_model_executed_during_revision: false
+
+automated_exact_audits:
+  exact_prompt_overlap:
+    method: "Compare the UTF-8 prompt field after YAML parsing for exact string equality against every v1.1 Math prompt."
+    v1_1_math_case_count: 48
+    v1_2_2_math_case_count: 48
+    overlap_count: 0
+    result: pass
+  exact_expected_oracle_overlap:
+    method: "Compare normalized (expected.type, expected.value) pairs; structured values are canonicalized by schema key order."
+    v1_1_math_case_count: 48
+    v1_2_2_math_case_count: 48
+    overlap_count: 0
+    result: pass
+  exact_constants_overlap_where_practical:
+    method: >-
+      Extract signed decimal integer literals from each prompt's task text,
+      excluding the common output-contract words/placeholders. Report both the
+      lexical literal-union intersection and complete per-case numeric-tuple
+      matches. Shared small literals are expected in ordinary mathematical
+      notation; a complete case-specific tuple match is the stronger check.
+    lexical_literal_union_intersection_count: 22
+    lexical_literal_union_intersection_values: [-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 20, 25, 30, 100, 500]
+    complete_case_numeric_tuple_overlap_count: 0
+    complete_case_numeric_tuple_overlap_result: pass
+    empty_numeric_tuple_cases_excluded: true
+
+manual_structural_audit:
+  method: >-
+    For every new case, compare its construction, required reasoning path, and
+    salient task relation with the v1.1 Math set. A case is fresh only when it
+    is not a one-to-one positional copy, not a coefficient/constant
+    substitution, and not a near-isomorphic reuse of a v1.1 skeleton. Broad
+    skill-family comparability is allowed. The review is deterministic from the
+    committed prompts and this table and does not use model results.
+  positional_mirroring_of_v1_1_sequence: false
+  positional_review_result: pass
+  one_to_one_math_skeleton_mirrors: 0
+  coefficient_or_constant_substitution_only_cases: 0
+  structural_near_isomorphic_cases: 0
+  reviewer_record: "Structural case-by-case review carried forward from v1.2.1; v1.2.2 changes no Math prompt structure or ordering. Human review remains required."
+  cases:
+    - {id: math-01, difficulty: foundational, family: polygon_geometry, nearest_v1_1: [math-08, math-15, math-34], positional_mirror: false, not_simple_substitution: "Uses regular-polygon exterior-angle inversion, not triangle area, chord length, or trapezoid area."}
+    - {id: math-02, difficulty: foundational, family: factorial_digit_structure, nearest_v1_1: [math-05, math-23, math-30], positional_mirror: false, not_simple_substitution: "Uses the last nonzero digit of a factorial, not divisor count, totient, or modular exponentiation."}
+    - {id: math-03, difficulty: foundational, family: set_inclusion_exclusion, nearest_v1_1: [math-10, math-24], positional_mirror: false, not_simple_substitution: "Uses survey-set union and neither count, not divisibility intervals or lcm counting."}
+    - {id: math-04, difficulty: foundational, family: coordinate_transformation, nearest_v1_1: [math-07, math-28, math-46], positional_mirror: false, not_simple_substitution: "Uses a 90-degree rotation and structured coordinate output, not midpoint, line intercept, or linear-system solving."}
+    - {id: math-05, difficulty: foundational, family: divisibility, nearest_v1_1: [math-05, math-10, math-23], positional_mirror: false, not_simple_substitution: "Uses the successor multiple of a target, not divisor enumeration, interval divisibility, or totient."}
+    - {id: math-06, difficulty: foundational, family: line_arrangement_geometry, nearest_v1_1: [math-08, math-17, math-48], positional_mirror: false, not_simple_substitution: "Uses the maximum-region recurrence for lines, not a string count or nonadjacent subset count."}
+    - {id: math-07, difficulty: foundational, family: explicit_sequences, nearest_v1_1: [math-04, math-16, math-29, math-40], positional_mirror: false, not_simple_substitution: "Uses a closed-form square-index sequence, not an arithmetic or recursive recurrence."}
+    - {id: math-08, difficulty: foundational, family: right_triangle_geometry, nearest_v1_1: [math-08, math-15, math-34], positional_mirror: false, not_simple_substitution: "Uses a Pythagorean side relation, not base-height area, chord geometry, or trapezoid area."}
+    - {id: math-09, difficulty: foundational, family: absolute_value_algebra, nearest_v1_1: [math-01, math-31], positional_mirror: false, not_simple_substitution: "Uses two branches of an absolute-value equation and a root-sum rational, not linear or logarithmic solving."}
+    - {id: math-10, difficulty: foundational, family: handshake_counting, nearest_v1_1: [math-17, math-36, math-48], positional_mirror: false, not_simple_substitution: "Uses pairwise interactions among people, not position selection, ordered triples, or independent subsets."}
+    - {id: math-11, difficulty: intermediate, family: nested_fraction_equation, nearest_v1_1: [math-01, math-11, math-31], positional_mirror: false, not_simple_substitution: "Uses nested division and affine isolation, not a simultaneous linear system or logarithm equation."}
+    - {id: math-12, difficulty: intermediate, family: polynomial_coefficients, nearest_v1_1: [math-25, math-42], positional_mirror: false, not_simple_substitution: "Extracts a low-degree coefficient from factored linear terms, not a remainder or multinomial coefficient."}
+    - {id: math-13, difficulty: intermediate, family: conditional_card_probability, nearest_v1_1: [math-06, math-14, math-27, math-38], positional_mirror: false, not_simple_substitution: "Conditions on face-card status in a standard deck, not an urn composition or die-sum event."}
+    - {id: math-14, difficulty: intermediate, family: repeated_letter_arrangements, nearest_v1_1: [math-13, math-37], positional_mirror: false, not_simple_substitution: "Uses multinomial arrangements with repeated letters, not fixed-symbol strings or derangements."}
+    - {id: math-15, difficulty: intermediate, family: discrete_variance, nearest_v1_1: [math-33], positional_mirror: false, not_simple_substitution: "Computes variance of a four-point random variable, not expected square of a uniform integer."}
+    - {id: math-16, difficulty: intermediate, family: bipartite_graph_edges, nearest_v1_1: [math-45], positional_mirror: false, not_simple_substitution: "Counts cross-part edges in a complete bipartite graph, not topological orderings of a directed acyclic graph."}
+    - {id: math-17, difficulty: intermediate, family: modular_inverse, nearest_v1_1: [math-12, math-30, math-35], positional_mirror: false, not_simple_substitution: "Uses multiplicative inversion via Bezout structure, not CRT or modular powers."}
+    - {id: math-18, difficulty: intermediate, family: tiling_recurrence, nearest_v1_1: [math-16, math-29, math-40], positional_mirror: false, not_simple_substitution: "Counts monomer-domino tilings, not an authored scalar recurrence with changed coefficients."}
+    - {id: math-19, difficulty: intermediate, family: tangent_line_geometry, nearest_v1_1: [math-15, math-28, math-34], positional_mirror: false, not_simple_substitution: "Uses the radius-normal tangent equation, not chord length, line intercept, or trapezoid area."}
+    - {id: math-20, difficulty: intermediate, family: rational_equation_invariants, nearest_v1_1: [math-01, math-11, math-31], positional_mirror: false, not_simple_substitution: "Uses a rational-function equation and Vieta product, not linear-system or logarithm solving."}
+    - {id: math-21, difficulty: intermediate, family: constrained_committee_counting, nearest_v1_1: [math-13, math-17, math-36], positional_mirror: false, not_simple_substitution: "Counts group-composition committees with lower bounds, not strings or ordered integer triples."}
+    - {id: math-22, difficulty: intermediate, family: divisor_sum, nearest_v1_1: [math-05, math-23, math-41], positional_mirror: false, not_simple_substitution: "Uses multiplicative divisor-sum factorization, not divisor count, totient, or lcm."}
+    - {id: math-23, difficulty: intermediate, family: residue_class_sampling, nearest_v1_1: [math-10, math-14, math-27], positional_mirror: false, not_simple_substitution: "Samples distinct digits and counts residue classes, not dice parity or defective-item draws."}
+    - {id: math-24, difficulty: intermediate, family: matrix_product_entry, nearest_v1_1: [math-19, math-32], positional_mirror: false, not_simple_substitution: "Computes one entry of a matrix product, not a determinant."}
+    - {id: math-25, difficulty: intermediate, family: derivative_tangent_slope, nearest_v1_1: [math-20, math-43], positional_mirror: false, not_simple_substitution: "Uses a derivative at a point, not definite integration or area between curves."}
+    - {id: math-26, difficulty: intermediate, family: affine_recurrence, nearest_v1_1: [math-16, math-29, math-40], positional_mirror: false, not_simple_substitution: "Uses a first-order affine recurrence with a constant forcing term, not a homogeneous second-order recurrence."}
+    - {id: math-27, difficulty: intermediate, family: lattice_circle_counting, nearest_v1_1: [math-39], positional_mirror: false, not_simple_substitution: "Counts integer points on a sum-of-two-squares circle, not interior lattice points of a triangle."}
+    - {id: math-28, difficulty: intermediate, family: factorial_valuation, nearest_v1_1: [math-05, math-23, math-41], positional_mirror: false, not_simple_substitution: "Uses Legendre's valuation of a factorial, not divisor counting, totient, or divisor sum."}
+    - {id: math-29, difficulty: intermediate, family: Heron_geometry, nearest_v1_1: [math-08, math-15, math-34], positional_mirror: false, not_simple_substitution: "Uses three side lengths and Heron's/right-triangle construction, not supplied base-height or parallel-side dimensions."}
+    - {id: math-30, difficulty: intermediate, family: surjection_counting, nearest_v1_1: [math-13, math-42, math-48], positional_mirror: false, not_simple_substitution: "Uses inclusion-exclusion over empty labeled boxes, not a fixed-symbol string or polynomial coefficient."}
+    - {id: math-31, difficulty: intermediate, family: algebraic_identity, nearest_v1_1: [math-11, math-46], positional_mirror: false, not_simple_substitution: "Uses a sum/difference identity to avoid solving for individual variables, not a three-equation system."}
+    - {id: math-32, difficulty: intermediate, family: inscribed_angle_geometry, nearest_v1_1: [math-15, math-34], positional_mirror: false, not_simple_substitution: "Uses the central-angle/inscribed-angle theorem, not metric chord or trapezoid formulas."}
+    - {id: math-33, difficulty: intermediate, family: gcd_of_exponential_terms, nearest_v1_1: [math-12, math-23, math-30, math-35], positional_mirror: false, not_simple_substitution: "Uses the gcd identity for Mersenne-type terms, not CRT, totient, or modular exponentiation."}
+    - {id: math-34, difficulty: intermediate, family: circular_arrangements, nearest_v1_1: [math-37, math-45], positional_mirror: false, not_simple_substitution: "Uses rotational equivalence in a round-table arrangement, not derangements or DAG ordering."}
+    - {id: math-35, difficulty: advanced, family: paired_order_constraints, nearest_v1_1: [math-37], positional_mirror: false, not_simple_substitution: "Uses three independent relative-order constraints, not a derangement with one extra order condition."}
+    - {id: math-36, difficulty: advanced, family: difference_of_squares, nearest_v1_1: [math-35, math-44], positional_mirror: false, not_simple_substitution: "Factors a difference of squares and asks a derived product, not CRT or two-variable weighted optimization."}
+    - {id: math-37, difficulty: advanced, family: conditional_occupancy, nearest_v1_1: [math-38], positional_mirror: false, not_simple_substitution: "Uses labeled-function occupancy conditioned on one box being nonempty, not choosing a box then drawing physical balls."}
+    - {id: math-38, difficulty: advanced, family: second_order_recurrence, nearest_v1_1: [math-16, math-29, math-40], positional_mirror: false, not_simple_substitution: "Uses a new second-order recurrence and initial pair, not the prior third-order or coefficient-adjusted recurrence skeleton."}
+    - {id: math-39, difficulty: advanced, family: parallelogram_vector_geometry, nearest_v1_1: [math-07, math-39, math-43], positional_mirror: false, not_simple_substitution: "Uses a determinant of side vectors and a parallelogram, not midpoint, lattice-triangle, or curve-area geometry."}
+    - {id: math-40, difficulty: advanced, family: quadratic_residue_sum, nearest_v1_1: [math-12, math-30, math-35], positional_mirror: false, not_simple_substitution: "Sums a set of distinct quadratic residues, not solving a congruence or taking a modular power."}
+    - {id: math-41, difficulty: advanced, family: polygon_triangulation, nearest_v1_1: [math-45], positional_mirror: false, not_simple_substitution: "Uses Catalan triangulations of a convex polygon, not graph topological ordering."}
+    - {id: math-42, difficulty: advanced, family: integer_optimization, nearest_v1_1: [math-22, math-44], positional_mirror: false, not_simple_substitution: "Optimizes a three-variable product under weighted resource use, not x^2y under a two-variable sum."}
+    - {id: math-43, difficulty: advanced, family: beta_integral, nearest_v1_1: [math-20, math-43], positional_mirror: false, not_simple_substitution: "Uses a product-power integral on a unit interval, not polynomial curve-area subtraction."}
+    - {id: math-44, difficulty: advanced, family: cycle_graph_coloring, nearest_v1_1: [math-45], positional_mirror: false, not_simple_substitution: "Uses chromatic colorings of a cycle, not counting topological orderings of a DAG."}
+    - {id: math-45, difficulty: advanced, family: distinct_partition_counting, nearest_v1_1: [math-37], positional_mirror: false, not_simple_substitution: "Counts partitions into distinct unordered parts, not fixed-point-free permutations."}
+    - {id: math-46, difficulty: advanced, family: Pell_equation, nearest_v1_1: [math-12, math-30, math-35], positional_mirror: false, not_simple_substitution: "Counts bounded solutions of a Pell equation, not a residue or CRT solution."}
+    - {id: math-47, difficulty: advanced, family: continued_fractions, nearest_v1_1: [math-20, math-33], positional_mirror: false, not_simple_substitution: "Evaluates a finite continued fraction, not an integral or expected-value fraction."}
+    - {id: math-48, difficulty: advanced, family: bounded_compositions, nearest_v1_1: [math-13, math-17, math-48], positional_mirror: false, not_simple_substitution: "Uses stars-and-bars with upper bounds, not no-consecutive subset selection."}
+
+interpretation:
+  exact_audits_are_not_sufficient_alone: true
+  structural_review_is_required: true
+  conclusion: >-
+    The replacement Math set is structurally fresh relative to the observed
+    v1.1 Math set under the recorded construction-level review. Common broad
+    domains and mathematical vocabulary remain comparable by design. Final
+    acceptance remains PENDING HUMAN REVIEW.

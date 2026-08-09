@@ -1,0 +1,105 @@
+schema_version: 1
+scoring_id: gate-a-cross-skill-v1.2.2-scoring
+benchmark_version: gate-a-cross-skill-v1.2.2
+status: frozen-pending-human-review
+
+principles:
+  - "Primary case scoring measures recoverable task semantics, not narrow wire-format compliance."
+  - "Every case has one deterministic binary semantic score; no LLM judge is used."
+  - "All 96 cases are equally weighted within and across domains."
+  - "Every model receives the complete frozen 96-case set."
+  - "Raw responses, adapter decisions, and per-case score reasons must be preserved by later runs."
+  - "The expected answer value is never consulted while extracting or selecting a generated candidate."
+
+response_capture:
+  preserve_raw_text: true
+  preserve_error_and_timeout: true
+  max_new_tokens: 1024
+  output_format_is_not_part_of_primary_semantic_score: true
+
+mathematics:
+  case_score: 0_or_1
+  adapter: adapter/semantic_adapter.py
+  extraction:
+    candidate_source: "Only the frozen type-specific grammar and expected TYPE/schema are used."
+    canonical_answer: "Inspect lines matching the complete canonical ANSWER grammar for the expected type."
+    boxed_final: "If needed, inspect conventional boxed integer, rational, or structured tuple forms from the frozen grammar."
+    precedence: "Canonical candidates are preferred when candidates are otherwise non-conflicting; boxed candidates are the fallback."
+    ambiguity: "Reject when valid candidates normalize to more than one distinct semantic value; repeated equal candidates are non-ambiguous."
+    malformed: "Ignore text that does not match the expected frozen type grammar; score 0 when no valid candidate remains."
+    no_expected_value_guidance: true
+  types:
+    integer:
+      canonical: "ANSWER: <signed base-10 integer>"
+      boxed: "\\boxed{<signed base-10 integer>}"
+      normalization: "Parse the complete signed base-10 integer and compare integer value."
+    rational:
+      canonical: "ANSWER: <signed numerator>/<positive denominator>"
+      boxed:
+        - "\\boxed{<signed numerator>/<positive denominator>}"
+        - "\\boxed{\\frac{<signed numerator>}{<positive denominator>}}"
+      normalization: "Parse numerator and positive nonzero denominator, reduce by gcd, and normalize to denominator-positive n/d."
+    structured_object:
+      canonical: "ANSWER: <strict JSON object with exactly the frozen integer keys>"
+      boxed: "\\boxed{(<integer>, <integer>, ...)} with values mapped to the frozen schema key_order"
+      schema: "Each case freezes keys, key_order, and integer value_type in its expected.schema."
+      normalization: "Parse strict JSON or the frozen ordered tuple grammar; require exactly the expected schema keys and integer values, then canonicalize by key order."
+  scoring:
+    equality: "Compare the normalized generated value with the frozen expected.value only after extraction is complete."
+    difficulty: "Report foundational, intermediate, and advanced accuracy separately."
+
+software_coding:
+  case_score: 0_or_1
+  adapter: adapter/semantic_adapter.py
+  extraction:
+    candidate_blocks: "Inspect Python or unlabeled triple-backtick fenced blocks in response order."
+    ast_only: "Parse each candidate using Python AST only; extraction never executes candidate source."
+    entrypoint: "Select the first parsed block whose module body contains a top-level FunctionDef or AsyncFunctionDef with the requested entrypoint name."
+    surrounding_text: "Ignore prose outside the selected block and ignore later code blocks, including examples and output snippets."
+    fallback: "When no fenced candidate exists, parse the complete response as Python and use it only if its module body defines the requested entrypoint."
+    multiple_candidates: "First qualifying implementation block wins deterministically; later qualifying blocks are ignored."
+    non_python_fences: "Ignore fenced blocks whose language tag is neither python nor empty."
+    execution_boundary: "Only the approved judge-v2 bounded sandbox may compile or execute the selected source later."
+  strict_interface_metric:
+    id: coding_single_clean_source_block
+    definition: "1 only when the complete response is either one Python/unlabeled fenced block with no non-whitespace surrounding text, or unfenced full-response Python defining the entrypoint, with no extra prose or code blocks; otherwise 0."
+    used_for_gate_primary_accuracy: false
+  scoring:
+    equality: "The selected source compiles and passes all frozen evaluator tests in judge-v2; exact JSON-like equality is used by the later judge."
+    difficulty: "Report foundational, intermediate, and advanced accuracy separately."
+
+strict_interface_metrics:
+  mathematics:
+    id: math_canonical_answer_contract
+    definition: "1 only for a response consisting solely of one canonical ANSWER line that conforms to the expected type grammar and canonical schema; boxed-only, prose, extra blocks, and extra answer lines are 0."
+    primary_score: false
+  software_coding:
+    id: coding_single_clean_source_block
+    definition: "As defined above; reported independently from semantic execution score."
+    primary_score: false
+
+aggregation:
+  case_weights: equal
+  domain_accuracy:
+    mathematics: "sum(math semantic case scores) / 48"
+    software_coding: "sum(coding semantic case scores) / 48"
+  overall_accuracy: "sum(all 96 semantic case scores) / 96"
+  difficulty_breakdown: "Report each frozen difficulty band in each domain in addition to domain and overall accuracy."
+  specialist_views:
+    Qwen/Qwen2.5-Math-7B-Instruct:
+      primary_domain: mathematics
+      non_primary_domain: software_coding
+    Qwen/Qwen2.5-Coder-7B-Instruct:
+      primary_domain: software_coding
+      non_primary_domain: mathematics
+    Qwen/Qwen2.5-7B-Instruct:
+      primary_domain: null
+      non_primary_domain: null
+      report_both_domains: true
+  later_uncertainty: "A6 may bootstrap frozen case-level semantic scores using the unchanged 95% Gate A acceptance procedure."
+
+invalid_run_policy:
+  infrastructure_failure: "Mark the run invalid, preserve metadata and partial outputs, and create a new run; do not delete or overwrite it."
+  model_case_failure: "Score the affected case 0 with a preserved failure reason unless the failure is demonstrably infrastructure-level."
+  coding_isolation_failure: "Stop coding evaluation before scoring further coding cases, preserve the failed preflight receipt, and require a new passing receipt."
+  benchmark_definition_error: "Stop, mark this benchmark version invalid, and require a new version; do not patch frozen artifacts in place."

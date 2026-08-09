@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A5R1 — v1.2.2 oracle-correction and complete static validation
+- Active execution stage: A5R1 — v1.2.2 oracle-correction and complete static validation (completed pending human review)
 
 ## Objective
 
@@ -91,6 +91,28 @@ Target root:
 
 `experiments/gate-a/benchmark-v1.2.2/`
 
+### Completion state
+
+The v1.2.2 benchmark is completely defined and frozen pending human review.
+The v1.2.1 structurally fresh Math prompts, difficulty labels, and order are
+carried forward; v1.2.0 and v1.2.1 remain unchanged audit artifacts.
+
+Independent exact/static validation produced:
+
+- Math oracle validation: **48/48 PASS** in `oracle-validation.yaml`;
+- required corrections: math-23 `1/4` -> `1/3`, math-30 `432` -> `240`;
+- additional inherited correction: math-37 `63/665` -> reduced `9/95`;
+- coding cases SHA-256 identical to v1.2.0 and v1.2.1;
+- adapter implementation/tests SHA-256 identical to v1.2.0 and v1.2.1;
+- synthetic adapter tests: **13/13 PASS**;
+- exact prompt overlap with v1.1: 0; normalized expected-oracle overlap: 0;
+- complete numeric-tuple overlap: 0; lexical numeric-literal intersection: 22;
+- rendered-input maximum: 187; maximum with 1024 generated tokens: 1211;
+- remaining 4096-token context margin: 2885.
+
+No selected model was executed or inspected during v1.2.2 construction. Gate
+acceptance criteria and the selected candidate revisions are unchanged.
+
 Requirements:
 
 1. preserve v1.2.1 unchanged as frozen-not-approved audit evidence;
@@ -99,11 +121,12 @@ Requirements:
 4. carry forward the accepted semantic adapter, scoring contract, strict metrics, template, tokenizer/runtime controls, candidates/revisions, and Gate thresholds;
 5. correct `math-23` expected value to `1/3`;
 6. correct `math-30` expected value to `240`;
-7. independently recompute and validate **all 48 Math oracles**, preserving a durable machine-readable/manual validation record;
-8. refresh benchmark version identifiers, hashes, token counts/manifests as needed;
-9. run 13 synthetic adapter tests and static/context validation;
-10. execute no General, Math, or Coder checkpoint;
-11. stop for human review before A5R2.
+7. correct any additional oracle defect found by complete validation (math-37 is now `9/95`);
+8. independently recompute and validate **all 48 Math oracles**, preserving a durable machine-readable/manual validation record;
+9. refresh benchmark version identifiers, hashes, token counts/manifests as needed;
+10. run 13 synthetic adapter tests and static/context validation;
+11. execute no General, Math, or Coder checkpoint;
+12. stop for human review before A5R2.
 
 A5R2 and A6 remain inactive.
 
