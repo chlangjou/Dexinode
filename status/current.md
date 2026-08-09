@@ -66,13 +66,15 @@ The experiment exposed a Dexinode-relevant design fact: specialist checkpoints c
 
 This is useful architectural evidence, but it is not a Gate A PASS.
 
-## Active bounded task: A5R1
+## Completed bounded task: A5R1 — frozen pending human review
 
 Human-approved remediation contract:
 
 `gates/gate-a-specialization/execution/a5r-interface-remediation.yaml`
 
-Create and freeze `gate-a-cross-skill-v1.2.0` before any further selected-model execution.
+Created and froze `gate-a-cross-skill-v1.2.0` before any further selected-model
+execution. Durable artifacts are under
+`experiments/gate-a/benchmark-v1.2.0/`.
 
 A5R1 requirements:
 
@@ -89,9 +91,37 @@ A5R1 requirements:
 11. execute **no General, Math, or Coder model** during A5R1;
 12. stop for human review after v1.2 is frozen.
 
-Target root:
+Evidence produced:
 
-`experiments/gate-a/benchmark-v1.2.0/`
+- 96 fresh self-authored cases: 48 mathematics and 48 software coding, each
+  with the required 10/24/14 difficulty distribution and frozen case order;
+- common neutral Qwen role-delimiter template with unchanged candidate set,
+  revisions, BF16/no-quantization, no-tools, 4096-token envelope, and
+  `max_new_tokens: 1024` controls;
+- deterministic math semantic normalizer and coding AST extractor, with
+  strict-interface metrics reported separately;
+- 13 synthetic adapter tests, all passing;
+- exact pinned-tokenizer counts for all 96 cases: maximum 187 input tokens,
+  maximum 1211 including the 1024-token generation budget;
+- manifest, scoring, provenance, contamination limitations, and file hashes.
+
+No General, Math, or Coder checkpoint was executed or inspected. v1.1.0 and
+all A4/A5 runs remain unchanged and preserved as historical evidence.
+
+Uncertainties:
+
+- contamination absence is not claimed because common mathematical structures
+  and standard algorithms can occur in pretraining or educational material;
+- author difficulty labels are not model-calibrated;
+- the v1.2 coding-isolation receipt remains a later execution prerequisite,
+  inherited from the approved judge-v2 policy.
+
+Next bounded action: human review of the frozen v1.2 benchmark and handoff
+contract. A5R2 may begin only after that review; A6 remains inactive.
+
+Human review required: confirm fresh-case provenance, semantic normalization,
+strict metrics, synthetic adapter tests, token/context validation, and that
+Gate acceptance thresholds remain unchanged.
 
 ## Later A5R2 — not yet authorized
 

@@ -99,7 +99,7 @@ stages:
       strict_wire_format_conflated_with_task_competence: true
 
   A5R1-interface-protocol-and-benchmark-freeze:
-    status: active
+    status: completed-frozen-pending-human-review
     activation: human_approved_after_A5_interface_review
     contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
     objective: >-
@@ -107,6 +107,11 @@ stages:
       handoff/normalization contract before executing any selected model.
     target_benchmark_version: gate-a-cross-skill-v1.2.0
     target_benchmark_root: experiments/gate-a/benchmark-v1.2.0/
+    completed_artifacts:
+      manifest: experiments/gate-a/benchmark-v1.2.0/manifest.yaml
+      adapter_tests: experiments/gate-a/benchmark-v1.2.0/adapter/test_adapter.py
+      token_counts: experiments/gate-a/benchmark-v1.2.0/token_counts.yaml
+      validation: "13 synthetic adapter tests passed; all 96 rendered inputs plus 1024 generation tokens fit the 4096-token envelope."
     selected_model_execution_allowed: false
     use_selected_model_outputs_for_adapter_tests: false
     synthetic_adapter_fixtures_only: true
@@ -134,6 +139,7 @@ stages:
       - use_model_specific_chat_template
       - tune_adapter_using_selected_model_outputs
       - proceed_to_A5R2_without_human_review
+    completion_note: "v1.2.0 is frozen in Git; stop for human review before A5R2."
     stop_for_human_review: true
 
   A5R2-three-model-cross-evaluation:
