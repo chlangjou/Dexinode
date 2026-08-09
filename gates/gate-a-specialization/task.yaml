@@ -58,7 +58,7 @@ stages:
     objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
   A3-benchmark-freeze:
-    status: active
+    status: completed-pending-human-review
     activation: human_approved
     human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
     objective: construct and freeze a cross-skill benchmark and scoring policy

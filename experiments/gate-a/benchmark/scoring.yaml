@@ -1,0 +1,91 @@
+schema_version: 1
+scoring_id: gate-a-cross-skill-v1-scoring
+status: frozen
+benchmark_version: gate-a-cross-skill-v1.0.0
+
+principles:
+  - "Every case has one deterministic case score; no LLM judge is used."
+  - "All cases are equally weighted within and across domains."
+  - "A model receives the complete frozen case set; no specialist-only subset is scored."
+  - "Raw responses and per-case score reasons must be preserved by later runs."
+
+response_capture:
+  preserve_raw_text: true
+  preserve_error_and_timeout: true
+  max_new_tokens: 1024
+  output_format_is_part_of_score: true
+
+mathematics:
+  case_score: 0_or_1
+  extraction:
+    required_marker: "ANSWER:"
+    selection: "Use exactly one nonempty line beginning with ANSWER: after trimming whitespace; multiple answer lines or no matching line score 0."
+  exact_integer:
+    parse: "Signed base-10 integer with no additional non-whitespace characters."
+    equality: "Integer equality after parsing."
+  exact_reduced_rational:
+    parse: "Signed numerator/denominator with integer numerator and nonzero integer denominator."
+    normalization: "Reduce by gcd and normalize denominator positive."
+    equality: "Normalized numerator and denominator equality."
+  exact_json_object:
+    parse: "Parse the substring after ANSWER: as strict JSON."
+    normalization: "Require a JSON object with exactly the expected keys and integer values; key order is ignored."
+    equality: "Canonical object equality after integer parsing."
+  rationale: >-
+    The cases have exact integer, rational, or small JSON answers. Parsing and
+    normalization make arithmetic formatting deterministic without relying on
+    a model or human judge.
+
+software_coding:
+  case_score: 0_or_1
+  extraction:
+    preferred: "First fenced Python block if present."
+    fallback: "Otherwise treat the full response as Python source."
+    rejection: "Reject prose outside a single extracted source block, syntax errors, missing entrypoint, or non-callable entrypoint."
+  sandbox:
+    language: python
+    version: "3.10"
+    dependencies: standard_library_only
+    network: disabled
+    filesystem: disabled
+    subprocess: disabled
+    environment_variables: "No benchmark-specific secrets or credentials."
+    timeout_seconds_per_test: 2
+    max_source_bytes: 12000
+  unit_test_score:
+    pass_condition: "The extracted source compiles, defines the requested entrypoint, and returns the exact expected value for every listed test."
+    failure_condition: "Any exception, timeout, forbidden side effect, wrong value, or missing entrypoint scores the case 0."
+    comparison: "Recursive exact equality for JSON-like values; booleans are not equal to integers; floating point is not used by the frozen cases."
+  rationale: >-
+    Coding cases are functional programming tasks with deterministic committed
+    test vectors and no network/filesystem dependency. Hidden execution is not
+    required for the frozen score because the evaluator uses the committed
+    test vectors; later runners must not expose evaluator data to the model.
+
+aggregation:
+  case_weights: equal
+  domain_accuracy:
+    mathematics: "sum(math case scores) / 16"
+    software_coding: "sum(coding case scores) / 16"
+  overall_accuracy: "sum(all 32 case scores) / 32"
+  specialist_views:
+    Qwen/Qwen2.5-Math-7B-Instruct:
+      primary_domain: mathematics
+      non_primary_domain: software_coding
+    Qwen/Qwen2.5-Coder-7B-Instruct:
+      primary_domain: software_coding
+      non_primary_domain: mathematics
+    Qwen/Qwen2.5-7B-Instruct:
+      primary_domain: null
+      non_primary_domain: null
+      report_both_domains: true
+  later_uncertainty: >-
+    A6 may bootstrap case-level scores using the frozen 32-case vectors. The
+    bootstrap procedure and any confidence interval must not be tuned from
+    observed model results; Gate acceptance already specifies 95% bootstrap
+    uncertainty for a performance signal.
+
+invalid_run_policy:
+  infrastructure_failure: "Mark the run invalid, preserve its metadata and partial raw outputs, and create a new run; do not delete or overwrite it."
+  model_case_failure: "Score the affected case 0 with a preserved failure reason unless the failure is demonstrably infrastructure-level."
+  benchmark_definition_error: "Stop, mark the benchmark version invalid, and require a new benchmark version; do not patch frozen cases in place."
