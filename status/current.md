@@ -62,32 +62,31 @@ The generic CUDA image's default `NVIDIA_VISIBLE_DEVICES=all` value is not treat
 
 GPU qualification does not need to be repeated solely for the judge revision. Repeat it if the inference host/image/runtime/selected GPU or relevant NVIDIA container configuration changes.
 
-### CPU coding judge — CHANGES REQUIRED
+### CPU coding judge — HARDENING COMPLETE; PENDING HUMAN REVIEW
 
-The current Docker judge demonstrated strong isolation controls, including no network, no GPU, no host/Docker/model-cache mounts, read-only root, private tmpfs, dropped capabilities, `NoNewPrivs=1`, cgroup bounds, file-size enforcement, and a host watchdog.
+The revised Docker judge now passes the frozen one-process policy: all 19 previous isolation checks remain true, `pids.max=1`, `RLIMIT_NPROC=[1,1]`, and the mandatory `subprocess_denied` probe failed child creation with `BlockingIOError`/errno 11. The 2-second host watchdog killed a harmless long-sleep workload after 2008 ms and cleanup succeeded.
 
-However, the frozen Gate A v1.1.0 coding-isolation policy requires:
+The preferred non-root attempt (`65534:65534`) failed closed before Python startup under `nproc=1`; its failed metadata is preserved. The passing exact policy uses effective UID 0 inside the container, with `--cap-drop=ALL`, `no-new-privileges`, no mounts/devices/socket, and all previously approved controls retained. Non-root was not used because it was incompatible with executable Python under the frozen one-process bound on this runtime.
 
-- one process (`process_count: 1`);
-- a mandatory `subprocess_denied` probe;
-- no subprocess/shell/job-control/external-process capability exposed to model code;
-- a 2-second per-test timeout.
+New durable evidence:
 
-The reviewed A4a judge used `--pids-limit 32`, `--ulimit nproc=32:32`, a 3-second watchdog, and did not test subprocess denial. These controls are bounded but weaker than the frozen process policy, so A4a is not yet fully approved.
+- `experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json`
+- `experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe_v2.py`
+
+The prior v1 judge receipt remains unchanged.
 
 ## Active bounded task
 
-Revise and rerun **only the Docker judge qualification**.
+The Docker judge hardening revision is complete; stop for human review. No GPU qualification was rerun because its approved execution identity was unchanged.
 
-Required revision:
+Completed requirements:
 
-1. target `--pids-limit 1` and `--ulimit nproc=1:1` so the Python judge is the only process;
-2. add a `subprocess_denied` probe that attempts to start an external child process and must fail;
-3. qualify a 2-second host-side wall-clock watchdog;
-4. preserve the 1 MiB file-size limit;
-5. retain or strengthen all previously passing network/filesystem/GPU/capability/no-new-privileges/resource checks;
-6. preserve invalid/failed attempts;
-7. preferably run as a non-root container user if practical, and record the effective UID.
+1. `--pids-limit 1` and `--ulimit nproc=1:1` are enforced;
+2. `subprocess_denied` is mandatory and passes;
+3. the 2-second host-side wall-clock watchdog passes;
+4. the 1 MiB file-size limit and all prior isolation checks pass;
+5. failed/invalid attempts and the prior receipt are preserved;
+6. effective UID is recorded, with the non-root startup failure documented.
 
 Do not rerun the GPU qualification unless its execution identity changes.
 
@@ -95,6 +94,6 @@ Do not download or execute General, Math, or Coder checkpoints. Do not run bench
 
 ## Next human checkpoint
 
-Review the revised judge receipt against the frozen A3 isolation policy. If accepted, authorize A4b General Baseline execution using the approved single-L40 inference path and exact approved judge policy.
+Review `judge-isolation-preflight-v2.json` against the frozen A3 isolation policy, especially the root fallback, `pids/nproc=1`, subprocess denial, and 2-second watchdog. If accepted, authorize A4b General Baseline execution using the approved single-L40 inference path and exact approved judge policy.
 
 A4b and A5 remain inactive.

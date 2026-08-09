@@ -1,6 +1,6 @@
 # Gate A A4a Docker execution qualification
 
-Status: both qualification paths passed; pending human review. This directory records the Docker substrate only. No selected Qwen checkpoint was downloaded or executed, and no frozen Gate A benchmark case was run.
+Status: GPU path approved; Docker judge hardening v2 passed and is pending human review. This directory records the Docker substrate only. No selected Qwen checkpoint was downloaded or executed, and no frozen Gate A benchmark case was run.
 
 ## Environment
 
@@ -33,7 +33,7 @@ The recorded container ID is `e81ec2fdf0846dc6ad89aeefd5cdafaa71077262c3d0e953b7
 
 The CUDA image has a default `NVIDIA_VISIBLE_DEVICES=all` image environment value, but the Docker device request constrained actual device visibility; `nvidia-smi` reported only the selected UUID. A separate attempt to reassert the UUID with an explicit `--env NVIDIA_VISIBLE_DEVICES=...` stopped at its environment assertion before `nvidia-smi` and exited 1. That nonfinal failure and metadata are retained in the receipt; it was not concealed or used to weaken the device-request qualification.
 
-## CPU-only coding judge qualification
+## CPU-only coding judge qualification — A4a v1 historical receipt
 
 Result: **PASS**. The final probe produced 19/19 true checks. The probe is standard-library-only and is supplied over stdin; it does not import, compile, or execute benchmark or model-generated code.
 
@@ -54,12 +54,45 @@ docker run -i --name dexinode-gate-a-a4a-judge-qual-receipt \
 
 The probe container had no mounts, no devices, no device requests, and `privileged=false`. It demonstrated network denial and empty routes; no GPU nodes; hidden host worktree, host home, Docker socket, Docker root, Ollama home, and Ollama model mount; read-only root; private writable `/tmp` tmpfs; zero effective/permitted/bounding capabilities; effective `NoNewPrivs=1`; cgroup CPU/memory/PID limits; and a 1 MiB file-size limit enforced on write. The receipt is [judge-isolation-preflight.json](judge-isolation-preflight.json), and the probe source is [judge_isolation_probe.py](judge_isolation_probe.py).
 
-Wall-clock enforcement was qualified separately with a non-model 60-second sleep. The host-side runner used `timeout --foreground --kill-after=1s 3s docker wait ...`; it timed out after 3.119 seconds, then killed and cleaned up the container. Later judge execution must retain this host-side watchdog policy because Docker does not provide a native per-process wall-clock flag in this launch configuration.
+Wall-clock enforcement in v1 used a non-model 60-second sleep and a 3-second host-side runner. This is historical evidence only; it is superseded for later coding evaluation by the v2 receipt below.
+
+## CPU-only coding judge hardening — A4a v2 revision
+
+Result: **PASS pending human review**. The new receipt is [judge-isolation-preflight-v2.json](judge-isolation-preflight-v2.json); the v1 receipt remains unchanged. The revised probe produced 21/21 true checks: all 19 previous checks, explicit `nproc_bounded`, and mandatory `subprocess_denied`.
+
+The exact hardened judge launch was:
+
+```bash
+docker run -i --name dexinode-gate-a-a4a-judge-qual-v2-root \
+  --user 0:0 --network none --ipc private --read-only \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m \
+  --cap-drop=ALL --security-opt=no-new-privileges:true \
+  --pids-limit 1 --memory 256m --cpus 0.5 \
+  --ulimit nproc=1:1 --ulimit fsize=1048576:1048576 \
+  --stop-timeout 2 \
+  --log-driver=json-file --log-opt max-size=64k --log-opt max-file=1 \
+  python:3.10-slim python3 - \
+  < experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe_v2.py
+```
+
+The successful container exited 0 with effective UID 0, GID 0, no mounts/devices/device requests, and `privileged=false`. The probe observed `pids.max=1`, `RLIMIT_NPROC=[1,1]`, zero effective/permitted/bounding capabilities, `NoNewPrivs=1`, and all previous network, filesystem, GPU, tmpfs, resource, file-size, and output-limit checks passing.
+
+The mandatory subprocess probe called `subprocess.run([sys.executable, "-c", "pass"])`. Child creation failed with `BlockingIOError`, errno 11 (`EAGAIN`), and the receipt recorded `subprocess_denied=true`.
+
+The preferred non-root attempt used UID `65534:65534` with the same mandatory policy. It failed closed before Python startup with `resource temporarily unavailable`; that failed container metadata is preserved in the v2 receipt. The passing fallback uses root only inside the container, while retaining `--cap-drop=ALL` and `no-new-privileges`; no privileged mode or host capability was added.
+
+The v2 wall-clock qualification used the same hardened policy and a harmless 60-second sleep:
+
+```bash
+timeout --foreground --kill-after=1s 2s docker wait dexinode-gate-a-a4a-judge-wallclock-v2
+```
+
+The watchdog returned exit 124 after 2008 ms while the container was still running, then cleanup returned kill exit 0 and remove exit 0. The 2-second bound is now the required per-test wall-clock policy; Docker's host-side watchdog remains mandatory because the container launch has no native per-process wall-clock limit.
 
 ## Attempt and failure accounting
 
-The receipts retain nonfinal failures rather than treating them as passes: the explicit GPU environment reassertion failed before visibility probing; an early judge invocation used unsupported `--pid private`; and two noninteractive stdin invocations did not execute the probe. The final receipts use only the successful, correctly invoked probes. No privileged container, Docker socket, host mount, existing Ollama cache, model artifact, or benchmark case was used.
+The receipts retain nonfinal failures rather than treating them as passes: the explicit GPU environment reassertion failed before visibility probing; an early judge invocation used unsupported `--pid private`; two noninteractive stdin invocations did not execute the v1 probe; and the v2 non-root attempt failed before Python startup under `nproc=1`. The v1 judge receipt was not overwritten. The final v2 receipt uses only the successful, correctly invoked hardened probe. No privileged container, Docker socket, host mount, existing Ollama cache, model artifact, or benchmark case was used.
 
 ## Human checkpoint
 
-Human review is required to approve these exact image digests, GPU device-request policy, judge isolation flags, and host-side wall-clock watchdog before A4b General Baseline execution. A4b remains inactive until that approval. The frozen benchmark, scoring rules, neutral template, candidate set, and Gate acceptance criteria are unchanged.
+Human review is required to approve the v2 judge receipt, exact image digest, one-process policy, subprocess denial, root fallback, and 2-second host-side watchdog before A4b General Baseline execution. A4b remains inactive until that approval. The frozen benchmark, scoring rules, neutral template, candidate set, and Gate acceptance criteria are unchanged.

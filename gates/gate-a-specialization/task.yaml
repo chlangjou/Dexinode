@@ -62,7 +62,7 @@ stages:
       cpu_only_is_permanent_constraint: false
 
   A4-general-baseline:
-    status: active-environment-qualification
+    status: active-human-review-after-a4a-judge-hardening
     objective: execute the general-purpose baseline on the frozen v1.1.0 benchmark after the exact environment is qualified
     model:
       id: Qwen/Qwen2.5-7B-Instruct
@@ -77,7 +77,7 @@ stages:
       human_review: gates/gate-a-specialization/reviews/a4-preflight-human-review.md
 
     A4a-docker-execution-environment-qualification:
-      status: changes-required-judge-hardening
+      status: qualified-pending-human-review
       contract: gates/gate-a-specialization/execution/a4-docker-qualification.yaml
       review_record: gates/gate-a-specialization/reviews/a4a-docker-qualification-human-review.md
       reviewed_commit: 8ad46c50cd15a298b45c46613c676c09e9d6cea9
@@ -92,7 +92,7 @@ stages:
         selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
         rerun_required_for_judge_revision: false
       judge_isolation_preflight:
-        status: revision-required
+        status: qualified-pending-human-review
         prior_receipt_status: pass-under-a4a-contract-but-not-frozen-a3-process-policy
         frozen_policy: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
         required_process_count: 1
@@ -101,6 +101,18 @@ stages:
         file_size_bytes: 1048576
         retain_existing_isolation_controls: true
         preferred_non_root_user: true
+        revision_receipt: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
+        revision_probe: experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe_v2.py
+        result:
+          status: pass-pending-human-review
+          pids_limit: 1
+          nproc_limit: "1:1"
+          subprocess_denied: true
+          previous_checks_preserved: true
+          watchdog_seconds: 2
+          watchdog_elapsed_ms: 2008
+          effective_uid: 0
+          non_root_attempt: failed_closed_before_python_start
       stop_for_human_review: true
 
     A4b-general-baseline-execution:
