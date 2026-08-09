@@ -1,0 +1,118 @@
+id: gate-b-orchestration-acceptance-v1
+status: proposed-until-B1-human-freeze
+final_decision_owner: human
+
+question: >-
+  Does a frozen evidence-based skill router improve fresh mixed-workload semantic
+  accuracy relative to a General-only policy when both use exactly one model
+  inference per task and the same generation budget?
+
+minimum_evidence:
+  fresh_total_cases: 96
+  mathematics_cases: 48
+  software_coding_cases: 48
+  general_only_policy_completed: true
+  routed_policy_completed: true
+  same_cases_and_case_order: true
+  raw_per_case_results_preserved: true
+  routing_decisions_preserved: true
+  reproducibility_metadata_complete: true
+  failed_and_invalid_runs_preserved: true
+
+freshness_and_leakage_controls:
+  exact_gate_a_prompt_reuse_allowed: false
+  selected_model_calibration_allowed: false
+  gate_a_per_case_win_loss_used_for_case_selection: false
+  gate_a_raw_outputs_used_as_router_fixtures: false
+  gate_a_human_approved_aggregate_capability_profile_allowed: true
+  router_may_read_prompt_only: true
+  router_may_read_hidden_domain_label: false
+  router_may_read_expected_answer: false
+  router_may_read_coding_evaluator_tests: false
+
+primary_policies:
+  general_only:
+    model: Qwen/Qwen2.5-7B-Instruct
+    model_calls_per_case: 1
+  skill_routed:
+    model_calls_per_case: 1
+    registry:
+      mathematics: Qwen/Qwen2.5-Math-7B-Instruct
+      software_coding: Qwen/Qwen2.5-7B-Instruct
+      fallback: Qwen/Qwen2.5-7B-Instruct
+    coder_checkpoint_used_as_validated_coding_specialist: false
+
+resource_parity:
+  model_calls_per_case_equal: true
+  total_context_envelope_equal: true
+  max_new_tokens_equal: true
+  dtype_equal: true
+  quantization_equal: true
+  generation_policy_equal: true
+  external_tools_equal: true
+  routed_fallback_model_call_allowed: false
+  ensemble_or_voting_allowed: false
+  result_driven_rerouting_allowed: false
+  router: deterministic_cpu_only
+
+primary_orchestration_signal:
+  metric: overall_semantic_accuracy_delta_routed_minus_general
+  minimum_absolute_improvement_percentage_points: 10
+  uncertainty_requirement:
+    method: paired_bootstrap
+    confidence_level: 0.95
+    resamples: 20000
+    seed: 0
+    improvement_interval_must_exclude_zero: true
+
+validated_skill_signal:
+  mathematics_routed_minus_general:
+    minimum_absolute_improvement_percentage_points: 10
+    paired_bootstrap_interval_must_exclude_zero: true
+
+non_target_protection:
+  software_coding_routed_minus_general:
+    maximum_allowed_degradation_percentage_points: 5
+
+router_quality:
+  minimum_domain_routing_accuracy: 0.95
+  measured_against_hidden_evaluation_domain_labels: true
+  route_decision_made_before_model_output: true
+
+pass_recommendation_requires:
+  - minimum_evidence_satisfied
+  - freshness_and_leakage_controls_satisfied
+  - resource_parity_satisfied
+  - primary_orchestration_signal_satisfied
+  - validated_math_skill_signal_satisfied
+  - non_target_protection_satisfied
+  - router_quality_satisfied
+  - no_unresolved_material_methodological_defect
+
+fail_recommendation_requires:
+  - valid_fresh_benchmark_existed
+  - both_primary_policies_completed_comparably
+  - predefined_primary_orchestration_threshold_not_met
+
+inconclusive_conditions:
+  - benchmark_oracle_or_evaluator_defect
+  - router_contract_changed_after_selected_model_results
+  - resource_parity_broken
+  - insufficient_sample_or_statistical_power
+  - post_freeze_methodological_defect
+  - execution_environment_prevents_fair_comparison
+
+secondary_metrics:
+  - mathematics_accuracy
+  - software_coding_accuracy
+  - routing_accuracy
+  - strict_interface_compliance
+  - input_tokens
+  - output_tokens
+  - inference_elapsed_seconds
+  - router_elapsed_seconds
+
+agent_output_rule:
+  allowed: recommend_pass_fail_or_inconclusive
+  required_final_label: PENDING HUMAN REVIEW
+  may_assign_final_gate_result: false
