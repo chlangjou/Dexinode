@@ -3,7 +3,7 @@ title: Specialist Validation
 owner: human
 executor: agent
 status: active
-active_stage: A1-candidate-scout
+active_stage: A2-candidate-eligibility
 
 objective: >-
   Determine whether existing specialist model checkpoints exhibit reproducible,
@@ -33,7 +33,7 @@ candidate_requirements:
 
 stages:
   A1-candidate-scout:
-    status: active
+    status: completed
     objective: identify one or more fair candidate sets
     allowed_actions:
       - web_research
@@ -52,7 +52,7 @@ stages:
     stop_for_human_review: true
 
   A2-candidate-eligibility:
-    status: inactive
+    status: completed-pending-human-review
     activation: human_approval_required
     objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
