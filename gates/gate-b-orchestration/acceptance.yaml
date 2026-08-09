@@ -1,6 +1,10 @@
 id: gate-b-orchestration-acceptance-v1
-status: proposed-until-B1-human-freeze
+status: frozen-pending-human-review
 final_decision_owner: human
+freeze_record: experiments/gate-b/benchmark-v1.0.0/manifest.yaml
+benchmark_version: gate-b-orchestration-v1.0.0
+selected_model_execution_during_B1: false
+thresholds_changed_from_proposal: false
 
 question: >-
   Does a frozen evidence-based skill router improve fresh mixed-workload semantic

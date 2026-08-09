@@ -3,9 +3,9 @@
 - Updated: 2026-08-10
 - Active gate: **Gate B — Orchestration Advantage**
 - Gate A final decision: **PASS**
-- Gate B decision: **PENDING**
+- Gate B decision: **PENDING HUMAN REVIEW**
 - Session handoff: `HANDOFF.md`
-- Active stage: **B1 — protocol, router, benchmark and acceptance freeze design**
+- Active stage: **B1 — complete pending human review**
 
 ## Gate A — closed PASS
 
@@ -26,7 +26,7 @@ Final Gate A classification: **single-specialist PASS**. The stronger preference
 
 Architectural consequence: Dexinode must route using empirically measured capability profiles and explicit handoff contracts/adapters, not checkpoint labels alone.
 
-## Gate B — active design stage
+## Gate B — B1 complete pending human review
 
 Gate definition:
 
@@ -36,7 +36,7 @@ Controlling task:
 
 `gates/gate-b-orchestration/task.yaml`
 
-Proposed acceptance criteria:
+Frozen pending-human-review acceptance criteria:
 
 `gates/gate-b-orchestration/acceptance.yaml`
 
@@ -63,10 +63,36 @@ Before any Gate B selected-model execution:
 6. freeze General-only and skill-routed one-call-per-task policies;
 7. freeze acceptance criteria and stop for human review.
 
+### B1 static evidence
+
+The fresh Gate B benchmark and prompt-only router are complete under:
+
+- `experiments/gate-b/benchmark-v1.0.0/`;
+- `experiments/gate-b/router-v1/`.
+
+Validation passed:
+
+- 96 cases: 48 Math and 48 Coding, each domain 10 foundational / 24 intermediate / 14 advanced;
+- exact prompt overlap with Gate A v1.1.0, v1.2.0, v1.2.1, and v1.2.2: zero;
+- Math oracle validation: 48/48 PASS;
+- Coding evaluator validation: 48/48 cases and 121/121 tests PASS;
+- copied Gate A semantic adapter tests: 13/13 PASS;
+- router tests: 6/6 PASS and 96/96 benchmark domain routes;
+- maximum rendered input 188 tokens; maximum with generation allowance 1212; context margin 2884;
+- no selected Gate B model was executed or inspected.
+
+One pre-freeze authoring defect was found and corrected during validation: `math-27` divisor count of 360 changed from 18 to 24, with the reason recorded in `oracle-validation.yaml`. No model result informed the correction.
+
+The General-only and skill-routed policies are frozen at exactly one model call per task, with no retry, second call, voting, ensemble, or result-driven rerouting. The Coder checkpoint remains excluded as a validated coding route based only on the human-approved Gate A aggregate profile.
+
 ## Gate B execution authorization
 
-**Selected-model execution is NOT authorized during B1.**
+**Selected-model execution is NOT authorized until human review approves B1.**
 
 No Gate B General/Math/Coder checkpoint may be executed or inspected until the B1 benchmark/router/protocol artifacts are complete and human-approved.
 
-The current work is static research/design only. Multi-step agent chains, recursive delegation, networking, federation, reputation, and settlement remain outside Gate B v1 scope.
+The current B1 work is complete static research/design only. Multi-step agent chains, recursive delegation, networking, federation, reputation, and settlement remain outside Gate B v1 scope.
+
+### Next human checkpoint
+
+Review the B1 benchmark, router, oracle/evaluator validation, token counts, and frozen acceptance reference. Decide whether to authorize B2. This agent does not declare a Gate B result.

@@ -1,0 +1,257 @@
+schema_version: 1
+benchmark_id: gate-b-orchestration-v1.0.0
+validation_id: gate-b-coding-evaluator-validation-v1
+status: complete
+selected_model_used: false
+judge_execution_used: false
+method: >-
+  Each frozen evaluator test was independently recomputed by the committed
+  standard-library-only reference harness validation/validate_static.py. The
+  harness does not import candidate code and compares values with the same
+  exact-type recursive equality required by judge-v2.
+total_cases: 48
+total_tests: 121
+passed_cases: 48
+failed_cases: 0
+result: 48/48 PASS
+cases:
+  - case_id: code-01
+    entrypoint: clamp
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-02
+    entrypoint: count_vowels
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-03
+    entrypoint: rotate_left
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-04
+    entrypoint: is_palindrome_clean
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-05
+    entrypoint: sum_diagonal
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-06
+    entrypoint: merge_sorted_unique
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-07
+    entrypoint: chunked
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-08
+    entrypoint: temperature_band
+    test_count: 4
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-09
+    entrypoint: digit_frequency
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-10
+    entrypoint: first_nonrepeating
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-11
+    entrypoint: interval_union
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-12
+    entrypoint: top_k_frequent
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-13
+    entrypoint: evaluate_rpn
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-14
+    entrypoint: group_anagrams
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-15
+    entrypoint: transpose
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-16
+    entrypoint: parse_key_value
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-17
+    entrypoint: longest_increasing_run
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-18
+    entrypoint: balanced_brackets
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-19
+    entrypoint: rotate_matrix
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-20
+    entrypoint: polynomial_value
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-21
+    entrypoint: deduplicate_records
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-22
+    entrypoint: shortest_grid_path
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-23
+    entrypoint: merge_intervals
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-24
+    entrypoint: word_wrap
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-25
+    entrypoint: roman_to_int
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-26
+    entrypoint: stable_partition_signs
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-27
+    entrypoint: decode_rle
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-28
+    entrypoint: count_subarrays_sum
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-29
+    entrypoint: topological_order
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-30
+    entrypoint: simplify_path
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-31
+    entrypoint: median_two_sorted
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-32
+    entrypoint: snake_to_camel
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-33
+    entrypoint: longest_common_prefix
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-34
+    entrypoint: range_sum_queries
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-35
+    entrypoint: edit_distance
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-36
+    entrypoint: shortest_weighted_path
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-37
+    entrypoint: max_nonoverlap
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-38
+    entrypoint: knapsack_max_value
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-39
+    entrypoint: multiply_polynomials
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-40
+    entrypoint: solve_2x2
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-41
+    entrypoint: count_islands
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-42
+    entrypoint: minimum_window
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-43
+    entrypoint: parse_csv_rows
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-44
+    entrypoint: largest_rectangle
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-45
+    entrypoint: max_subarray_with_indices
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-46
+    entrypoint: valid_sudoku
+    test_count: 2
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-47
+    entrypoint: primes_up_to
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass
+  - case_id: code-48
+    entrypoint: minimum_coins
+    test_count: 3
+    validation_method: independent_standard_library_reference
+    status: pass

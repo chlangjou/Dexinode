@@ -2,7 +2,7 @@ id: gate-b-orchestration-v1
 title: Orchestration Advantage
 owner: human
 executor: agent
-status: active
+status: completed-pending-human-review
 active_stage: B1-protocol-router-benchmark-freeze
 
 precondition:
@@ -55,7 +55,7 @@ constraints:
 
 stages:
   B1-protocol-router-benchmark-freeze:
-    status: active
+    status: completed-pending-human-review
     objective: >-
       Define and freeze the fresh benchmark, deterministic router contract,
       execution policy, scoring, resource parity, and acceptance criteria before
@@ -86,6 +86,26 @@ stages:
       selected_model_outputs_visible: false
       output: one_registered_route
     stop_for_human_review: true
+    completion:
+      status: complete_pending_human_review
+      benchmark_root: experiments/gate-b/benchmark-v1.0.0/
+      benchmark_manifest: experiments/gate-b/benchmark-v1.0.0/manifest.yaml
+      protocol: experiments/gate-b/benchmark-v1.0.0/protocol.yaml
+      router_root: experiments/gate-b/router-v1/
+      freshness_audit: experiments/gate-b/benchmark-v1.0.0/freshness-audit.yaml
+      oracle_validation: experiments/gate-b/benchmark-v1.0.0/oracle-validation.yaml
+      evaluator_validation: experiments/gate-b/benchmark-v1.0.0/evaluator-validation.yaml
+      token_counts: experiments/gate-b/benchmark-v1.0.0/token_counts.yaml
+      math_oracles: 48/48 PASS
+      coding_evaluators: 48/48 cases; 121/121 tests PASS
+      adapter_tests: 13/13 PASS
+      router_tests: 6/6 PASS; 96/96 benchmark routes
+      maximum_rendered_input_tokens: 188
+      maximum_total_tokens_with_generation: 1212
+      context_margin_tokens: 2884
+      selected_model_execution_during_B1: false
+      gate_b_selected_model_execution_authorized: false
+      human_review_required_next: true
 
   B2-router-static-qualification:
     status: inactive
@@ -141,4 +161,4 @@ forbidden_actions_during_B1:
 handoff:
   durable_state: git
   final_decision: human_review
-  next_action: complete_B1_static_design_and_stop_for_human_review
+  next_action: review_B1_static_design_before_B2

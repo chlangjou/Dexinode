@@ -1,0 +1,948 @@
+schema_version: 1
+case_file: gate-b-orchestration-v1.0.0-software-coding
+domain: software_coding
+case_count: 48
+authoring_status: self_authored_before_any_gate_b_model_execution
+difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+semantic_contract: coding-v1.2
+execution_environment:
+  language: python
+  version: "3.10"
+  dependencies: standard_library_only
+  network: disabled
+  filesystem: disabled
+  subprocess: disabled
+  time_limit_seconds_per_test_case: 2
+cases:
+  - id: code-01
+    domain: software_coding
+    skill_axis: clamping
+    difficulty: foundational
+    prompt: >-
+      Define clamp(value, low, high) -> int. Return value limited to the
+      inclusive interval [low, high]. Assume low <= high. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: clamp
+      tests:
+        - args: [5, 0, 10]
+          expected: 5
+        - args: [-3, 0, 10]
+          expected: 0
+        - args: [14, 0, 10]
+          expected: 10
+
+  - id: code-02
+    domain: software_coding
+    skill_axis: string_counting
+    difficulty: foundational
+    prompt: >-
+      Define count_vowels(text: str) -> int. Count a, e, i, o, and u without
+      regard to case; ignore every other character. Return Python 3.10 source
+      with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: count_vowels
+      tests:
+        - args: [Aeronautics]
+          expected: 6
+        - args: [rhythm]
+          expected: 0
+        - args: [QWERTY]
+          expected: 1
+
+  - id: code-03
+    domain: software_coding
+    skill_axis: cyclic_rotation
+    difficulty: foundational
+    prompt: >-
+      Define rotate_left(items: list[int], shift: int) -> list[int]. Return a
+      new list rotated left by shift positions, reducing shift modulo the list
+      length; an empty input returns an empty list. Do not mutate the input.
+      Return Python 3.10 source with the requested entrypoint in a Python or
+      unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: rotate_left
+      tests:
+        - args: [[1, 2, 3, 4], 1]
+          expected: [2, 3, 4, 1]
+        - args: [[1, 2, 3, 4], 6]
+          expected: [3, 4, 1, 2]
+        - args: [[], 9]
+          expected: []
+
+  - id: code-04
+    domain: software_coding
+    skill_axis: normalized_palindrome
+    difficulty: foundational
+    prompt: >-
+      Define is_palindrome_clean(text: str) -> bool. Compare only
+      alphanumeric characters after case-folding; return true for an empty
+      cleaned string. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: is_palindrome_clean
+      tests:
+        - args: [Never odd or even]
+          expected: true
+        - args: [robot]
+          expected: false
+        - args: ["***"]
+          expected: true
+
+  - id: code-05
+    domain: software_coding
+    skill_axis: matrix_diagonal
+    difficulty: foundational
+    prompt: >-
+      Define sum_diagonal(matrix: list[list[int]]) -> int. Return the sum of
+      matrix[i][i] for every valid diagonal index; an empty matrix returns 0.
+      Inputs are square. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: sum_diagonal
+      tests:
+        - args: [[[1, 2], [3, 4]]]
+          expected: 5
+        - args: [[[2, 0, 1], [4, 5, 6], [7, 8, 9]]]
+          expected: 16
+        - args: [[]]
+          expected: 0
+
+  - id: code-06
+    domain: software_coding
+    skill_axis: sorted_merge
+    difficulty: foundational
+    prompt: >-
+      Define merge_sorted_unique(left: list[int], right: list[int]) -> list[int].
+      Both inputs are sorted. Return one sorted list containing every distinct
+      value from either input, without mutating inputs. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: merge_sorted_unique
+      tests:
+        - args: [[1, 3, 5], [2, 3, 6]]
+          expected: [1, 2, 3, 5, 6]
+        - args: [[], [-2, -2, 4]]
+          expected: [-2, 4]
+        - args: [[7, 8], [7, 8]]
+          expected: [7, 8]
+
+  - id: code-07
+    domain: software_coding
+    skill_axis: list_chunking
+    difficulty: foundational
+    prompt: >-
+      Define chunked(values: list[int], size: int) -> list[list[int]]. Return
+      consecutive nonempty chunks of at most size elements, preserving order.
+      Assume size is positive and do not mutate values. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: chunked
+      tests:
+        - args: [[1, 2, 3, 4, 5], 2]
+          expected: [[1, 2], [3, 4], [5]]
+        - args: [[1, 2, 3], 5]
+          expected: [[1, 2, 3]]
+        - args: [[], 3]
+          expected: []
+
+  - id: code-08
+    domain: software_coding
+    skill_axis: threshold_classification
+    difficulty: foundational
+    prompt: >-
+      Define temperature_band(celsius: int) -> str. Return freezing for values
+      <=0, cold for 1..15, mild for 16..25, and hot for values >=26. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: temperature_band
+      tests:
+        - args: [-4]
+          expected: freezing
+        - args: [15]
+          expected: cold
+        - args: [22]
+          expected: mild
+        - args: [31]
+          expected: hot
+
+  - id: code-09
+    domain: software_coding
+    skill_axis: digit_frequency
+    difficulty: foundational
+    prompt: >-
+      Define digit_frequency(number: int) -> dict[str, int]. Count decimal
+      digits in the absolute value, preserving zero as a digit for input 0.
+      Return a dictionary with string keys only for digits that occur. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: digit_frequency
+      tests:
+        - args: [-12021]
+          expected: {"0": 1, "1": 2, "2": 2}
+        - args: [0]
+          expected: {"0": 1}
+        - args: [507]
+          expected: {"0": 1, "5": 1, "7": 1}
+
+  - id: code-10
+    domain: software_coding
+    skill_axis: first_unique_character
+    difficulty: foundational
+    prompt: >-
+      Define first_nonrepeating(text: str) -> str. Return the first character
+      whose total frequency is one, or the empty string if none exists. Treat
+      characters case-sensitively. Return Python 3.10 source with the requested
+      entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: first_nonrepeating
+      tests:
+        - args: [swiss]
+          expected: w
+        - args: [aabbcc]
+          expected: ""
+        - args: [teeter]
+          expected: r
+
+  - id: code-11
+    domain: software_coding
+    skill_axis: interval_union
+    difficulty: intermediate
+    prompt: >-
+      Define interval_union(intervals: list[list[int]]) -> list[list[int]].
+      Sort intervals by start and merge overlapping closed intervals; touching
+      intervals also merge. Return a new normalized list. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: interval_union
+      tests:
+        - args: [[[1, 4], [3, 6], [8, 9]]]
+          expected: [[1, 6], [8, 9]]
+        - args: [[[5, 7], [1, 2], [2, 5]]]
+          expected: [[1, 7]]
+        - args: [[]]
+          expected: []
+
+  - id: code-12
+    domain: software_coding
+    skill_axis: frequency_ranking
+    difficulty: intermediate
+    prompt: >-
+      Define top_k_frequent(items: list[int], k: int) -> list[int]. Return the
+      k most frequent distinct values, ordered by decreasing frequency and then
+      by first appearance in items. If k exceeds the number of distinct values,
+      return all of them. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: top_k_frequent
+      tests:
+        - args: [[4, 4, 2, 2, 2, 9], 2]
+          expected: [2, 4]
+        - args: [[7, 3, 7, 3, 8], 2]
+          expected: [7, 3]
+        - args: [[1, 2, 1], 5]
+          expected: [1, 2]
+
+  - id: code-13
+    domain: software_coding
+    skill_axis: reverse_polish_evaluation
+    difficulty: intermediate
+    prompt: >-
+      Define evaluate_rpn(tokens: list[str]) -> int. Evaluate a valid reverse
+      Polish expression containing nonnegative integers and binary +, -, *, or
+      /. Division truncates toward zero. Return Python 3.10 source with the
+      requested entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: evaluate_rpn
+      tests:
+        - args: [["2", "3", "+", "4", "*"]]
+          expected: 20
+        - args: [["5", "1", "2", "+", "4", "*", "+", "3", "-"]]
+          expected: 14
+        - args: [["7", "2", "/"]]
+          expected: 3
+
+  - id: code-14
+    domain: software_coding
+    skill_axis: anagram_grouping
+    difficulty: intermediate
+    prompt: >-
+      Define group_anagrams(words: list[str]) -> list[list[str]]. Group words
+      with the same letter multiset, sort each group lexicographically, and
+      order groups by the first word position that created them. Return Python
+      3.10 source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: group_anagrams
+      tests:
+        - args: [[eat, tea, tan, ate, nat, bat]]
+          expected: [[ate, eat, tea], [nat, tan], [bat]]
+        - args: [[abc, cab, foo]]
+          expected: [[abc, cab], [foo]]
+
+  - id: code-15
+    domain: software_coding
+    skill_axis: matrix_transpose
+    difficulty: intermediate
+    prompt: >-
+      Define transpose(matrix: list[list[int]]) -> list[list[int]]. Return the
+      transpose of a nonempty rectangular matrix without mutating it. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: transpose
+      tests:
+        - args: [[[1, 2, 3], [4, 5, 6]]]
+          expected: [[1, 4], [2, 5], [3, 6]]
+        - args: [[[8], [9]]]
+          expected: [[8, 9]]
+
+  - id: code-16
+    domain: software_coding
+    skill_axis: key_value_parsing
+    difficulty: intermediate
+    prompt: >-
+      Define parse_key_value(text: str) -> dict[str, str]. Parse semicolon-
+      separated key=value fields, trim whitespace around keys and values, and
+      keep the last value for a repeated key. Ignore empty fields. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: parse_key_value
+      tests:
+        - args: ["mode=fast; retries=3; debug=true"]
+          expected: {mode: fast, retries: "3", debug: "true"}
+        - args: [" a=1;;a=2; b = hello "]
+          expected: {a: "2", b: hello}
+
+  - id: code-17
+    domain: software_coding
+    skill_axis: increasing_run
+    difficulty: intermediate
+    prompt: >-
+      Define longest_increasing_run(values: list[int]) -> int. Return the
+      length of the longest contiguous strictly increasing run; return 0 for
+      an empty list. Return Python 3.10 source with the requested entrypoint in
+      a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: longest_increasing_run
+      tests:
+        - args: [[1, 2, 2, 3, 5]]
+          expected: 3
+        - args: [[5]]
+          expected: 1
+        - args: [[]]
+          expected: 0
+
+  - id: code-18
+    domain: software_coding
+    skill_axis: delimiter_matching
+    difficulty: intermediate
+    prompt: >-
+      Define balanced_brackets(text: str) -> bool. Check whether (), [], and
+      {} are correctly nested; ignore all other characters. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: balanced_brackets
+      tests:
+        - args: ["({[]})"]
+          expected: true
+        - args: ["([)]"]
+          expected: false
+        - args: ["sum(a[0])"]
+          expected: true
+
+  - id: code-19
+    domain: software_coding
+    skill_axis: matrix_rotation
+    difficulty: intermediate
+    prompt: >-
+      Define rotate_matrix(matrix: list[list[int]]) -> list[list[int]]. Rotate
+      a square matrix 90 degrees clockwise and return a new matrix. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: rotate_matrix
+      tests:
+        - args: [[[1, 2], [3, 4]]]
+          expected: [[3, 1], [4, 2]]
+        - args: [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]
+          expected: [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+
+  - id: code-20
+    domain: software_coding
+    skill_axis: horner_evaluation
+    difficulty: intermediate
+    prompt: >-
+      Define polynomial_value(coefficients: list[int], x: int) -> int. The
+      coefficient list is ordered from constant term upward. Evaluate the
+      polynomial exactly and return the integer value. Return Python 3.10 source
+      with the requested entrypoint in a Python or unlabeled fenced block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: polynomial_value
+      tests:
+        - args: [[2, -1, 3], 2]
+          expected: 12
+        - args: [[5], 99]
+          expected: 5
+        - args: [[0, 4, 0, 1], -2]
+          expected: -16
+
+  - id: code-21
+    domain: software_coding
+    skill_axis: record_deduplication
+    difficulty: intermediate
+    prompt: >-
+      Define deduplicate_records(records: list[dict], key: str) -> list[dict].
+      Keep the first record for each key value, preserving input order, and
+      return a new list. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: deduplicate_records
+      tests:
+        - args: [[{"id": 2, "v": a}, {"id": 1, "v": b}, {"id": 2, "v": c}], id]
+          expected: [{id: 2, v: a}, {id: 1, v: b}]
+        - args: [[{"name": x}, {"name": y}], name]
+          expected: [{name: x}, {name: y}]
+
+  - id: code-22
+    domain: software_coding
+    skill_axis: grid_breadth_first_search
+    difficulty: intermediate
+    prompt: >-
+      Define shortest_grid_path(grid: list[list[int]], start: list[int],
+      goal: list[int]) -> int. Cells with 0 are open and cells with 1 are
+      blocked. Move in four cardinal directions and return the minimum number
+      of moves, or -1 when unreachable. Return Python 3.10 source with the
+      requested entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: shortest_grid_path
+      tests:
+        - args: [[[0, 0, 1], [1, 0, 0], [0, 0, 0]], [0, 0], [2, 2]]
+          expected: 4
+        - args: [[[0, 1], [1, 0]], [0, 0], [1, 1]]
+          expected: -1
+
+  - id: code-23
+    domain: software_coding
+    skill_axis: interval_merging
+    difficulty: intermediate
+    prompt: >-
+      Define merge_intervals(intervals: list[list[int]]) -> list[list[int]].
+      Sort closed intervals by start and merge overlaps or touching endpoints.
+      Return a new normalized list. Return Python 3.10 source with the
+      requested entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: merge_intervals
+      tests:
+        - args: [[[1, 3], [2, 5], [8, 10]]]
+          expected: [[1, 5], [8, 10]]
+        - args: [[[4, 4], [1, 2], [2, 4]]]
+          expected: [[1, 4]]
+
+  - id: code-24
+    domain: software_coding
+    skill_axis: greedy_text_layout
+    difficulty: intermediate
+    prompt: >-
+      Define word_wrap(words: list[str], width: int) -> list[str]. Pack words
+      greedily into lines with single spaces, never exceeding width, and return
+      the lines in order. Assume every word length is at most width. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: word_wrap
+      tests:
+        - args: [[the, quick, brown, fox], 10]
+          expected: [the quick, brown fox]
+        - args: [[one, two, three], 7]
+          expected: [one two, three]
+
+  - id: code-25
+    domain: software_coding
+    skill_axis: numeral_parsing
+    difficulty: intermediate
+    prompt: >-
+      Define roman_to_int(text: str) -> int. Parse a valid canonical Roman
+      numeral using I,V,X,L,C,D,M, including subtractive pairs. Return Python
+      3.10 source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: roman_to_int
+      tests:
+        - args: [MCMXCIV]
+          expected: 1994
+        - args: [XLII]
+          expected: 42
+        - args: [MMXXVI]
+          expected: 2026
+
+  - id: code-26
+    domain: software_coding
+    skill_axis: stable_partition
+    difficulty: intermediate
+    prompt: >-
+      Define stable_partition_signs(values: list[int]) -> list[int]. Return all
+      nonnegative values followed by all negative values, preserving the order
+      within each group. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: stable_partition_signs
+      tests:
+        - args: [[3, -1, 0, -4, 2]]
+          expected: [3, 0, 2, -1, -4]
+        - args: [[-2, -1]]
+          expected: [-2, -1]
+
+  - id: code-27
+    domain: software_coding
+    skill_axis: run_length_decoding
+    difficulty: intermediate
+    prompt: >-
+      Define decode_rle(pairs: list[list]) -> str. Each pair contains a
+      one-character string and a positive repeat count. Expand pairs in order
+      into one string. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: decode_rle
+      tests:
+        - args: [[[a, 3], [b, 2], [c, 1]]]
+          expected: aaabbc
+        - args: [[],]
+          expected: ""
+
+  - id: code-28
+    domain: software_coding
+    skill_axis: prefix_sum_counting
+    difficulty: intermediate
+    prompt: >-
+      Define count_subarrays_sum(values: list[int], target: int) -> int. Count
+      contiguous nonempty subarrays whose elements sum exactly to target.
+      Return Python 3.10 source with the requested entrypoint in a Python or
+      unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: count_subarrays_sum
+      tests:
+        - args: [[1, 2, 1, 2], 3]
+          expected: 3
+        - args: [[1, -1, 1, -1], 0]
+          expected: 4
+
+  - id: code-29
+    domain: software_coding
+    skill_axis: lexicographic_topological_sort
+    difficulty: intermediate
+    prompt: >-
+      Define topological_order(nodes: list[str], edges: list[list[str]]) ->
+      list[str]. Return a lexicographically smallest topological ordering,
+      where each edge [a,b] means a precedes b. Assume the graph is acyclic.
+      Return Python 3.10 source with the requested entrypoint in a Python or
+      unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: topological_order
+      tests:
+        - args: [[a, b, c, d], [[a, c], [b, c], [c, d]]]
+          expected: [a, b, c, d]
+        - args: [[build, test, lint], [[build, test], [lint, test]]]
+          expected: [build, lint, test]
+
+  - id: code-30
+    domain: software_coding
+    skill_axis: path_normalization
+    difficulty: intermediate
+    prompt: >-
+      Define simplify_path(path: str) -> str. Normalize an absolute Unix path:
+      remove repeated slashes, resolve . and .. without moving above root, and
+      return / for the root. Return Python 3.10 source with the requested
+      entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: simplify_path
+      tests:
+        - args: [/a//b/./c/../d/]
+          expected: /a/b/d
+        - args: [/../x/..]
+          expected: /
+
+  - id: code-31
+    domain: software_coding
+    skill_axis: order_statistics
+    difficulty: intermediate
+    prompt: >-
+      Define median_two_sorted(left: list[int], right: list[int]) -> float.
+      Both inputs are sorted and together nonempty. Return the exact median as
+      a Python numeric value, using a half-integer float when the combined
+      length is even. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: median_two_sorted
+      tests:
+        - args: [[1, 4], [2, 3]]
+          expected: 2.5
+        - args: [[1, 9], [4]]
+          expected: 4.0
+
+  - id: code-32
+    domain: software_coding
+    skill_axis: identifier_conversion
+    difficulty: intermediate
+    prompt: >-
+      Define snake_to_camel(name: str) -> str. Convert a lowercase
+      underscore-separated identifier to lowerCamelCase, omitting empty pieces
+      and capitalizing later pieces. Return Python 3.10 source with the
+      requested entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: snake_to_camel
+      tests:
+        - args: [http_response_code]
+          expected: httpResponseCode
+        - args: [already]
+          expected: already
+        - args: [a__b]
+          expected: aB
+
+  - id: code-33
+    domain: software_coding
+    skill_axis: prefix_matching
+    difficulty: intermediate
+    prompt: >-
+      Define longest_common_prefix(words: list[str]) -> str. Return the longest
+      string that is a prefix of every input word, or the empty string for an
+      empty input. Return Python 3.10 source with the requested entrypoint in a
+      Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: longest_common_prefix
+      tests:
+        - args: [[flower, flow, flight]]
+          expected: fl
+        - args: [[dog, racecar, car]]
+          expected: ""
+        - args: [[]]
+          expected: ""
+
+  - id: code-34
+    domain: software_coding
+    skill_axis: range_query_sums
+    difficulty: intermediate
+    prompt: >-
+      Define range_sum_queries(values: list[int], queries: list[list[int]]) ->
+      list[int]. For each inclusive [left,right] query, return its sum. Query
+      bounds are valid. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: range_sum_queries
+      tests:
+        - args: [[2, 4, 6, 8], [[0, 1], [1, 3], [2, 2]]]
+          expected: [6, 18, 6]
+        - args: [[-1, 5], [[0, 0], [0, 1]]]
+          expected: [-1, 4]
+
+  - id: code-35
+    domain: software_coding
+    skill_axis: edit_distance
+    difficulty: advanced
+    prompt: >-
+      Define edit_distance(source: str, target: str) -> int. Return the
+      Levenshtein distance allowing insertion, deletion, and substitution, each
+      with unit cost. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: edit_distance
+      tests:
+        - args: [kitten, sitting]
+          expected: 3
+        - args: [flaw, lawn]
+          expected: 2
+        - args: ["", abc]
+          expected: 3
+
+  - id: code-36
+    domain: software_coding
+    skill_axis: weighted_shortest_path
+    difficulty: advanced
+    prompt: >-
+      Define shortest_weighted_path(graph: dict, start: str, goal: str) ->
+      list. The graph maps each node to [neighbor, nonnegative_weight] pairs.
+      Return [distance, path] for a minimum-weight path, breaking equal-distance
+      ties lexicographically by the full node path. Return Python 3.10 source
+      with the requested entrypoint in a Python or unlabeled fenced block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: shortest_weighted_path
+      tests:
+        - args: [{A: [[B, 4], [C, 2]], B: [[D, 3]], C: [[B, 1], [D, 7]], D: []}, A, D]
+          expected: [6, [A, C, B, D]]
+        - args: [{s: [[a, 1], [b, 1]], a: [[t, 2]], b: [[t, 2]], t: []}, s, t]
+          expected: [3, [s, a, t]]
+
+  - id: code-37
+    domain: software_coding
+    skill_axis: interval_scheduling
+    difficulty: advanced
+    prompt: >-
+      Define max_nonoverlap(intervals: list[list[int]]) -> int. Select the
+      maximum number of pairwise non-overlapping half-open intervals [start,end]
+      using the earliest-finish greedy rule; an interval starting at the prior
+      end is allowed. Return Python 3.10 source with the requested entrypoint
+      in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: max_nonoverlap
+      tests:
+        - args: [[[1, 3], [2, 4], [3, 5], [5, 7], [6, 8]]]
+          expected: 3
+        - args: [[],]
+          expected: 0
+
+  - id: code-38
+    domain: software_coding
+    skill_axis: zero_one_knapsack
+    difficulty: advanced
+    prompt: >-
+      Define knapsack_max_value(items: list[list[int]], capacity: int) -> int.
+      Each item is [weight,value] and may be selected at most once. Return the
+      maximum value whose total weight is at most capacity. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: knapsack_max_value
+      tests:
+        - args: [[[2, 6], [2, 10], [3, 12]], 4]
+          expected: 16
+        - args: [[[5, 7], [4, 6]], 3]
+          expected: 0
+
+  - id: code-39
+    domain: software_coding
+    skill_axis: polynomial_multiplication
+    difficulty: advanced
+    prompt: >-
+      Define multiply_polynomials(left: list[int], right: list[int]) ->
+      list[int]. Coefficients are ordered from constant term upward. Return the
+      product with trailing zero coefficients removed, keeping [0] for the zero
+      polynomial. Return Python 3.10 source with the requested entrypoint in a
+      Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: multiply_polynomials
+      tests:
+        - args: [[1, 2], [3, 4]]
+          expected: [3, 10, 8]
+        - args: [[0, 0], [5, 1]]
+          expected: [0]
+
+  - id: code-40
+    domain: software_coding
+    skill_axis: linear_system_solver
+    difficulty: advanced
+    prompt: >-
+      Define solve_2x2(a: int, b: int, c: int, d: int, e: int, f: int) ->
+      dict[str,int]. Solve ax+by=e and cx+dy=f, assuming a unique integer
+      solution. Return {"x": x, "y": y}. Return Python 3.10 source with the
+      requested entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: solve_2x2
+      tests:
+        - args: [3, 1, 2, 1, 11, 8]
+          expected: {x: 3, y: 2}
+        - args: [1, 2, 4, -1, 7, 10]
+          expected: {x: 3, y: 2}
+
+  - id: code-41
+    domain: software_coding
+    skill_axis: grid_components
+    difficulty: advanced
+    prompt: >-
+      Define count_islands(grid: list[list[int]]) -> int. Count four-connected
+      components of 1s in a rectangular binary grid; zeroes are background.
+      Return Python 3.10 source with the requested entrypoint in a Python or
+      unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: count_islands
+      tests:
+        - args: [[[1, 1, 0, 0], [0, 1, 0, 1], [1, 0, 0, 1]]]
+          expected: 3
+        - args: [[[0, 0], [0, 0]]]
+          expected: 0
+
+  - id: code-42
+    domain: software_coding
+    skill_axis: minimum_window
+    difficulty: advanced
+    prompt: >-
+      Define minimum_window(text: str, target: str) -> str. Return the shortest
+      substring containing every character of target with multiplicity. If
+      several windows tie, return the earliest; return the empty string when no
+      window exists. Return Python 3.10 source with the requested entrypoint in
+      a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: minimum_window
+      tests:
+        - args: [ADOBECODEBANC, ABC]
+          expected: BANC
+        - args: [a, aa]
+          expected: ""
+        - args: [ab, b]
+          expected: b
+
+  - id: code-43
+    domain: software_coding
+    skill_axis: csv_parsing
+    difficulty: advanced
+    prompt: >-
+      Define parse_csv_rows(text: str) -> list[dict[str,str]]. Parse a CSV
+      string whose first row is the header, using Python CSV conventions for
+      quoted commas, and return one dictionary per data row. Return Python 3.10
+      source with the requested entrypoint in a Python or unlabeled fenced
+      implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: parse_csv_rows
+      tests:
+        - args: ["name,score\nAda,9\nLin,8\n"]
+          expected: [{name: Ada, score: "9"}, {name: Lin, score: "8"}]
+        - args: ["city,note\nTaipei,\"large,bright\"\n"]
+          expected: [{city: Taipei, note: "large,bright"}]
+
+  - id: code-44
+    domain: software_coding
+    skill_axis: histogram_geometry
+    difficulty: advanced
+    prompt: >-
+      Define largest_rectangle(heights: list[int]) -> int. Return the largest
+      rectangular area under a histogram of nonnegative bar heights. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: largest_rectangle
+      tests:
+        - args: [[2, 1, 5, 6, 2, 3]]
+          expected: 10
+        - args: [[4, 4, 4]]
+          expected: 12
+        - args: [[]]
+          expected: 0
+
+  - id: code-45
+    domain: software_coding
+    skill_axis: maximum_subarray_indices
+    difficulty: advanced
+    prompt: >-
+      Define max_subarray_with_indices(values: list[int]) -> list[int]. Return
+      [best_sum, start, end] for a nonempty contiguous subarray with maximum
+      sum, using the earliest start then earliest end to break ties. Return
+      Python 3.10 source with the requested entrypoint in a Python or unlabeled
+      fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: max_subarray_with_indices
+      tests:
+        - args: [[-2, 3, -1, 4, -5]]
+          expected: [6, 1, 3]
+        - args: [[-4, -2, -2, -5]]
+          expected: [-2, 1, 1]
+
+  - id: code-46
+    domain: software_coding
+    skill_axis: sudoku_validation
+    difficulty: advanced
+    prompt: >-
+      Define valid_sudoku(board: list[list[int]]) -> bool. Return whether a
+      9-by-9 board with zero for blanks obeys Sudoku uniqueness in every row,
+      column, and 3-by-3 box. Return Python 3.10 source with the requested
+      entrypoint in a Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: valid_sudoku
+      tests:
+        - args: [[[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]]]
+          expected: true
+        - args: [[[5,3,5,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]]]
+          expected: false
+
+  - id: code-47
+    domain: software_coding
+    skill_axis: prime_sieve
+    difficulty: advanced
+    prompt: >-
+      Define primes_up_to(limit: int) -> list[int]. Return all prime integers
+      from 2 through limit in increasing order, or an empty list when limit is
+      below 2. Return Python 3.10 source with the requested entrypoint in a
+      Python or unlabeled fenced implementation block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: primes_up_to
+      tests:
+        - args: [20]
+          expected: [2, 3, 5, 7, 11, 13, 17, 19]
+        - args: [1]
+          expected: []
+        - args: [2]
+          expected: [2]
+
+  - id: code-48
+    domain: software_coding
+    skill_axis: minimum_coin_change
+    difficulty: advanced
+    prompt: >-
+      Define minimum_coins(coins: list[int], amount: int) -> int. Return the
+      minimum number of unlimited coins needed to make amount, or -1 if it is
+      impossible. Coin denominations are positive. Return Python 3.10 source
+      with the requested entrypoint in a Python or unlabeled fenced block.
+    evaluator:
+      type: python_unit_tests
+      entrypoint: minimum_coins
+      tests:
+        - args: [[1, 3, 4], 6]
+          expected: 2
+        - args: [[2], 3]
+          expected: -1
+        - args: [[2, 5, 10], 0]
+          expected: 0
