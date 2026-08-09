@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A1 — Candidate Scout complete; pending human review
+- Active execution stage: A3 — Benchmark Construction and Freeze
 
 ## Objective
 
@@ -20,39 +20,57 @@ The immediate purpose is to establish whether distinct competency surfaces exist
 - Do not test multi-agent orchestration during Gate A.
 - Capability claims are not evidence; candidates must eventually be cross-evaluated on a frozen benchmark.
 
-## Completed bounded task: A1 — Candidate Scout
+## Human decision: A2 approved
 
-Recorded one credible candidate set in `experiments/gate-a/candidates.yaml`:
+A2 — Candidate Eligibility is APPROVED.
 
-- general baseline: `Qwen/Qwen2.5-7B-Instruct`;
-- mathematics specialist: `Qwen/Qwen2.5-Math-7B-Instruct`;
-- coding specialist: `Qwen/Qwen2.5-Coder-7B-Instruct`.
+Selected candidate set remains:
 
-The set has traceable Qwen/Qwen2.5-7B lineage, comparable nominal 7.61B
-parameter scale, public immutable revisions, Apache-2.0 licenses, and official
-specialization evidence. Runtime feasibility is conditional: the current host
-has 1.0 TiB RAM but no usable CUDA GPU, so CPU/offload execution is possible in
-principle but throughput is unverified.
+- `Qwen/Qwen2.5-7B-Instruct`
+- `Qwen/Qwen2.5-Math-7B-Instruct`
+- `Qwen/Qwen2.5-Coder-7B-Instruct`
 
-The principal unresolved confounder is that the Math checkpoint's published
-config has a 4K context window while the general and Coder checkpoints expose
-131K. Tokenizer/chat-template equivalence, exact artifact checksums, and actual
-runtime feasibility remain A2 work.
+The durable review record is `gates/gate-a-specialization/reviews/a2-human-review.md`.
 
-No benchmark was constructed, frozen, or executed. No model weights were
-downloaded or modified.
+Approved controls for A3:
 
-## Next bounded action after human review
+- enforce `rendered_input_tokens + max_new_tokens <= 4096` for every benchmark case;
+- freeze one neutral Qwen role-delimiter chat template with identical semantic system/user content for all three models;
+- use official BF16 checkpoints with no quantization for the initial inference policy;
+- keep external tools disabled for Gate A comparative inference;
+- CPU-only execution is not a permanent Gate constraint. A different execution host may be approved before A4 provided all compared models use the same environment/policy and the change is recorded before results are observed.
 
-Human review must choose one of:
+A2 verified exact revisions, common 7,615,616,512-parameter scale, shared Qwen2ForCausalLM architecture and Qwen2.5-7B foundation, byte-identical tokenizer assets, Apache-2.0 licensing, artifact identity, and the material Math context/chat-template confounders.
 
-- approve this candidate set and activate A2/A3;
-- request more candidate research;
-- revise Gate A assumptions;
-- mark Gate A candidate discovery INCONCLUSIVE.
+## Active bounded task: A3 — Benchmark Construction and Freeze
 
-Until that decision is recorded, do not construct the formal benchmark or run
-comparative evaluation.
+Construct and freeze a cross-skill benchmark that fairly measures the approved mathematics and software-coding specialization axes.
+
+A3 must:
+
+- include both mathematics and software-coding domains;
+- require every selected model to eventually run the complete benchmark;
+- measure primary and non-primary skill performance;
+- define benchmark cases and scoring rules before model results are observed;
+- use deterministic scoring wherever practical;
+- record benchmark provenance and contamination risks;
+- obey the approved 4096-token common context envelope;
+- freeze the shared neutral chat template and scoring policy in Git;
+- produce a versioned benchmark manifest.
+
+A3 must NOT:
+
+- download or execute the candidate models for comparative evaluation;
+- run the general baseline or specialist checkpoints;
+- inspect model results while constructing or tuning the benchmark;
+- modify Gate acceptance criteria;
+- change the selected candidate set without human review.
+
+When the benchmark is constructed and frozen, update the durable evidence and stop for human review before A4.
+
+## Next human checkpoint
+
+Review the frozen benchmark, scoring policy, provenance/contamination treatment, and common prompt/template policy. A4 remains inactive until that review is recorded.
 
 ## Future gate
 
