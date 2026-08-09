@@ -1,0 +1,144 @@
+id: gate-b-orchestration-v1
+title: Orchestration Advantage
+owner: human
+executor: agent
+status: active
+active_stage: B1-protocol-router-benchmark-freeze
+
+precondition:
+  gate_a_final_decision: PASS
+  gate_a_decision_record: gates/gate-a-specialization/reviews/gate-a-final-human-decision.md
+
+objective: >-
+  Determine whether an evidence-based skill router can turn validated specialist
+  capability into a measurable mixed-workload advantage over a General-only
+  policy without increasing model calls per task.
+
+bounded_hypothesis: >-
+  On a fresh 96-case mixed mathematics/software-coding benchmark, a frozen
+  deterministic prompt-only router using the Gate A empirical capability
+  registry improves overall semantic accuracy by at least 10 percentage points
+  over General-only, with paired-bootstrap 95% confidence interval excluding
+  zero, while using exactly one model inference per task.
+
+empirical_skill_registry:
+  mathematics:
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    gate_a_status: validated_specialist
+  software_coding:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    gate_a_status: best_validated_route_for_initial_gate_b
+  fallback:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+  excluded_as_validated_specialist:
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    reason: Gate A did not demonstrate a coding advantage over General
+
+constraints:
+  training_allowed: false
+  fine_tuning_allowed: false
+  model_merging_allowed: false
+  llm_router_allowed: false
+  deterministic_cpu_router_only: true
+  router_prompt_only: true
+  model_calls_per_case: 1
+  fallback_second_model_call_allowed: false
+  ensemble_allowed: false
+  voting_allowed: false
+  external_tools_allowed: false
+  gate_b_selected_model_execution_allowed: false
+  final_gate_decision_by_agent: false
+
+stages:
+  B1-protocol-router-benchmark-freeze:
+    status: active
+    objective: >-
+      Define and freeze the fresh benchmark, deterministic router contract,
+      execution policy, scoring, resource parity, and acceptance criteria before
+      any Gate B selected-model execution.
+    required_outputs:
+      - gates/gate-b-orchestration/README.md
+      - gates/gate-b-orchestration/acceptance.yaml
+      - gates/gate-b-orchestration/task.yaml
+      - experiments/gate-b/benchmark-v1.0.0/manifest.yaml
+      - experiments/gate-b/router-v1/README.md
+      - experiments/gate-b/router-v1/router.py
+      - experiments/gate-b/router-v1/test_router.py
+    benchmark_requirements:
+      total_cases: 96
+      mathematics_cases: 48
+      software_coding_cases: 48
+      exact_gate_a_prompt_reuse: 0
+      selected_model_calibration: forbidden
+      durable_oracle_and_evaluator_validation: required
+      token_context_validation: required
+    router_requirements:
+      input: task_prompt_only
+      deterministic: true
+      cpu_only: true
+      hidden_domain_labels_visible: false
+      expected_answers_visible: false
+      evaluator_tests_visible: false
+      selected_model_outputs_visible: false
+      output: one_registered_route
+    stop_for_human_review: true
+
+  B2-router-static-qualification:
+    status: inactive
+    activation: human_approval_after_B1
+    objective: >-
+      Validate router determinism, prompt-only information boundaries, benchmark
+      freshness, oracle/evaluator correctness, and resource-policy invariants
+      without executing selected models.
+
+  B3-general-only-baseline:
+    status: inactive
+    activation: human_approval_after_B2
+    objective: >-
+      Execute the General-only one-call-per-task policy on all 96 frozen Gate B
+      cases and preserve complete evidence.
+
+  B4-skill-routed-evaluation:
+    status: inactive
+    activation: accepted_B3_baseline
+    objective: >-
+      Execute the frozen skill-routed one-call-per-task policy on the same 96
+      cases without changing router, benchmark, generation policy, or acceptance
+      criteria after baseline results are observed.
+
+  B5-evidence-report:
+    status: inactive
+    objective: >-
+      Compute paired uncertainty, routing accuracy, domain effects, resource
+      parity, and a Gate B recommendation without assigning the final decision.
+
+frozen_intent_for_B1:
+  primary_baseline: General-only
+  primary_treatment: skill-routed
+  benchmark_cases: 96
+  domain_balance: {mathematics: 48, software_coding: 48}
+  primary_metric: overall_semantic_accuracy
+  primary_delta: routed_minus_general
+  acceptance_reference: gates/gate-b-orchestration/acceptance.yaml
+  gate_a_per_case_outputs_may_tune_gate_b: false
+  gate_a_aggregate_capability_profile_may_define_registry: true
+
+forbidden_actions_during_B1:
+  - execute_general_checkpoint_for_gate_b
+  - execute_math_checkpoint_for_gate_b
+  - execute_coder_checkpoint_for_gate_b
+  - inspect_selected_model_gate_b_outputs
+  - change_gate_a_final_decision
+  - use_gate_a_case_specific_wins_or_losses_to_select_gate_b_cases
+  - expose_hidden_domain_or_oracle_information_to_router
+  - broaden_to_multi_step_agent_collaboration
+  - broaden_to_networking_federation_reputation_or_economic_settlement
+
+handoff:
+  durable_state: git
+  final_decision: human_review
+  next_action: complete_B1_static_design_and_stop_for_human_review
