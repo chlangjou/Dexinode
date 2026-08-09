@@ -3,7 +3,7 @@ title: Specialist Validation
 owner: human
 executor: agent
 status: active
-active_stage: A5-specialist-cross-evaluation
+active_stage: A5R1-interface-protocol-and-benchmark-freeze
 
 objective: >-
   Determine whether existing specialist model checkpoints exhibit reproducible,
@@ -17,7 +17,6 @@ constraints:
   orchestration_allowed: false
   routing_allowed: false
   networking_required: false
-  benchmark_mutation_after_freeze: false
   final_gate_decision_by_agent: false
 
 candidate_requirements:
@@ -31,178 +30,147 @@ candidate_requirements:
   usable_license_required: true
   runtime_feasibility_required: true
 
+selected_candidates:
+  general:
+    id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+  mathematics_specialist:
+    id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+  software_coding_specialist:
+    id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+
 stages:
   A1-candidate-scout:
     status: completed
-    objective: identify one or more fair candidate sets
 
   A2-candidate-eligibility:
     status: approved
     human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
-    objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
   A3-benchmark-freeze:
-    status: approved
-    objective: construct and freeze a cross-skill benchmark and scoring policy
-    active_benchmark_version: gate-a-cross-skill-v1.1.0
-    active_benchmark_root: experiments/gate-a/benchmark-v1.1.0/
-    supersedes_benchmark: experiments/gate-a/benchmark/
-    prior_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.md
-    approval_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
+    status: approved-historical-v1.1
+    benchmark_version: gate-a-cross-skill-v1.1.0
+    benchmark_root: experiments/gate-a/benchmark-v1.1.0/
+    human_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
+
+  A4-general-baseline:
+    status: approved-historical-v1.1
+    run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
+    evidence_root: experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/
+    human_review_record: gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md
+    strict_v1_1_metrics:
+      mathematics_accuracy: 0.2083333333
+      software_coding_accuracy: 0.75
+      overall_accuracy: 0.4791666667
+
+  A5-specialist-cross-evaluation:
+    status: completed-reviewed-interface-confounded
+    benchmark_version: gate-a-cross-skill-v1.1.0
+    reviewed_commit: c95da721f0e55e0bda1c55f3dee9f4c95c814034
+    human_review_record: gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md
+    capability_matrix_accepted: false
+    A6_authorized: false
+    strict_interface_execution_records:
+      mathematics_specialist:
+        run_id: a5-math-specialist-20260809T092120Z-ai01-gpu0
+        evidence_root: experiments/gate-a/runs/a5-math-specialist-20260809T092120Z-ai01-gpu0/
+        mathematics_accuracy: 0.0
+        software_coding_accuracy: 0.0
+        overall_accuracy: 0.0
+        interpretation: output_interface_confounded_not_capability_zero
+      software_coding_specialist:
+        run_id: a5-coder-specialist-20260809T092120Z-ai01-gpu0
+        evidence_root: experiments/gate-a/runs/a5-coder-specialist-20260809T092120Z-ai01-gpu0/
+        mathematics_accuracy: 0.25
+        software_coding_accuracy: 0.8125
+        overall_accuracy: 0.53125
+      general_reference:
+        run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
+        mathematics_accuracy: 0.2083333333
+        software_coding_accuracy: 0.75
+        overall_accuracy: 0.4791666667
+    confirmed_confounder:
+      A2_identified_math_template_difference: true
+      common_neutral_template_was_insufficient: true
+      mathematics_boxed_answer_behavior: true
+      coding_prose_and_multiple_block_behavior: true
+      strict_wire_format_conflated_with_task_competence: true
+
+  A5R1-interface-protocol-and-benchmark-freeze:
+    status: active
+    activation: human_approved_after_A5_interface_review
+    contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
+    objective: >-
+      Build and freeze fresh v1.2 cases plus one common model-agnostic semantic
+      handoff/normalization contract before executing any selected model.
+    target_benchmark_version: gate-a-cross-skill-v1.2.0
+    target_benchmark_root: experiments/gate-a/benchmark-v1.2.0/
+    selected_model_execution_allowed: false
+    use_selected_model_outputs_for_adapter_tests: false
+    synthetic_adapter_fixtures_only: true
+    acceptance_criteria_unchanged: true
     required_case_counts: {mathematics: 48, software_coding: 48}
     required_difficulty_counts_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
-    approved_controls:
+    required_controls:
+      fresh_case_instances: true
+      common_neutral_chat_envelope: true
+      common_model_agnostic_output_contract: true
+      primary_semantic_score_separate_from_strict_interface_compliance: true
+      deterministic_normalization: true
+      llm_judge: false
       total_context_tokens: 4096
-      rendered_input_plus_generation_must_fit: true
-      shared_neutral_chat_template: true
-      identical_semantic_messages: true
       checkpoint_dtype: bfloat16
       quantization: none
       external_tools: false
-      cpu_only_is_permanent_constraint: false
-
-  A4-general-baseline:
-    status: approved
-    objective: execute the general-purpose baseline on the frozen v1.1.0 benchmark after the exact environment is qualified
-    model:
-      id: Qwen/Qwen2.5-7B-Instruct
-      revision: a09a35458c702b33eeacc393d103063234e8bc28
-    benchmark: experiments/gate-a/benchmark-v1.1.0/
-    prior_run:
-      id: a4-general-baseline-20260809T064011Z-ai01
-      status: blocked_before_model_execution
-      baseline_execution_occurred: false
-      preflight_result: failed_closed
-      receipt: experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json
-      human_review: gates/gate-a-specialization/reviews/a4-preflight-human-review.md
-
-    A4a-docker-execution-environment-qualification:
-      status: approved
-      contract: gates/gate-a-specialization/execution/a4-docker-qualification.yaml
-      initial_review_record: gates/gate-a-specialization/reviews/a4a-docker-qualification-human-review.md
-      final_review_record: gates/gate-a-specialization/reviews/a4a-judge-hardening-human-review.md
-      inference_gpu_preflight:
-        status: approved
-        selected_gpu_count: 1
-        selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
-        host: ai01
-        docker_engine: 29.5.3
-        runtime: runc
-        receipt: experiments/gate-a/execution/a4-docker-qualification/inference-gpu-preflight.json
-      judge_isolation_preflight:
-        status: approved
-        frozen_policy: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
-        receipt: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
-        image: python:3.10-slim
-        pids_limit: 1
-        nproc_limit: "1:1"
-        subprocess_denied: true
-        watchdog_seconds: 2
-        effective_uid: 0
-        capabilities_dropped: true
-        no_new_privileges: true
-        no_network: true
-        host_mounts: none
-        root_filesystem_read_only: true
-
-    A4b-general-baseline-execution:
-      status: approved
-      human_review_record: gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md
-      reviewed_commit: 2df6104d46e1520638fad79b8b6d8a670b3898f7
-      execution_record:
-        run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
-        evidence_root: experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/
-        resolved_revision: a09a35458c702b33eeacc393d103063234e8bc28
-        generated_cases: 96
-        scored_cases: 96
-        overall_accuracy: 0.4791666667
-        mathematics_accuracy: 0.2083333333
-        software_coding_accuracy: 0.75
-        difficulty_accuracy:
-          mathematics: {foundational: 0.4, intermediate: 0.25, advanced: 0.0}
-          software_coding: {foundational: 0.9, intermediate: 0.7916666667, advanced: 0.5714285714}
-        selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
-        selected_gpu_peak_observed_memory_mib: 16193
-        formal_inference_memory: 40g
-        formal_inference_cpus: 16
-        coding_judge_watchdog_timeouts: 1
-        infrastructure_invalid_cases: 0
-        specialists_executed: false
-
-  A5-specialist-cross-evaluation:
-    status: active
-    activation: human_approved_after_A4b
-    human_authorization: gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md
-    objective: execute every approved specialist across the complete frozen benchmark
-    benchmark: experiments/gate-a/benchmark-v1.1.0/
-    baseline_reference:
-      run_id: a4-general-baseline-20260809T082430Z-ai01-gpu0
-      evidence_root: experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/
-    models:
-      - id: Qwen/Qwen2.5-Math-7B-Instruct
-        revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
-        primary_domain: mathematics
-      - id: Qwen/Qwen2.5-Coder-7B-Instruct
-        revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
-        primary_domain: software_coding
-    required_execution:
-      every_model_runs_all_96_cases: true
-      specialist_only_subset_allowed: false
-      early_stopping_allowed: false
-      selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
-      formal_inference_memory: 40g
-      formal_inference_cpus: 16
-      checkpoint_dtype: bfloat16
-      quantization: none
-      same_package_runtime_as_a4b: true
-      same_prompt_rendering_as_a4b: true
-      same_generation_policy_as_a4b: true
-      same_scoring_logic_as_a4b: true
-      same_judge_v2_policy_as_a4b: true
-      gate_specific_model_cache_independent_of_ollama: true
-    runner_change_policy: >-
-      A5 may parameterize or duplicate the approved A4b runner only to substitute
-      the authorized model ID, pinned revision, run identifiers, cache/output
-      locations, and corresponding metadata. Prompt rendering, tokenization,
-      generation, runtime/package versions, scorer logic, coding tests, and judge
-      isolation semantics must remain unchanged.
-    required_outputs:
-      - one complete run directory for the Math specialist
-      - one complete run directory for the Coder specialist
-      - all raw responses and per-case deterministic scores for both specialists
-      - exact model/revision/artifact/runtime/GPU receipts for both runs
-      - cross-skill metrics for both domains and all difficulty bands
     forbidden_actions:
-      - modify_frozen_benchmark
-      - modify_scoring_rules
-      - modify_prompt_template
-      - modify_generation_policy
-      - change_candidate_set
+      - execute_general_model
+      - execute_math_specialist
+      - execute_coder_specialist
+      - modify_v1_1_benchmark_or_runs
       - modify_gate_acceptance_criteria
-      - use_specialist_default_chat_templates
-      - use_or_repermission_existing_ollama_model_cache
-      - modify_or_restart_ollama
-      - modify_or_restart_open_webui
-      - change_selected_gpu_or_formal_resource_policy_without_human_review
-      - proceed_to_a6_without_human_review
+      - change_candidate_set
+      - use_model_specific_chat_template
+      - tune_adapter_using_selected_model_outputs
+      - proceed_to_A5R2_without_human_review
     stop_for_human_review: true
+
+  A5R2-three-model-cross-evaluation:
+    status: inactive
+    activation: human_approval_after_A5R1
+    objective: >-
+      Execute General, Math specialist, and Coder specialist on the complete
+      frozen v1.2 benchmark under one unchanged protocol without result review
+      between model runs.
 
   A6-evidence-report:
     status: inactive
     objective: summarize evidence, uncertainty, specialization concentration, and a Gate recommendation without declaring the final Gate decision
 
+approved_execution_environment_for_future_runs:
+  host: ai01
+  docker_engine: 29.5.3
+  runtime: runc
+  selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+  selected_gpu_class: NVIDIA L40
+  formal_inference_memory: 40g
+  formal_inference_cpus: 16
+  checkpoint_dtype: bfloat16
+  quantization: none
+  package_runtime_reference: experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/runtime-definition.json
+  judge_v2_receipt: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
+
 required_final_outputs:
   - experiments/gate-a/candidates.yaml
-  - experiments/gate-a/benchmark-v1.1.0/manifest.yaml
+  - experiments/gate-a/benchmark-v1.2.0/manifest.yaml
   - experiments/gate-a/runs/
   - gates/gate-a-specialization/evidence-report.md
 
 executor_permissions:
-  research_candidates: true
+  research_candidates: false
   create_experiment_code: true
   modify_experiment_code: true
-  modify_benchmark_before_freeze: false
-  modify_benchmark_after_freeze: false
   modify_acceptance_criteria: false
   replace_baseline_after_execution: false
   declare_gate_pass: false

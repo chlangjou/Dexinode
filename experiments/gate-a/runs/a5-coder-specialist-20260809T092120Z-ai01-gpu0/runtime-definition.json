@@ -1,0 +1,85 @@
+{
+  "schema_version": "a5-runtime-definition-v1",
+  "status": "defined_before_specialist_acquisition",
+  "run_id": "a5-coder-specialist-20260809T092120Z-ai01-gpu0",
+  "model": {
+    "id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+    "role": "software_coding_specialist",
+    "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "specialist_default_chat_template_ignored": true
+  },
+  "host": "ai01",
+  "docker": {"engine": "29.5.3", "runtime": "runc", "cgroup_version": "2"},
+  "base_image": {
+    "reference": "nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04",
+    "repo_digest": "sha256:f4d8e1264366940438f0353da6f289c7bef069d993d111f8106086ccd18c4a30"
+  },
+  "inference_image": {
+    "reference": "dexinode/gate-a-coder-specialist:a5-coder-specialist-20260809T092120Z-ai01-gpu0",
+    "image_id": "sha256:70c74574cc2b86e1ee84e642d14741d0609d3772382ac576a892d4bb10e8ce5e",
+    "size_bytes": 8662993037,
+    "dockerfile_sha256": "04c8fee583593e39c59cec1b2f13ef5a6c6d2a874417a355fba031d6d5ad03b9",
+    "runner_sha256": "30e9157aab35917f038fbdeb6382a3d8fb8f93d2e4bc59e42837e1d7aa9b8f73",
+    "score_script_sha256": "1509a74c34f662b13eef8c1b2f2047064881c20c4fddd38502cfe1ece7eaa442"
+  },
+  "runtime": {
+    "python": "3.10.12",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_build": "12.1",
+    "transformers": "4.41.1",
+    "safetensors": "0.4.3",
+    "accelerate": "0.30.1",
+    "tokenizers": "0.19.1",
+    "huggingface_hub": "0.23.4",
+    "numpy": "1.26.4",
+    "PyYAML": "6.0.1"
+  },
+  "formal_inference_policy": {
+    "gpu_uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "gpu_count": 1,
+    "memory": "40g",
+    "cpus": 16,
+    "network": "none",
+    "ipc": "private",
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+    "cap_drop": ["ALL"],
+    "no_new_privileges": true,
+    "cache_mount_read_only": true,
+    "benchmark_mount_read_only": true
+  },
+  "generation_policy": {
+    "max_new_tokens": 1024,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "external_tools": false
+  },
+  "prompt_policy": {
+    "template_id": "qwen-neutral-role-delimiter-v1",
+    "repository_chat_templates_ignored": true,
+    "system_content": "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format.",
+    "context_limit_tokens": 4096,
+    "max_rendered_input_tokens": 113,
+    "max_rendered_input_plus_generation_tokens": 1137
+  },
+  "cache": {
+    "volume": "dexinode-gate-a5-coder-20260809T092120Z-cache",
+    "model_dir": "/gate-cache/models/qwen2.5-coder-7b-instruct",
+    "hf_cache": "/gate-cache/huggingface",
+    "independent_of_ollama": true,
+    "existing_ollama_storage_used": false
+  },
+  "benchmark": "gate-a-cross-skill-v1.1.0",
+  "resource_preflight": "resource-preflight.json",
+  "scope_controls": {
+    "general_baseline_rerun": false,
+    "math_specialist_executed_before_this_run": true,
+    "benchmark_modified": false,
+    "scoring_modified": false,
+    "acceptance_criteria_modified": false
+  }
+}

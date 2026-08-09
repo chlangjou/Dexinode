@@ -3,124 +3,113 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A5 — Specialist Cross-Evaluation
+- Active execution stage: A5R1 — Interface Protocol and Fresh Benchmark Freeze
 
 ## Objective
 
 Determine whether existing specialized small-model checkpoints exhibit reproducible, measurable skill specialization relative to a closely related general-purpose baseline.
 
-## Frozen Gate A controls
+## Selected models remain unchanged
 
-Approved candidate set:
+- General: `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
+- Math specialist: `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
+- Coder specialist: `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
 
-- general baseline: `Qwen/Qwen2.5-7B-Instruct`
-- mathematics specialist: `Qwen/Qwen2.5-Math-7B-Instruct`
-- coding specialist: `Qwen/Qwen2.5-Coder-7B-Instruct`
+Gate acceptance criteria are unchanged.
 
-Approved benchmark: `experiments/gate-a/benchmark-v1.1.0/`.
+## v1.1 execution history — preserved
 
-The frozen benchmark, scoring rules, neutral prompt template, candidate revisions, generation policy, and Gate acceptance criteria remain unchanged.
+The frozen `gate-a-cross-skill-v1.1.0` benchmark and all A4/A5 run evidence remain immutable audit history.
 
-## Approved execution environment
+Strict v1.1 scores were:
 
-Gate A uses Docker on `ai01`.
+| model | mathematics | software coding | overall |
+| --- | ---: | ---: | ---: |
+| General | 10/48 (20.83%) | 36/48 (75.00%) | 46/96 (47.92%) |
+| Math specialist | 0/48 (0%) | 0/48 (0%) | 0/96 (0%) |
+| Coder specialist | 12/48 (25.00%) | 39/48 (81.25%) | 51/96 (53.13%) |
 
-Inference path:
+These remain valid measurements of behavior under the exact v1.1 strict wire/output contract.
 
-- Docker Engine 29.5.3, runtime `runc`;
-- exactly one NVIDIA L40;
-- selected UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
-- BF16, no quantization;
-- formal comparison runs use 40 GiB container memory and 16 CPUs;
-- network disabled during formal inference;
-- read-only root, private tmpfs, dropped capabilities, no-new-privileges;
-- Gate-specific model caches remain independent of Ollama/Open-WebUI storage.
+## A5 human review — interface confounder confirmed
 
-Coding judge v2:
+Durable review:
 
-- pinned `python:3.10-slim` image/digest;
-- CPU-only, no network/GPU/host mounts/Docker socket;
-- read-only root and private tmpfs;
-- `--cap-drop=ALL`, `NoNewPrivs=1`;
-- `pids.max=1`, `RLIMIT_NPROC=1:1`;
-- 256 MiB / 0.5 CPU bounds;
-- 1 MiB file-size bound and bounded logs;
-- empirical subprocess denial;
-- mandatory 2-second host watchdog.
+`gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md`
 
-Execution-environment approvals:
+Reviewed A5 commit:
 
-- `gates/gate-a-specialization/reviews/a4a-docker-qualification-human-review.md`
-- `gates/gate-a-specialization/reviews/a4a-judge-hardening-human-review.md`
+`c95da721f0e55e0bda1c55f3dee9f4c95c814034`
 
-## A4b General baseline — APPROVED
+The complete v1.1 three-row matrix is **not accepted as a task-capability matrix**.
 
-Human review:
+The Math specialist's zero row is dominated by output-interface incompatibility:
 
-`gates/gate-a-specialization/reviews/a4b-general-baseline-human-review.md`
+- reviewed mathematics responses often solve the task correctly but end in conventional `\\boxed{...}` mathematics rather than the required `ANSWER:` marker;
+- for example `math-01` derives 6, `math-02` derives 28, `math-03` derives 56, `math-04` derives -40, and `math-05` derives 24, yet v1.1 scores them zero because the exact `ANSWER:` marker is absent;
+- Math-specialist mathematics records are rejected by the strict answer-marker rule rather than demonstrating zero mathematical competence;
+- coding responses similarly often include a plausible implementation plus prose/examples or additional code blocks, causing strict source extraction rejection such as `multiple_code_blocks`.
 
-Accepted run:
+A2 had already identified the Math checkpoint's chat-template / boxed-answer behavior as a material confounder. The A5 evidence demonstrates that a shared neutral role-delimiter template alone was insufficient to remove the behavioral interface difference.
 
-`experiments/gate-a/runs/a4-general-baseline-20260809T082430Z-ai01-gpu0/`
+Therefore:
 
-General results:
+- do not interpret Math specialist 0/96 as capability zero;
+- do not authorize A6 from the v1.1 matrix;
+- do not patch v1.1 scoring in place;
+- do not rescore only the Math specialist with relaxed rules;
+- do not switch only the Math specialist to its native chat template.
 
-- 96/96 cases generated and scored;
-- mathematics: 10/48 = 20.8333%;
-- software coding: 36/48 = 75.0000%;
-- overall: 46/96 = 47.9167%;
-- mathematics difficulty: foundational 4/10, intermediate 6/24, advanced 0/14;
-- coding difficulty: foundational 9/10, intermediate 19/24, advanced 8/14;
-- no infrastructure-invalid cases in the final pass;
-- one coding case reached the approved 2-second watchdog and was scored zero under the frozen policy.
+## Research implication
 
-The low General mathematics score was sanity-reviewed before A5 authorization. Sampled raw responses show genuine incorrect direct answers, not a parser/scoring defect. The benchmark and direct-answer interface were frozen before model results and must not be changed now.
+The experiment exposed a Dexinode-relevant design fact: specialist checkpoints can require different behavioral output handling even within a shared family/tokenizer lineage. A skill network should distinguish **task competence** from **wire/handoff-format compliance** and provide an explicit deterministic normalization contract.
 
-The accepted General row is the reference row for the later cross-skill competency matrix. It does not by itself establish specialization or decide Gate A.
+This is useful architectural evidence, but it is not a Gate A PASS.
 
-## Active bounded task: A5 — Specialist Cross-Evaluation
+## Active bounded task: A5R1
 
-Execute both approved specialists, each across the complete 96-case frozen benchmark:
+Human-approved remediation contract:
 
-1. `Qwen/Qwen2.5-Math-7B-Instruct`
-   - revision `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
-   - primary domain: mathematics
+`gates/gate-a-specialization/execution/a5r-interface-remediation.yaml`
 
-2. `Qwen/Qwen2.5-Coder-7B-Instruct`
-   - revision `c03e6d358207e414f1eca0bb1891e29f1db0e242`
-   - primary domain: software coding
+Create and freeze `gate-a-cross-skill-v1.2.0` before any further selected-model execution.
 
-Every specialist must run all 48 mathematics and all 48 coding cases. No specialist-only subset or early stopping is allowed.
+A5R1 requirements:
 
-Comparison controls that must remain identical to A4b:
+1. author **fresh** 48 mathematics + 48 software-coding case instances;
+2. retain the 10 foundational / 24 intermediate / 14 advanced distribution per domain;
+3. do not reuse v1.1 case text or exact constants/oracles;
+4. retain the same candidates, revisions, BF16/no-quantization policy, common 4096-token envelope, neutral Qwen role-delimiter chat envelope, approved Docker/L40/runtime policy, and Gate acceptance thresholds;
+5. define one common model-agnostic tolerant handoff contract for all three models;
+6. primary scoring must measure deterministic task semantics while strict interface compliance is reported separately;
+7. mathematics normalization may accept the frozen canonical `ANSWER:` grammar or one frozen conventional boxed-final-answer grammar, with ambiguity rejected and no expected-value-guided extraction;
+8. coding normalization must deterministically identify the first Python fenced block whose AST defines the required entrypoint, ignoring surrounding prose/non-selected example blocks; source execution remains only in judge-v2;
+9. adapter behavior must be frozen and validated only on committed synthetic fixtures;
+10. record provenance, contamination limitations, token counts, scoring, adapter tests, and manifest;
+11. execute **no General, Math, or Coder model** during A5R1;
+12. stop for human review after v1.2 is frozen.
 
-- same package/runtime versions;
-- same selected L40 UUID;
-- same formal 40 GiB / 16 CPU inference resource policy;
-- same BF16/no-quantization policy;
-- same neutral prompt rendering and semantic messages;
-- same tokenizer policy and 4,096-token context envelope;
-- same deterministic generation settings;
-- same deterministic mathematics scorer;
-- same coding tests and exact judge-v2 isolation policy.
+Target root:
 
-A5 may duplicate or parameterize A4b tooling only to substitute the authorized model ID, pinned revision, run/cache/output identifiers, and metadata. It must not alter prompt rendering, generation, scoring, tests, package versions, or isolation semantics.
+`experiments/gate-a/benchmark-v1.2.0/`
 
-Preserve a complete run directory for each specialist with model artifact identity, environment/image/GPU receipts, raw 96-case responses, per-case scores/reasons/timing, coding judge records, and domain/difficulty metrics.
+## Later A5R2 — not yet authorized
 
-A5 must NOT:
+After human approval of v1.2, General + Math specialist + Coder specialist will all run the complete fresh 96-case benchmark again under one unchanged protocol. No v1.1 score may be substituted into that matrix, and there will be no human result review between the three model runs except for genuine infrastructure/methodological failure.
 
-- modify the frozen benchmark, scoring rules, prompt template, or generation policy;
-- use specialist repository-default chat templates;
-- modify Gate acceptance criteria or the candidate set;
-- use/repermission existing Ollama model storage;
-- modify/restart/recreate `ollama` or `open-webui`;
-- change GPU/resource/runtime policy after observing specialist results;
-- proceed to A6.
+## Approved execution substrate retained for future runs
+
+- host `ai01`;
+- Docker Engine 29.5.3 / `runc`;
+- exactly one NVIDIA L40 UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
+- formal inference: 40 GiB / 16 CPUs;
+- A4b package/runtime and deterministic generation policy;
+- approved Docker judge-v2 isolation and 2-second watchdog;
+- Gate-specific caches independent of Ollama/Open-WebUI.
 
 ## Next human checkpoint
 
-Review both complete specialist runs and confirm that all three model rows are comparable. If accepted, authorize A6 to compute the cross-skill competency matrix, specialist-minus-General deltas, frozen bootstrap uncertainty, specialization concentration, and a Gate recommendation.
+Review the frozen v1.2 benchmark, common output/handoff contract, deterministic semantic adapter, synthetic tests, provenance, difficulty balance, and token/context controls. A5R2 and A6 remain inactive until that review is recorded.
 
 ## Future gate
 

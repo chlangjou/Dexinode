@@ -1,0 +1,22 @@
+{
+  "schema_version": "a5-acquisition-container-v1",
+  "container_name": "dexinode-gate-a5-coder-acquire-20260809T092120Z",
+  "container_id": "352855a3fe14df693399dfff16d81460256f218fdb092f5a46e7f567c4071434",
+  "image_id": "sha256:70c74574cc2b86e1ee84e642d14741d0609d3772382ac576a892d4bb10e8ce5e",
+  "started_at": "2026-08-09T09:59:13.581012318Z",
+  "finished_at": "2026-08-09T10:09:47.319117588Z",
+  "elapsed_seconds": 633.738105,
+  "exit_code": 0,
+  "network": "bridge (acquisition only)",
+  "gpu_request": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+  "memory": "4g",
+  "cpus": 4,
+  "read_only_root": true,
+  "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+  "cap_drop": ["ALL"],
+  "no_new_privileges": true,
+  "cache_volume": "dexinode-gate-a5-coder-20260809T092120Z-cache",
+  "output_volume": "dexinode-gate-a5-coder-acquire-output-20260809T092120Z",
+  "output_volume_removed_after_receipt_copy": true,
+  "receipt": "acquisition.json"
+}

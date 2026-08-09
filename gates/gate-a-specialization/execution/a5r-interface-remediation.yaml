@@ -1,0 +1,168 @@
+schema_version: 1
+id: gate-a-a5r-interface-remediation-v1
+stage: A5R1-interface-protocol-and-benchmark-freeze
+status: active
+owner: human
+executor: agent
+
+objective: >-
+  Remove the confirmed output-interface confounder without tuning to observed
+  candidate performance, by defining and freezing a fresh common semantic
+  handoff/scoring protocol before any further selected-model execution.
+
+basis:
+  human_review: gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md
+  prior_benchmark: gate-a-cross-skill-v1.1.0
+  new_benchmark: gate-a-cross-skill-v1.2.0
+  prior_runs_are_preserved: true
+  prior_scores_may_be_reused_in_v1_2_matrix: false
+
+candidate_set_unchanged:
+  - id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+  - id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+  - id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+
+benchmark_requirements:
+  fresh_case_instances: true
+  reuse_v1_1_case_text: false
+  reuse_v1_1_exact_oracles_or_constants: false
+  domains:
+    mathematics:
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+    software_coding:
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+  all_models_run_all_cases: true
+  equal_case_weights: true
+  deterministic_scoring: true
+  llm_judge: false
+  contamination_and_provenance_record_required: true
+
+common_prompt_envelope:
+  neutral_qwen_role_delimiter_template: true
+  identical_semantic_system_message: true
+  repository_default_chat_templates_ignored: true
+  common_total_context_tokens: 4096
+  checkpoint_dtype: bfloat16
+  quantization: none
+  external_tools: false
+
+semantic_handoff_contract:
+  principle: >-
+    Primary Gate A scoring measures task semantics. Strict wire-format compliance
+    is reported separately and must not erase an otherwise deterministically
+    recoverable task answer.
+
+  mathematics:
+    common_instruction: >-
+      Reasoning may be included. End with one final answer using either the
+      canonical ANSWER form or one conventional boxed final-answer form allowed
+      by the frozen type-specific grammar. The same instruction is presented to
+      every selected model.
+    primary_normalization:
+      - prefer exactly one valid canonical ANSWER candidate when present
+      - otherwise accept exactly one valid final boxed candidate under the frozen type grammar
+      - reject ambiguous multiple conflicting final candidates
+      - never use the expected answer value to choose among candidates
+    allowed_type_grammars:
+      integer:
+        canonical: "ANSWER: <signed base-10 integer>"
+        boxed: "\\boxed{<signed base-10 integer>}"
+      rational:
+        canonical: "ANSWER: <signed numerator>/<positive denominator>"
+        boxed:
+          - "\\boxed{<signed numerator>/<positive denominator>}"
+          - "\\boxed{\\frac{<signed numerator>}{<positive denominator>}}"
+        normalization: reduced_fraction_with_positive_denominator
+      json_object:
+        canonical: "ANSWER: <strict JSON object with frozen integer keys/values schema>"
+        boxed: >-
+          A type-specific ordered tuple form may be allowed only when the case
+          manifest freezes the key order before execution; normalization maps it
+          to the same canonical object without consulting expected values.
+    strict_interface_metric:
+      definition: canonical_ANSWER_contract_followed_exactly
+      used_for_gate_primary_accuracy: false
+
+  software_coding:
+    common_instruction: >-
+      Return Python 3.10 source implementing the requested entrypoint. Explanatory
+      prose may be present, but the response should include a Python fenced block
+      containing the implementation. The same instruction is presented to every
+      selected model.
+    primary_extraction:
+      - inspect Python-or-unlabeled fenced blocks in response order
+      - identify blocks by AST parsing only; do not execute during extraction
+      - select the first block containing a top-level definition of the required entrypoint
+      - ignore prose and later non-selected example/output blocks
+      - if no fenced candidate exists, allow full-response fallback only when it parses as Python and defines the required entrypoint
+      - source execution remains exclusively inside the approved judge-v2 sandbox
+    strict_interface_metric:
+      definition: single_source_block_without_extra_prose_or_blocks
+      used_for_gate_primary_accuracy: false
+
+adapter_validation:
+  selected_model_outputs_allowed: false
+  use_only_synthetic_fixtures: true
+  required_fixture_classes:
+    - canonical_answer
+    - boxed_integer
+    - boxed_fraction
+    - boxed_tuple_or_object_when_schema_allows
+    - ambiguous_multiple_final_answers_rejected
+    - one_python_implementation_block_with_prose
+    - implementation_block_plus_example_block
+    - missing_entrypoint_rejected
+    - multiple_candidate_implementation_behavior_frozen
+  tests_committed_before_execution: true
+
+execution_controls_for_later_A5R2:
+  host: ai01
+  selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+  formal_inference_memory: 40g
+  formal_inference_cpus: 16
+  package_runtime_same_as_A4b: true
+  generation_policy_same_as_A4b: true
+  judge_v2_same_as_A4b: true
+  execute_all_three_models_in_one_bounded_stage: true
+  no_human_result_review_between_models: true
+
+allowed_actions_A5R1:
+  - author_fresh_benchmark_cases
+  - create_new_versioned_benchmark_directory
+  - implement_deterministic_semantic_normalizer
+  - implement_synthetic_adapter_tests
+  - validate_token_counts
+  - record_provenance_and_contamination_risks
+  - freeze_v1_2_manifest
+
+forbidden_actions_A5R1:
+  - execute_general_model
+  - execute_math_specialist
+  - execute_coder_specialist
+  - inspect_new_candidate_outputs
+  - modify_v1_1_benchmark_or_runs
+  - modify_gate_acceptance_criteria
+  - change_candidate_set
+  - use_model_specific_prompt_or_chat_template
+  - tune_adapter_using_selected_model_outputs
+  - proceed_to_A5R2_without_human_review
+
+required_outputs_A5R1:
+  - experiments/gate-a/benchmark-v1.2.0/README.md
+  - experiments/gate-a/benchmark-v1.2.0/manifest.yaml
+  - experiments/gate-a/benchmark-v1.2.0/cases/math.yaml
+  - experiments/gate-a/benchmark-v1.2.0/cases/coding.yaml
+  - experiments/gate-a/benchmark-v1.2.0/template.yaml
+  - experiments/gate-a/benchmark-v1.2.0/scoring.yaml
+  - experiments/gate-a/benchmark-v1.2.0/token_counts.yaml
+  - experiments/gate-a/benchmark-v1.2.0/adapter/
+
+completion:
+  success: v1_2_frozen_pending_human_review
+  stop_for_human_review: true
+  A6_remains_inactive: true

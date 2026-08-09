@@ -1,0 +1,21 @@
+{
+  "schema_version": "a5-inference-preflight-container-v1",
+  "container_name": "dexinode-gate-a5-coder-inference-preflight-20260809T092120Z",
+  "container_id": "ca987b3de540127a988a69f5c9a94ce66e3390bf39d119c0278f454b88a30d0d",
+  "image_id": "sha256:70c74574cc2b86e1ee84e642d14741d0609d3772382ac576a892d4bb10e8ce5e",
+  "started_at": "2026-08-09T10:11:07.757746111Z",
+  "finished_at": "2026-08-09T10:11:09.780467939Z",
+  "exit_code": 0,
+  "network": "none",
+  "ipc": "private",
+  "gpu_request": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+  "memory": "40g",
+  "cpus": 16,
+  "read_only_root": true,
+  "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+  "cap_drop": ["ALL"],
+  "no_new_privileges": true,
+  "cache_volume": "dexinode-gate-a5-coder-20260809T092120Z-cache:ro",
+  "benchmark_mount": "/home/rd/Dexinode/experiments/gate-a/benchmark-v1.1.0:/benchmark:ro",
+  "receipt": "inference-preflight.json"
+}
