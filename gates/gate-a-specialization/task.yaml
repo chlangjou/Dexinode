@@ -62,7 +62,7 @@ stages:
       cpu_only_is_permanent_constraint: false
 
   A4-general-baseline:
-    status: active
+    status: blocked-pending-human-review
     activation: human_approved
     human_review_record: gates/gate-a-specialization/reviews/a3-human-review-v1.1.md
     objective: execute the general-purpose baseline on the frozen v1.1.0 benchmark
@@ -70,6 +70,10 @@ stages:
       id: Qwen/Qwen2.5-7B-Instruct
       revision: a09a35458c702b33eeacc393d103063234e8bc28
     benchmark: experiments/gate-a/benchmark-v1.1.0/
+    last_run_id: a4-general-baseline-20260809T064011Z-ai01
+    baseline_execution_occurred: false
+    preflight_result: failed_closed
+    preflight_receipt: experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json
     execution_order:
       - record_exact_execution_host_and_runtime
       - run_coding_isolation_preflight_on_exact_environment

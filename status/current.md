@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A4 — General Baseline
+- Active execution stage: A4 — General Baseline (blocked before model execution; pending human review)
 
 ## Objective
 
@@ -96,9 +96,39 @@ A4 must NOT:
 - execute Math or Coder specialist checkpoints;
 - proceed to A5.
 
+## A4 execution attempt: blocked by mandatory preflight
+
+Run ID: `a4-general-baseline-20260809T064011Z-ai01`
+
+The exact environment was recorded before preflight in:
+
+`experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/environment.json`
+
+Recorded environment: host `ai01`, Ubuntu 22.04.5, Linux 5.15.0-181-generic,
+CPU-only because CUDA was unavailable and NVIDIA-SMI could not communicate with
+the driver, Python 3.10.12, Transformers 4.41.1, PyTorch 2.2.2+cu121,
+safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, and bubblewrap 0.6.1.
+
+The mandatory preflight was run on that exact environment at
+`2026-08-09T06:40:46.888414+00:00` and failed closed before probes:
+
+`bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted`
+
+The failed receipt is preserved at:
+
+`experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json`
+
+No General, Math, or Coder model was executed. No model output was produced or
+inspected. No benchmark, scoring rule, template, acceptance criterion, or
+candidate selection was modified. A4 is blocked pending human review and a
+host/runtime/sandbox environment that passes the approved preflight.
+
 ## Next human checkpoint
 
-Review the A4 execution environment/preflight and, if baseline execution occurs, the complete general-model run evidence. A5 remains inactive until that review is recorded.
+Review the recorded A4 environment and failed preflight receipt. Decide whether
+to approve a different exact execution host/runtime with the required bounded
+network isolation, or provide another approved resolution. Baseline execution
+did not occur; A5 remains inactive.
 
 ## Future gate
 
