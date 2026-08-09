@@ -1,0 +1,187 @@
+schema_version: 1
+benchmark_id: gate-b-orchestration-v1.1.0
+version: 1.1.0
+status: frozen-pending-human-review
+gate: gate-b-orchestration-v1
+stage: B1R-structural-freshness-router-boundary
+supersedes: gate-b-orchestration-v1.0.0-for-future-execution
+question: >-
+  Does a frozen semantic-task-only prompt router improve fresh mixed
+  mathematics/software-coding semantic accuracy over a General-only policy
+  while both policies use one logical model inference per case?
+preservation:
+  prior_benchmark: experiments/gate-b/benchmark-v1.0.0/
+  prior_router: experiments/gate-b/router-v1/
+  prior_artifacts_unchanged: true
+  prior_human_decision: CHANGES_REQUIRED
+  prior_evidence_preserved: true
+freshness:
+  fresh_case_instances: true
+  exact_gate_a_prompt_overlap: 0
+  exact_gate_a_prompt_overlap_definition: "semantic_task compared with Gate A prompt fields"
+  exact_expected_oracle_overlap_union: 21
+  selected_model_calibration_forbidden: true
+  gate_a_per_case_results_used_for_case_selection: false
+  gate_a_raw_outputs_used_as_case_or_router_fixtures: false
+  external_dataset_or_answer_key_copied: false
+  contamination_absence_claimed: false
+  audit_file: freshness-audit.yaml
+coverage:
+  total_cases: 96
+  domains:
+    mathematics:
+      case_file: cases/math.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      oracle_validation: oracle-validation.yaml
+    software_coding:
+      case_file: cases/coding.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      evaluator_validation: evaluator-validation.yaml
+  case_order: math-01 through math-48, then code-01 through code-48
+  equal_case_weights: true
+router:
+  directory: ../router-v2/
+  implementation: ../router-v2/router.py
+  tests: ../router-v2/test_router.py
+  input: semantic_task_only_before_handoff_append
+  output: one_registered_route
+  deterministic: true
+  cpu_only: true
+  called_before_model_output: true
+  hidden_domain_label_visible: false
+  task_family_visible: false
+  expected_answer_visible: false
+  coding_evaluator_tests_visible: false
+  handoff_contract_visible: false
+  model_output_visible: false
+  synthetic_tests: 5
+  benchmark_routing_accuracy: 96/96
+empirical_registry:
+  source: Gate A human-approved aggregate capability profile only
+  mathematics:
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    gate_a_status: validated_specialist
+  software_coding:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    gate_a_status: best_validated_route_for_initial_gate_b
+  fallback:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+  excluded_as_validated_specialist:
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    reason: Gate A did not demonstrate a coding advantage over General
+policies:
+  general_only:
+    description: Every case is sent to General; exactly one model call.
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    model_calls_per_case: 1
+  skill_routed:
+    description: Semantic-only router selects one registered route; specialist calls are limited to frozen selections and General responses are reused.
+    route_map: {mathematics: mathematics_specialist, software_coding: general_baseline, fallback: general_baseline}
+    model_calls_per_case: 1
+    retries: false
+    second_model_call: false
+    voting: false
+    ensemble: false
+    result_driven_rerouting: false
+    between_phase_result_review: false
+controls:
+  checkpoint_dtype: bfloat16
+  quantization: none
+  external_tools: false
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  tokenizer:
+    model_reference: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    tokenizer_class: Qwen2TokenizerFast
+    tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+  template:
+    file: template.yaml
+    template_id: qwen-neutral-role-delimiter-v1
+    repository_chat_templates_ignored: true
+    semantic_system_message_identical: true
+    semantic_task_text_identical_across_policies: true
+  inference:
+    do_sample: false
+    num_beams: 1
+    repetition_penalty: 1.0
+    seed: 0
+    runtime: "Python 3.10.12, PyTorch 2.2.2+cu121, Transformers 4.41.1, tokenizers 0.19.1, safetensors 0.4.3, accelerate 0.30.1"
+    host: ai01
+    gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+    gpu_class: NVIDIA L40
+    formal_memory: 40g
+    formal_cpus: 16
+    network: none
+  judge_v2: inherited approved CPU-only sandbox; no LLM judge
+validation:
+  oracle_file: oracle-validation.yaml
+  math_oracles: 48/48 PASS
+  evaluator_file: evaluator-validation.yaml
+  coding_evaluators: 48/48 PASS
+  adapter_tests: adapter/test_adapter.py
+  adapter_test_result: 13/13 PASS
+  router_test_command: "python3 -m unittest discover -s experiments/gate-b/router-v2 -p 'test_*.py'"
+  router_test_result: 5/5 PASS; 96/96 semantic-task routes
+  token_count_file: token_counts.yaml
+  max_rendered_input_tokens: 124
+  max_rendered_input_plus_generation: 1148
+  context_margin: 2948
+  all_cases_fit_context: true
+scoring:
+  file: scoring.yaml
+  adapter_directory: adapter/
+  primary_metric: overall_semantic_accuracy
+  primary_delta: routed_minus_general
+  strict_interface_is_secondary: true
+  llm_judge: false
+  case_weights: equal
+  uncertainty: paired bootstrap, 20000 resamples, 95%, seed 0
+  acceptance_reference: ../../../gates/gate-b-orchestration/acceptance.yaml
+  acceptance_thresholds_changed: false
+provenance:
+  self_authored: true
+  remediation_design_informed_by_gate_a_human_review: true
+  gate_a_observed_outputs_used_for_adapter_fixtures: false
+  gate_a_per_case_results_used_for_case_selection: false
+  gate_a_raw_outputs_used_as_router_fixtures: false
+  selected_model_execution_during_B1R: false
+  selected_model_outputs_present: false
+  case_oracle_or_difficulty_tuned_from_selected_model_performance: false
+  raw_model_outputs_present: false
+  limitation: Common structures and algorithms may occur in pretraining; contamination absence is not claimed.
+freeze_state:
+  benchmark_cases_defined_before_selected_model_execution: true
+  router_defined_before_selected_model_execution: true
+  scoring_defined_before_selected_model_execution: true
+  token_counts_defined_before_selected_model_execution: true
+  acceptance_reference: gates/gate-b-orchestration/acceptance.yaml
+  gate_b_selected_model_execution_authorized: false
+  stop_for_human_review: true
+files:
+  README.md: bc604e689bc42564f0f22a7b63dd04651cfa26aa2967a771c789687fe25ff5f8
+  manifest.yaml: not-self-hashed
+  cases/math.yaml: a28c697facca0a464f3b5b639f8b27fd066a12550a8bc8403c5e3d170e5558cd
+  cases/coding.yaml: 09f32e81364a58b4de9fc5579708bbb31ab374446b2ba57ec843eb16212315b8
+  template.yaml: 0ba26c20ef47c79449230e9037b2911c31f260a5d25776f53ed92fda8f4f72f4
+  scoring.yaml: 1a741c00ba9397f53dad75efdfb2f20e3272cd64ea1697957cf097b6e4616dfd
+  protocol.yaml: c798e738a10848a4b1fc67bdc0af55d50a7f596985cfecdb06c661bf0e513697
+  token_counts.yaml: ab967180bd5b63de6cc616e6c033a025f5a635c0d94414040b9a48fe4c344a78
+  oracle-validation.yaml: 054a2a8c381eef8606a3ce752952afcdbaecf2c34906b4a8704642535e2b70a8
+  evaluator-validation.yaml: a52bbaf44d9edb567549aba4838b103b8cb0c53b6115a2f0381cfe2246f78db4
+  freshness-audit.yaml: fb13f146db036854cc4ac3de8103a75975422dad04252fd86aee47db5d908912
+  adapter/semantic_adapter.py: f829f75b28f0295689bb916098b9aee1b0c1251193e6dcc13f87ad0c5c6513f2
+  adapter/test_adapter.py: 81e9ce9f52f5eab33760da681b835ae3e47500d035c2d3980ec3c0873ec90f94
+  validation/validate_static.py: 0d8d61af2c1f95c3958494c066bd85b42cf41e7557f89a69549ceb80a3436e1c
+  ../router-v2/router.py: 4f74942b2168f188149cb21af083768b5100141be07e920a02d10834e7d2685e
+  ../router-v2/test_router.py: 3e3c5eb971e79a9bc8b20b2e9aea78918bef1d0d890cb678587109864f820772
+gate_acceptance:
+  thresholds_unchanged: true
+  decision: PENDING HUMAN REVIEW

@@ -1,0 +1,56 @@
+schema_version: 1
+template_id: qwen-neutral-role-delimiter-v1
+benchmark_version: gate-b-orchestration-v1.1.0
+status: frozen-pending-human-review
+purpose: >-
+  Render the same model-agnostic semantic task and common handoff contract for
+  every policy and checkpoint. The router receives semantic_task only; the
+  handoff contract is appended only after the route decision.
+system_content: >-
+  You are a helpful assistant. Follow the task instructions exactly. Use the
+  common handoff contract supplied after the semantic task.
+semantic_user_content_source: case.semantic_task
+handoff_contracts:
+  mathematics: >-
+    Reasoning may be included. Finish with exactly one recoverable final answer:
+    use `ANSWER: value` or one permitted boxed final form. Do not give
+    conflicting final candidates.
+  software_coding: >-
+    Explanatory prose may be included. Provide one source block defining the
+    requested entrypoint. A Python or unlabeled fenced block is preferred; do
+    not provide multiple implementation candidates.
+rendering:
+  system_prefix: |
+    <|im_start|>system
+  system_suffix: |
+    <|im_end|>
+  user_prefix: |
+    <|im_start|>user
+  user_suffix: |
+    <|im_end|>
+  assistant_prefix: |
+    <|im_start|>assistant
+  rendered_form: |
+    <|im_start|>system
+    {system_content}<|im_end|>
+    <|im_start|>user
+    {case.semantic_task}
+
+    {handoff_contract}<|im_end|>
+    <|im_start|>assistant
+router_boundary:
+  router_input: case.semantic_task_only
+  router_excludes: [handoff_contract, expected, evaluator, task_family, domain_label]
+  decision_precedes_handoff_append: true
+  decision_precedes_model_output: true
+constraints:
+  repository_chat_templates_ignored: true
+  external_tools: false
+  add_special_tokens: false
+  add_generation_prompt: true
+  system_messages_per_case: 1
+  user_messages_per_case: 1
+  assistant_messages_per_case: 0
+  semantic_system_content_identical: true
+  semantic_task_text_identical_across_policies: true
+  model_specific_prompt_overrides: false

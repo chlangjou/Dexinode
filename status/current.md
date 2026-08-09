@@ -5,7 +5,7 @@
 - Gate A final decision: **PASS / CLOSED**
 - Gate B decision: **PENDING**
 - Session handoff: `HANDOFF.md`
-- Active stage: **B1R — structural freshness and router-boundary revision**
+- Active stage: **B1R — complete, pending human review**
 
 ## Gate A retained result
 
@@ -78,7 +78,35 @@ Dexinode should route on semantic task text **before** applying a skill's handof
 
 ## Active bounded task — B1R
 
-Create a new immutable revision:
+Status: **COMPLETE — PENDING HUMAN REVIEW**.
+
+Created and froze `gate-b-orchestration-v1.1.0` under
+`experiments/gate-b/benchmark-v1.1.0/` and `router-v2` under
+`experiments/gate-b/router-v2/`. v1.0.0 and router-v1 are unchanged. The new
+benchmark has 48 fresh Math and 48 fresh Coding cases with 10/24/14 difficulty
+counts per domain. The case-by-case structural audit reports 48/48 Math and
+48/48 Coding freshness PASS; exact semantic-task text overlap with Gate A is
+zero, and no Gate A per-case result or raw output was used.
+
+Static validation completed without selected-model execution:
+
+- independent Math oracle validation: 48/48 PASS;
+- independent Coding evaluator validation: 48/48 PASS;
+- accepted adapter copied byte-identically and synthetic tests: 13/13 PASS;
+- semantic-task-only router-v2 tests: 5/5 PASS and 96/96 benchmark routes;
+- pinned tokenizer validation: 96/96 PASS, maximum rendered input 124,
+  maximum with 1024 generation 1148, context margin 2948.
+
+The frozen protocol computes route decisions from semantic task text only before
+model output, then runs General once on all 96 cases and the Math specialist
+only for frozen Math routes, reusing General outputs for General routes. No
+between-phase result review, retry, fallback call, or protocol change is
+permitted. Gate B acceptance thresholds and selected revisions are unchanged.
+
+No Gate B General, Math, or Coder checkpoint was executed. B2/B3/B4 remain
+inactive. Human review is required before any selected-model execution.
+
+Frozen B1R artifacts:
 
 - benchmark: `gate-b-orchestration-v1.1.0`
 - root: `experiments/gate-b/benchmark-v1.1.0/`

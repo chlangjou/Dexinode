@@ -1,11 +1,16 @@
 id: gate-b-orchestration-acceptance-v1
-status: revision-required-before-freeze
+status: frozen-pending-human-review
 final_decision_owner: human
 review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
 rejected_benchmark_version: gate-b-orchestration-v1.0.0
 target_benchmark_version: gate-b-orchestration-v1.1.0
 selected_model_execution_before_approval: false
 thresholds_changed_from_initial_proposal: false
+freeze_record:
+  benchmark_manifest: experiments/gate-b/benchmark-v1.1.0/manifest.yaml
+  router: experiments/gate-b/router-v2/router.py
+  static_validation: experiments/gate-b/benchmark-v1.1.0/validation/validate_static.py
+  decision: PENDING HUMAN REVIEW
 
 question: >-
   Does a frozen evidence-based semantic-task router improve fresh mixed-workload
