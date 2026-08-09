@@ -1,16 +1,40 @@
 id: gate-b-orchestration-acceptance-v1
-status: revision-required-before-freeze
+status: revision-required-pending-human-review
 final_decision_owner: human
-review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
-rejected_benchmark_version: gate-b-orchestration-v1.0.0
-target_benchmark_version: gate-b-orchestration-v1.1.0
-selected_model_execution_before_approval: false
 thresholds_changed_from_initial_proposal: false
+selected_model_execution_before_approval: false
+
+review_history:
+  b1_v1_0_0:
+    benchmark_version: gate-b-orchestration-v1.0.0
+    decision: CHANGES_REQUIRED
+    review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
+  b1r_v1_1_0:
+    benchmark_version: gate-b-orchestration-v1.1.0
+    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
+    decision: CHANGES_REQUIRED
+    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
+    accepted_structural_freshness: true
+    accepted_router_information_boundary: true
+    blocking_oracle_or_specification_defect: true
+
+target_revision:
+  benchmark_version: gate-b-orchestration-v1.1.1
+  target_root: experiments/gate-b/benchmark-v1.1.1/
+  prior_router: experiments/gate-b/router-v2/router.py
+  status: remediation-required-before-freeze
+  selected_model_execution_authorized: false
+  required_math_corrections:
+    math-14: 136
+    math-37: "161/36"
+  required_coding_semantic_contract_audit: "48/48 prompt-to-evaluator review"
+  required_static_revalidation: true
 
 question: >-
-  Does a frozen evidence-based semantic-task router improve fresh mixed-workload
-  semantic accuracy relative to a General-only policy when both logical policies
-  use exactly one model inference per task and the same generation budget?
+  Does a frozen evidence-based semantic-task router improve structurally fresh
+  mixed-workload semantic accuracy relative to a General-only policy when both
+  logical policies use exactly one model inference per task and the same
+  generation budget?
 
 minimum_evidence:
   fresh_total_cases: 96
@@ -46,6 +70,9 @@ router_information_boundary:
   router_may_read_case_metadata: false
   router_may_read_model_output: false
   router_is_deterministic_cpu_only: true
+  scope_note: >-
+    Router qualification in this minimal two-domain Gate is benchmark-specific;
+    it does not establish a general-purpose learned or paraphrase-robust router.
 
 primary_policies:
   general_only:
@@ -103,9 +130,6 @@ router_quality:
   minimum_domain_routing_accuracy: 0.95
   measured_against_hidden_evaluation_domain_labels: true
   route_decision_made_before_model_output: true
-  reporting_only_note: >-
-    Routing accuracy is a sanity condition for this minimal Gate B; Gate B does
-    not claim to establish a general-purpose learned router.
 
 pass_recommendation_requires:
   - minimum_evidence_satisfied
@@ -119,13 +143,9 @@ pass_recommendation_requires:
   - router_quality_satisfied
   - no_unresolved_material_methodological_defect
 
-fail_recommendation_requires:
-  - valid_fresh_benchmark_existed
-  - both_primary_policies_completed_comparably
-  - predefined_primary_orchestration_threshold_not_met
-
 inconclusive_conditions:
   - benchmark_oracle_or_evaluator_defect
+  - benchmark_semantic_contract_defect
   - structural_freshness_defect
   - router_contract_changed_after_selected_model_results
   - router_information_boundary_broken

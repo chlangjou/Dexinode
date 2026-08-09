@@ -3,7 +3,7 @@ title: Orchestration Advantage
 owner: human
 executor: agent
 status: active
-active_stage: B1R-structural-freshness-and-router-boundary-revision
+active_stage: B1R2-oracle-and-semantic-contract-remediation
 
 precondition:
   gate_a_final_decision: PASS
@@ -34,30 +34,34 @@ empirical_skill_registry:
   fallback:
     model_id: Qwen/Qwen2.5-7B-Instruct
     revision: a09a35458c702b33eeacc393d103063234e8bc28
-  excluded_as_validated_specialist:
-    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
-    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
-    reason: Gate A did not demonstrate a coding advantage over General
 
 human_review:
   b1_v1_0_0:
     reviewed_commit: 7228c973130ed6032226118873a140927c48f17f
-    benchmark_version: gate-b-orchestration-v1.0.0
     decision: CHANGES_REQUIRED
     review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
+    blockers: [structural_freshness, router_handoff_contract_cues]
+  b1r_v1_1_0:
+    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
+    benchmark_version: gate-b-orchestration-v1.1.0
+    router: router-v2
+    decision: CHANGES_REQUIRED
+    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
     accepted_components:
+      structural_freshness: true
+      router_information_boundary: true
       balanced_96_case_design: true
-      math_oracle_validation_method: true
-      coding_reference_evaluator_validation_method: true
       semantic_adapter: true
+      execution_sequence: true
       token_context_controls: true
       candidate_revisions: true
       inference_controls: true
       acceptance_thresholds: true
     blocking_findings:
-      structural_freshness_insufficient: true
-      router_uses_handoff_output_contract_cues: true
-    preserve_unchanged: true
+      math_oracle_errors: [math-14, math-37]
+      coding_prompt_evaluator_semantic_contract_defects: true
+    B2_authorized: false
+    selected_model_execution_authorized: false
 
 constraints:
   training_allowed: false
@@ -77,65 +81,67 @@ constraints:
 
 stages:
   B1-protocol-router-benchmark-freeze:
-    status: revision-required
-    historical_revision:
-      benchmark_version: gate-b-orchestration-v1.0.0
-      benchmark_root: experiments/gate-b/benchmark-v1.0.0/
-      router_root: experiments/gate-b/router-v1/
-      reviewed_commit: 7228c973130ed6032226118873a140927c48f17f
-      review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
-      status: frozen-not-approved
-      selected_model_execution: false
+    status: frozen-not-approved
+    benchmark_version: gate-b-orchestration-v1.0.0
+    benchmark_root: experiments/gate-b/benchmark-v1.0.0/
+    router_root: experiments/gate-b/router-v1/
+    reviewed_commit: 7228c973130ed6032226118873a140927c48f17f
+    review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
+    preserve_unchanged: true
 
-    target_revision:
-      status: active
-      benchmark_version: gate-b-orchestration-v1.1.0
-      benchmark_root: experiments/gate-b/benchmark-v1.1.0/
-      router_root: experiments/gate-b/router-v2/
-      objective: >-
-        Preserve accepted B1 controls while replacing near-isomorphic Gate A
-        case reuse and moving routing to the pre-handoff semantic task boundary.
-      requirements:
-        preserve_v1_0_0_unchanged: true
-        total_cases: 96
-        mathematics_cases: 48
-        software_coding_cases: 48
-        difficulty_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
-        exact_gate_a_prompt_overlap: 0
-        case_by_case_structural_freshness_audit: required
-        positional_mirrors_allowed: false
-        constant_or_coefficient_substitution_only_allowed: false
-        near_isomorphic_gate_a_case_reuse_allowed: false
-        gate_a_case_definitions_may_be_used_for_structural_comparison: true
-        gate_a_per_case_model_results_may_be_used: false
-        gate_a_raw_outputs_may_be_used: false
-        gate_a_retrospective_coder_postmortem_may_tune_cases: false
-        complete_math_oracle_validation: required
-        complete_coding_reference_evaluator_validation: required
-        semantic_adapter_behavior_unchanged: true
-        router_semantic_task_text_only: true
-        handoff_output_contract_visible_to_router: false
-        router_hidden_metadata_visible: false
-        reporting_task_family_taxonomy: required
-        task_family_visible_to_router: false
-        token_context_validation: required
-        selected_model_execution: false
-        stop_for_human_review: true
-      execution_plan_to_freeze:
-        one_orchestrated_sequence: true
-        result_review_between_general_and_specialist_collection: false
-        general_inference: all_96_once
-        specialist_inference: frozen_router_selected_cases_only
-        reuse_general_outputs_when_treatment_routes_general: true
-        compose_routed_policy_from_frozen_route_decisions: true
-        protocol_change_after_first_selected_model_output: forbidden
+  B1R-structural-freshness-and-router-boundary-revision:
+    status: frozen-not-approved-benchmark-definition-errors
+    benchmark_version: gate-b-orchestration-v1.1.0
+    benchmark_root: experiments/gate-b/benchmark-v1.1.0/
+    router_root: experiments/gate-b/router-v2/
+    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
+    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
+    preserve_unchanged: true
+    structural_freshness_accepted: true
+    router_information_boundary_accepted: true
+    known_math_oracle_errors:
+      math-14: {frozen: 64, corrected: 136}
+      math-37: {frozen: "41/9", corrected: "161/36"}
+
+  B1R2-oracle-and-semantic-contract-remediation:
+    status: active
+    target_benchmark_version: gate-b-orchestration-v1.1.1
+    target_root: experiments/gate-b/benchmark-v1.1.1/
+    objective: >-
+      Preserve the accepted v1.1.0 structural freshness, router boundary,
+      execution controls and thresholds while correcting Math oracle errors and
+      completing a 48/48 Coding prompt-to-evaluator semantic-contract audit.
+    requirements:
+      preserve_v1_0_0_and_v1_1_0_unchanged: true
+      preserve_structural_case_constructions_where_possible: true
+      preserve_router_v2_semantics_unless_spec_wording_requires_revision: true
+      correct_math_14_to: 136
+      correct_math_37_to: "161/36"
+      complete_48_math_oracle_recomputation: required
+      complete_48_coding_prompt_evaluator_semantic_contract_audit: required
+      complete_coding_reference_evaluator_validation: required
+      known_coding_spec_items_to_review: [code-02, code-09, code-21, code-38, code-42]
+      adapter_behavior_unchanged: true
+      token_context_validation: required
+      manifest_hash_refresh: required
+      acceptance_thresholds_unchanged: true
+      selected_model_execution: false
+      stop_for_human_review: true
+    execution_plan_to_preserve:
+      one_orchestrated_sequence: true
+      result_review_between_general_and_specialist_collection: false
+      general_inference: all_96_once
+      specialist_inference: frozen_router_selected_cases_only
+      reuse_general_outputs_when_treatment_routes_general: true
+      compose_routed_policy_from_frozen_route_decisions: true
+      protocol_change_after_first_selected_model_output: forbidden
 
   B2-router-static-qualification:
     status: inactive
-    activation: human_approval_after_B1R
+    activation: human_approval_after_B1R2
     objective: >-
-      Confirm frozen structural freshness, router information boundary, static
-      validation and execution/resource invariants without selected-model execution.
+      Confirm final frozen benchmark correctness, structural freshness, router
+      information boundary and execution/resource invariants without selected-model execution.
 
   B3B4-comparable-policy-execution:
     status: inactive
@@ -153,20 +159,19 @@ stages:
 
 acceptance_reference: gates/gate-b-orchestration/acceptance.yaml
 
-forbidden_actions_during_B1R:
+forbidden_actions_during_B1R2:
   - execute_general_checkpoint_for_gate_b
   - execute_math_checkpoint_for_gate_b
   - execute_coder_checkpoint_for_gate_b
   - inspect_selected_model_gate_b_outputs
-  - change_gate_a_final_decision
-  - use_gate_a_case_specific_wins_or_losses_to_select_gate_b_cases
-  - use_gate_a_retrospective_coder_postmortem_to_select_gate_b_cases
+  - use_gate_a_case_specific_wins_or_losses_to_tune_cases
+  - use_gate_a_retrospective_coder_postmortem_to_tune_cases
   - expose_handoff_output_contract_or_hidden_metadata_to_router
-  - modify_gate_b_acceptance_thresholds_without_human_review
+  - modify_gate_b_acceptance_thresholds
+  - patch_v1_0_0_or_v1_1_0_in_place
   - broaden_to_multi_step_agent_collaboration
-  - broaden_to_networking_federation_reputation_or_economic_settlement
 
 handoff:
   durable_state: git
   final_decision: human_review
-  next_action: execute_B1R_static_revision_then_stop_for_human_review
+  next_action: execute_B1R2_static_remediation_then_stop_for_human_review

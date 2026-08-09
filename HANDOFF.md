@@ -1,12 +1,8 @@
 # Dexinode Session Handoff
 
-This is the resumable entry point for a fresh ChatGPT / human session.
-
 Repository: `chlangjou/Dexinode`
-
-Canonical/default branch: `main`.
-
-Snapshot date: 2026-08-10.
+Canonical/default branch: `main`
+Snapshot date: 2026-08-10
 
 ## Start here
 
@@ -16,10 +12,10 @@ Read, in order:
 2. this file
 3. `status/current.md`
 4. `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
-5. `gates/gate-b-orchestration/README.md`
-6. `gates/gate-b-orchestration/task.yaml`
-7. `gates/gate-b-orchestration/acceptance.yaml`
-8. `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
+5. `gates/gate-b-orchestration/task.yaml`
+6. `gates/gate-b-orchestration/acceptance.yaml`
+7. `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
+8. `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`
 
 Git is the durable source of truth.
 
@@ -29,76 +25,78 @@ Gate A — Specialist Validation: **PASS / CLOSED**.
 
 Active gate: **Gate B — Orchestration Advantage**.
 
-Active bounded stage: **B1R — structural freshness and router-boundary revision**.
+Active bounded stage: **B1R2 — oracle and semantic-contract remediation**.
 
 Gate B decision: **PENDING**.
 
-No Gate B selected-model execution is authorized.
+**No Gate B selected-model execution is authorized.**
 
-## Why B1 v1.0.0 was not approved
+## Preserved history
 
-Agent commit:
+### B1 v1.0.0
 
-`7228c973130ed6032226118873a140927c48f17f`
+- commit: `7228c973130ed6032226118873a140927c48f17f`;
+- benchmark: `experiments/gate-b/benchmark-v1.0.0/`;
+- router: `experiments/gate-b/router-v1/`;
+- review: `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`;
+- decision: **CHANGES REQUIRED** for structural freshness and handoff-contract routing leakage.
 
-Preserved artifacts:
+### B1R v1.1.0
 
-- `experiments/gate-b/benchmark-v1.0.0/`
-- `experiments/gate-b/router-v1/`
+- commit: `48d768799bba4d5f3862359eddeb44cf134a962e`;
+- benchmark: `experiments/gate-b/benchmark-v1.1.0/`;
+- router: `experiments/gate-b/router-v2/`;
+- review: `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`;
+- decision: **CHANGES REQUIRED** for oracle/specification defects.
 
-Human review:
+The v1.1.0 structural freshness remediation and router information boundary are accepted. Preserve v1.1.0/router-v2 unchanged as frozen-not-approved audit history.
 
-`gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
+## Accepted v1.1.0 controls
 
-Decision: **CHANGES REQUIRED**.
+- 96 cases: 48 Math + 48 Coding; 10/24/14 difficulty split per domain;
+- case-by-case structural freshness audit accepted;
+- exact semantic-task overlap with Gate A = 0;
+- router sees `semantic_task` only, before handoff/output contract append;
+- Gate A adapter byte-identical; 13/13 tests PASS;
+- router-v2 tests 5/5 and current benchmark routes 96/96;
+- max input 124; max with 1024 generation 1148; context margin 2948;
+- route decisions freeze before model output;
+- later execution: General all 96 once, then Math specialist only on frozen Math routes, no between-phase result review;
+- acceptance thresholds unchanged;
+- no selected model executed during B1R.
 
-The static validation itself was strong: Math 48/48 PASS, Coding 48/48 cases and 121/121 reference tests PASS, adapter tests 13/13, router tests 6/6, context fit confirmed, and no Gate B selected model was executed.
+Router-v2's 96/96 accuracy is only a qualification for this minimal benchmark. Because Coding tasks consistently begin with `Implement`, do not interpret it as evidence of a general-purpose router.
 
-Two methodological blockers remain:
+## Why v1.1.0 is not executable
 
-1. **Structural freshness** — exact prompt overlap is zero, but multiple Gate B cases are near-isomorphic or semantically identical to Gate A executed cases. Examples include the exact 17-mod-43 modular inverse, the same T_8 tiling recurrence, 90-degree rotation, line-region counting, surjection counting, bounded compositions and Catalan evaluation.
-2. **Router information boundary** — router-v1 uses standardized model-output/handoff contract phrases (`python 3.10`, `implementation block`, `integer`, `fraction`, etc.), so its 96/96 result partly classifies benchmark formatting rather than semantic task content.
+Independent human review found:
 
-## Active B1R target
+1. `math-14`: frozen 64, correct **136**.
+2. `math-37`: frozen `41/9`, correct **161/36**.
+3. Coding semantic-task/evaluator contract defects, including at least `code-02`, `code-09`, `code-21`, `code-38`, and `code-42`.
 
-Create new immutable artifacts:
+All 48 Coding cases require a prompt-to-evaluator semantic-contract audit before any model output is observed.
 
-- benchmark: `gate-b-orchestration-v1.1.0`
-- root: `experiments/gate-b/benchmark-v1.1.0/`
-- router: `experiments/gate-b/router-v2/`
+## Active B1R2 target
 
-Do not patch v1.0.0/router-v1 in place.
+Create new immutable revision:
 
-The revision must:
+- benchmark: `gate-b-orchestration-v1.1.1`;
+- root: `experiments/gate-b/benchmark-v1.1.1/`.
 
-- preserve the accepted 96-case balance, difficulty distribution, adapter behavior, numerical acceptance thresholds and execution controls;
-- replace positional mirrors, constant/coefficient substitutions and near-isomorphic Gate A case constructions;
-- record a case-by-case structural freshness audit against Gate A definitions;
-- use Gate A definitions only for structural comparison, never per-case results/raw outputs or the retrospective Coder postmortem to select cases;
-- independently recompute all Math oracles and all Coding evaluator expected values;
-- expose only semantic task text to the router; model-facing handoff/output instructions are applied after routing and remain invisible to router-v2;
-- keep task-family metadata reporting-only and invisible to routing;
-- freeze later selected-model execution as one orchestrated sequence with no result review between General evidence collection and specialist-selected evidence collection;
-- execute no selected model during B1R;
+Required work:
+
+- preserve v1.0.0 and v1.1.0 artifacts unchanged;
+- correct the two Math oracles;
+- recompute all 48 Math oracles independently;
+- audit all 48 Coding task specifications against their evaluator behavior and make wording unambiguous;
+- re-run Coding reference validation;
+- retain accepted structural freshness and router boundary unless a correction materially changes a case, in which case re-audit it;
+- re-run adapter/router/token/context/static validation and refresh hashes;
+- keep numerical acceptance thresholds unchanged;
+- execute **no selected model**;
 - stop for human review before B2.
 
-## Gate B hypothesis and unchanged thresholds
+## Minimal B1R2 Agent instruction
 
-Primary policies remain:
-
-1. General-only — General for every task.
-2. Skill-routed — Math specialist for validated Mathematics tasks; General for Coding/fallback.
-
-Both logical policies use exactly one model inference per task.
-
-Thresholds remain:
-
-- routed overall ≥ General +10 pp;
-- paired-bootstrap 95% CI for overall delta excludes zero;
-- routed Math ≥ General Math +10 pp with CI excluding zero;
-- Coding degradation no worse than 5 pp;
-- routing accuracy ≥95%.
-
-## Minimal B1R Agent instruction
-
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`. Execute only active stage B1R. Preserve v1.0.0/router-v1 unchanged, create v1.1.0/router-v2 with structural freshness and pre-handoff semantic routing boundaries, run complete static validation only, execute no selected model, update durable status, commit, stop for human review, and do not push until instructed.
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`. Execute only active stage B1R2. Preserve prior benchmark/router revisions unchanged, create `gate-b-orchestration-v1.1.1` with the required oracle and 48/48 Coding semantic-contract remediation, run complete static validation only, execute no selected model, update durable status, commit, stop for human review, and do not push until instructed.
