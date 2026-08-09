@@ -3,7 +3,7 @@ title: Specialist Validation
 owner: human
 executor: agent
 status: active
-active_stage: A2-candidate-eligibility
+active_stage: A3-benchmark-freeze
 
 objective: >-
   Determine whether existing specialist model checkpoints exhibit reproducible,
@@ -52,14 +52,32 @@ stages:
     stop_for_human_review: true
 
   A2-candidate-eligibility:
-    status: completed-pending-human-review
+    status: approved
     activation: human_approval_required
+    human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
     objective: verify exact revisions, lineage, comparability, license, and runtime feasibility
 
   A3-benchmark-freeze:
-    status: inactive
-    activation: human_approval_required
+    status: active
+    activation: human_approved
+    human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
     objective: construct and freeze a cross-skill benchmark and scoring policy
+    approved_controls:
+      total_context_tokens: 4096
+      rendered_input_plus_generation_must_fit: true
+      shared_neutral_chat_template: true
+      identical_semantic_messages: true
+      checkpoint_dtype: bfloat16
+      quantization: none
+      external_tools: false
+      cpu_only_is_permanent_constraint: false
+    forbidden_actions:
+      - execute_general_baseline
+      - execute_specialist_models
+      - inspect_model_results
+      - modify_gate_acceptance_criteria
+      - change_selected_candidate_set_without_human_review
+    stop_for_human_review: true
 
   A4-general-baseline:
     status: inactive
