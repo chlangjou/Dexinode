@@ -61,7 +61,20 @@ stages:
     status: completed-pending-human-review
     activation: human_approved
     human_review_record: gates/gate-a-specialization/reviews/a2-human-review.md
+    revision_request_record: gates/gate-a-specialization/reviews/a3-human-review-v1.md
+    revision_request_record_present_in_checkout: false
     objective: construct and freeze a cross-skill benchmark and scoring policy
+    active_benchmark_version: gate-a-cross-skill-v1.1.0
+    active_benchmark_root: experiments/gate-a/benchmark-v1.1.0/
+    supersedes_benchmark: experiments/gate-a/benchmark/
+    required_case_counts: {mathematics: 48, software_coding: 48}
+    required_difficulty_counts_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
+    coding_isolation_preflight:
+      required_before_coding_evaluation: true
+      policy_file: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
+      executable: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.py
+      current_receipt: experiments/gate-a/benchmark-v1.1.0/execution/preflight-receipt-a3.json
+      current_receipt_status: failed_closed_on_current_host
     approved_controls:
       total_context_tokens: 4096
       rendered_input_plus_generation_must_fit: true
@@ -93,7 +106,7 @@ stages:
 
 required_final_outputs:
   - experiments/gate-a/candidates.yaml
-  - experiments/gate-a/benchmark/manifest.yaml
+  - experiments/gate-a/benchmark-v1.1.0/manifest.yaml
   - experiments/gate-a/runs/
   - gates/gate-a-specialization/evidence-report.md
 

@@ -1,0 +1,17 @@
+{
+  "preflight_id": "gate-a-coding-bounded-isolation-v1",
+  "benchmark_version": "gate-a-cross-skill-v1.1.0",
+  "status": "failed_closed",
+  "timestamp_utc": "2026-08-09T05:48:50.368603+00:00",
+  "host_identity": "ai01",
+  "kernel_identity": "Linux-5.15.0-181-generic-x86_64-with-glibc2.35",
+  "python_identity": "3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]",
+  "sandbox_identity": "/usr/bin/bwrap",
+  "command_digest": "bwrap namespaces + read-only runtime + private tmpfs + resource limits",
+  "exit_code": 1,
+  "probe_results": {},
+  "stderr": "bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted",
+  "candidate_models_executed": false,
+  "candidate_outputs_inspected": false,
+  "interpretation": "The required network namespace could not be established on the current restricted host. The fail-closed policy correctly prevents coding evaluation; a host with the required namespace capability must pass this preflight before A4/A5 coding cases are run."
+}

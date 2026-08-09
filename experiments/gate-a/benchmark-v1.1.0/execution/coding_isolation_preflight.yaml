@@ -1,0 +1,58 @@
+schema_version: 1
+preflight_id: gate-a-coding-bounded-isolation-v1
+benchmark_version: gate-a-cross-skill-v1.1.0
+status: mandatory-before-coding-evaluation
+purpose: >-
+  Establish and verify the actual bounded execution environment before any
+  model-generated Python source is compiled or scored.
+
+fail_closed: true
+executable: coding_isolation_preflight.py
+required_invocation: "Run the executable on the exact evaluation host, Python runtime, container/image, and sandbox policy that will execute coding cases."
+receipt:
+  required: true
+  preserve: [timestamp_utc, host_identity, kernel_identity, python_identity, sandbox_identity, command_digest, probe_results, stdout, stderr, exit_code]
+  path_pattern: "runs/<run_id>/coding-isolation-preflight.json"
+  reuse_policy: "A receipt may be reused only for the same host/runtime/sandbox identity and unchanged benchmark runner; repeat after any change."
+  a3_state: "not_run; no candidate source or model was executed during A3 construction"
+
+bounded_runner:
+  mechanism: bubblewrap_linux_namespaces
+  required_binary: bwrap
+  namespace_controls: [mount, pid, network, ipc, uts]
+  filesystem_policy: >-
+    Expose only read-only system runtime paths needed by Python, a private
+    temporary filesystem, /proc, and /dev. The repository, home directories,
+    model cache, and host working tree must not be visible.
+  network_policy: no_network_namespace
+  process_policy: >-
+    Apply a one-process resource limit inside the namespace and require a
+    subprocess probe to fail. The coding evaluator must not expose subprocess,
+    shell, job-control, or external-process capabilities to model code.
+  resource_bounds:
+    cpu_seconds: 2
+    address_space_bytes: 536870912
+    file_size_bytes: 1048576
+    process_count: 1
+    per_test_timeout_seconds: 2
+    max_source_bytes: 12000
+
+mandatory_probes:
+  - id: network_denied
+    expected: "A connection attempt to TEST-NET-3 fails without reaching a network interface."
+  - id: host_filesystem_hidden
+    expected: "The host working tree marker and home directory are not visible."
+  - id: system_paths_read_only
+    expected: "A write attempt to the read-only runtime fails."
+  - id: subprocess_denied
+    expected: "A child-process attempt fails under the process bound."
+  - id: cpu_and_memory_bounds_configured
+    expected: "The stated resource limits are installed before test code runs."
+  - id: private_temp_only
+    expected: "Temporary writes, if needed by the runner, remain inside the private namespace."
+
+acceptance:
+  all_probes_pass: true
+  receipt_exit_code: 0
+  no_candidate_execution_before_receipt: true
+  coding_cases_scoreable_without_receipt: false

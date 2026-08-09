@@ -1,0 +1,198 @@
+schema_version: 1
+benchmark_id: gate-a-cross-skill-v1.1.0
+version: 1.1.0
+status: frozen-pending-human-review
+supersedes:
+  benchmark_id: gate-a-cross-skill-v1
+  version: 1.0.0
+  path: experiments/gate-a/benchmark/
+freeze_scope: "Cases, case order, prompt template, scoring rules, provenance, contamination records, context policy, and coding isolation preflight policy."
+created_at: 2026-08-09
+gate: gate-a-specialization-v1
+stage: A3-benchmark-construction-and-freeze
+
+question: >-
+  Do the approved mathematics and software-coding specialist checkpoints show
+  differentiated competency profiles relative to the Qwen2.5 general baseline
+  when all three receive the same complete cross-skill benchmark?
+
+revision_basis:
+  prior_version_human_review: "A3 v1.0.0 was human-reviewed and requires revision, per the bounded task request."
+  supplied_review_path: gates/gate-a-specialization/reviews/a3-human-review-v1.md
+  checkout_observation: "The supplied review path was not present in the checked-out repository; the explicit revision request remains the operative human direction."
+  changes:
+    - "Increase each domain from 16 to 48 cases."
+    - "Use 10 foundational, 24 intermediate, and 14 advanced cases per domain."
+    - "Add multi-step, edge-sensitive, and advanced cases to reduce ceiling-effect risk."
+    - "Require an actual bounded coding-isolation preflight and preserved receipt before coding evaluation."
+    - "Preserve the approved neutral Qwen template and the 4096-token envelope."
+
+human_approved_inputs:
+  review_record: gates/gate-a-specialization/reviews/a2-human-review.md
+  candidate_set: qwen2.5-7b-instruct-math-coder
+  controls:
+    selected_models_unchanged: true
+    total_context_tokens: 4096
+    rendered_input_plus_max_new_tokens_must_fit: true
+    shared_neutral_chat_template: true
+    identical_semantic_messages: true
+    checkpoint_dtype: bfloat16
+    quantization: none
+    external_tools: false
+
+models:
+  - id: Qwen/Qwen2.5-7B-Instruct
+    role: general_baseline
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Math-7B-Instruct
+    role: mathematics_specialist
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Coder-7B-Instruct
+    role: software_coding_specialist
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    parameter_count: 7615616512
+all_models_run_complete_benchmark: true
+model_case_matrix: "3 models x 96 cases; no specialist-only subset or early stopping."
+
+coverage:
+  total_cases: 96
+  domains:
+    mathematics:
+      case_file: cases/math.yaml
+      cases: 48
+      primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      categories: [algebra, modular_arithmetic, combinatorics, probability, geometry, sequences, number_theory, matrices, calculus, inequalities, optimization, graph_counting]
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+    software_coding:
+      case_file: cases/coding.yaml
+      cases: 48
+      primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      categories: [arrays, strings, parsing, matrices, graphs, dynamic_programming, greedy_algorithms, shortest_paths, flows, backtracking, search, trees]
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+  general_baseline_reporting: "Report mathematics and software-coding accuracy separately, plus difficulty-stratified accuracy; neither domain is designated primary for General."
+  case_order: "math-01 through math-48, then code-01 through code-48"
+  complete_cross_skill_design: "Every selected model receives every case in both domains; specialist primary and non-primary scores are both required."
+  ceiling_effect_controls:
+    - "Each domain has 48 cases rather than 16, reducing the influence of any single easy item."
+    - "Advanced cases are 14/48 (29.2%) per domain and include multi-step reasoning or nontrivial algorithms."
+    - "Intermediate cases are 24/48 (50.0%) per domain and include edge cases and composition."
+    - "Later reports must include difficulty-stratified scores rather than only aggregate accuracy."
+    - "No case or scoring rule may be tuned after candidate results are observed."
+
+prompt_template:
+  file: template.yaml
+  template_id: qwen-neutral-role-delimiter-v1
+  preserved_from: experiments/gate-a/benchmark/template.yaml
+  repository_chat_templates_ignored: true
+  system_content: "You are a helpful assistant. Follow the task instructions exactly. Return only the requested answer format."
+  user_content: "The case prompt, unchanged."
+  role_delimiters: "<|im_start|>system/user/assistant and <|im_end|> exactly as recorded in template.yaml."
+  no_tools: true
+
+context_policy:
+  common_hard_limit_tokens: 4096
+  max_new_tokens: 1024
+  maximum_rendered_input_tokens: 3072
+  measured_maximum_rendered_input_tokens: 113
+  measured_maximum_rendered_input_plus_generation_tokens: 1137
+  enforcement: "Count the fully rendered template with the pinned identical tokenizer assets; reject any case where input_tokens + 1024 > 4096."
+  token_count_file: token_counts.yaml
+  tokenizer_reference: "Qwen/Qwen2.5-7B-Instruct tokenizer.json at revision a09a35458c702b33eeacc393d103063234e8bc28; tokenizer assets are byte-identical across the selected set."
+  token_count_method: "Qwen2TokenizerFast, add_special_tokens=false, rendered neutral template including the assistant generation prefix."
+
+inference_policy_for_later_runs:
+  runtime: "Transformers 4.41.1, PyTorch 2.2.2+cu121, safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, Python 3.10.12"
+  dtype: bfloat16
+  quantization: none
+  device_policy: "Same device and runtime for all models; CPU-only is the currently verified host, but human-approved host changes must be recorded before A4."
+  model_loading: "One pinned revision at a time; trust_remote_code=false; use_fast_tokenizer=true; low_cpu_mem_usage=true; no repository generation defaults."
+  generation:
+    do_sample: false
+    num_beams: 1
+    repetition_penalty: 1.0
+    max_new_tokens: 1024
+    seed: 0
+  external_tools: false
+
+scoring:
+  file: scoring.yaml
+  deterministic: true
+  llm_judge: false
+  case_weights: equal
+  domain_accuracy: "Mean of the 48 binary case scores in each domain."
+  difficulty_accuracy: "Mean of binary scores within each frozen difficulty band and domain."
+  overall_accuracy: "Mean of all 96 binary case scores."
+  specialist_primary_non_primary: "Use the domain mapping above; report primary, non-primary, difficulty-stratified, and overall scores for every model."
+  raw_response_preservation: required
+  coding_isolation_preflight: "Mandatory actual bounded-isolation preflight and passing receipt before compiling or scoring any coding response."
+  invalid_run_handling: "Follow scoring.yaml; preserve infrastructure failures and do not overwrite invalid runs."
+
+provenance:
+  source_selection: >-
+    Original self-authored cases created for this repository on 2026-08-09.
+    The selection covers deterministic algebra, discrete mathematics,
+    probability, geometry, calculus, number theory, arrays, strings, parsing,
+    matrices, graph algorithms, dynamic programming, greedy algorithms,
+    shortest paths, flows, backtracking, search, and trees without requiring
+    external datasets, tools, or network access.
+  external_dataset_assets: none
+  external_sources_copied: none
+  benchmark_content_license: "No separate project license has been chosen; repository owner review is required before external redistribution."
+  authoring_record: "Cases, deterministic oracles, scoring rules, and isolation policy were defined before any selected model was executed and without observing model outputs."
+
+contamination_and_validity:
+  status: "Risk recorded; absence of contamination is not claimed."
+  known_exact_overlap: "None intentionally copied from a named dataset or published test set."
+  residual_risk: >-
+    The cases use common mathematical structures and standard programming
+    algorithms; related examples may exist in pretraining data, especially for
+    textbook algorithms, Sudoku, graph problems, and familiar coding patterns.
+    Self-authorship, fresh constants, mixed compositions, and edge cases reduce
+    but do not eliminate exact or semantic overlap risk.
+  contamination_check_performed: false
+  mitigations:
+    - "No benchmark case was selected or modified using model results."
+    - "No public benchmark answer key or test corpus was imported."
+    - "A3 records all case text and deterministic oracles in Git for audit."
+    - "A6 must report contamination as an unresolved limitation rather than infer clean data."
+  coding_specific_risks:
+    - "Function specifications resemble common interview, educational, and algorithm-training problems."
+    - "Committed evaluator tests must not be shown to the models during later execution."
+    - "A coding response is untrusted source and must execute only after the actual bounded-isolation preflight passes."
+  math_specific_risks:
+    - "Some mathematical structures are textbook forms and may be memorized or solved from familiar templates."
+    - "Difficulty labels are author labels, not model-calibrated labels."
+
+freeze_validation:
+  cases_defined_before_model_execution: true
+  scoring_defined_before_model_execution: true
+  benchmark_cases_immutable_after_freeze: true
+  expected_model_outputs_present: false
+  comparative_runs_present: false
+  benchmark_results_present: false
+  coding_isolation_preflight_receipt_present: true
+  coding_isolation_preflight_receipt_passed: false
+  coding_isolation_preflight_receipt: execution/preflight-receipt-a3.json
+  coding_isolation_preflight_receipt_required_before_evaluation: true
+  acceptance_criteria_modified: false
+  candidate_models_executed: false
+  candidate_outputs_inspected: false
+  freeze_identity: "The Git commit containing this manifest and all referenced artifacts."
+
+files:
+  README.md: fdf8f74b1ec5f1c897dff67d3cfe731a0b8bdc253fcdd0c064c9dc284651e3f8
+  cases/math.yaml: 06afba769b4fedb8c92902ee9d567041188284f24339997ee4dd3ed18c999bca
+  cases/coding.yaml: 9553b638118f01e7b3700edf61d230fed6404bbe7258e4f42c1d851ac4707d08
+  template.yaml: 6c9c85a8de379eca375fbdea38853ea644a63ddfcebd724f05f1ea1a074bc94d
+  scoring.yaml: cb461b4c101c0977f72070709d5816207ad2e38b2caa373083e863a8d33561a0
+  token_counts.yaml: 7e79fb7bf5452981e81a076a45a293a9e746482fb867a74add2c0dc28940b649
+  execution/coding_isolation_preflight.yaml: 4478c66901e80e7d939f0b77dc9e57e924da826d526ffa20414973021bfd9259
+  execution/coding_isolation_preflight.py: 0dd3a4d79436e2de685d027ad74ac3640feecce09b8dc531f4559b3ee6fa9e85
+  execution/preflight-receipt-a3.json: 372b152f212ff1d182a5adad35b6bf226e97878a56113355f96523163ce232d0
+  manifest_self_hash: "Not applicable; the freeze Git commit is the identity of this manifest."
