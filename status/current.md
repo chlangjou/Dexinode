@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A5R1 — Interface Protocol and Fresh Benchmark Freeze (v1.2.1 revision required)
+- Active execution stage: A5R1 — v1.2.2 oracle-correction and complete static validation
 
 ## Objective
 
@@ -17,122 +17,97 @@ Determine whether existing specialized small-model checkpoints exhibit reproduci
 
 Gate acceptance criteria are unchanged.
 
-## v1.1 history — preserved
+## Preserved history
 
-The v1.1 benchmark and all A4/A5 evidence remain immutable audit history. Human review found the Math-specialist strict-interface zero row to be dominated by output-interface incompatibility rather than valid capability-zero evidence.
+The v1.1 benchmark and all A4/A5 execution evidence remain immutable audit history. The strict v1.1 Math-specialist zero row was human-reviewed as output-interface-confounded, not valid capability-zero evidence.
 
-Durable review:
+`gate-a-cross-skill-v1.2.0` is also preserved as frozen-not-approved because its Math case set reused too many v1.1 problem skeletons after those structures had already been observed.
 
-`gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md`
+Durable reviews:
+
+- `gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md`
+- `gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md`
 
 A6 remains inactive.
 
-## A5R1 v1.2.0 — frozen, NOT approved
+## A5R1 v1.2.1 — structural freshness accepted, benchmark NOT approved
 
 Agent freeze commit reviewed:
 
-`f4a808cde0e76860408011b1a1c69f38665d7b29`
+`33dc8227eee11ab462f111e3049b5e538d4ca9f7`
 
-Frozen artifacts remain preserved under:
-
-`experiments/gate-a/benchmark-v1.2.0/`
-
-Human review:
-
-`gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md`
-
-Decision: **CHANGES REQUIRED**.
-
-### Accepted v1.2.0 components
-
-The interface-remediation design is accepted and may be reused unchanged in v1.2.1 unless a genuine implementation bug is found:
-
-- semantic task score separated from strict interface-compliance metrics;
-- deterministic Math adapter based on expected type/schema only before value comparison;
-- conflicting semantic Math candidates rejected;
-- AST-only coding extraction selecting the first qualifying Python/unlabeled fenced block defining the requested top-level entrypoint;
-- no execution during source extraction;
-- strict-interface metrics remain secondary diagnostics;
-- 13/13 synthetic adapter tests pass;
-- common neutral Qwen envelope, candidates/revisions, BF16/no-quantization policy, context/generation controls, Docker/L40 runtime, coding judge-v2 policy, and Gate thresholds remain unchanged;
-- no selected model was executed during A5R1 construction.
-
-### Why v1.2.0 is not approved
-
-The software-coding cases sampled are materially fresh relative to v1.1.
-
-The mathematics set, however, has substantial structural/near-isomorphic reuse of v1.1 case skeletons. Exact strings, constants, and answers differ, but the opening cases closely mirror the already-observed v1.1 sequence (linear equation, fractional-number word problem, ratio counters, arithmetic sequence, divisor count, urn probability, midpoint, and related structures), often primarily changing coefficients or constants.
-
-Because selected-model behavior on those v1.1 structures was already observed before the remediation was designed, exact-string overlap alone is not a sufficient freshness test.
-
-This is a benchmark-construction issue, not an adapter failure and not a Gate result.
-
-## Completed bounded task: v1.2.1 structural-freshness revision — frozen pending human review
-
-Created and froze a new benchmark version:
-
-`gate-a-cross-skill-v1.2.1`
-
-Target root:
+Frozen artifacts remain preserved unchanged under:
 
 `experiments/gate-a/benchmark-v1.2.1/`
 
-Do not edit v1.2.0 in place.
+Human review:
 
-Required revision:
+`gates/gate-a-specialization/reviews/a5r1-v1.2.1-human-review.md`
 
-1. preserve/reuse the accepted v1.2 semantic adapter, scoring contract, strict metrics, template, tokenizer/runtime controls, and coding set unless a genuine bug is found;
-2. replace all 48 mathematics cases with structurally fresh instances, not simple coefficient/constant substitutions of v1.1 cases;
-3. retain 10 foundational / 24 intermediate / 14 advanced Math cases;
-4. avoid one-to-one positional mirroring of v1.1 Math cases;
-5. broad mathematical skill families may remain comparable, but use different constructions/compositions and freshly computed oracles;
-6. recompute token counts and verify every rendered input plus 1024 generation tokens fits 4096;
-7. add a freshness audit record covering exact prompt/oracle overlap and explicit structural/near-isomorphic review;
-8. do not use selected-model performance to select cases or difficulty labels;
-9. execute no General, Math, or Coder checkpoint;
-10. stop for human review after v1.2.1 is frozen.
+Decision: **CHANGES REQUIRED**.
 
-Evidence produced:
+### What passed
 
-- 48 replacement self-authored Math cases with the required 10/24/14
-  foundational/intermediate/advanced distribution;
-- accepted v1.2.0 coding case set, adapter behavior, semantic scoring, strict
-  metrics, template, tokenizer/runtime controls, and judge-v2 policy reused;
-- machine-readable/manual freshness audit covering all 48 Math cases;
-- exact prompt overlap with v1.1 Math: 0;
-- exact normalized expected-oracle overlap with v1.1 Math: 0;
-- complete nonempty per-case numeric-tuple overlap: 0; lexical numeric-literal
-  union overlap: 22, recorded as ordinary notation rather than structural reuse;
-- 13/13 synthetic adapter tests passed;
-- exact pinned-tokenizer counts for all 96 cases: maximum 187 input tokens,
-  maximum 1211 including the 1024-token generation budget, leaving 2885 tokens
-  of context margin.
+The v1.2.1 Math structural-freshness revision is accepted in principle:
 
-The remediation design was informed by the observed v1.1 interface confounder.
-No selected-model raw response was used as an adapter fixture, no expected
-value was used to choose a generated candidate, no v1.2.1 case/oracle/difficulty
-label was tuned using selected-model performance, and no selected model was
-executed during v1.2.1 construction. v1.2.0 remains unchanged.
+- 48 replacement Math cases with 10 foundational / 24 intermediate / 14 advanced;
+- explicit case-by-case structural review against v1.1;
+- no one-to-one positional mirroring or coefficient-only substitution identified in the committed audit;
+- exact Math prompt overlap with v1.1 = 0;
+- exact normalized oracle overlap = 0;
+- complete nonempty numeric-tuple overlap = 0;
+- accepted v1.2 coding set reused;
+- accepted semantic adapter/scoring/strict metrics reused;
+- 13/13 synthetic adapter tests pass;
+- max rendered input = 187 tokens; max with 1024 generation allowance = 1211; context margin = 2885;
+- provenance correctly acknowledges that v1.1 outputs motivated remediation while no selected-model raw output is used as an adapter fixture and no v1.2.1 case/oracle/difficulty label is tuned using selected-model performance.
 
-Uncertainties: contamination absence is not claimed; common mathematical
-structures and standard algorithms may occur in pretraining or educational
-material. Difficulty labels remain author labels, not model-calibrated results.
+### Benchmark-definition errors found during human oracle sanity review
 
-Next bounded action: human review of the frozen v1.2.1 Math structural
-freshness, provenance wording, adapter/scoring identity, difficulty balance,
-and token/context controls. A5R2 and A6 remain inactive.
+Two frozen Math expected values are wrong:
 
-### Documentation correction
+1. `math-23` — two distinct digits selected in order from 1..9; probability their sum is divisible by 3.
+   - total ordered pairs = 72;
+   - favorable pairs = 24;
+   - verified probability = **1/3**;
+   - v1.2.1 frozen oracle incorrectly records `1/4`.
 
-Do not claim the remediation was created "without observing selected-model outputs." v1.1 outputs were observed and motivated the remediation.
+2. `math-30` — five labeled balls assigned to four labeled boxes with no box empty.
+   - inclusion-exclusion: `4^5 - 4*3^5 + 6*2^5 - 4 = 240`;
+   - verified answer = **240**;
+   - v1.2.1 frozen oracle incorrectly records `432`.
 
-The correct provenance distinction is that selected-model raw outputs were not used as adapter fixtures, expected values were not used to choose extracted candidates, and v1.2.1 cases/oracles/difficulty labels must not be tuned using selected-model performance on those cases.
+These are `benchmark_definition_error` findings under the frozen scoring policy. v1.2.1 must not be patched in place and no selected model may be executed against it.
 
-## A5R2 — inactive
+Human spot-checking of the other visible foundational/intermediate/advanced cases did not identify another oracle defect, but that does not replace full static validation.
 
-After human approval of v1.2.1, General + Math specialist + Coder specialist will all run the complete benchmark under one unchanged protocol, with no result review between model runs except genuine infrastructure/methodological failure.
+## Active bounded task — v1.2.2
 
-## Approved execution substrate retained
+Create a narrow corrective benchmark version:
+
+`gate-a-cross-skill-v1.2.2`
+
+Target root:
+
+`experiments/gate-a/benchmark-v1.2.2/`
+
+Requirements:
+
+1. preserve v1.2.1 unchanged as frozen-not-approved audit evidence;
+2. carry forward the v1.2.1 structurally fresh Math case constructions;
+3. carry forward the accepted v1.2.0/v1.2.1 coding set unchanged;
+4. carry forward the accepted semantic adapter, scoring contract, strict metrics, template, tokenizer/runtime controls, candidates/revisions, and Gate thresholds;
+5. correct `math-23` expected value to `1/3`;
+6. correct `math-30` expected value to `240`;
+7. independently recompute and validate **all 48 Math oracles**, preserving a durable machine-readable/manual validation record;
+8. refresh benchmark version identifiers, hashes, token counts/manifests as needed;
+9. run 13 synthetic adapter tests and static/context validation;
+10. execute no General, Math, or Coder checkpoint;
+11. stop for human review before A5R2.
+
+A5R2 and A6 remain inactive.
+
+## Approved execution substrate retained for later A5R2
 
 - host `ai01`;
 - Docker Engine 29.5.3 / `runc`;
@@ -144,7 +119,7 @@ After human approval of v1.2.1, General + Math specialist + Coder specialist wil
 
 ## Next human checkpoint
 
-Review the frozen `gate-a-cross-skill-v1.2.1` benchmark, especially Math structural freshness, provenance wording, freshness audit, adapter/scoring identity, difficulty balance, and token/context controls. A5R2 and A6 remain inactive until that review is recorded.
+Review frozen `gate-a-cross-skill-v1.2.2`, especially the complete 48-case Math oracle validation record and confirmation that only the narrow corrective scope changed. A5R2 and A6 remain inactive until that approval.
 
 ## Future gate
 
