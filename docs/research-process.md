@@ -27,6 +27,18 @@ Agents own:
 - metrics and reproducibility metadata;
 - proposed interpretations and next steps.
 
+### Integration / review layer
+
+The integration layer reconciles Agent evidence with review decisions. It owns:
+
+- review records;
+- branch reconciliation;
+- `status/current.md` and task-state conflict resolution;
+- integration PRs proposed for merge to `main`;
+- preservation of both execution evidence and review history when branches diverge.
+
+Normal workflow should not require a human to manually edit Git conflict markers.
+
 ### Git repository
 
 Git is the durable coordination surface for:
@@ -41,16 +53,45 @@ Git is the durable coordination surface for:
 
 Git is not a runtime queue, heartbeat system, lock service, or real-time message bus.
 
+## Branch ownership
+
+Use single-writer execution branches:
+
+- `agent/<task>` — execution Agent work and evidence;
+- `integration/<task>` — review decisions and reconciliation before merge;
+- `main` — accepted durable project state.
+
+Reviewers should not push directly into an active Agent execution branch. If review and execution diverge, preserve both branches and reconcile them in `integration/<task>`.
+
+If an Agent has already completed work from stale state, push that work to a distinct candidate branch rather than force-pushing or asking a human to resolve conflicts manually.
+
 ## Research loop
 
-1. Human discussion identifies a falsifiable question.
+1. Human discussion identifies a falsifiable question or next bounded decision.
 2. The question becomes a Gate specification with frozen acceptance criteria.
-3. The active state is recorded in `status/current.md`.
-4. An execution agent reads the repository state and performs one bounded task.
-5. The agent commits code, evidence, metrics, and a status update.
-6. The agent may recommend an outcome but may not declare the Gate result.
-7. Humans review the evidence and record PASS, FAIL, or INCONCLUSIVE.
-8. Only after that decision is the next Gate activated or the current Gate redesigned.
+3. The accepted active state is recorded in `main` through `status/current.md` and the relevant task contract.
+4. An execution branch is created from the accepted base.
+5. Before substantive work, the Agent fetches relevant remote refs and checks that the intended base has not changed unexpectedly.
+6. The Agent reads the repository state and performs one bounded task.
+7. The Agent commits and pushes code, evidence, metrics, and its proposed status handoff to its own branch.
+8. Human/planning review evaluates the evidence without writing directly to the Agent branch.
+9. The integration layer creates or updates `integration/<task>`, preserves review records, reconciles status/task state, and opens the merge candidate.
+10. After integration review, the accepted state is merged to `main`.
+11. Only then is the next bounded execution branch created.
+
+## Divergence recovery
+
+Branch divergence is treated as a normal coordination condition, not a reason to discard work.
+
+When review state changes while an Agent is already working:
+
+- preserve the review branch/state;
+- preserve completed Agent work on its own candidate branch;
+- do not routinely force push or overwrite either side;
+- integrate the two in a separate integration branch;
+- make the reconciled durable state explicit before merge.
+
+The integration record should distinguish what the Agent actually observed during execution from review information incorporated afterward.
 
 ## Gate outcomes
 
@@ -95,5 +136,7 @@ Accepted architectural or research decisions that materially constrain future wo
 ## Dogfooding objective
 
 The research workflow should gradually exercise Dexinode concepts itself. Machine-readable Gate tasks may evolve into early versions of handoff contracts, evidence manifests, verification policies, and portable execution records.
+
+The branch-ownership and integration workflow is itself part of this dogfooding: executor evidence and reviewer decisions are independent artifacts that are reconciled explicitly rather than implicitly sharing mutable conversational state.
 
 This is useful only when it improves the research workflow. Do not force protocol complexity into early experiments before it is needed.
