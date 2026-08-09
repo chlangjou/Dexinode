@@ -102,8 +102,17 @@ stages:
       preserve_unchanged: true
 
     target_revision:
+      status: completed-frozen-pending-human-review
       benchmark_version: gate-a-cross-skill-v1.2.1
       benchmark_root: experiments/gate-a/benchmark-v1.2.1/
+      completed_artifacts:
+        manifest: experiments/gate-a/benchmark-v1.2.1/manifest.yaml
+        math_cases: experiments/gate-a/benchmark-v1.2.1/cases/math.yaml
+        coding_cases: experiments/gate-a/benchmark-v1.2.1/cases/coding.yaml
+        freshness_audit: experiments/gate-a/benchmark-v1.2.1/freshness-audit.yaml
+        token_counts: experiments/gate-a/benchmark-v1.2.1/token_counts.yaml
+        adapter_tests: experiments/gate-a/benchmark-v1.2.1/adapter/test_adapter.py
+        validation: "13 synthetic adapter tests passed; exact prompt/oracle overlap is zero; all 96 rendered inputs plus 1024 generation tokens fit the 4096-token envelope."
       selected_model_execution_allowed: false
       reuse_approved_v1_2_adapter_scoring_template_allowed: true
       required_case_counts: {mathematics: 48, software_coding: 48}
@@ -121,6 +130,7 @@ stages:
         - structural_near_isomorphic_overlap_review
       documentation_must_acknowledge_v1_1_outputs_were_observed: true
       selected_model_calibration_forbidden: true
+      completion_note: "v1.2.1 is frozen in Git; stop for human review before A5R2."
 
     common_controls_unchanged:
       common_neutral_chat_envelope: true

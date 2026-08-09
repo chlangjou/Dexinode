@@ -67,9 +67,9 @@ Because selected-model behavior on those v1.1 structures was already observed be
 
 This is a benchmark-construction issue, not an adapter failure and not a Gate result.
 
-## Active bounded task: v1.2.1 structural-freshness revision
+## Completed bounded task: v1.2.1 structural-freshness revision — frozen pending human review
 
-Create a new benchmark version:
+Created and froze a new benchmark version:
 
 `gate-a-cross-skill-v1.2.1`
 
@@ -91,6 +91,36 @@ Required revision:
 8. do not use selected-model performance to select cases or difficulty labels;
 9. execute no General, Math, or Coder checkpoint;
 10. stop for human review after v1.2.1 is frozen.
+
+Evidence produced:
+
+- 48 replacement self-authored Math cases with the required 10/24/14
+  foundational/intermediate/advanced distribution;
+- accepted v1.2.0 coding case set, adapter behavior, semantic scoring, strict
+  metrics, template, tokenizer/runtime controls, and judge-v2 policy reused;
+- machine-readable/manual freshness audit covering all 48 Math cases;
+- exact prompt overlap with v1.1 Math: 0;
+- exact normalized expected-oracle overlap with v1.1 Math: 0;
+- complete nonempty per-case numeric-tuple overlap: 0; lexical numeric-literal
+  union overlap: 22, recorded as ordinary notation rather than structural reuse;
+- 13/13 synthetic adapter tests passed;
+- exact pinned-tokenizer counts for all 96 cases: maximum 187 input tokens,
+  maximum 1211 including the 1024-token generation budget, leaving 2885 tokens
+  of context margin.
+
+The remediation design was informed by the observed v1.1 interface confounder.
+No selected-model raw response was used as an adapter fixture, no expected
+value was used to choose a generated candidate, no v1.2.1 case/oracle/difficulty
+label was tuned using selected-model performance, and no selected model was
+executed during v1.2.1 construction. v1.2.0 remains unchanged.
+
+Uncertainties: contamination absence is not claimed; common mathematical
+structures and standard algorithms may occur in pretraining or educational
+material. Difficulty labels remain author labels, not model-calibrated results.
+
+Next bounded action: human review of the frozen v1.2.1 Math structural
+freshness, provenance wording, adapter/scoring identity, difficulty balance,
+and token/context controls. A5R2 and A6 remain inactive.
 
 ### Documentation correction
 

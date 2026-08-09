@@ -1,0 +1,216 @@
+schema_version: 1
+benchmark_id: gate-a-cross-skill-v1.2.1
+version: 1.2.1
+status: frozen-pending-human-review
+gate: gate-a-specialization-v1
+stage: A5R1-interface-protocol-and-benchmark-freeze
+question: >-
+  Do the approved mathematics and software-coding specialist checkpoints show
+  differentiated semantic competency profiles relative to the Qwen2.5 general
+  baseline when all three receive the same fresh complete cross-skill
+  benchmark?
+
+supersession:
+  supersedes_for_future_gate_a_measurement:
+    benchmark_id: gate-a-cross-skill-v1.2.0
+    version: 1.2.0
+    path: experiments/gate-a/benchmark-v1.2.0/
+    status: frozen-not-approved
+  v1_2_0_preserved_unchanged: true
+  v1_1_and_all_runs_preserved: true
+  v1_2_0_rejection_scope: "Mathematics structural freshness only; adapter, scoring, controls, and coding set were accepted."
+  v1_2_1_freshness_basis: >-
+    Replace all 48 mathematics instances with changed constructions and
+    compositions after human review found v1.2.0 near-isomorphic to v1.1.
+  acceptance_thresholds_unchanged: true
+
+human_approved_basis:
+  human_review: gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md
+  remediation_contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
+  prior_benchmark: gate-a-cross-skill-v1.1.0
+  rejected_intermediate_benchmark: gate-a-cross-skill-v1.2.0
+  prior_runs_preserved: true
+
+models:
+  - id: Qwen/Qwen2.5-7B-Instruct
+    role: general_baseline
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Math-7B-Instruct
+    role: mathematics_specialist
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Coder-7B-Instruct
+    role: software_coding_specialist
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    parameter_count: 7615616512
+candidate_set_unchanged: true
+
+coverage:
+  total_cases: 96
+  domains:
+    mathematics:
+      case_file: cases/math.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+      primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      structural_freshness_audit: freshness-audit.yaml
+    software_coding:
+      case_file: cases/coding.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+      primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      reuse_from: experiments/gate-a/benchmark-v1.2.0/cases/coding.yaml
+  all_models_run_complete_benchmark: true
+  model_case_matrix: "3 models x 96 cases after human approval; no specialist-only subset or early stopping."
+  case_order: "math-01 through math-48, then code-01 through code-48"
+  fresh_instance_policy:
+    mathematics_relative_to_v1_1_case_text: required
+    mathematics_relative_to_v1_1_exact_oracles: required
+    mathematics_structural_near_isomorphism_review: required
+    selected_model_calibration: forbidden
+
+controls:
+  checkpoint_dtype: bfloat16
+  quantization: none
+  external_tools: false
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  tokenizer:
+    model_reference: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    tokenizer_class: Qwen2TokenizerFast
+    tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+  template:
+    file: template.yaml
+    template_id: qwen-neutral-role-delimiter-v1
+    repository_chat_templates_ignored: true
+    identical_semantic_system_message: true
+    identical_semantic_user_case_message: true
+  inference_policy_for_later_runs:
+    runtime: "Transformers 4.41.1, PyTorch 2.2.2+cu121, safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, Python 3.10.12"
+    do_sample: false
+    num_beams: 1
+    repetition_penalty: 1.0
+    seed: 0
+    repository_generation_defaults_ignored: true
+    approved_host: ai01
+    selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+    selected_gpu_class: NVIDIA L40
+    formal_inference_memory: 40g
+    formal_inference_cpus: 16
+    coding_judge: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
+
+accepted_v1_2_0_components:
+  semantic_adapter: {reused: true, behavior_changed: false}
+  semantic_scoring_contract: {reused: true, behavior_changed: false}
+  strict_interface_metrics: {reused: true, behavior_changed: false}
+  neutral_qwen_template: {reused: true, behavior_changed: false}
+  tokenizer_policy: {reused: true, behavior_changed: false}
+  coding_judge_v2_policy: {reused: true, behavior_changed: false}
+  software_coding_case_set: {reused: true, byte_identical: true}
+  genuine_implementation_bug_found: false
+
+semantic_handoff:
+  primary_metric: deterministic_task_semantics
+  strict_interface_is_separate: true
+  mathematics:
+    contract: "One canonical ANSWER candidate or one conventional boxed candidate under the expected type grammar; reasoning may precede the final."
+    types: [integer, rational, structured_object]
+    expected_value_guided_extraction: false
+    conflicting_candidates_rejected: true
+  software_coding:
+    contract: "Python 3.10 implementation with prose permitted; deterministic AST selection of the first qualifying Python/unlabeled fenced block."
+    execution_during_extraction: false
+    source_execution_boundary: approved_judge_v2_only
+
+scoring:
+  file: scoring.yaml
+  adapter_directory: adapter/
+  deterministic: true
+  llm_judge: false
+  case_weights: equal
+  primary_semantic_score_excludes_strict_interface: true
+  strict_metrics: [math_canonical_answer_contract, coding_single_clean_source_block]
+  gate_acceptance_reference: gates/gate-a-specialization/acceptance.yaml
+  gate_acceptance_thresholds_modified: false
+  raw_response_preservation: required
+
+provenance:
+  remediation_design: >-
+    The remediation design was informed by the observed v1.1 interface
+    confounder.
+  selected_model_raw_response_used_as_adapter_fixture: false
+  expected_value_used_to_choose_generated_candidate: false
+  v1_2_1_case_oracle_or_difficulty_tuned_using_selected_model_performance: false
+  selected_model_executed_during_v1_2_1_construction: false
+  source_selection: >-
+    Fresh self-authored mathematics instances were created for this structural
+    freshness revision. The accepted v1.2.0 coding instances were reused
+    unchanged. No external dataset, public answer key, or selected-model
+    output was used as a fixture.
+  external_dataset_assets: none
+  external_sources_copied: none
+  benchmark_content_license: "No separate project license has been chosen; repository owner review is required before external redistribution."
+
+contamination_and_validity:
+  status: "Risk recorded; absence of contamination is not claimed."
+  known_exact_overlap: "No v1.1 Math prompt or exact expected oracle intentionally reused; common mathematical vocabulary and numeric literals can overlap."
+  residual_risk: >-
+    The benchmark uses common mathematical structures and standard programming
+    algorithms, so related examples may exist in pretraining data or
+    educational material. Structural review reduces reuse of the observed
+    v1.1 skeletons but does not establish contamination absence.
+  contamination_check_performed: false
+  difficulty_calibration_from_selected_models: false
+  mitigations:
+    - "Fresh Math constructions and oracles were authored before any v1.2.1 model execution."
+    - "No selected-model raw response was used as an adapter fixture."
+    - "The freshness audit records exact and structural comparisons."
+    - "Later evaluation must report contamination as an unresolved limitation."
+
+freeze_validation:
+  v1_2_0_files_modified: false
+  v1_2_0_artifact_hashes_verified_unchanged: true
+  cases_defined_before_v1_2_1_model_execution: true
+  scoring_defined_before_v1_2_1_model_execution: true
+  adapter_reused_without_behavior_change: true
+  expected_model_outputs_present: false
+  comparative_runs_present: false
+  benchmark_results_present: false
+  candidate_models_executed: false
+  candidate_outputs_inspected: false
+  selected_model_raw_outputs_used_as_adapter_fixtures: false
+  adapter_tests_passed: true
+  adapter_test_count: 13
+  all_token_counts_fit_context: true
+  max_rendered_input_tokens: 187
+  max_rendered_input_plus_generation_tokens: 1211
+  context_margin_tokens: 2885
+  freshness_audit_passed: true
+  freshness_exact_prompt_overlap: 0
+  freshness_exact_oracle_overlap: 0
+  freshness_complete_numeric_tuple_overlap: 0
+  freshness_lexical_numeric_union_overlap: 22
+  acceptance_criteria_modified: false
+  freeze_identity: "The Git commit containing this manifest and all referenced artifacts."
+
+files:
+  README.md: 260f1dcfc3d0a72532f81eb265260fdec43ad8fd6127c17ad747d2deb7ec49c1
+  manifest.yaml: "Not self-hashed; the freeze Git commit is the manifest identity."
+  cases/math.yaml: 80fa477c22925e98047c09f1ab88cf8fa7ccdac0d24148f2b38fd306927a1cd3
+  cases/coding.yaml: 182e9a69a9b00f9b27fa9e59d7120cbd31ab9ae024b835188af74b9b074ae636
+  template.yaml: 436240082062dabafd03616081fde1c2fee7ccd4da949c6b446ce260cb521222
+  scoring.yaml: 573d1c5dd1d07da2e2ca0bd09adab60af74eee80a903f758757502fd0090df21
+  token_counts.yaml: 8de4496577d869bd49906de81d573aa3cf34dec2161b16d747cc8be108f2b3d2
+  freshness-audit.yaml: 8293241c5ba53f48c5ff3a56c2122e9298e8a1b7dc900be0d41367744281c838
+  adapter/README.md: 8908615bccebcad3bbbba599aadcbe84757ede13a2219df76249fa20723486d5
+  adapter/__init__.py: 5aec340b1e73f6a6ead55211a5956de4fc899b3b2df7b4449151ea862cba5fdd
+  adapter/semantic_adapter.py: f829f75b28f0295689bb916098b9aee1b0c1251193e6dcc13f87ad0c5c6513f2
+  adapter/test_adapter.py: 81e9ce9f52f5eab33760da681b835ae3e47500d035c2d3980ec3c0873ec90f94
+
+gate_decision: PENDING HUMAN REVIEW
