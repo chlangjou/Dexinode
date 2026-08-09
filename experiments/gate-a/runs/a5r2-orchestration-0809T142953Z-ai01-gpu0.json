@@ -1,0 +1,52 @@
+{
+  "benchmark_id": "gate-a-cross-skill-v1.2.2",
+  "config": "experiments/gate-a/execution/a5r2-execution.yaml",
+  "execution_id": "gate-a-a5r2-v1.2.2-three-model-cross-evaluation",
+  "finished_utc": "2026-08-09T14:34:34.122429Z",
+  "result_inspection_between_rows": false,
+  "rows": [
+    {
+      "elapsed_seconds": 1.9790959795936942,
+      "exit_code": 1,
+      "log": "experiments/gate-a/runs/a5r2-retry1-general-20260809T142953Z-ai01-gpu0/container-preflight.log",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "ordinal": 1,
+      "phase": "preflight",
+      "role": "general_baseline"
+    }
+  ],
+  "run_order": [
+    {
+      "cache_volume": "dexinode-gate-a-general-20260809T082430Z-cache",
+      "model_dir": "/gate-cache/models/qwen2.5-7b-instruct",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "ordinal": 1,
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "role": "general_baseline",
+      "run_id": "a5r2-retry1-general-20260809T142953Z-ai01-gpu0"
+    },
+    {
+      "cache_volume": "dexinode-gate-a5-math-20260809T092120Z-cache",
+      "model_dir": "/gate-cache/models/qwen2.5-math-7b-instruct",
+      "model_id": "Qwen/Qwen2.5-Math-7B-Instruct",
+      "ordinal": 2,
+      "revision": "ef9926d75ab1d54532f6a30dd5e760355eb9aa4d",
+      "role": "mathematics_specialist",
+      "run_id": "a5r2-retry1-math-20260809T142953Z-ai01-gpu0"
+    },
+    {
+      "cache_volume": "dexinode-gate-a5-coder-20260809T092120Z-cache",
+      "model_dir": "/gate-cache/models/qwen2.5-coder-7b-instruct",
+      "model_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+      "ordinal": 3,
+      "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+      "role": "software_coding_specialist",
+      "run_id": "a5r2-retry1-coder-20260809T142953Z-ai01-gpu0"
+    }
+  ],
+  "runner_image": "sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f",
+  "runner_sha256": "6fade29b03f66d453b61b7deaa370aea5bf6cc92d748228d855522d0d7dd24bf",
+  "schema_version": 1,
+  "started_utc": "2026-08-09T14:34:32.140535Z",
+  "status": "stopped_preflight_failure"
+}
