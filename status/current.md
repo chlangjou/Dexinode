@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A4 — General Baseline (blocked before model execution; pending human review)
+- Active execution stage: A4a — Docker Execution Environment Qualification
 
 ## Objective
 
@@ -21,114 +21,93 @@ A2 eligibility is approved. The durable record is:
 
 `gates/gate-a-specialization/reviews/a2-human-review.md`
 
-## A3 benchmark history
+## Approved benchmark
 
-### v1.0.0 — preserved, not approved for execution
-
-`gate-a-cross-skill-v1.0.0` was frozen before model execution, then human-reviewed as **CHANGES REQUIRED** because of limited per-domain sample size, ceiling-effect risk, and the need for actual bounded coding isolation.
-
-The frozen v1.0.0 artifacts remain unchanged in:
-
-`experiments/gate-a/benchmark/`
-
-The durable review is:
-
-`gates/gate-a-specialization/reviews/a3-human-review-v1.md`
-
-### v1.1.0 — APPROVED
-
-The superseding benchmark is frozen in:
+Gate A execution uses the frozen superseding benchmark:
 
 `experiments/gate-a/benchmark-v1.1.0/`
 
-Human review approves v1.1.0 for A4 subject to execution preflight. The durable review is:
+Human approval record:
 
 `gates/gate-a-specialization/reviews/a3-human-review-v1.1.md`
 
-Approved benchmark properties:
+Key frozen controls remain unchanged:
 
 - 48 mathematics + 48 software-coding cases, 96 total;
-- every selected model must eventually run all 96 cases;
-- 10 foundational, 24 intermediate, and 14 advanced cases per domain;
+- every selected model eventually runs all 96 cases;
 - deterministic scoring, equal case weights, no LLM judge;
-- neutral shared Qwen role-delimiter template with identical semantic messages;
-- `rendered_input_tokens + max_new_tokens <= 4096` for every case;
+- neutral shared Qwen role-delimiter template;
+- `rendered_input_tokens + max_new_tokens <= 4096`;
 - BF16, no quantization, no external tools;
-- explicit provenance, contamination limitations, and difficulty-stratified reporting;
-- Gate acceptance criteria and candidate set remain unchanged.
+- Gate acceptance criteria and candidate set unchanged.
 
-No selected model output was used to construct either benchmark version.
-
-## Execution blocker discovered during A3
-
-Coding evaluation is fail-closed behind the bounded-isolation preflight defined in:
-
-`experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml`
-
-The A3 preflight on host `ai01` failed because bubblewrap could not establish the required network namespace (`NETLINK_ROUTE: Operation not permitted`). The failed receipt is preserved at:
-
-`experiments/gate-a/benchmark-v1.1.0/execution/preflight-receipt-a3.json`
-
-This is an execution-host blocker, not a benchmark-definition failure.
-
-## Active bounded task: A4 — General Baseline
-
-Execute only the pinned general baseline:
-
-- model: `Qwen/Qwen2.5-7B-Instruct`
-- revision: `a09a35458c702b33eeacc393d103063234e8bc28`
-- benchmark: `gate-a-cross-skill-v1.1.0`
-
-Required order:
-
-1. record the exact execution host, runtime, device, and environment;
-2. run the frozen coding-isolation preflight on that exact environment;
-3. if preflight fails, stop without executing the baseline and report the blocker;
-4. if preflight passes, execute the general baseline over all 96 frozen cases using the approved common inference policy;
-5. preserve the passing preflight receipt, raw per-case responses, per-case scores/reasons, timing, failures, and reproducibility metadata;
-6. stop for human review before A5.
-
-A4 must NOT:
-
-- modify the frozen v1.1.0 benchmark, scoring, or template;
-- modify Gate acceptance criteria;
-- change the candidate set;
-- execute Math or Coder specialist checkpoints;
-- proceed to A5.
-
-## A4 execution attempt: blocked by mandatory preflight
+## A4 attempt 1 — valid fail-closed blocker
 
 Run ID: `a4-general-baseline-20260809T064011Z-ai01`
 
-The exact environment was recorded before preflight in:
+Evidence:
 
-`experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/environment.json`
+- `experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/environment.json`
+- `experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json`
 
-Recorded environment: host `ai01`, Ubuntu 22.04.5, Linux 5.15.0-181-generic,
-CPU-only because CUDA was unavailable and NVIDIA-SMI could not communicate with
-the driver, Python 3.10.12, Transformers 4.41.1, PyTorch 2.2.2+cu121,
-safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, and bubblewrap 0.6.1.
-
-The mandatory preflight was run on that exact environment at
-`2026-08-09T06:40:46.888414+00:00` and failed closed before probes:
+The host-side bubblewrap preflight failed before model execution:
 
 `bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted`
 
-The failed receipt is preserved at:
+No General, Math, or Coder model was executed. Human review accepts this as an execution-context blocker, not a Gate or benchmark failure.
 
-`experiments/gate-a/runs/a4-general-baseline-20260809T064011Z-ai01/preflight-receipt.json`
+Durable review:
 
-No General, Math, or Coder model was executed. No model output was produced or
-inspected. No benchmark, scoring rule, template, acceptance criterion, or
-candidate selection was modified. A4 is blocked pending human review and a
-host/runtime/sandbox environment that passes the approved preflight.
+`gates/gate-a-specialization/reviews/a4-preflight-human-review.md`
+
+## Human-approved execution direction
+
+Qualify Docker on `ai01` as the Gate A execution substrate before any model download or inference.
+
+Existing `ollama` and `open-webui` containers are out of scope for modification. They may be inspected read-only only as infrastructure evidence. Do not alter their configuration, mounts, permissions, model cache, lifecycle, or network.
+
+The intended topology is:
+
+1. a dedicated Gate A inference container using one explicitly selected NVIDIA L40 GPU;
+2. a separate CPU-only coding judge container with fail-closed isolation;
+3. a Gate-specific model/cache location independent of existing Ollama storage when model execution is later authorized.
+
+The Docker qualification contract is:
+
+`gates/gate-a-specialization/execution/a4-docker-qualification.yaml`
+
+This is an explicit human-approved execution-policy amendment. It does not modify the frozen benchmark cases, scoring, prompt template, candidate set, or Gate acceptance criteria.
+
+## Active bounded task: A4a — Docker Execution Environment Qualification
+
+Qualification only. Do not download or execute any selected Qwen model and do not run benchmark cases.
+
+Required work:
+
+1. record Docker engine/runtime and host identity;
+2. inspect existing `ollama`/`open-webui` read-only only as needed to confirm NVIDIA Docker infrastructure;
+3. qualify a dedicated disposable GPU container that sees exactly one selected L40 and record GPU/driver/CUDA/container identity;
+4. qualify a separate CPU-only judge container with no network, no GPU, read-only root, private tmpfs, dropped capabilities, `no-new-privileges`, hidden host worktree/home/Docker socket/model cache, and bounded CPU/memory/PIDs/time/output;
+5. preserve machine-readable receipts for both qualification paths;
+6. stop for human review.
+
+A4a must NOT:
+
+- download or execute General, Math, or Coder checkpoints;
+- run benchmark cases;
+- modify the frozen benchmark;
+- modify Gate acceptance criteria;
+- modify/restart/recreate `ollama` or `open-webui`;
+- repermission or use the existing Ollama model bind mount;
+- use a privileged judge container or mount the Docker socket into it;
+- weaken isolation merely to obtain a pass;
+- proceed to baseline inference.
 
 ## Next human checkpoint
 
-Review the recorded A4 environment and failed preflight receipt. Decide whether
-to approve a different exact execution host/runtime with the required bounded
-network isolation, or provide another approved resolution. Baseline execution
-did not occur; A5 remains inactive.
+Review the Docker GPU qualification and judge-isolation receipts. If both are accepted, authorize A4b General Baseline execution on the exact approved container/runtime policy.
+
+A5 remains inactive.
 
 ## Future gate
 
