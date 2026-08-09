@@ -1,0 +1,554 @@
+schema_version: 1
+case_file: gate-a-cross-skill-v1.2.0-mathematics
+domain: mathematics
+case_count: 48
+authoring_status: authored-before-model-execution
+difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+semantic_contract: math-v1.2
+cases:
+  - id: math-01
+    domain: mathematics
+    skill_axis: algebra
+    difficulty: foundational
+    prompt: >-
+      Solve 7x - 11 = 3x + 25 for x. You may show reasoning. Finish with
+      exactly one final integer using either ANSWER: <integer> or one permitted
+      boxed final integer.
+    expected: {type: integer, value: 9}
+    scoring_rule: semantic_integer
+
+  - id: math-02
+    domain: mathematics
+    skill_axis: algebra
+    difficulty: foundational
+    prompt: >-
+      Five eighths of a number minus 7 equals 18. Find the number. You may
+      show reasoning. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 40}
+    scoring_rule: semantic_integer
+
+  - id: math-03
+    domain: mathematics
+    skill_axis: ratios
+    difficulty: foundational
+    prompt: >-
+      Red and blue counters are in the ratio 3:10, with 104 counters total.
+      Find the number of blue counters. Finish with exactly one final integer
+      using either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 80}
+    scoring_rule: semantic_integer
+
+  - id: math-04
+    domain: mathematics
+    skill_axis: sequences
+    difficulty: foundational
+    prompt: >-
+      An arithmetic sequence has first term 8 and common difference -2. Find
+      its seventeenth term. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: -24}
+    scoring_rule: semantic_integer
+
+  - id: math-05
+    domain: mathematics
+    skill_axis: number_theory
+    difficulty: foundational
+    prompt: >-
+      How many positive divisors does 768 have? Finish with exactly one final
+      integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 18}
+    scoring_rule: semantic_integer
+
+  - id: math-06
+    domain: mathematics
+    skill_axis: probability
+    difficulty: foundational
+    prompt: >-
+      An urn contains 4 red and 7 green balls. Two balls are drawn without
+      replacement. Find the probability that both are red as a reduced
+      fraction. Finish with exactly one final rational using either ANSWER:
+      <numerator>/<denominator> or one permitted boxed fraction.
+    expected: {type: rational, value: "6/55"}
+    scoring_rule: semantic_rational
+
+  - id: math-07
+    domain: mathematics
+    skill_axis: coordinate_geometry
+    difficulty: foundational
+    prompt: >-
+      Find the midpoint of (-8, 7) and (14, -5). Use the structured object
+      schema {"x": integer, "y": integer}. Finish with exactly one final
+      object using either ANSWER: followed by strict JSON or one permitted
+      boxed tuple in the frozen key order (x, y).
+    expected:
+      type: structured_object
+      schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+      value: {x: 3, y: 1}
+    scoring_rule: semantic_structured_object
+
+  - id: math-08
+    domain: mathematics
+    skill_axis: geometry
+    difficulty: foundational
+    prompt: >-
+      A trapezoid has parallel sides of lengths 17 and 23 and height 6. Find
+      its area. Finish with exactly one final integer using either ANSWER:
+      <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 120}
+    scoring_rule: semantic_integer
+
+  - id: math-09
+    domain: mathematics
+    skill_axis: exponents
+    difficulty: foundational
+    prompt: >-
+      Solve 2^(x - 1) = 4096 for x. Finish with exactly one final integer using
+      either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 13}
+    scoring_rule: semantic_integer
+
+  - id: math-10
+    domain: mathematics
+    skill_axis: inclusion_exclusion
+    difficulty: foundational
+    prompt: >-
+      How many integers from 1 through 210 are divisible by 8 or 14, but not
+      both? Finish with exactly one final integer using either ANSWER:
+      <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 35}
+    scoring_rule: semantic_integer
+
+  - id: math-11
+    domain: mathematics
+    skill_axis: linear_systems
+    difficulty: intermediate
+    prompt: >-
+      Solve 3x + 2y = 28 and 5x - y = 25. Use the structured object schema
+      {"x": integer, "y": integer}. Finish with exactly one final object using
+      either ANSWER: followed by strict JSON or one permitted boxed tuple in
+      the frozen key order (x, y).
+    expected:
+      type: structured_object
+      schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+      value: {x: 6, y: 5}
+    scoring_rule: semantic_structured_object
+
+  - id: math-12
+    domain: mathematics
+    skill_axis: modular_arithmetic
+    difficulty: intermediate
+    prompt: >-
+      Find the smallest positive n satisfying n congruent to 4 modulo 7 and n
+      congruent to 3 modulo 11. Finish with exactly one final integer using
+      either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 25}
+    scoring_rule: semantic_integer
+
+  - id: math-13
+    domain: mathematics
+    skill_axis: combinatorics
+    difficulty: intermediate
+    prompt: >-
+      How many length-six strings over an alphabet of four symbols contain
+      exactly three copies of a designated symbol X? Finish with exactly one
+      final integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 540}
+    scoring_rule: semantic_integer
+
+  - id: math-14
+    domain: mathematics
+    skill_axis: conditional_probability
+    difficulty: intermediate
+    prompt: >-
+      Two fair six-sided dice are rolled. Given that their sum is odd, find the
+      probability that their product is odd as a reduced fraction. Finish with
+      exactly one final rational using either ANSWER: <numerator>/<denominator>
+      or one permitted boxed fraction.
+    expected: {type: rational, value: "0/1"}
+    scoring_rule: semantic_rational
+
+  - id: math-15
+    domain: mathematics
+    skill_axis: circle_geometry
+    difficulty: intermediate
+    prompt: >-
+      A circle has radius 20 and a chord whose distance from the center is 12.
+      Find the chord length. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 32}
+    scoring_rule: semantic_integer
+
+  - id: math-16
+    domain: mathematics
+    skill_axis: recurrence
+    difficulty: intermediate
+    prompt: >-
+      Let a_1 = 4, a_2 = 9, and a_n = 3a_(n-1) - a_(n-2). Find a_5. Finish with
+      exactly one final integer using either ANSWER: <integer> or one permitted
+      boxed final integer.
+    expected: {type: integer, value: 157}
+    scoring_rule: semantic_integer
+
+  - id: math-17
+    domain: mathematics
+    skill_axis: combinatorics
+    difficulty: intermediate
+    prompt: >-
+      How many ways can 4 positions be chosen from 13 positions so that no
+      two chosen positions are consecutive? Finish with exactly one final
+      integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 210}
+    scoring_rule: semantic_integer
+
+  - id: math-18
+    domain: mathematics
+    skill_axis: finite_sums
+    difficulty: intermediate
+    prompt: >-
+      Compute the sum of k(2k - 1) for k from 1 through 15. Finish with exactly
+      one final integer using either ANSWER: <integer> or one permitted boxed
+      final integer.
+    expected: {type: integer, value: 2360}
+    scoring_rule: semantic_integer
+
+  - id: math-19
+    domain: mathematics
+    skill_axis: matrices
+    difficulty: intermediate
+    prompt: >-
+      Find the determinant of [[3, 2, 0], [2, 5, 1], [0, 1, 4]]. Finish with
+      exactly one final integer using either ANSWER: <integer> or one permitted
+      boxed final integer.
+    expected: {type: integer, value: 41}
+    scoring_rule: semantic_integer
+
+  - id: math-20
+    domain: mathematics
+    skill_axis: calculus
+    difficulty: intermediate
+    prompt: >-
+      Evaluate the definite integral from 0 to 3 of x(2x + 1) dx. Give the
+      result as a reduced fraction. Finish with exactly one final rational
+      using either ANSWER: <numerator>/<denominator> or one permitted boxed
+      fraction.
+    expected: {type: rational, value: "45/2"}
+    scoring_rule: semantic_rational
+
+  - id: math-21
+    domain: mathematics
+    skill_axis: inequalities
+    difficulty: intermediate
+    prompt: >-
+      How many integers x satisfy -4 <= (3x - 2)/5 < 7? Finish with exactly
+      one final integer using either ANSWER: <integer> or one permitted boxed
+      final integer.
+    expected: {type: integer, value: 19}
+    scoring_rule: semantic_integer
+
+  - id: math-22
+    domain: mathematics
+    skill_axis: optimization
+    difficulty: intermediate
+    prompt: >-
+      Positive integers x and y satisfy x + y = 20. Find the maximum possible
+      value of x^2 y. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 1183}
+    scoring_rule: semantic_integer
+
+  - id: math-23
+    domain: mathematics
+    skill_axis: number_theory
+    difficulty: intermediate
+    prompt: >-
+      Compute Euler's totient phi(396). Finish with exactly one final integer
+      using either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 120}
+    scoring_rule: semantic_integer
+
+  - id: math-24
+    domain: mathematics
+    skill_axis: inclusion_exclusion
+    difficulty: intermediate
+    prompt: >-
+      How many integers from 1 through 600 are divisible by at least one of
+      4, 9, or 11? Finish with exactly one final integer using either ANSWER:
+      <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 236}
+    scoring_rule: semantic_integer
+
+  - id: math-25
+    domain: mathematics
+    skill_axis: combinatorics
+    difficulty: intermediate
+    prompt: >-
+      Consider five-digit strings where leading zeroes are allowed. How many
+      have exactly two digits equal to 7 and no digit equal to 3? Finish with
+      exactly one final integer using either ANSWER: <integer> or one permitted
+      boxed final integer.
+    expected: {type: integer, value: 5120}
+    scoring_rule: semantic_integer
+
+  - id: math-26
+    domain: mathematics
+    skill_axis: probability
+    difficulty: intermediate
+    prompt: >-
+      A bag has 5 white, 4 black, and 3 gold tokens. Three tokens are drawn
+      without replacement. Find the probability of exactly one token of each
+      color as a reduced fraction. Finish with exactly one final rational using
+      either ANSWER: <numerator>/<denominator> or one permitted boxed fraction.
+    expected: {type: rational, value: "3/11"}
+    scoring_rule: semantic_rational
+
+  - id: math-27
+    domain: mathematics
+    skill_axis: polynomials
+    difficulty: intermediate
+    prompt: >-
+      Find the remainder when x^5 - x^3 + 2x + 1 is divided by x - 3.
+      Finish with exactly one final integer using either ANSWER: <integer> or
+      one permitted boxed final integer.
+    expected: {type: integer, value: 223}
+    scoring_rule: semantic_integer
+
+  - id: math-28
+    domain: mathematics
+    skill_axis: sequences
+    difficulty: intermediate
+    prompt: >-
+      A geometric sequence starts with 6 and has common ratio -2. Find the sum
+      of its first six terms. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: -126}
+    scoring_rule: semantic_integer
+
+  - id: math-29
+    domain: mathematics
+    skill_axis: coordinate_geometry
+    difficulty: intermediate
+    prompt: >-
+      Find the y-coordinate at x = 14 on the line through (2, -7) and (11,
+      20). Finish with exactly one final integer using either ANSWER: <integer>
+      or one permitted boxed final integer.
+    expected: {type: integer, value: 29}
+    scoring_rule: semantic_integer
+
+  - id: math-30
+    domain: mathematics
+    skill_axis: inequalities
+    difficulty: intermediate
+    prompt: >-
+      How many integers x satisfy x^2 - 5x - 14 <= 0? Finish with exactly one
+      final integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 10}
+    scoring_rule: semantic_integer
+
+  - id: math-31
+    domain: mathematics
+    skill_axis: optimization
+    difficulty: intermediate
+    prompt: >-
+      A rectangle has perimeter 64. Among rectangles with positive integer
+      side lengths, find the largest possible area. Finish with exactly one
+      final integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 256}
+    scoring_rule: semantic_integer
+
+  - id: math-32
+    domain: mathematics
+    skill_axis: combinatorics
+    difficulty: intermediate
+    prompt: >-
+      How many onto functions are there from a four-element set to a
+      three-element set? Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 36}
+    scoring_rule: semantic_integer
+
+  - id: math-33
+    domain: mathematics
+    skill_axis: number_theory
+    difficulty: intermediate
+    prompt: >-
+      Positive integers a and b have gcd 12 and lcm 420. If a = 60, find b.
+      Finish with exactly one final integer using either ANSWER: <integer> or
+      one permitted boxed final integer.
+    expected: {type: integer, value: 84}
+    scoring_rule: semantic_integer
+
+  - id: math-34
+    domain: mathematics
+    skill_axis: matrices
+    difficulty: intermediate
+    prompt: >-
+      Find the determinant of [[1, 2, 0, 0], [0, 3, 4, 0], [0, 0, 5, 6],
+      [7, 0, 0, 2]]. Finish with exactly one final integer using either ANSWER:
+      <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: -306}
+    scoring_rule: semantic_integer
+
+  - id: math-35
+    domain: mathematics
+    skill_axis: probability
+    difficulty: advanced
+    prompt: >-
+      Five independent trials each succeed with probability 1/3. Find the
+      probability of at least two successes as a reduced fraction. Finish with
+      exactly one final rational using either ANSWER: <numerator>/<denominator>
+      or one permitted boxed fraction.
+    expected: {type: rational, value: "131/243"}
+    scoring_rule: semantic_rational
+
+  - id: math-36
+    domain: mathematics
+    skill_axis: combinatorics
+    difficulty: advanced
+    prompt: >-
+      How many ways are there to choose exactly three positions from a row of
+      nine positions with no two chosen positions consecutive? Finish with
+      exactly one final integer using either ANSWER: <integer> or one permitted
+      boxed final integer.
+    expected: {type: integer, value: 35}
+    scoring_rule: semantic_integer
+
+  - id: math-37
+    domain: mathematics
+    skill_axis: modular_arithmetic
+    difficulty: advanced
+    prompt: >-
+      Compute 5^123 modulo 17. Finish with exactly one final integer using
+      either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 11}
+    scoring_rule: semantic_integer
+
+  - id: math-38
+    domain: mathematics
+    skill_axis: optimization
+    difficulty: advanced
+    prompt: >-
+      Nonnegative real numbers x, y, and z satisfy x + y + z = 30. Find the
+      maximum possible value of xyz. Finish with exactly one final integer
+      using either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 1000}
+    scoring_rule: semantic_integer
+
+  - id: math-39
+    domain: mathematics
+    skill_axis: bounded_compositions
+    difficulty: advanced
+    prompt: >-
+      How many nonnegative integer quadruples (x1, x2, x3, x4) satisfy
+      x1+x2+x3+x4=17 and every xi is at most 6? Finish with exactly one final
+      integer using either ANSWER: <integer> or one permitted boxed final
+      integer.
+    expected: {type: integer, value: 116}
+    scoring_rule: semantic_integer
+
+  - id: math-40
+    domain: mathematics
+    skill_axis: constrained_combinatorics
+    difficulty: advanced
+    prompt: >-
+      How many binary strings of length 9 contain exactly three 1s, with no
+      two 1s adjacent? Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 35}
+    scoring_rule: semantic_integer
+
+  - id: math-41
+    domain: mathematics
+    skill_axis: surjections
+    difficulty: advanced
+    prompt: >-
+      How many onto functions are there from a six-element set to a
+      four-element set? Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 1560}
+    scoring_rule: semantic_integer
+
+  - id: math-42
+    domain: mathematics
+    skill_axis: modular_arithmetic
+    difficulty: advanced
+    prompt: >-
+      Find the least positive integer n satisfying n congruent to 7 modulo 13
+      and n congruent to 12 modulo 17. Finish with exactly one final integer
+      using either ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 46}
+    scoring_rule: semantic_integer
+
+  - id: math-43
+    domain: mathematics
+    skill_axis: calculus
+    difficulty: advanced
+    prompt: >-
+      Evaluate the definite integral from -1 to 2 of
+      3x^4 - 2x^2 + x + 1 dx. Give the result as a reduced fraction. Finish
+      with exactly one final rational using either ANSWER: <numerator>/<denominator>
+      or one permitted boxed fraction.
+    expected: {type: rational, value: "183/10"}
+    scoring_rule: semantic_rational
+
+  - id: math-44
+    domain: mathematics
+    skill_axis: graph_counting
+    difficulty: advanced
+    prompt: >-
+      How many spanning trees does the complete graph on six labeled vertices
+      have? Finish with exactly one final integer using either ANSWER: <integer>
+      or one permitted boxed final integer.
+    expected: {type: integer, value: 1296}
+    scoring_rule: semantic_integer
+
+  - id: math-45
+    domain: mathematics
+    skill_axis: integer_optimization
+    difficulty: advanced
+    prompt: >-
+      Positive integers a, b, and c satisfy a + 2b + 3c = 30. Find the maximum
+      possible value of abc. Finish with exactly one final integer using either
+      ANSWER: <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 165}
+    scoring_rule: semantic_integer
+
+  - id: math-46
+    domain: mathematics
+    skill_axis: constrained_counting
+    difficulty: advanced
+    prompt: >-
+      How many nonnegative integer triples (x, y, z) satisfy x+y+z=22 and x
+      is even? Finish with exactly one final integer using either ANSWER:
+      <integer> or one permitted boxed final integer.
+    expected: {type: integer, value: 144}
+    scoring_rule: semantic_integer
+
+  - id: math-47
+    domain: mathematics
+    skill_axis: hypergeometric_probability
+    difficulty: advanced
+    prompt: >-
+      An urn contains 6 red and 9 blue balls. Five balls are drawn without
+      replacement. Find the probability of exactly two red balls as a reduced
+      fraction. Finish with exactly one final rational using either ANSWER:
+      <numerator>/<denominator> or one permitted boxed fraction.
+    expected: {type: rational, value: "60/143"}
+    scoring_rule: semantic_rational
+
+  - id: math-48
+    domain: mathematics
+    skill_axis: coordinate_geometry
+    difficulty: advanced
+    prompt: >-
+      Find the area of the triangle with vertices (1, 2), (9, 5), and (-2,
+      11). Give the result as a reduced fraction. Finish with exactly one final
+      rational using either ANSWER: <numerator>/<denominator> or one permitted
+      boxed fraction.
+    expected: {type: rational, value: "81/2"}
+    scoring_rule: semantic_rational

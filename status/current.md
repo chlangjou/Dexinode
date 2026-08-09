@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A5R1 — Interface Protocol and Fresh Benchmark Freeze
+- Active execution stage: A5R1 — Interface Protocol and Fresh Benchmark Freeze (v1.2.1 revision required)
 
 ## Objective
 
@@ -17,87 +17,92 @@ Determine whether existing specialized small-model checkpoints exhibit reproduci
 
 Gate acceptance criteria are unchanged.
 
-## v1.1 execution history — preserved
+## v1.1 history — preserved
 
-The frozen `gate-a-cross-skill-v1.1.0` benchmark and all A4/A5 run evidence remain immutable audit history.
-
-Strict v1.1 scores were:
-
-| model | mathematics | software coding | overall |
-| --- | ---: | ---: | ---: |
-| General | 10/48 (20.83%) | 36/48 (75.00%) | 46/96 (47.92%) |
-| Math specialist | 0/48 (0%) | 0/48 (0%) | 0/96 (0%) |
-| Coder specialist | 12/48 (25.00%) | 39/48 (81.25%) | 51/96 (53.13%) |
-
-These remain valid measurements of behavior under the exact v1.1 strict wire/output contract.
-
-## A5 human review — interface confounder confirmed
+The v1.1 benchmark and all A4/A5 evidence remain immutable audit history. Human review found the Math-specialist strict-interface zero row to be dominated by output-interface incompatibility rather than valid capability-zero evidence.
 
 Durable review:
 
 `gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md`
 
-Reviewed A5 commit:
+A6 remains inactive.
 
-`c95da721f0e55e0bda1c55f3dee9f4c95c814034`
+## A5R1 v1.2.0 — frozen, NOT approved
 
-The complete v1.1 three-row matrix is **not accepted as a task-capability matrix**.
+Agent freeze commit reviewed:
 
-The Math specialist's zero row is dominated by output-interface incompatibility:
+`f4a808cde0e76860408011b1a1c69f38665d7b29`
 
-- reviewed mathematics responses often solve the task correctly but end in conventional `\\boxed{...}` mathematics rather than the required `ANSWER:` marker;
-- for example `math-01` derives 6, `math-02` derives 28, `math-03` derives 56, `math-04` derives -40, and `math-05` derives 24, yet v1.1 scores them zero because the exact `ANSWER:` marker is absent;
-- Math-specialist mathematics records are rejected by the strict answer-marker rule rather than demonstrating zero mathematical competence;
-- coding responses similarly often include a plausible implementation plus prose/examples or additional code blocks, causing strict source extraction rejection such as `multiple_code_blocks`.
-
-A2 had already identified the Math checkpoint's chat-template / boxed-answer behavior as a material confounder. The A5 evidence demonstrates that a shared neutral role-delimiter template alone was insufficient to remove the behavioral interface difference.
-
-Therefore:
-
-- do not interpret Math specialist 0/96 as capability zero;
-- do not authorize A6 from the v1.1 matrix;
-- do not patch v1.1 scoring in place;
-- do not rescore only the Math specialist with relaxed rules;
-- do not switch only the Math specialist to its native chat template.
-
-## Research implication
-
-The experiment exposed a Dexinode-relevant design fact: specialist checkpoints can require different behavioral output handling even within a shared family/tokenizer lineage. A skill network should distinguish **task competence** from **wire/handoff-format compliance** and provide an explicit deterministic normalization contract.
-
-This is useful architectural evidence, but it is not a Gate A PASS.
-
-## Active bounded task: A5R1
-
-Human-approved remediation contract:
-
-`gates/gate-a-specialization/execution/a5r-interface-remediation.yaml`
-
-Create and freeze `gate-a-cross-skill-v1.2.0` before any further selected-model execution.
-
-A5R1 requirements:
-
-1. author **fresh** 48 mathematics + 48 software-coding case instances;
-2. retain the 10 foundational / 24 intermediate / 14 advanced distribution per domain;
-3. do not reuse v1.1 case text or exact constants/oracles;
-4. retain the same candidates, revisions, BF16/no-quantization policy, common 4096-token envelope, neutral Qwen role-delimiter chat envelope, approved Docker/L40/runtime policy, and Gate acceptance thresholds;
-5. define one common model-agnostic tolerant handoff contract for all three models;
-6. primary scoring must measure deterministic task semantics while strict interface compliance is reported separately;
-7. mathematics normalization may accept the frozen canonical `ANSWER:` grammar or one frozen conventional boxed-final-answer grammar, with ambiguity rejected and no expected-value-guided extraction;
-8. coding normalization must deterministically identify the first Python fenced block whose AST defines the required entrypoint, ignoring surrounding prose/non-selected example blocks; source execution remains only in judge-v2;
-9. adapter behavior must be frozen and validated only on committed synthetic fixtures;
-10. record provenance, contamination limitations, token counts, scoring, adapter tests, and manifest;
-11. execute **no General, Math, or Coder model** during A5R1;
-12. stop for human review after v1.2 is frozen.
-
-Target root:
+Frozen artifacts remain preserved under:
 
 `experiments/gate-a/benchmark-v1.2.0/`
 
-## Later A5R2 — not yet authorized
+Human review:
 
-After human approval of v1.2, General + Math specialist + Coder specialist will all run the complete fresh 96-case benchmark again under one unchanged protocol. No v1.1 score may be substituted into that matrix, and there will be no human result review between the three model runs except for genuine infrastructure/methodological failure.
+`gates/gate-a-specialization/reviews/a5r1-v1.2-human-review.md`
 
-## Approved execution substrate retained for future runs
+Decision: **CHANGES REQUIRED**.
+
+### Accepted v1.2.0 components
+
+The interface-remediation design is accepted and may be reused unchanged in v1.2.1 unless a genuine implementation bug is found:
+
+- semantic task score separated from strict interface-compliance metrics;
+- deterministic Math adapter based on expected type/schema only before value comparison;
+- conflicting semantic Math candidates rejected;
+- AST-only coding extraction selecting the first qualifying Python/unlabeled fenced block defining the requested top-level entrypoint;
+- no execution during source extraction;
+- strict-interface metrics remain secondary diagnostics;
+- 13/13 synthetic adapter tests pass;
+- common neutral Qwen envelope, candidates/revisions, BF16/no-quantization policy, context/generation controls, Docker/L40 runtime, coding judge-v2 policy, and Gate thresholds remain unchanged;
+- no selected model was executed during A5R1 construction.
+
+### Why v1.2.0 is not approved
+
+The software-coding cases sampled are materially fresh relative to v1.1.
+
+The mathematics set, however, has substantial structural/near-isomorphic reuse of v1.1 case skeletons. Exact strings, constants, and answers differ, but the opening cases closely mirror the already-observed v1.1 sequence (linear equation, fractional-number word problem, ratio counters, arithmetic sequence, divisor count, urn probability, midpoint, and related structures), often primarily changing coefficients or constants.
+
+Because selected-model behavior on those v1.1 structures was already observed before the remediation was designed, exact-string overlap alone is not a sufficient freshness test.
+
+This is a benchmark-construction issue, not an adapter failure and not a Gate result.
+
+## Active bounded task: v1.2.1 structural-freshness revision
+
+Create a new benchmark version:
+
+`gate-a-cross-skill-v1.2.1`
+
+Target root:
+
+`experiments/gate-a/benchmark-v1.2.1/`
+
+Do not edit v1.2.0 in place.
+
+Required revision:
+
+1. preserve/reuse the accepted v1.2 semantic adapter, scoring contract, strict metrics, template, tokenizer/runtime controls, and coding set unless a genuine bug is found;
+2. replace all 48 mathematics cases with structurally fresh instances, not simple coefficient/constant substitutions of v1.1 cases;
+3. retain 10 foundational / 24 intermediate / 14 advanced Math cases;
+4. avoid one-to-one positional mirroring of v1.1 Math cases;
+5. broad mathematical skill families may remain comparable, but use different constructions/compositions and freshly computed oracles;
+6. recompute token counts and verify every rendered input plus 1024 generation tokens fits 4096;
+7. add a freshness audit record covering exact prompt/oracle overlap and explicit structural/near-isomorphic review;
+8. do not use selected-model performance to select cases or difficulty labels;
+9. execute no General, Math, or Coder checkpoint;
+10. stop for human review after v1.2.1 is frozen.
+
+### Documentation correction
+
+Do not claim the remediation was created "without observing selected-model outputs." v1.1 outputs were observed and motivated the remediation.
+
+The correct provenance distinction is that selected-model raw outputs were not used as adapter fixtures, expected values were not used to choose extracted candidates, and v1.2.1 cases/oracles/difficulty labels must not be tuned using selected-model performance on those cases.
+
+## A5R2 — inactive
+
+After human approval of v1.2.1, General + Math specialist + Coder specialist will all run the complete benchmark under one unchanged protocol, with no result review between model runs except genuine infrastructure/methodological failure.
+
+## Approved execution substrate retained
 
 - host `ai01`;
 - Docker Engine 29.5.3 / `runc`;
@@ -109,7 +114,7 @@ After human approval of v1.2, General + Math specialist + Coder specialist will 
 
 ## Next human checkpoint
 
-Review the frozen v1.2 benchmark, common output/handoff contract, deterministic semantic adapter, synthetic tests, provenance, difficulty balance, and token/context controls. A5R2 and A6 remain inactive until that review is recorded.
+Review the frozen `gate-a-cross-skill-v1.2.1` benchmark, especially Math structural freshness, provenance wording, freshness audit, adapter/scoring identity, difficulty balance, and token/context controls. A5R2 and A6 remain inactive until that review is recorded.
 
 ## Future gate
 

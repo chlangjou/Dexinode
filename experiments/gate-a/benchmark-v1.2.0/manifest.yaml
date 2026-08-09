@@ -1,0 +1,191 @@
+schema_version: 1
+benchmark_id: gate-a-cross-skill-v1.2.0
+version: 1.2.0
+status: frozen-pending-human-review
+gate: gate-a-specialization-v1
+stage: A5R1-interface-protocol-and-benchmark-freeze
+question: >-
+  Do the approved mathematics and software-coding specialist checkpoints show
+  differentiated semantic competency profiles relative to the Qwen2.5 general
+  baseline when all three receive the same fresh complete cross-skill
+  benchmark?
+
+supersession:
+  supersedes_for_gate_a_capability_measurement:
+    benchmark_id: gate-a-cross-skill-v1.1.0
+    version: 1.1.0
+    path: experiments/gate-a/benchmark-v1.1.0/
+  v1_1_and_runs_preserved: true
+  v1_1_remains_useful_as: strict-interface-and-interoperability-evidence
+  fresh_cases_reason: >-
+    v1.2 uses fresh cases because the interface remediation was designed after
+    observing v1.1 outputs; v1.1 is not patched and no v1.1 score is reused in
+    a future v1.2 capability matrix.
+  acceptance_thresholds_unchanged: true
+
+human_approved_basis:
+  gate_task: gates/gate-a-specialization/task.yaml
+  remediation_contract: gates/gate-a-specialization/execution/a5r-interface-remediation.yaml
+  interface_review: gates/gate-a-specialization/reviews/a5-interface-confounder-human-review.md
+  prior_benchmark: gate-a-cross-skill-v1.1.0
+  prior_runs_preserved: true
+
+models:
+  - id: Qwen/Qwen2.5-7B-Instruct
+    role: general_baseline
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Math-7B-Instruct
+    role: mathematics_specialist
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    parameter_count: 7615616512
+  - id: Qwen/Qwen2.5-Coder-7B-Instruct
+    role: software_coding_specialist
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    parameter_count: 7615616512
+candidate_set_unchanged: true
+
+coverage:
+  total_cases: 96
+  domains:
+    mathematics:
+      case_file: cases/math.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+      primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+    software_coding:
+      case_file: cases/coding.yaml
+      cases: 48
+      difficulty_counts: {foundational: 10, intermediate: 24, advanced: 14}
+      difficulty_percentages: {foundational: 20.8, intermediate: 50.0, advanced: 29.2}
+      primary_for: [Qwen/Qwen2.5-Coder-7B-Instruct]
+      non_primary_for: [Qwen/Qwen2.5-Math-7B-Instruct]
+  all_models_run_complete_benchmark: true
+  model_case_matrix: "3 models x 96 cases after human approval; no specialist-only subset or early stopping."
+  case_order: "math-01 through math-48, then code-01 through code-48"
+  fresh_instance_policy:
+    relative_to_v1_1_case_text: required
+    relative_to_v1_1_exact_constants: required
+    relative_to_v1_1_exact_oracles: required
+    selected_model_calibration: forbidden
+
+controls:
+  checkpoint_dtype: bfloat16
+  quantization: none
+  external_tools: false
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  tokenizer:
+    model_reference: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    tokenizer_class: Qwen2TokenizerFast
+    tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+  template:
+    file: template.yaml
+    template_id: qwen-neutral-role-delimiter-v1
+    repository_chat_templates_ignored: true
+    identical_semantic_system_message: true
+    identical_semantic_user_case_message: true
+  inference_policy_for_later_runs:
+    runtime: "Transformers 4.41.1, PyTorch 2.2.2+cu121, safetensors 0.4.3, accelerate 0.30.1, tokenizers 0.19.1, Python 3.10.12"
+    do_sample: false
+    num_beams: 1
+    repetition_penalty: 1.0
+    seed: 0
+    repository_generation_defaults_ignored: true
+    approved_host: ai01
+    selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+    selected_gpu_class: NVIDIA L40
+    formal_inference_memory: 40g
+    formal_inference_cpus: 16
+    coding_judge: experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight-v2.json
+
+semantic_handoff:
+  primary_metric: deterministic_task_semantics
+  strict_interface_is_separate: true
+  mathematics:
+    contract: "One canonical ANSWER candidate or one conventional boxed candidate under the expected type grammar; reasoning may precede the final."
+    types: [integer, rational, structured_object]
+    expected_value_guided_extraction: false
+    conflicting_candidates_rejected: true
+  software_coding:
+    contract: "Python 3.10 implementation with prose permitted; deterministic AST selection of the first qualifying Python/unlabeled fenced block."
+    execution_during_extraction: false
+    source_execution_boundary: approved_judge_v2_only
+
+scoring:
+  file: scoring.yaml
+  adapter_directory: adapter/
+  deterministic: true
+  llm_judge: false
+  case_weights: equal
+  primary_semantic_score_excludes_strict_interface: true
+  strict_metrics: [math_canonical_answer_contract, coding_single_clean_source_block]
+  gate_acceptance_reference: gates/gate-a-specialization/acceptance.yaml
+  gate_acceptance_thresholds_modified: false
+  raw_response_preservation: required
+
+provenance:
+  source_selection: >-
+    Fresh self-authored instances created for this repository on 2026-08-09.
+    Cases cover algebra, number theory, probability, geometry, sequences,
+    combinatorics, calculus, matrices, inequalities, optimization, arrays,
+    strings, parsing, matrices, graphs, shortest paths, dynamic programming,
+    flows, backtracking, trees, and scheduling without external datasets,
+    tools, or network access.
+  external_dataset_assets: none
+  external_sources_copied: none
+  benchmark_content_license: "No separate project license has been chosen; repository owner review is required before external redistribution."
+  authoring_record: "Cases, deterministic oracles, semantic normalization, strict metrics, and adapter fixtures were defined before any selected checkpoint was executed and without observing selected-model outputs."
+
+contamination_and_validity:
+  status: "Risk recorded; absence of contamination is not claimed."
+  known_exact_overlap: "None intentionally copied from a named dataset, published test set, v1.1 case, v1.1 exact constant, or v1.1 answer oracle."
+  residual_risk: >-
+    The benchmark uses common mathematical structures and standard programming
+    algorithms, so related examples may exist in pretraining data or
+    educational material. Fresh constants, mixed compositions, and edge cases
+    reduce but do not eliminate exact or semantic overlap risk.
+  contamination_check_performed: false
+  difficulty_calibration_from_selected_models: false
+  mitigations:
+    - "No benchmark case was selected or modified using candidate results."
+    - "No public benchmark answer key or test corpus was imported."
+    - "All prompts, schemas, tests, and deterministic oracles are committed for audit."
+    - "Later evaluation must report contamination as an unresolved limitation."
+
+freeze_validation:
+  cases_defined_before_model_execution: true
+  scoring_defined_before_model_execution: true
+  adapter_defined_before_model_execution: true
+  benchmark_cases_immutable_after_freeze: true
+  expected_model_outputs_present: false
+  comparative_runs_present: false
+  benchmark_results_present: false
+  candidate_models_executed: false
+  candidate_outputs_inspected: false
+  selected_model_raw_outputs_used_as_adapter_fixtures: false
+  adapter_tests_passed: true
+  adapter_test_count: 13
+  all_token_counts_fit_context: true
+  max_rendered_input_tokens: 187
+  max_rendered_input_plus_generation_tokens: 1211
+  acceptance_criteria_modified: false
+  freeze_identity: "The Git commit containing this manifest and all referenced artifacts."
+
+files:
+  README.md: 4f84a96c939c75074d8029ec3c77cc24b750dc5d0575940622c1b0150cfda07e
+  manifest.yaml: "Not self-hashed; the freeze Git commit is the manifest identity."
+  cases/math.yaml: e89880a11e54b967266d80657d2a7b663cc70c5a8e33be4816a5eeffeae28119
+  cases/coding.yaml: 182e9a69a9b00f9b27fa9e59d7120cbd31ab9ae024b835188af74b9b074ae636
+  template.yaml: e3a6e8cc37474a393a80a6781b726b302605e8275664db8032a14c06222f36db
+  scoring.yaml: 5be2648ac8502bf7c8e3e5f342bac74f248a598cee18b0dce7cee518c96c7734
+  token_counts.yaml: 0560825c20574bf0656e04f21291a7af972c2422b21c1ce9f5d8a7eedf41ab9d
+  adapter/semantic_adapter.py: f829f75b28f0295689bb916098b9aee1b0c1251193e6dcc13f87ad0c5c6513f2
+  adapter/test_adapter.py: 81e9ce9f52f5eab33760da681b835ae3e47500d035c2d3980ec3c0873ec90f94
+  adapter/__init__.py: 5aec340b1e73f6a6ead55211a5956de4fc899b3b2df7b4449151ea862cba5fdd
+  adapter/README.md: 8908615bccebcad3bbbba599aadcbe84757ede13a2219df76249fa20723486d5
+
+gate_decision: PENDING HUMAN REVIEW
