@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "qualification": "gate-a-a4-docker-qualification-v1",
+  "recorded_at": "2026-08-09",
+  "host": {
+    "hostname": "ai01",
+    "os": "Ubuntu 22.04.5 LTS",
+    "kernel": "Linux 5.15.0-181-generic #191-Ubuntu SMP Fri May 22 19:09:02 UTC 2026 x86_64",
+    "architecture": "x86_64",
+    "uid": "1000",
+    "user": "rd",
+    "cpu": "2 sockets, Intel Xeon Gold 6426Y, 64 logical CPUs",
+    "memory_bytes": 1081957761024,
+    "swap_bytes": 8589934592
+  },
+  "nvidia": {
+    "container_toolkit_version": "1.19.1",
+    "container_toolkit_commit": "09ceee5dde66ba9ce25c7cc69b1ebd5e6e3266fa",
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+        "name": "NVIDIA L40",
+        "driver_version": "550.107.02",
+        "memory_total_mib": 46068,
+        "pci_bus_id": "00000000:26:00.0"
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-f2090f97-4792-49a7-18df-48b6c2bf95c3",
+        "name": "NVIDIA L40",
+        "driver_version": "550.107.02",
+        "memory_total_mib": 46068,
+        "pci_bus_id": "00000000:B4:00.0"
+      }
+    ]
+  },
+  "docker": {
+    "engine": "29.5.3",
+    "api_version": "1.54",
+    "server_git_commit": "285b471",
+    "client_git_commit": "d1c06ef",
+    "containerd": "2.2.4 (193637f7ee8ae5f5aa5248f49e7baa3e6164966e)",
+    "runc": "1.3.5 (v1.3.5-0-g488fc13e)",
+    "docker_init": "0.19.0 (de40ad0)",
+    "default_runtime": "runc",
+    "registered_runtimes": {
+      "runc": "runc",
+      "io.containerd.runc.v2": "runc",
+      "nvidia": "nvidia-container-runtime"
+    },
+    "root_dir": "/data/docker/lib/docker",
+    "cgroup_driver": "systemd",
+    "cgroup_version": "2",
+    "security_options": ["apparmor", "seccomp,profile=builtin", "cgroupns"],
+    "cdi_spec_dirs": ["/etc/cdi", "/var/run/cdi"],
+    "discovered_nvidia_cdi_devices": [
+      "nvidia.com/gpu=0",
+      "nvidia.com/gpu=1",
+      "nvidia.com/gpu=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+      "nvidia.com/gpu=GPU-f2090f97-4792-49a7-18df-48b6c2bf95c3",
+      "nvidia.com/gpu=all"
+    ]
+  },
+  "qualification_images": {
+    "inference_gpu_probe": {
+      "reference": "nvidia/cuda:12.4.1-base-ubuntu22.04",
+      "repo_digest": "sha256:0f6bfcbf267e65123bcc2287e2153dedfc0f24772fb5ce84afe16ac4b2fada95",
+      "image_id": "sha256:ca14dc8401b66a20e1ca678268250834c5c66ac3f458dd570088bb681444ffc0",
+      "platform": "linux/amd64",
+      "cuda_version": "12.4.1"
+    },
+    "judge_isolation_probe": {
+      "reference": "python:3.10-slim",
+      "repo_digest": "sha256:63669fd2563fa90b0442fa7b568e66e3667755636cda086d7bcaaa895f66fe39",
+      "image_id": "sha256:a28dc131a2de35d6475377050de1b5a71d0ee3118d7fdf3ce65be660d9feb6cf",
+      "platform": "linux/amd64",
+      "python_version": "3.10.20"
+    }
+  },
+  "existing_services_read_only_snapshot": {
+    "inspection_method": "docker inspect only; no exec, mount access, permission changes, lifecycle changes, or configuration changes",
+    "ollama": {
+      "container_id": "049b913569851805c21ff6878bfe5ec81c3188b605b242fc964e53f5ac407833",
+      "status": "running",
+      "image": "ollama/ollama:latest",
+      "image_id": "sha256:cdcad7aac04c5201de7de9e6962cba0f2c72d51a0971a48127cf3c401e30157c",
+      "runtime": "runc",
+      "privileged": false,
+      "device_request": "all GPUs",
+      "bind_mounts_not_used": ["/data/compose/2:/code", "/data/ollama/ollama:/root/.ollama"]
+    },
+    "open_webui": {
+      "container_id": "7009f56788d5c73c9fa142fd4e3c9f9128763044b19fdd94465129e448d2ac87",
+      "status": "running (healthy)",
+      "image": "ghcr.io/open-webui/open-webui:main",
+      "image_id": "sha256:e97bf95319168ab7fdfc5bd1e869f6a1cf6349bdf6d3e8fe16c733d2ca473491",
+      "runtime": "runc",
+      "privileged": false,
+      "device_request": null,
+      "bind_mounts_not_used": ["/data/ollama/open-webui:/app/backend/data"]
+    }
+  },
+  "scope_controls": {
+    "selected_qwen_model_downloaded": false,
+    "selected_qwen_model_executed": false,
+    "gate_a_benchmark_cases_executed": false,
+    "frozen_benchmark_modified": false,
+    "existing_ai_services_modified": false,
+    "existing_ollama_model_mount_accessed": false
+  },
+  "source_commands": [
+    "hostname; uname -a; . /etc/os-release",
+    "nvidia-smi --query-gpu=index,uuid,name,driver_version,memory.total,pci.bus_id --format=csv,noheader",
+    "nvidia-ctk --version",
+    "docker version",
+    "docker info",
+    "docker inspect ollama open-webui"
+  ]
+}

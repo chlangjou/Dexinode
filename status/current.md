@@ -3,7 +3,7 @@
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
 - Gate decision: PENDING
-- Active execution stage: A4a — Docker Execution Environment Qualification
+- Active execution stage: A4a — Docker Execution Environment Qualification (qualified; pending human review)
 
 ## Objective
 
@@ -82,6 +82,22 @@ This is an explicit human-approved execution-policy amendment. It does not modif
 
 Qualification only. Do not download or execute any selected Qwen model and do not run benchmark cases.
 
+Completed on `ai01` with both required paths passing:
+
+- dedicated disposable GPU probe: PASS; exactly one visible GPU, host GPU 0 `NVIDIA L40`, UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
+- separate CPU-only judge probe: PASS; 19/19 isolation checks true, plus a passing 3-second host watchdog probe;
+- no selected model was downloaded or executed, no benchmark case ran, and existing `ollama`/`open-webui` containers were inspected read-only only and remained unchanged.
+
+Durable evidence:
+
+- `experiments/gate-a/execution/a4-docker-qualification/environment.json`
+- `experiments/gate-a/execution/a4-docker-qualification/inference-gpu-preflight.json`
+- `experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight.json`
+- `experiments/gate-a/execution/a4-docker-qualification/README.md`
+- `experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe.py`
+
+The receipts preserve nonfinal failed/invalid attempts. A residual policy note is recorded: actual GPU visibility is constrained by Docker's UUID device request even though the generic CUDA image carries a default `NVIDIA_VISIBLE_DEVICES=all`; an explicit environment reassertion attempt failed before the visibility probe and was not substituted for the passing qualification. The later judge runner must retain the recorded host-side 3-second wall-clock watchdog.
+
 Required work:
 
 1. record Docker engine/runtime and host identity;
@@ -105,7 +121,7 @@ A4a must NOT:
 
 ## Next human checkpoint
 
-Review the Docker GPU qualification and judge-isolation receipts. If both are accepted, authorize A4b General Baseline execution on the exact approved container/runtime policy.
+Review and accept or reject the Docker GPU qualification, judge-isolation receipts, image digests, exact launch flags, and host-side watchdog. If accepted, authorize A4b General Baseline execution on this exact policy. A4b remains inactive until that decision.
 
 A5 remains inactive.
 

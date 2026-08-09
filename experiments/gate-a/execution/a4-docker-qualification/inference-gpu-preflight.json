@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "qualification": "gate-a-a4-inference-gpu-preflight-v1",
+  "status": "pass",
+  "recorded_at": "2026-08-09T07:50:41Z",
+  "host": "ai01",
+  "runtime": "runc",
+  "selected_gpu": {
+    "count": 1,
+    "index_on_host": 0,
+    "uuid": "GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+    "name": "NVIDIA L40",
+    "driver_version": "550.107.02",
+    "memory_total_mib": 46068,
+    "pci_bus_id": "00000000:26:00.0"
+  },
+  "image": {
+    "reference_used": "nvidia/cuda:12.4.1-base-ubuntu22.04",
+    "repo_digest": "sha256:0f6bfcbf267e65123bcc2287e2153dedfc0f24772fb5ce84afe16ac4b2fada95",
+    "image_id": "sha256:ca14dc8401b66a20e1ca678268250834c5c66ac3f458dd570088bb681444ffc0",
+    "cuda_version_visible_in_image": "12.4.1"
+  },
+  "container": {
+    "name": "dexinode-gate-a-a4a-gpu-qual-20260809-final",
+    "id": "e81ec2fdf0846dc6ad89aeefd5cdafaa71077262c3d0e953b71ea687055fedc2",
+    "exit_code": 0,
+    "privileged": false,
+    "runtime": "runc",
+    "mounts": [],
+    "network": "none",
+    "device_request": {
+      "driver": "",
+      "count": 0,
+      "device_ids": ["GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664"],
+      "capabilities": [["gpu"]]
+    }
+  },
+  "launch_configuration": {
+    "command": "docker run --name dexinode-gate-a-a4a-gpu-qual-20260809-final --gpus '\"device=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664\"' --network none --read-only --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m --cap-drop=ALL --security-opt=no-new-privileges:true --pids-limit 64 --memory 512m --cpus 1 --ulimit nproc=64:64 nvidia/cuda:12.4.1-base-ubuntu22.04 bash -lc 'set -eu; nvidia-smi -L; nvidia-smi --query-gpu=index,uuid,name,driver_version,memory.total,compute_cap --format=csv,noheader; test \"$(nvidia-smi --query-gpu=count --format=csv,noheader | tr -d \"[:space:]\")\" = 1; test \"$(nvidia-smi --query-gpu=uuid --format=csv,noheader)\" = GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664; test \"$(nvidia-smi --query-gpu=name --format=csv,noheader)\" = \"NVIDIA L40\"; echo QUALIFICATION_GPU_VISIBILITY_PASS'",
+    "gpu_selection": "--gpus \"device=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664\"",
+    "network": "--network none",
+    "root_filesystem": "--read-only",
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "capabilities": "--cap-drop=ALL",
+    "no_new_privileges": "--security-opt=no-new-privileges:true",
+    "cpu_limit": "--cpus 1",
+    "memory_limit": "--memory 512m",
+    "pid_limit": "--pids-limit 64",
+    "nproc_limit": "--ulimit nproc=64:64"
+  },
+  "observed_gpu_visibility": {
+    "nvidia_smi_l": "GPU 0: NVIDIA L40 (UUID: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664)",
+    "query": "0, GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664, NVIDIA L40, 550.107.02, 46068 MiB, 8.9",
+    "visible_gpu_count": 1,
+    "visible_uuid_matches_selected": true,
+    "visible_name_matches_expected": true,
+    "cuda_driver_visibility": true,
+    "probe_marker": "QUALIFICATION_GPU_VISIBILITY_PASS"
+  },
+  "checks": {
+    "exactly_one_gpu_visible": true,
+    "intended_gpu_visible": true,
+    "expected_gpu_class": true,
+    "driver_visible": true,
+    "cuda_image_visible": true,
+    "no_model_download": true,
+    "no_model_execution": true,
+    "no_benchmark_execution": true,
+    "existing_services_untouched": true
+  },
+  "nonfinal_attempts": [
+    {
+      "name": "dexinode-gate-a-a4a-gpu-qual-20260809-policy",
+      "id": "144e5755ed1660e4a771071dfa8a4080a391fa852741bbbcf6cecf129eb7bb54",
+      "status": "failed",
+      "exit_code": 1,
+      "launch_difference": "added --env NVIDIA_VISIBLE_DEVICES=GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664",
+      "failure_point": "the probe stopped at its environment equality assertion before nvidia-smi output",
+      "preserved": true,
+      "does_not_supersede_final_probe": true
+    }
+  ],
+  "disposition": "The passing device-request qualification is the recorded policy. The failed explicit-environment reassertion attempt is retained as nonfinal evidence; no isolation requirement was weakened to conceal it."
+}
