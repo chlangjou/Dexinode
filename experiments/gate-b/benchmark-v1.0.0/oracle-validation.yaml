@@ -1,0 +1,411 @@
+schema_version: 1
+benchmark_id: gate-b-orchestration-v1.0.0
+validation_id: gate-b-orches-oracle-validation-v1
+status: complete
+selected_model_used: false
+method_policy:
+  primary: exact arithmetic, finite enumeration, recurrence evaluation, or exact combinatorial identity
+  cross_check: independent arithmetic or bounded direct enumeration where practical
+  expected_value_used_to_choose_candidate: false
+  llm_judge_used: false
+discovered_and_corrected_before_freeze:
+  - case_id: math-27
+    initial_authored_value: 18
+    corrected_value: 24
+    reason: "360 = 2^3 * 3^2 * 5 has (3+1)(2+1)(1+1)=24 positive divisors."
+cases:
+  - case_id: math-01
+    expected_type: integer
+    proposed_value: 73
+    recomputed_value: 73
+    validation_method: exact_arithmetic
+    evidence: "17*6-29 = 102-29 = 73."
+    independent_check: "Direct integer evaluation gives 73."
+    status: pass
+  - case_id: math-02
+    expected_type: rational
+    proposed_value: "29/36"
+    recomputed_value: "29/36"
+    validation_method: fractions.Fraction
+    evidence: "5/12 + 7/18 = 15/36 + 14/36 = 29/36."
+    independent_check: "gcd(29,36)=1."
+    status: pass
+  - case_id: math-03
+    expected_type: integer
+    proposed_value: 204
+    recomputed_value: 204
+    validation_method: exact_percentage_arithmetic
+    evidence: "240*(100-15)/100 = 240*17/20 = 204."
+    independent_check: "15 percent of 240 is 36; 240-36=204."
+    status: pass
+  - case_id: math-04
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_value: {x: 2, y: 3}
+    recomputed_value: {x: 2, y: 3}
+    validation_method: exact_coordinate_arithmetic
+    evidence: "(((-7+11)/2),((4+2)/2)) = (2,3)."
+    independent_check: "The candidate midpoint is equally distant from both endpoints by vector arithmetic."
+    status: pass
+  - case_id: math-05
+    expected_type: integer
+    proposed_value: 7
+    recomputed_value: 7
+    validation_method: linear_equation
+    evidence: "2*(12+w)=38 gives w=19-12=7."
+    independent_check: "2*(12+7)=38."
+    status: pass
+  - case_id: math-06
+    expected_type: rational
+    proposed_value: "14/15"
+    recomputed_value: "14/15"
+    validation_method: fractions.Fraction
+    evidence: "(3/5)/(9/14)=(3*14)/(5*9)=42/45=14/15."
+    independent_check: "14/15 multiplied by 9/14 equals 3/5."
+    status: pass
+  - case_id: math-07
+    expected_type: integer
+    proposed_value: 14
+    recomputed_value: 14
+    validation_method: floor_division
+    evidence: "floor(199/7)-floor(99/7)=28-14=14."
+    independent_check: "The multiples are 105 through 196 inclusive, an arithmetic list of length 14."
+    status: pass
+  - case_id: math-08
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_value: {x: 3, y: 5}
+    recomputed_value: {x: 3, y: 5}
+    validation_method: exact_rotation_matrix
+    evidence: "90-degree counterclockwise map (x,y)->(-y,x) sends (5,-3) to (3,5)."
+    independent_check: "The dot product with the original is zero and both squared lengths are 34."
+    status: pass
+  - case_id: math-09
+    expected_type: integer
+    proposed_value: 64
+    recomputed_value: 64
+    validation_method: odd_sum_identity
+    evidence: "The sum of the first n positive odd integers is n^2; 8^2=64."
+    independent_check: "1+3+5+7+9+11+13+15=64."
+    status: pass
+  - case_id: math-10
+    expected_type: rational
+    proposed_value: "2/5"
+    recomputed_value: "2/5"
+    validation_method: finite_counting_and_fraction
+    evidence: "Favorable values are 4,6,8,10: 4/10=2/5."
+    independent_check: "gcd(2,5)=1."
+    status: pass
+  - case_id: math-11
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_value: {x: 7, y: 10}
+    recomputed_value: {x: 7, y: 10}
+    validation_method: exact_linear_system
+    evidence: "Adding x+y=17 to 2x-y=4 gives 3x=21; x=7,y=10."
+    independent_check: "7+10=17 and 2*7-10=4."
+    status: pass
+  - case_id: math-12
+    expected_type: rational
+    proposed_value: "3/7"
+    recomputed_value: "3/7"
+    validation_method: fractions.Fraction
+    evidence: "1/(2+1/3)=1/(7/3)=3/7."
+    independent_check: "2+1/3=7/3 and (3/7)*(7/3)=1."
+    status: pass
+  - case_id: math-13
+    expected_type: integer
+    proposed_value: 14
+    recomputed_value: 14
+    validation_method: Vieta_identity
+    evidence: "For x^2-9x+14, the product of roots is the constant term 14."
+    independent_check: "The factorization is (x-2)(x-7), product 14."
+    status: pass
+  - case_id: math-14
+    expected_type: integer
+    proposed_value: 30
+    recomputed_value: 30
+    validation_method: multinomial_count
+    evidence: "5!/(2!*2!)=120/4=30."
+    independent_check: "Choose the two positions for A and then two of the remaining three for B: C(5,2)*C(3,2)=30."
+    status: pass
+  - case_id: math-15
+    expected_type: rational
+    proposed_value: "5/11"
+    recomputed_value: "5/11"
+    validation_method: exact_combination_count
+    evidence: "Same parity count is 2*C(6,2)=30; total C(12,2)=66; 30/66=5/11."
+    independent_check: "Enumerating even-even and odd-odd unordered pairs gives 15+15=30."
+    status: pass
+  - case_id: math-16
+    expected_type: integer
+    proposed_value: 42
+    recomputed_value: 42
+    validation_method: Euclidean_algorithm
+    evidence: "126=1*84+42 and 84=2*42."
+    independent_check: "42 divides both inputs and no larger common divisor can remain after Euclid."
+    status: pass
+  - case_id: math-17
+    expected_type: integer
+    proposed_value: 21
+    recomputed_value: 21
+    validation_method: coordinate_shoelace_or_base_height
+    evidence: "The horizontal base has length 6 and the height is 7; area=6*7/2=21."
+    independent_check: "Shoelace determinant gives |(1*2+7*9+4*2)-(2*7+2*4+9*1)|/2=21."
+    status: pass
+  - case_id: math-18
+    expected_type: integer
+    proposed_value: 47
+    recomputed_value: 47
+    validation_method: independent_recurrence_evaluation
+    evidence: "a2=11, a3=23, a4=3*23-2*11=47."
+    independent_check: "The same recurrence gives successive values 2,5,11,23,47."
+    status: pass
+  - case_id: math-19
+    expected_type: integer
+    proposed_value: 19
+    recomputed_value: 19
+    validation_method: bounded_enumeration_by_z
+    evidence: "For z=0..4, y counts are 7,5,4,2,1; sum=19 and x is forced."
+    independent_check: "A direct loop over z=0..4 and y=0..floor((12-3z)/2) returns 19."
+    status: pass
+  - case_id: math-20
+    expected_type: rational
+    proposed_value: "1/3"
+    recomputed_value: "1/3"
+    validation_method: finite_outcome_enumeration
+    evidence: "There are 18 even-sum outcomes and 6 doubles; 6/18=1/3."
+    independent_check: "Enumerating all ordered die pairs with (a+b)%2=0 gives six equal pairs."
+    status: pass
+  - case_id: math-21
+    expected_type: integer
+    proposed_value: 46
+    recomputed_value: 46
+    validation_method: exact_determinant_expansion
+    evidence: "4*(15)-1*(2)+2*(-6)=60-2-12=46."
+    independent_check: "Integer row expansion and direct 3x3 determinant computation agree at 46."
+    status: pass
+  - case_id: math-22
+    expected_type: integer
+    proposed_value: 35
+    recomputed_value: 35
+    validation_method: remainder_theorem
+    evidence: "For divisor x-2, remainder is f(2)=16+16-2+5=35."
+    independent_check: "Synthetic division by 2 leaves remainder 35."
+    status: pass
+  - case_id: math-23
+    expected_type: integer
+    proposed_value: 38
+    recomputed_value: 38
+    validation_method: extended_Euclidean_algorithm
+    evidence: "1=2*43-5*17, so -5 is the inverse of 17; least positive residue is 38."
+    independent_check: "17*38=646=15*43+1."
+    status: pass
+  - case_id: math-24
+    expected_type: integer
+    proposed_value: 20
+    recomputed_value: 20
+    validation_method: gap_transformation
+    evidence: "For three nonadjacent ones in length 8, choose C(8-3+1,3)=C(6,3)=20."
+    independent_check: "Direct enumeration of all C(8,3)=56 one-position sets leaves 20 valid sets."
+    status: pass
+  - case_id: math-25
+    expected_type: integer
+    proposed_value: 9
+    recomputed_value: 9
+    validation_method: polygon_diagonal_identity
+    evidence: "n(n-3)/2=6*3/2=9."
+    independent_check: "Each vertex connects to 3 non-neighbors and each diagonal is counted twice: 18/2=9."
+    status: pass
+  - case_id: math-26
+    expected_type: rational
+    proposed_value: "0/1"
+    recomputed_value: "0/1"
+    validation_method: fractions.Fraction
+    evidence: "(5/8)/(15/16)=2/3, hence 2/3-2/3=0/1."
+    independent_check: "Exact Fraction arithmetic returns Fraction(0,1)."
+    status: pass
+  - case_id: math-27
+    expected_type: integer
+    proposed_value: 24
+    recomputed_value: 24
+    validation_method: prime_factorization_and_divisor_enumeration
+    evidence: "360=2^3*3^2*5^1, so divisor count=(3+1)(2+1)(1+1)=24."
+    independent_check: "A direct enumeration of d in 1..360 with 360%d==0 returns 24."
+    status: pass
+  - case_id: math-28
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_value: {x: 3, y: 1}
+    recomputed_value: {x: 3, y: 1}
+    validation_method: exact_affine_arithmetic
+    evidence: "(2+2*(-1)+3, -2+(-1)+4)=(3,1)."
+    independent_check: "Substituting (2,-1) into both affine coordinates gives 3 and 1."
+    status: pass
+  - case_id: math-29
+    expected_type: integer
+    proposed_value: 41
+    recomputed_value: 41
+    validation_method: inclusion_exclusion
+    evidence: "Multiples of 3 or 5: 33+20-6=47; among these, multiples of 7 are multiples of 21 or 35: 4+2=6; 47-6=41."
+    independent_check: "Direct enumeration of 1..100 with divisibility predicates returns 41."
+    status: pass
+  - case_id: math-30
+    expected_type: rational
+    proposed_value: "125/324"
+    recomputed_value: "125/324"
+    validation_method: binomial_probability_and_fraction
+    evidence: "C(4,1)*(1/6)*(5/6)^3=500/1296=125/324."
+    independent_check: "Exact enumeration of the 6^4 die outcomes with one six counts 500."
+    status: pass
+  - case_id: math-31
+    expected_type: integer
+    proposed_value: -28
+    recomputed_value: -28
+    validation_method: binomial_coefficient_convolution
+    evidence: "C(8,5)-2*C(8,4)+C(8,3)=56-140+56=-28."
+    independent_check: "Polynomial expansion with integer coefficients gives the same x^5 coefficient."
+    status: pass
+  - case_id: math-32
+    expected_type: rational
+    proposed_value: "13/12"
+    recomputed_value: "13/12"
+    validation_method: fractions.Fraction
+    evidence: "1/2+1/3+1/4=6/12+4/12+3/12=13/12."
+    independent_check: "gcd(13,12)=1."
+    status: pass
+  - case_id: math-33
+    expected_type: integer
+    proposed_value: 29
+    recomputed_value: 29
+    validation_method: line_arrangement_recurrence
+    evidence: "R_n=R_(n-1)+n with R_0=1; R_7=1+7+21=29."
+    independent_check: "The identity 1+n(n+1)/2 gives 1+28=29."
+    status: pass
+  - case_id: math-34
+    expected_type: structured_object
+    expected_schema: {keys: [x, y], key_order: [x, y], value_type: integer}
+    proposed_value: {x: 10, y: 5}
+    recomputed_value: {x: 10, y: 5}
+    validation_method: exact_substitution_and_quadratic
+    evidence: "x=y+5 gives y^2+5y-50=0=(y+10)(y-5); positive solution y=5,x=10."
+    independent_check: "10-5=5 and 10^2+5^2=125."
+    status: pass
+  - case_id: math-35
+    expected_type: integer
+    proposed_value: 150
+    recomputed_value: 150
+    validation_method: inclusion_exclusion_surjections
+    evidence: "3^5-3*2^5+3*1^5=243-96+3=150."
+    independent_check: "Enumerating all 243 maps and retaining maps using all three labels gives 150."
+    status: pass
+  - case_id: math-36
+    expected_type: rational
+    proposed_value: "3/16"
+    recomputed_value: "3/16"
+    validation_method: derangement_formula
+    evidence: "Choose two fixed objects and derange the other four: C(6,2)*D4/6!=15*9/720=3/16."
+    independent_check: "Direct permutation enumeration counts 135 permutations with exactly two fixed points."
+    status: pass
+  - case_id: math-37
+    expected_type: integer
+    proposed_value: 56
+    recomputed_value: 56
+    validation_method: bounded_inclusion_exclusion
+    evidence: "C(18,3)-4*C(12,3)+6*C(6,3)=816-880+120=56; triple violations are impossible."
+    independent_check: "Direct enumeration of four values in 0..5 summing to 15 returns 56."
+    status: pass
+  - case_id: math-38
+    expected_type: rational
+    proposed_value: "31/45"
+    recomputed_value: "31/45"
+    validation_method: totient_sum
+    evidence: "Coprime unordered pairs with larger member b total sum(phi(b), b=2..10)=31; denominator C(10,2)=45."
+    independent_check: "Direct gcd enumeration over 45 pairs counts 31."
+    status: pass
+  - case_id: math-39
+    expected_type: integer
+    proposed_value: 34
+    recomputed_value: 34
+    validation_method: recurrence_evaluation
+    evidence: "T_0..T_8 = 1,1,2,3,5,8,13,21,34."
+    independent_check: "A direct dynamic recurrence loop returns T_8=34."
+    status: pass
+  - case_id: math-40
+    expected_type: structured_object
+    expected_schema: {keys: [x, y, z], key_order: [x, y, z], value_type: integer}
+    proposed_value: {x: 2, y: 1, z: 2}
+    recomputed_value: {x: 2, y: 1, z: 2}
+    validation_method: exact_linear_system_substitution
+    evidence: "Substitution gives 4+1-2=3, 2-2+6=6, and 6+1+4=11."
+    independent_check: "Exact Gaussian elimination has unique pivot solution (2,1,2)."
+    status: pass
+  - case_id: math-41
+    expected_type: integer
+    proposed_value: 30
+    recomputed_value: 30
+    validation_method: multinomial_convolution
+    evidence: "For a+2b=7 with a+b<=5: (a,b)=(3,2) contributes 10 and (1,3) contributes 20; total 30."
+    independent_check: "Direct polynomial multiplication of five copies of (1+x+x^2) gives coefficient 30."
+    status: pass
+  - case_id: math-42
+    expected_type: rational
+    proposed_value: "17/81"
+    recomputed_value: "17/81"
+    validation_method: exact_digit_counting
+    evidence: "Distinct three-digit numbers total 9*9*8=648; ending 0 gives 72 and ending 5 gives 64; 136/648=17/81."
+    independent_check: "Enumerating 100..999 with three distinct digits and n%5==0 counts 136."
+    status: pass
+  - case_id: math-43
+    expected_type: integer
+    proposed_value: 132
+    recomputed_value: 132
+    validation_method: exact_binomial_formula
+    evidence: "C_6=C(12,6)/(6+1)=924/7=132."
+    independent_check: "Catalan recurrence C_n=C_(n-1)*2*(2n-1)/(n+1) from C_5=42 gives C_6=132."
+    status: pass
+  - case_id: math-44
+    expected_type: rational
+    proposed_value: "1/6"
+    recomputed_value: "1/6"
+    validation_method: gap_transformation_probability
+    evidence: "Valid linear placements are C(10-4+1,4)=C(7,4)=35; total C(10,4)=210; ratio=1/6."
+    independent_check: "Direct enumeration of all 210 four-subsets counts 35 with no adjacent positions."
+    status: pass
+  - case_id: math-45
+    expected_type: integer
+    proposed_value: 23
+    recomputed_value: 23
+    validation_method: Chinese_remainder_theorem
+    evidence: "x=2+7k and 2+7k=5 mod 9 gives k=3 mod 9; least positive x=23."
+    independent_check: "23 mod 7=2 and 23 mod 9=5; all solutions differ by 63."
+    status: pass
+  - case_id: math-46
+    expected_type: integer
+    proposed_value: 2
+    recomputed_value: 2
+    validation_method: circular_independent_set_formula
+    evidence: "For C_8, independent k=4 sets count n/(n-k)*C(n-k,k)=8/4*C(4,4)=2."
+    independent_check: "The only selections are alternating vertex sets {1,3,5,7} and {2,4,6,8}."
+    status: pass
+  - case_id: math-47
+    expected_type: rational
+    proposed_value: "3243/10829"
+    recomputed_value: "3243/10829"
+    validation_method: hypergeometric_fraction
+    evidence: "C(4,1)*C(48,4)/C(52,5)=4*194580/2598960=3243/10829."
+    independent_check: "Exact Fraction reduction of the combinatorial ratio gives 3243/10829."
+    status: pass
+  - case_id: math-48
+    expected_type: integer
+    proposed_value: 132
+    recomputed_value: 132
+    validation_method: reflection_principle
+    evidence: "Valid paths are C(11,5)-C(11,4)=462-330=132."
+    independent_check: "The ballot formula (6-5+1)/(6+1)*C(11,5)=132 agrees."
+    status: pass
+summary:
+  total_cases: 48
+  passed: 48
+  failed: 0
+  result: 48/48 PASS

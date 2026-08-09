@@ -32,9 +32,9 @@ Gate A — Specialist Validation: **PASS / CLOSED**.
 
 Active gate: **Gate B — Orchestration Advantage**.
 
-Active bounded stage: **B1 — protocol, router, benchmark and acceptance freeze design**.
+Active bounded stage: **B1 — complete pending human review**.
 
-Gate B decision: **PENDING**.
+Gate B decision: **PENDING HUMAN REVIEW**.
 
 No Gate B selected-model execution is currently authorized.
 
@@ -76,7 +76,7 @@ Primary comparison:
 
 The Gate A Coder checkpoint is not treated as a validated coding specialist in this first routing gate.
 
-## Proposed Gate B acceptance signal
+## Frozen pending-human-review Gate B acceptance signal
 
 Before model execution, B1 currently proposes freezing:
 
@@ -93,27 +93,34 @@ Before model execution, B1 currently proposes freezing:
 - routed Coding degradation no worse than 5 pp;
 - routing accuracy at least 95% against hidden evaluation labels.
 
-These criteria remain **proposed until B1 human review/freeze**. No Gate B result may be observed before that freeze.
+These criteria are frozen for human review; thresholds were not changed during B1. No Gate B result may be observed before human approval.
 
-## Active bounded task — B1
+## B1 completion — pending human review
 
-Static design only:
+The static design is complete under:
 
-1. author a fresh Gate B benchmark under `experiments/gate-b/benchmark-v1.0.0/`;
-2. independently validate all Math oracles and Coding evaluators;
-3. create a deterministic prompt-only router under `experiments/gate-b/router-v1/`;
-4. add synthetic router tests and information-boundary checks;
-5. freeze scoring, token/context validation, execution policy and resource parity;
-6. execute **no General, Math, or Coder checkpoint**;
-7. stop for human review before B2/B3.
+1. fresh benchmark: 96 cases, 48 Math + 48 Coding;
+2. exact prompt overlap with Gate A v1.1.0/v1.2.0/v1.2.1/v1.2.2: zero;
+3. Math oracle validation: 48/48 PASS;
+4. Coding evaluator validation: 48/48 cases and 121/121 tests PASS;
+5. deterministic prompt-only router: 6/6 tests and 96/96 benchmark routes;
+6. copied accepted semantic adapter tests: 13/13 PASS;
+7. maximum rendered input 188; maximum with generation allowance 1212; context margin 2884;
+8. no General, Math, or Coder checkpoint executed during B1.
+
+One authoring defect found during static validation (`math-27`, divisor count
+of 360) was corrected from 18 to 24 and recorded in the oracle-validation
+record. No model result informed the correction.
+
+Review the B1 artifacts before authorizing B2. B3 and B4 remain inactive.
 
 Do not broaden B1 into multi-step orchestration, recursive delegation, networking, federation, reputation, settlement, or training.
 
-## Minimal execution-Agent instruction
+## Minimal next-session instruction
 
-Once the B1 Agent branch is based on current `main`, the execution Agent can be told:
+For the next session, the B1 execution Agent should be told:
 
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, and all files under `gates/gate-b-orchestration/`. Execute only active stage B1 exactly as recorded in Git. Build and statically validate the fresh benchmark/router/protocol, execute no selected model, preserve evidence, update durable status, commit, stop for human review, and do not push until instructed.
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, and all files under `gates/gate-b-orchestration/`. Review the completed B1 benchmark/router/protocol evidence and await human direction. Do not authorize or execute B2/B3, and do not push until instructed.
 
 ## More detail
 

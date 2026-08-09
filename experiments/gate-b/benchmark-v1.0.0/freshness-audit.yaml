@@ -1,0 +1,64 @@
+schema_version: 1
+benchmark_id: gate-b-orchestration-v1.0.0
+audit_id: gate-b-freshness-audit-v1
+status: pass
+comparison_targets:
+  - experiments/gate-a/benchmark-v1.1.0/
+  - experiments/gate-a/benchmark-v1.2.0/
+  - experiments/gate-a/benchmark-v1.2.1/
+  - experiments/gate-a/benchmark-v1.2.2/
+case_counts:
+  total: 96
+  mathematics: 48
+  software_coding: 48
+  difficulty_per_domain: {foundational: 10, intermediate: 24, advanced: 14}
+exact_prompt_overlap:
+  method: "Exact Unicode prompt-string set comparison over every Gate A and Gate B case file."
+  gate_a_v1_1: 0
+  gate_a_v1_2_0: 0
+  gate_a_v1_2_1: 0
+  gate_a_v1_2_2: 0
+  result: pass
+exact_math_expected_overlap:
+  method: "Exact JSON fingerprint comparison of Math expected type/schema/value records."
+  gate_a_v1_2_2_count: 6
+  interpretation: >-
+    Exact answer-value overlap is not itself a prompt or case-instance reuse
+    signal; the six shared values arise from ordinary small-integer/rational
+    answers in newly authored constructions. No Gate A case-specific result,
+    win/loss, or output was used to choose these cases.
+structural_authoring:
+  mathematics: >-
+    All 48 Math prompts and instances were authored for Gate B B1. Their broad
+    families include arithmetic, fractions, coordinates, systems, recurrence,
+    inclusion-exclusion, determinants, modular arithmetic, restricted strings,
+    surjections, derangements, bounded compositions, Catalan numbers, CRT,
+    circular independent sets, hypergeometric probability, and reflection.
+    No Gate A prompt text was copied and no case was selected from a Gate A
+    per-case success or failure.
+  software_coding: >-
+    All 48 Coding prompts and evaluator fixtures were authored for Gate B B1.
+    Their broad families include parsing, matrix/list transformations, graph
+    search, scheduling, dynamic programming, histogram geometry, CSV parsing,
+    Sudoku validation, and coin change. No Gate A prompt text or evaluator
+    fixture was copied.
+positional_mirroring:
+  result: pass
+  review: >-
+    Gate B order is a fresh domain-major sequence (Math 01-48, Coding 01-48)
+    with independent case-family ordering. It does not recreate the Gate A
+    case skeleton sequence or map cases by Gate A positional wins/losses.
+provenance:
+  self_authored: true
+  external_dataset_or_answer_key_copied: false
+  selected_model_execution_during_construction: false
+  selected_model_performance_used_for_case_selection: false
+  gate_a_per_case_outputs_used: false
+  gate_a_aggregate_registry_used: true
+contamination_limitations:
+  absence_of_contamination_claimed: false
+  limitation: >-
+    Common mathematical constructions, standard algorithms, and familiar
+    programming tasks may occur in pretraining or educational material. Exact
+    prompt non-overlap and authoring records reduce direct reuse risk but do not
+    establish absence of contamination.
