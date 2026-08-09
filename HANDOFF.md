@@ -4,7 +4,7 @@ This is the resumable entry point for a fresh ChatGPT / human session.
 
 Repository: `chlangjou/Dexinode`
 
-Canonical/default branch: `main` (the repository does not use a `master` branch).
+Canonical/default branch: `main`.
 
 Snapshot date: 2026-08-09.
 
@@ -20,9 +20,10 @@ Then read, in order:
 2. this file
 3. `status/current.md`
 4. `gates/gate-a-specialization/task.yaml`
-5. the active human review / benchmark files referenced below
+5. `gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`
+6. `experiments/gate-a/benchmark-v1.2.2/manifest.yaml`
 
-Git is the durable source of truth. Do not reconstruct project state from old chat logs if repository state is available.
+Git is the durable source of truth. Do not reconstruct project state from old chat logs when repository state is available.
 
 ## Current state
 
@@ -30,110 +31,112 @@ Active gate: **Gate A — Specialist Validation**.
 
 Gate decision: **PENDING HUMAN REVIEW**.
 
-Active bounded stage: **A5R1 — v1.2.2 oracle correction and complete static validation**.
+Active bounded stage: **A5R2 — three-model cross-evaluation**.
 
-Prepared Agent-owned branch:
+A5R1 is complete and human-approved. A6 remains inactive.
 
-`agent/gate-a-a5r1-v1.2.2-oracle-validation`
+Prepared execution branch for the hardware-running Agent:
 
-At handoff time this branch was created from current `main`; no v1.2.2 Agent result had yet been reported or reviewed.
+`agent/gate-a-a5r2-three-model-cross-evaluation`
 
-A5R2 and A6 are **inactive**. No selected model is authorized to execute until v1.2.2 is frozen and human-approved.
+The execution Agent must fetch current refs and verify that this branch is based on the current approved `main` before touching `ai01`.
 
-## Why we are here
+## Approved A5R1 freeze
 
-Gate A originally used `gate-a-cross-skill-v1.1.0`. The General and Coder rows ran successfully, but the Math specialist scored 0/96 under the strict interface contract even though raw outputs showed it correctly solved sampled math cases and returned conventional worked reasoning plus `\\boxed{...}` answers. Coding outputs also frequently contained valid implementation blocks plus prose/examples. Human review therefore classified the v1.1 Math zero row as an **output-interface confounder**, not capability zero.
+Benchmark:
 
-A semantic handoff adapter was then designed to separate:
+`gate-a-cross-skill-v1.2.2`
 
-- primary task-semantic competence; and
-- secondary strict interface-compliance metrics.
-
-`v1.2.0` froze that adapter and a fresh benchmark, but its Math set was rejected because many cases were near-isomorphic to already-observed v1.1 problem skeletons.
-
-`v1.2.1` replaced all 48 Math cases with structurally fresh constructions and passed the structural-freshness review, but human oracle sanity checking found two benchmark-definition errors:
-
-- `math-23`: expected `1/4`, verified correct value `1/3`;
-- `math-30`: expected `432`, verified correct value `240`.
-
-Therefore v1.2.1 is preserved as frozen-not-approved and must not be patched in place.
-
-## Active task: v1.2.2
-
-Create a new benchmark version at:
+Benchmark root:
 
 `experiments/gate-a/benchmark-v1.2.2/`
 
-The revision is deliberately narrow:
+Reviewed Agent commit:
 
-- preserve v1.2.1 structural Math constructions;
-- preserve the accepted Coding set byte-identically;
-- preserve the accepted semantic adapter/scoring behavior;
-- correct `math-23` to `1/3`;
-- correct `math-30` to `240`;
-- independently recompute and validate **all 48 Math oracles**;
-- preserve a durable `oracle-validation.yaml` (or equivalent) showing 48/48 validation;
-- rerun static/token/context validation and 13 synthetic adapter tests;
-- execute **no General, Math, or Coder checkpoint**;
-- stop for human review before A5R2.
+`cdd691472aa5f08c3284e881c1048956a7d52987`
 
-The controlling review is:
+Human review:
 
-`gates/gate-a-specialization/reviews/a5r1-v1.2.1-human-review.md`
+`gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`
 
-The controlling task state is:
+Decision: **APPROVED**.
 
-`gates/gate-a-specialization/task.yaml`
+Accepted evidence includes:
 
-## Frozen decisions — do not reopen without explicit human review
+- all 48 Math oracles independently recomputed: 48/48 PASS;
+- `math-23 = 1/3`;
+- `math-30 = 240`;
+- `math-37 = 9/95` in required reduced form;
+- v1.2.1 structural Math set carried forward unchanged;
+- accepted Coding set byte-identical;
+- semantic adapter/scoring behavior unchanged;
+- synthetic adapter tests 13/13 PASS;
+- maximum rendered input 187 tokens; 1211 with generation allowance; 2885-token remaining context margin;
+- no selected checkpoint executed or inspected during A5R1 remediation.
 
-Candidate set and exact revisions:
+Prior benchmark versions and runs remain preserved as audit history.
 
-- General: `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
-- Math: `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
-- Coder: `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
+## Active task: A5R2
 
-Common later-run inference policy:
+Run the complete approved benchmark on all three frozen checkpoints, under one unchanged protocol, in this frozen order:
 
-- BF16, no quantization;
+1. General — `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`
+2. Math — `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`
+3. Coder — `Qwen/Qwen2.5-Coder-7B-Instruct` @ `c03e6d358207e414f1eca0bb1891e29f1db0e242`
+
+Every model receives all 96 v1.2.2 cases in the same order: Math 01–48, then Coding 01–48.
+
+Do **not** inspect or human-review model results between rows. Do not change benchmark cases, prompts, adapter behavior, scoring, inference settings, or acceptance criteria after seeing results. Do not performance-early-stop. A genuine infrastructure or methodological failure may stop the sequence, but the invalid/partial evidence must be preserved.
+
+After all three comparable rows finish, stop for human review before A6.
+
+## Frozen execution policy
+
+- BF16; no quantization;
 - Python 3.10.12;
 - PyTorch 2.2.2+cu121;
 - Transformers 4.41.1;
 - safetensors 0.4.3;
 - accelerate 0.30.1;
 - tokenizers 0.19.1;
-- neutral Qwen role-delimiter template;
-- model-specific chat templates ignored;
-- `max_new_tokens=1024`, `do_sample=false`, `num_beams=1`, `repetition_penalty=1.0`, seed 0;
+- neutral Qwen role-delimiter template; model-specific chat templates ignored;
+- `max_new_tokens=1024`;
+- `do_sample=false`;
+- `num_beams=1`;
+- `repetition_penalty=1.0`;
+- seed 0;
 - total context envelope 4096;
 - external tools disabled.
 
-Approved execution substrate for later A5R2:
+Approved substrate:
 
 - host `ai01`;
 - Docker Engine 29.5.3 / `runc`;
 - exactly one NVIDIA L40 UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
-- formal inference 40 GiB memory / 16 CPUs;
+- formal inference 40 GiB / 16 CPUs;
 - approved CPU-only judge-v2 isolation with 2-second watchdog;
-- Gate-specific model caches independent of Ollama/Open-WebUI.
+- Gate-specific caches independent of Ollama/Open-WebUI.
 
-Gate acceptance criteria remain unchanged. Agents may recommend but must not declare Gate PASS/FAIL.
+## A5R2 completion requirements
 
-## Expected next checkpoints
+Preserve enough evidence to reproduce and review every row:
 
-1. Agent completes v1.2.2 static/oracle validation and commits on `agent/gate-a-a5r1-v1.2.2-oracle-validation`.
-2. Human/ChatGPT reviews the complete 48-oracle record and confirms the revision stayed narrow.
-3. If approved, integrate v1.2.2 to `main` and activate A5R2.
-4. A5R2 runs **General + Math + Coder**, each on all 96 v1.2.2 cases, with no result-driven protocol changes or human review between model runs except genuine infrastructure/methodological failure.
-5. Only after all three comparable rows are accepted may A6 compute bootstrap uncertainty, primary-domain deltas, non-primary tradeoffs, specialization concentration, and a Gate recommendation.
+- model identifier and exact revision;
+- benchmark Git identity/version;
+- hardware/runtime and package versions;
+- inference settings;
+- raw response for every case;
+- adapter/extraction decision;
+- semantic and strict-interface score per case;
+- coding judge result/reason;
+- errors, timeouts, invalid-run reasons;
+- aggregate domain/difficulty/overall metrics.
 
-## New-session minimal Agent instruction
+Do not authorize or execute A6. Stop after all three A5R2 rows are complete and committed.
 
-Once repository refs are fetched and the intended Agent branch is verified, the human can give the execution Agent this short instruction instead of a long prompt:
+## Minimal execution-Agent instruction
 
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, and `gates/gate-a-specialization/task.yaml`. Execute only the active bounded task exactly as recorded in Git. Preserve all evidence, update durable status, commit, stop for human review, and do not push until instructed.
-
-If the Agent branch has moved or already contains new work, inspect and review that work before issuing another execution instruction.
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-a-specialization/task.yaml`, and the approved v1.2.2 human review. Execute only active stage A5R2 exactly as frozen in Git. Run General, then Math, then Coder on all 96 cases without inspecting results between rows or changing protocol. Preserve all evidence, update durable status, commit, stop for human review, and do not push until instructed.
 
 ## More detail
 

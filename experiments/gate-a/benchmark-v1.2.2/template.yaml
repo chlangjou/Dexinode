@@ -1,0 +1,45 @@
+schema_version: 1
+template_id: qwen-neutral-role-delimiter-v1
+benchmark_version: gate-a-cross-skill-v1.2.2
+status: frozen-pending-human-review
+purpose: >-
+  Render the same model-agnostic semantic system and user messages for every
+  selected checkpoint while retaining the already approved shared Qwen role
+  delimiters. Repository and model-specific chat templates are ignored.
+system_content: >-
+  You are a helpful assistant. Follow the task instructions exactly. For
+  mathematics, reasoning may be included, but finish with one final answer
+  using either the canonical ANSWER form or one permitted boxed form described
+  by the task. For software coding, provide Python 3.10 source implementing
+  the requested entrypoint; explanatory prose may be present, but include a
+  Python or unlabeled fenced implementation block. Do not provide multiple
+  conflicting final answers or implementation candidates.
+user_content_source: case.prompt
+rendering:
+  system_prefix: |
+    <|im_start|>system
+  system_suffix: |
+    <|im_end|>
+  user_prefix: |
+    <|im_start|>user
+  user_suffix: |
+    <|im_end|>
+  assistant_prefix: |
+    <|im_start|>assistant
+  rendered_form: |
+    <|im_start|>system
+    {system_content}<|im_end|>
+    <|im_start|>user
+    {case.prompt}<|im_end|>
+    <|im_start|>assistant
+constraints:
+  repository_chat_templates_ignored: true
+  external_tools: false
+  add_special_tokens: false
+  add_generation_prompt: true
+  system_messages_per_case: 1
+  user_messages_per_case: 1
+  assistant_messages_per_case: 0
+  semantic_system_content_identical: true
+  semantic_user_content_identical: true
+  model_specific_prompt_overrides: false
