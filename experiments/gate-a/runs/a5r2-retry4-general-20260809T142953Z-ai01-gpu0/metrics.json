@@ -1,0 +1,121 @@
+{
+  "adapter": "experiments/gate-a/benchmark-v1.2.2/adapter/semantic_adapter.py",
+  "benchmark_id": "gate-a-cross-skill-v1.2.2",
+  "case_count": 96,
+  "coding_judge_policy": {
+    "cap_drop": [
+      "ALL"
+    ],
+    "cpus": "0.5",
+    "docker_socket": "none",
+    "file_size_bytes": 1048576,
+    "gpu_devices": "none",
+    "host_mounts": "none",
+    "image": "python:3.10-slim@sha256:63669fd2563fa90b0442fa7b568e66e3667755636cda086d7bcaaa895f66fe39",
+    "log_max_file": 1,
+    "log_max_size": "64k",
+    "memory": "256m",
+    "network": "none",
+    "no_new_privileges": true,
+    "nproc": "1:1",
+    "pids_limit": 1,
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "user": "0:0",
+    "watchdog_kill_after_seconds": 1,
+    "watchdog_seconds": 2
+  },
+  "difficulty": {
+    "mathematics": {
+      "advanced": {
+        "accuracy": 0.5,
+        "correct": 7,
+        "total": 14
+      },
+      "foundational": {
+        "accuracy": 0.7,
+        "correct": 7,
+        "total": 10
+      },
+      "intermediate": {
+        "accuracy": 0.6666666666666666,
+        "correct": 16,
+        "total": 24
+      }
+    },
+    "software_coding": {
+      "advanced": {
+        "accuracy": 0.5714285714285714,
+        "correct": 8,
+        "total": 14
+      },
+      "foundational": {
+        "accuracy": 0.9,
+        "correct": 9,
+        "total": 10
+      },
+      "intermediate": {
+        "accuracy": 0.875,
+        "correct": 21,
+        "total": 24
+      }
+    }
+  },
+  "failed_or_invalid_cases": [
+    "math-02",
+    "math-04",
+    "math-09",
+    "math-11",
+    "math-12",
+    "math-13",
+    "math-17",
+    "math-23",
+    "math-24",
+    "math-26",
+    "math-27",
+    "math-36",
+    "math-38",
+    "math-41",
+    "math-42",
+    "math-45",
+    "math-47",
+    "math-48",
+    "code-09",
+    "code-14",
+    "code-22",
+    "code-26",
+    "code-38",
+    "code-39",
+    "code-40",
+    "code-41",
+    "code-43",
+    "code-47"
+  ],
+  "mathematics": {
+    "accuracy": 0.625,
+    "correct": 30,
+    "total": 48
+  },
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "model_role": "general_baseline",
+  "overall": {
+    "accuracy": 0.7083333333333334,
+    "correct": 68,
+    "total": 96
+  },
+  "scored_case_count": 96,
+  "scoring_elapsed_seconds": 16.420114260166883,
+  "scoring_policy": "experiments/gate-a/benchmark-v1.2.2/scoring.yaml",
+  "software_coding": {
+    "accuracy": 0.7916666666666666,
+    "correct": 38,
+    "total": 48
+  },
+  "strict_interface": {
+    "coding_single_clean_source_block": 0,
+    "coding_total": 48,
+    "math_canonical_answer_contract": 19,
+    "math_total": 48
+  }
+}

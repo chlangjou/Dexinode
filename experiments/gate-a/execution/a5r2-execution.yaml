@@ -1,0 +1,62 @@
+schema_version: 1
+execution_id: gate-a-a5r2-v1.2.2-three-model-cross-evaluation
+benchmark_id: gate-a-cross-skill-v1.2.2
+benchmark_root: experiments/gate-a/benchmark-v1.2.2/
+runner: experiments/gate-a/execution/a5r2_runner.py
+runner_image: sha256:004879ed29152e413822d14c6720e4374ac0d8e88b882a9f471bb492ba3f8f4f
+runner_image_reference: dexinode/gate-a-math-specialist:a5-math-specialist-20260809T092120Z-ai01-gpu0
+host: ai01
+selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+formal_resources:
+  memory: 40g
+  cpus: 16
+  network: none
+  ipc: private
+  root_filesystem: read_only
+  cache_mount: read_only
+  benchmark_mount: read_only
+generation_policy:
+  dtype: bfloat16
+  quantization: none
+  max_new_tokens: 1024
+  do_sample: false
+  num_beams: 1
+  repetition_penalty: 1.0
+  seed: 0
+  external_tools: false
+template_policy:
+  template_id: qwen-neutral-role-delimiter-v1
+  repository_chat_templates_ignored: true
+  system_content_from: experiments/gate-a/benchmark-v1.2.2/template.yaml
+run_order:
+  - ordinal: 1
+    role: general_baseline
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    cache_volume: dexinode-gate-a-general-20260809T082430Z-cache
+    model_dir: /gate-cache/models/qwen2.5-7b-instruct
+    run_id: a5r2-retry4-general-20260809T142953Z-ai01-gpu0
+    output_volume: dexinode-gate-a5r2-retry4-general-20260809T142953Z-output
+  - ordinal: 2
+    role: mathematics_specialist
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    cache_volume: dexinode-gate-a5-math-20260809T092120Z-cache
+    model_dir: /gate-cache/models/qwen2.5-math-7b-instruct
+    run_id: a5r2-retry4-math-20260809T142953Z-ai01-gpu0
+    output_volume: dexinode-gate-a5r2-retry4-math-20260809T142953Z-output
+  - ordinal: 3
+    role: software_coding_specialist
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+    cache_volume: dexinode-gate-a5-coder-20260809T092120Z-cache
+    model_dir: /gate-cache/models/qwen2.5-coder-7b-instruct
+    run_id: a5r2-retry4-coder-20260809T142953Z-ai01-gpu0
+    output_volume: dexinode-gate-a5r2-retry4-coder-20260809T142953Z-output
+controls:
+  all_models_receive_all_cases: true
+  frozen_case_order: math-01..48_then_code-01..48
+  inspect_results_between_rows: false
+  result_driven_changes: false
+  performance_early_stop: false
+  stop_only_on_infrastructure_or_methodological_failure: true

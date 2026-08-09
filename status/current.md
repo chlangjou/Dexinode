@@ -2,9 +2,9 @@
 
 - Updated: 2026-08-09
 - Active gate: Gate A — Specialist Validation
-- Gate decision: PENDING
+- Gate decision: **PENDING HUMAN REVIEW**
 - Session handoff: `HANDOFF.md`
-- Active execution stage: A5R2 — three-model cross-evaluation
+- Active stage: **A6 — evidence report complete pending final human decision**
 
 ## Objective
 
@@ -18,76 +18,75 @@ Determine whether existing specialized small-model checkpoints exhibit reproduci
 
 Gate acceptance criteria remain unchanged.
 
-## A5R1 complete and approved
+## A5R1 — approved
 
 Approved benchmark: `gate-a-cross-skill-v1.2.2`
 
-Benchmark root:
+- reviewed commit: `cdd691472aa5f08c3284e881c1048956a7d52987`;
+- human review: `gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`;
+- 48/48 Math oracle validation PASS;
+- `math-23 = 1/3`, `math-30 = 240`, `math-37 = 9/95`;
+- coding set byte-identical to accepted v1.2 predecessor;
+- semantic adapter/scoring behavior unchanged;
+- synthetic adapter tests 13/13 PASS;
+- no selected model executed during benchmark construction.
 
-`experiments/gate-a/benchmark-v1.2.2/`
+## A5R2 — approved
 
-Reviewed Agent commit:
-
-`cdd691472aa5f08c3284e881c1048956a7d52987`
+Reviewed commit: `6168558b74fca06e1ef80f41b86cc997915c41b7`
 
 Human review:
 
-`gates/gate-a-specialization/reviews/a5r1-v1.2.2-human-review.md`
+`gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md`
 
-Decision: **APPROVED**.
+Decision: **APPROVED**. A6 authorized.
 
-Accepted validation evidence:
+Accepted capability matrix:
 
-- Math oracle validation: **48/48 PASS**;
-- corrected `math-23` to `1/3`;
-- corrected `math-30` to `240`;
-- corrected inherited non-reduced `math-37` to canonical `9/95`;
-- v1.2.1 Math structures/order/difficulty carried forward;
-- coding set byte-identical to v1.2.0/v1.2.1;
-- semantic adapter behavior unchanged;
-- scoring/template behavior unchanged apart from version metadata;
-- synthetic adapter tests: **13/13 PASS**;
-- max rendered input 187 tokens; max with generation allowance 1211; context margin 2885;
-- no selected model executed or inspected during A5R1 construction/review.
+| Role | Overall | Math | Coding |
+|---|---:|---:|---:|
+| General baseline | 68/96 (70.83%) | 30/48 (62.50%) | 38/48 (79.17%) |
+| Math specialist | 64/96 (66.67%) | 44/48 (91.67%) | 20/48 (41.67%) |
+| Coder specialist | 69/96 (71.88%) | 36/48 (75.00%) | 33/48 (68.75%) |
 
-v1.1, v1.2.0, v1.2.1, and all historical run evidence remain preserved.
+Execution validity accepted:
 
-## Active bounded task — A5R2
+- all three rows generated 96/96 responses with zero generation failures;
+- frozen order General → Math → Coder; no result inspection between rows;
+- frozen benchmark/template/adapter/scoring/candidate revisions/acceptance criteria unchanged after execution began;
+- four failed attempts stopped in General preflight before model load/output and remain preserved;
+- accepted coding judge rows had zero infrastructure failures; General and Math each had one frozen-policy 2-second timeout;
+- post-execution scorer edit affected elapsed-time receipt metadata only; rows were rescored from preserved raw outputs without model reruns.
 
-Execute all three frozen checkpoints on the complete approved v1.2.2 benchmark.
+Non-blocking metadata issue: `load_elapsed_seconds` in the inference receipt spans model load plus generation and must not be interpreted as model-load latency.
 
-Frozen order:
+## A6 — complete pending final human decision
 
-1. General baseline
-2. Math specialist
-3. Coder specialist
+Evidence report:
 
-Each model receives the same 96 cases in the same order: `math-01..48`, then `code-01..48`.
+`gates/gate-a-specialization/evidence-report.md`
 
-Execution constraints:
+Machine-readable summary:
 
-- one unchanged benchmark, template, adapter, scoring contract, inference policy, and judge policy for all three rows;
-- no result-driven protocol or benchmark changes;
-- no human/model-result review between rows;
-- no performance-based early stopping;
-- preserve raw outputs, adapter decisions, per-case scores, metadata, failures, and invalid runs;
-- only a genuine infrastructure or methodological failure may stop the sequence before all three comparable rows complete;
-- A6 remains inactive until all three rows are completed and accepted.
+`experiments/gate-a/a6-evidence-summary.yaml`
 
-## Approved execution substrate
+Recommendation: **PASS**.
 
-- host `ai01`;
-- Docker Engine 29.5.3 / `runc`;
-- exactly one NVIDIA L40 UUID `GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664`;
-- formal inference: 40 GiB / 16 CPUs;
-- BF16, no quantization;
-- Python 3.10.12 / PyTorch 2.2.2+cu121 / Transformers 4.41.1;
-- deterministic generation: `max_new_tokens=1024`, `do_sample=false`, `num_beams=1`, `repetition_penalty=1.0`, seed 0;
-- approved CPU-only judge-v2 isolation with 2-second watchdog;
-- Gate-specific model caches independent of Ollama/Open-WebUI.
+Key frozen-criteria findings:
+
+- minimum evidence: satisfied;
+- candidate comparability: satisfied;
+- Math specialist primary-domain delta: **+29.17 pp**, paired-bootstrap 95% CI **[+16.67, +41.67] pp** — passes ≥10 pp and excludes zero;
+- Math specialist non-primary coding delta: **−37.50 pp**, CI **[−52.08, −22.92] pp** — strong domain-specific tradeoff;
+- Coder specialist primary coding delta: **−10.42 pp**, CI **[−22.92, +2.08] pp** — does not demonstrate claimed coding advantage;
+- specialization signal: satisfied by the Math specialist's concentrated profile;
+- unresolved material methodological defect: none identified;
+- strong two-specialist pass preference: **not satisfied**.
+
+This is therefore a **single-specialist PASS recommendation, not a strong two-specialist pass**.
 
 ## Next human checkpoint
 
-After General + Math + Coder have each completed all 96 v1.2.2 cases under the same frozen protocol, review the complete three-row evidence before authorizing A6.
+The human owner must now assign the final Gate A decision: PASS, FAIL, or INCONCLUSIVE.
 
-Gate B remains inactive until Gate A receives a human PASS decision.
+Gate B remains inactive until an explicit human Gate A PASS decision is recorded. No additional model execution is required for the current Gate A evidence set.

@@ -1,0 +1,66 @@
+schema_version: 1
+gate: gate-a-specialization-v1
+stage: A6-evidence-report
+benchmark_id: gate-a-cross-skill-v1.2.2
+a5r2_reviewed_commit: 6168558b74fca06e1ef80f41b86cc997915c41b7
+a5r2_human_review: gates/gate-a-specialization/reviews/a5r2-v1.2.2-human-review.md
+status: complete_pending_final_human_decision
+recommendation: PASS
+final_gate_decision: PENDING_HUMAN_REVIEW
+strong_pass_preference_satisfied: false
+
+accepted_scores:
+  general_baseline:
+    overall: {correct: 68, total: 96, accuracy: 0.7083333333333334}
+    mathematics: {correct: 30, total: 48, accuracy: 0.625}
+    software_coding: {correct: 38, total: 48, accuracy: 0.7916666666666666}
+  mathematics_specialist:
+    overall: {correct: 64, total: 96, accuracy: 0.6666666666666666}
+    mathematics: {correct: 44, total: 48, accuracy: 0.9166666666666666}
+    software_coding: {correct: 20, total: 48, accuracy: 0.4166666666666667}
+  software_coding_specialist:
+    overall: {correct: 69, total: 96, accuracy: 0.71875}
+    mathematics: {correct: 36, total: 48, accuracy: 0.75}
+    software_coding: {correct: 33, total: 48, accuracy: 0.6875}
+
+bootstrap:
+  method: paired_case_resampling
+  resamples: 20000
+  confidence_level: 0.95
+  seed: 0
+  deltas:
+    mathematics_specialist_minus_general_mathematics:
+      observed: 0.2916666666666667
+      ci: [0.16666666666666666, 0.4166666666666667]
+      primary_signal_pass: true
+    mathematics_specialist_minus_general_software_coding:
+      observed: -0.375
+      ci: [-0.5208333333333334, -0.22916666666666666]
+    software_coding_specialist_minus_general_software_coding:
+      observed: -0.10416666666666667
+      ci: [-0.22916666666666666, 0.020833333333333332]
+      primary_signal_pass: false
+    software_coding_specialist_minus_general_mathematics:
+      observed: 0.125
+      ci: [-0.020833333333333332, 0.2708333333333333]
+
+acceptance_checks:
+  minimum_evidence_satisfied: true
+  comparability_satisfied: true
+  performance_signal_satisfied_for_at_least_one_specialist: true
+  specialization_signal_satisfied: true
+  unresolved_material_methodological_defect: false
+  pass_recommendation_requirements_satisfied: true
+
+specialization_interpretation:
+  mathematics_specialist: strong_domain_specific_specialization
+  software_coding_specialist: claimed_primary_advantage_not_observed
+  two_specialist_strong_pass_preference: not_satisfied
+
+non_blocking_issues:
+  - id: inference_receipt_load_elapsed_label
+    description: load_elapsed_seconds spans model load plus all generation and must not be interpreted as load latency
+    affects_scoring: false
+    affects_comparability: false
+
+next_action: human_final_gate_decision
