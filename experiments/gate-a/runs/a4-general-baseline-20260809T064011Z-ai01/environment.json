@@ -1,0 +1,73 @@
+{
+  "run_id": "a4-general-baseline-20260809T064011Z-ai01",
+  "stage": "A4-general-baseline",
+  "status": "blocked_before_model_execution",
+  "captured_at_utc": "2026-08-09T06:40:11.094379817Z",
+  "execution_host": {
+    "hostname": "ai01",
+    "os": "Ubuntu 22.04.5 LTS (Jammy Jellyfish)",
+    "kernel": "Linux ai01 5.15.0-181-generic #191-Ubuntu SMP Fri May 22 19:09:02 UTC 2026 x86_64 x86_64 GNU/Linux",
+    "architecture": "x86_64",
+    "identity": "uid=1000(rd) gid=1000(rd) groups=1000(rd),65534(nogroup)",
+    "cpu": "2 sockets, 32 cores / 64 logical CPUs, Intel Xeon Gold 6426Y",
+    "memory": "1.0 TiB total; 8.0 GiB swap",
+    "gpu": {
+      "device": "CPU",
+      "cuda_available": false,
+      "cuda_device_count": 0,
+      "nvidia_smi": "NVIDIA-SMI failed because it could not communicate with the NVIDIA driver"
+    }
+  },
+  "runtime": {
+    "python_executable": "/usr/bin/python3",
+    "python_version": "3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]",
+    "transformers": "4.41.1",
+    "torch": "2.2.2+cu121",
+    "torch_cuda_version": "12.1",
+    "safetensors": "0.4.3",
+    "accelerate": "0.30.1",
+    "tokenizers": "0.19.1",
+    "pyyaml": "5.4.1",
+    "bubblewrap": "0.6.1",
+    "bubblewrap_path": "/usr/bin/bwrap"
+  },
+  "repository": {
+    "worktree": "/home/rd/Dexinode",
+    "git_head": "fc68ab8e5042fa0b6017804c81265dd1d00a5409",
+    "benchmark": "gate-a-cross-skill-v1.1.0",
+    "benchmark_commit": "fc68ab8e5042fa0b6017804c81265dd1d00a5409",
+    "benchmark_manifest_sha256": "53f49549fd7a05a2bc78d23c9fe1a40cef5134ae86f6438de2a73bb3d9cc55f0",
+    "worktree_clean_before_run": true
+  },
+  "approved_model_target": {
+    "id": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "model_execution_occurred": false
+  },
+  "intended_inference_policy": {
+    "max_new_tokens": 1024,
+    "do_sample": false,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "seed": 0,
+    "external_tools": false,
+    "shared_template": "qwen-neutral-role-delimiter-v1"
+  },
+  "preflight": {
+    "policy": "experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml",
+    "executable": "experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.py",
+    "executable_sha256": "0dd3a4d79436e2de685d027ad74ac3640feecce09b8dc531f4559b3ee6fa9e85",
+    "policy_sha256": "4478c66901e80e7d939f0b77dc9e57e924da826d526ffa20414973021bfd9259",
+    "command": "python3 experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.py --host-marker /home/rd/Dexinode",
+    "host_marker": "/home/rd/Dexinode",
+    "required_before_model_execution": true,
+    "result": "failed_closed",
+    "timestamp_utc": "2026-08-09T06:40:46.888414+00:00",
+    "receipt": "preflight-receipt.json",
+    "failure": "bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted"
+  },
+  "specialist_models_executed": false,
+  "candidate_outputs_inspected": false
+}

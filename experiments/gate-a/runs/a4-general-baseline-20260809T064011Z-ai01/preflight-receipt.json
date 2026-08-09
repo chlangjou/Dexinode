@@ -1,0 +1,22 @@
+{
+  "run_id": "a4-general-baseline-20260809T064011Z-ai01",
+  "preflight_id": "gate-a-coding-bounded-isolation-v1",
+  "benchmark_version": "gate-a-cross-skill-v1.1.0",
+  "status": "failed_closed",
+  "timestamp_utc": "2026-08-09T06:40:46.888414+00:00",
+  "host_identity": "ai01",
+  "kernel_identity": "Linux-5.15.0-181-generic-x86_64-with-glibc2.35",
+  "python_identity": "3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]",
+  "sandbox_identity": "/usr/bin/bwrap (bubblewrap 0.6.1)",
+  "command": "python3 experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.py --host-marker /home/rd/Dexinode",
+  "command_digest": "bwrap namespaces + read-only runtime + private tmpfs + resource limits",
+  "exit_code": 1,
+  "probe_results": {},
+  "stdout": "",
+  "stderr": "bwrap: loopback: Failed to create NETLINK_ROUTE socket: Operation not permitted",
+  "required_probe_failure": "network namespace setup failed before probes ran",
+  "baseline_model_executed": false,
+  "specialist_models_executed": false,
+  "candidate_outputs_inspected": false,
+  "interpretation": "The exact A4 execution environment cannot establish the approved network-isolated bounded runner. Fail-closed policy requires stopping before baseline model execution and human review of the host blocker."
+}

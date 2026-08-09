@@ -1,0 +1,110 @@
+schema_version: 1
+id: gate-a-a4-docker-qualification-v1
+stage: A4a-execution-environment-qualification
+status: active
+owner: human
+executor: agent
+
+objective: >-
+  Qualify a dedicated Docker execution topology for Gate A before any selected
+  model is downloaded or executed.
+
+context:
+  prior_a4_run: a4-general-baseline-20260809T064011Z-ai01
+  prior_result: blocked_before_model_execution
+  prior_failure: "bubblewrap network namespace setup failed: NETLINK_ROUTE Operation not permitted"
+  human_review: gates/gate-a-specialization/reviews/a4-preflight-human-review.md
+  benchmark: gate-a-cross-skill-v1.1.0
+  benchmark_root: experiments/gate-a/benchmark-v1.1.0/
+
+existing_services:
+  inspect_read_only_allowed: [ollama, open-webui]
+  modification_allowed: false
+  restart_allowed: false
+  recreate_allowed: false
+  use_existing_model_cache: false
+  change_bind_mount_permissions: false
+
+inference_container_qualification:
+  purpose: prove_dedicated_gpu_container_runtime
+  selected_gpu_count: 1
+  gpu_class_expected: NVIDIA_L40
+  selected_model_download_allowed: false
+  selected_model_execution_allowed: false
+  required_evidence:
+    - docker_engine_and_runtime_identity
+    - host_and_container_gpu_visibility
+    - exact_selected_gpu_identity
+    - driver_and_cuda_visibility
+    - container_image_identity_or_digest
+    - container_launch_command_or_equivalent_manifest
+    - proof_existing_ai_services_were_not_modified
+
+judge_container_qualification:
+  purpose: prove_bounded_cpu_only_execution_boundary
+  network: none
+  gpu_devices: none
+  root_filesystem: read_only
+  private_tmpfs_required: true
+  docker_socket_visible: false
+  host_worktree_visible: false
+  host_home_visible: false
+  model_cache_visible: false
+  capabilities: drop_all
+  no_new_privileges: true
+  resource_limits_required:
+    cpu: true
+    memory: true
+    pids: true
+    wall_clock_timeout: true
+    output_or_file_size: true
+  mandatory_probes:
+    - network_denied
+    - host_worktree_hidden
+    - host_home_hidden
+    - docker_socket_hidden
+    - model_cache_hidden
+    - root_filesystem_read_only
+    - private_temp_available
+    - no_gpu_devices
+    - no_new_privileges_effective
+    - capabilities_dropped
+    - resource_limits_recorded
+  fail_closed: true
+  passing_receipt_required: true
+
+allowed_actions:
+  - inspect_docker_metadata
+  - inspect_nvidia_container_configuration
+  - inspect_existing_ai_containers_read_only
+  - create_disposable_qualification_containers
+  - create_gate_specific_non_model_test_volume_if_needed
+  - create_qualification_scripts_and_manifests
+  - run_non_model_gpu_visibility_probe
+  - run_non_model_judge_isolation_probes
+  - record_machine_readable_receipts
+
+forbidden_actions:
+  - download_selected_qwen_models
+  - execute_selected_qwen_models
+  - run_gate_a_benchmark_cases
+  - modify_frozen_benchmark
+  - modify_gate_acceptance_criteria
+  - modify_or_restart_ollama
+  - modify_or_restart_open_webui
+  - access_or_repermission_existing_ollama_model_bind_mount
+  - use_privileged_container_to_force_a_pass
+  - mount_docker_socket_into_judge_container
+  - weaken_isolation_policy_without_human_review
+  - proceed_to_a4_baseline_inference
+
+required_outputs:
+  - experiments/gate-a/execution/a4-docker-qualification/environment.json
+  - experiments/gate-a/execution/a4-docker-qualification/inference-gpu-preflight.json
+  - experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight.json
+  - experiments/gate-a/execution/a4-docker-qualification/README.md
+
+completion:
+  success: both_inference_gpu_and_judge_isolation_qualification_pass
+  blocked: preserve_receipts_and_stop
+  stop_for_human_review: true
