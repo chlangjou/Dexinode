@@ -77,17 +77,30 @@ stages:
       human_review: gates/gate-a-specialization/reviews/a4-preflight-human-review.md
 
     A4a-docker-execution-environment-qualification:
-      status: active
+      status: changes-required-judge-hardening
       contract: gates/gate-a-specialization/execution/a4-docker-qualification.yaml
+      review_record: gates/gate-a-specialization/reviews/a4a-docker-qualification-human-review.md
+      reviewed_commit: 8ad46c50cd15a298b45c46613c676c09e9d6cea9
       selected_models_may_be_downloaded: false
       selected_models_may_be_executed: false
       benchmark_cases_may_be_run: false
       existing_ai_services_modifiable: false
-      required_outputs:
-        - experiments/gate-a/execution/a4-docker-qualification/environment.json
-        - experiments/gate-a/execution/a4-docker-qualification/inference-gpu-preflight.json
-        - experiments/gate-a/execution/a4-docker-qualification/judge-isolation-preflight.json
-        - experiments/gate-a/execution/a4-docker-qualification/README.md
+      evidence_root: experiments/gate-a/execution/a4-docker-qualification/
+      inference_gpu_preflight:
+        status: approved
+        selected_gpu_count: 1
+        selected_gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+        rerun_required_for_judge_revision: false
+      judge_isolation_preflight:
+        status: revision-required
+        prior_receipt_status: pass-under-a4a-contract-but-not-frozen-a3-process-policy
+        frozen_policy: experiments/gate-a/benchmark-v1.1.0/execution/coding_isolation_preflight.yaml
+        required_process_count: 1
+        subprocess_denied_probe_required: true
+        per_test_timeout_seconds: 2
+        file_size_bytes: 1048576
+        retain_existing_isolation_controls: true
+        preferred_non_root_user: true
       stop_for_human_review: true
 
     A4b-general-baseline-execution:
@@ -97,7 +110,7 @@ stages:
         - exact_inference_container_policy_approved
         - exact_judge_container_policy_approved
         - inference_gpu_preflight_passed
-        - judge_isolation_preflight_passed
+        - judge_isolation_preflight_passed_against_frozen_a3_policy
         - same_runtime_policy_preserved_for_later_specialists
       stop_for_human_review: true
 

@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "qualification": "gate-a-a4-judge-isolation-preflight-v1",
+  "status": "pass",
+  "recorded_at": "2026-08-09",
+  "host": "ai01",
+  "runtime": "runc",
+  "image": {
+    "reference_used": "python:3.10-slim",
+    "repo_digest": "sha256:63669fd2563fa90b0442fa7b568e66e3667755636cda086d7bcaaa895f66fe39",
+    "image_id": "sha256:a28dc131a2de35d6475377050de1b5a71d0ee3118d7fdf3ce65be660d9feb6cf",
+    "python_version": "3.10.20"
+  },
+  "container": {
+    "name": "dexinode-gate-a-a4a-judge-qual-receipt",
+    "id": "ec078737d0c99c1f8482f5719eb8d827666a2c7818fd3019fd1c2bc49b190ece",
+    "exit_code": 0,
+    "privileged": false,
+    "runtime": "runc",
+    "network": "none",
+    "ipc": "private",
+    "pid_namespace": "private (Docker default; PidMode empty)",
+    "mounts": [],
+    "devices": [],
+    "device_requests": null,
+    "open_stdin": true
+  },
+  "launch_configuration": {
+    "command": "docker run -i --name dexinode-gate-a-a4a-judge-qual-receipt --user 0:0 --network none --ipc private --read-only --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m --cap-drop=ALL --security-opt=no-new-privileges:true --pids-limit 32 --memory 256m --cpus 0.5 --ulimit nproc=32:32 --ulimit fsize=1048576:1048576 --stop-timeout 2 --log-driver=json-file --log-opt max-size=64k --log-opt max-file=1 python:3.10-slim python3 - < experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe.py",
+    "network": "--network none",
+    "gpu_policy": "no --gpus flag; no device requests; no device mounts",
+    "root_filesystem": "--read-only",
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "capabilities": "--cap-drop=ALL",
+    "no_new_privileges": "--security-opt=no-new-privileges:true",
+    "cpu_limit": "--cpus 0.5",
+    "memory_limit": "--memory 256m",
+    "pid_limit": "--pids-limit 32",
+    "nproc_limit": "--ulimit nproc=32:32",
+    "file_size_limit": "--ulimit fsize=1048576:1048576",
+    "log_output_limit": "json-file max-size=64k max-file=1",
+    "wall_clock_runner": "timeout --foreground --kill-after=1s 3s docker wait <container>"
+  },
+  "probe_script": {
+    "path": "experiments/gate-a/execution/a4-docker-qualification/judge_isolation_probe.py",
+    "sha256": "d689ad725599723593b01d59287c9d9680357469cad9179c4af7405dfa2208a1",
+    "model_or_benchmark_code": false
+  },
+  "checks": {
+    "network_denied": true,
+    "network_routes_empty": true,
+    "no_gpu_devices": true,
+    "host_worktree_hidden": true,
+    "host_home_hidden": true,
+    "docker_socket_hidden": true,
+    "ollama_model_mount_hidden": true,
+    "ollama_home_hidden": true,
+    "docker_root_hidden": true,
+    "root_filesystem_read_only": true,
+    "private_tmp_available": true,
+    "private_tmp_is_tmpfs": true,
+    "capabilities_dropped": true,
+    "no_new_privileges_effective": true,
+    "cpu_bounded": true,
+    "memory_bounded": true,
+    "pids_bounded": true,
+    "file_size_bounded": true,
+    "file_size_write_bound_enforced": true
+  },
+  "probe_details": {
+    "all_checks": 19,
+    "effective_uid": 0,
+    "cap_eff": "0000000000000000",
+    "cap_prm": "0000000000000000",
+    "cap_bnd": "0000000000000000",
+    "no_new_privs": "1",
+    "cpu_max": "50000 100000",
+    "memory_max": "268435456",
+    "pids_max": "32",
+    "rlimit_fsize": [1048576, 1048576],
+    "expected_file_size_bytes": 1048576,
+    "gpu_nodes": [],
+    "network_routes": [],
+    "network_error": "OSError",
+    "hidden_paths": {
+      "host_worktree": "/home/rd/Dexinode",
+      "host_home": "/home/rd",
+      "docker_socket": "/var/run/docker.sock",
+      "ollama_model_mount": "/data/ollama/ollama",
+      "ollama_home": "/root/.ollama",
+      "docker_root": "/data/docker/lib/docker"
+    },
+    "tmp_mounts": [["tmpfs", "/tmp", "tmpfs", "rw,nosuid,nodev,noexec,relatime,size=16384k,inode64"]
+    ],
+    "root_mode": "0o755",
+    "root_write_error": "OSError"
+  },
+  "wall_clock_probe": {
+    "status": "pass",
+    "command": "timeout --foreground --kill-after=1s 3s docker wait dexinode-gate-a-a4a-judge-wallclock-qual",
+    "workload": "python3 -c 'import time; time.sleep(60)'",
+    "start_exit": 0,
+    "wait_exit": 124,
+    "elapsed_ms": 3119,
+    "container_was_running_at_timeout": true,
+    "kill_cleanup_exit": 0,
+    "bounded_wall_clock_seconds": 3
+  },
+  "nonfinal_attempts": [
+    {
+      "status": "invalid",
+      "command_difference": "included unsupported Docker CLI flag --pid private",
+      "exit_code": 125,
+      "container_created": false,
+      "preserved": true
+    },
+    {
+      "status": "invalid",
+      "count": 2,
+      "command_difference": "omitted -i while supplying the probe over stdin",
+      "exit_code": 0,
+      "reason": "stdin probe did not execute; these were not treated as qualification passes",
+      "preserved": true
+    }
+  ],
+  "scope_controls": {
+    "selected_qwen_model_downloaded": false,
+    "selected_qwen_model_executed": false,
+    "gate_a_benchmark_cases_executed": false,
+    "existing_ai_services_modified": false
+  }
+}
