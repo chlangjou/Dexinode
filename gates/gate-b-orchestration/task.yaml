@@ -121,7 +121,7 @@ stages:
     B3B4_authorized: true
 
   B3B4-comparable-policy-execution:
-    status: active
+    status: completed-pending-human-review
     benchmark_version: gate-b-orchestration-v1.1.1
     benchmark_root: experiments/gate-b/benchmark-v1.1.1/
     router_root: experiments/gate-b/router-v2/
@@ -154,6 +154,25 @@ stages:
       preserve_partial_or_invalid_evidence_on_stop: required
       benchmark_or_protocol_patch_from_observed_results: forbidden
     stop_for_human_review_after_completion: true
+    completion:
+      execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+      evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
+      route_decisions: 96/96 persisted before first model output
+      route_counts: {mathematics_specialist: 48, general_baseline: 48, fallback: 0}
+      general_generated: 96/96
+      math_specialist_generated: 48/48
+      generation_failures: 0
+      coder_executed: false
+      general_only_overall: 76/96
+      routed_overall: 77/96
+      overall_delta: "+1.0417 percentage points"
+      overall_bootstrap_ci95: "[0, +3.125] percentage points"
+      math_delta: "+2.0833 percentage points"
+      math_bootstrap_ci95: "[0, +6.25] percentage points"
+      coding_degradation: "0 percentage points"
+      router_accuracy: 96/96
+      human_review_required: true
+      final_gate_decision: PENDING HUMAN REVIEW
 
   B5-evidence-report:
     status: inactive
@@ -180,4 +199,4 @@ forbidden_actions_during_B3B4:
 handoff:
   durable_state: git
   final_decision: human_review
-  next_action: execute_B3B4_exactly_as_frozen_then_stop_for_human_review
+  next_action: human_review_of_B3B4_evidence_then_explicit_activation_of_B5_if_authorized

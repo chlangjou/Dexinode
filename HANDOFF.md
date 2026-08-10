@@ -26,7 +26,7 @@ Active gate: **Gate B — Orchestration Advantage**.
 
 Gate B final decision: **PENDING HUMAN REVIEW**.
 
-Active bounded stage: **B3B4 — comparable policy execution**.
+Active bounded stage: **B3B4 — complete, pending human review**.
 
 B1R2 `gate-b-orchestration-v1.1.1` is human-approved. B2 static qualification is PASS/COMPLETE. Selected-model execution is now authorized **only** under the frozen B3B4 protocol.
 
@@ -50,7 +50,26 @@ Static acceptance evidence is complete: Math 48/48, Coding evaluator 48/48, Codi
 
 The informational `case_file` strings inside the v1.1.1 case YAML still contain a v1.1.0 label; this is a recorded non-material metadata issue. Do not create a new revision or patch the benchmark for it.
 
-## B3B4 execution sequence
+## B3B4 completion
+
+B3B4 completed under the frozen protocol. The durable evidence is under
+`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`.
+All 96 routes were persisted before output; General completed 96/96 first,
+the Math specialist completed only its 48/48 frozen routes, and composition
+and scoring occurred only after both phases. No Coder checkpoint ran.
+
+General-only scored 76/96 overall (Math 40/48, Coding 36/48). The routed row
+scored 77/96 overall (Math 41/48, Coding 36/48): +1.04 percentage points
+overall with paired-bootstrap 95% CI [0, +3.125] points. The Math delta is
++2.08 points with CI [0, +6.25] points; Coding degradation is 0 points.
+The final Gate B decision remains **PENDING HUMAN REVIEW**; the agent does not
+assign PASS/FAIL and B5 remains inactive.
+
+The preflight-only failed attempt is preserved beside the completed run. It
+created no model output and was followed by a new execution ID after fixing a
+runner field-name bug.
+
+## Preserved B3B4 execution sequence
 
 1. Persist all 96 router decisions from semantic task text before the first model output.
 2. Run General once on all 96 cases in frozen order and preserve every response/receipt.
@@ -74,4 +93,4 @@ Before touching `ai01`, verify this branch is based on current approved `main` a
 
 ## Minimal Agent instruction
 
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b2-static-qualification.md`. Execute only active B3B4 exactly as frozen. Persist all routes before model output; run General on all 96, do not inspect results, then run Math specialist only on frozen specialist routes. Preserve all evidence, compose/score only after both phases, update durable status, commit, stop for human review, do not execute Coder, and do not push until instructed.
+> Review the completed B3B4 evidence under `experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`. Do not execute B5 or assign the final Gate B decision without human review.
