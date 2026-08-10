@@ -64,10 +64,14 @@ This isolates the value of **selecting the right existing skill** rather than bu
 
 ## Current stage
 
-**B1R2 — complete pending human review.**
+**B3B4 — complete pending human review.**
 
 The corrected frozen design is recorded under
 `experiments/gate-b/benchmark-v1.1.1/` and reuses unchanged `router-v2`.
-The prior v1.0.0/v1.1.0 artifacts remain preserved and unchanged. Static
-validation is complete, but no Gate B model execution is authorized until the
-human reviews and approves B1R2. B2 remains inactive.
+B3B4 evidence is complete under
+`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`.
+General-only scored 76/96 and the skill-routed policy scored 77/96; the
+observed overall delta is +1.04 percentage points with a paired-bootstrap 95%
+interval of [0, +3.125] points. The Math delta is +2.08 points and Coding
+degradation is 0 points. The final Gate B decision remains pending human
+review; B5 is not active.

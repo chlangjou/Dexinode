@@ -1,0 +1,31 @@
+{
+  "benchmark_id": "gate-b-orchestration-v1.1.1",
+  "benchmark_manifest_sha256": "abb2483533b94ff532a7f65edf0af59a3d9267936ac7a7ddb82155b7ec576449",
+  "benchmark_root": "experiments/gate-b/benchmark-v1.1.1/",
+  "execution_id": "gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0",
+  "finished_utc": "2026-08-10T01:42:47.319100Z",
+  "protocol_sha256": "a5b5e2699016616b39fe4699f33e892e27ac304192be80d494ab0fcb0e9ac272",
+  "result_inspection_between_phases": false,
+  "route_receipt": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0/route-receipt.json",
+  "rows": [
+    {
+      "elapsed_seconds": 1.6121616419404745,
+      "exit_code": 1,
+      "ordinal": 1,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0-general_baseline-output",
+      "phase": "preflight",
+      "role": "general_baseline",
+      "run_dir": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0/general-baseline",
+      "selected_case_count": 96
+    }
+  ],
+  "run_order": [
+    "general_baseline",
+    "mathematics_specialist"
+  ],
+  "runner_sha256": "10f7306ad2eff2552d5daf19f0b4692f7326ca3724682986d84146cebb9e9e5d",
+  "schema_version": 1,
+  "scoring_sha256": "c0d656c78cad2e66361df9ff3998b66b80091b68d0a18f83052dbf6402f41e8e",
+  "started_utc": "2026-08-10T01:42:45.682771Z",
+  "status": "stopped_preflight_failure"
+}

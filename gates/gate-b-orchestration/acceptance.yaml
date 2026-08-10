@@ -43,6 +43,21 @@ target_revision:
     semantic_contract_audit: experiments/gate-b/benchmark-v1.1.1/semantic-contract-audit.yaml
     B1R2_human_review: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
     B2_qualification: gates/gate-b-orchestration/reviews/b2-static-qualification.md
+
+execution_record:
+  execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+  evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
+  status: complete-pending-human-review
+  general_only_overall: 76/96
+  skill_routed_overall: 77/96
+  overall_delta_percentage_points: 1.0416666666666665
+  overall_bootstrap_ci95_percentage_points: [0.0, 3.125]
+  mathematics_delta_percentage_points: 2.083333333333333
+  mathematics_bootstrap_ci95_percentage_points: [0.0, 6.25]
+  coding_degradation_percentage_points: 0.0
+  router_accuracy: 96/96
+  coder_executed: false
+  final_gate_decision: PENDING HUMAN REVIEW
   non_material_metadata_note: >-
     The informational case_file strings inside v1.1.1 case YAML retain a
     v1.1.0 identifier; repository path, manifest/version/hash and runtime lookup

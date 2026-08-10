@@ -4,10 +4,10 @@
 - Active gate: **Gate B — Orchestration Advantage**
 - Gate A final decision: **PASS / CLOSED**
 - Gate B final decision: **PENDING HUMAN REVIEW**
-- Active stage: **B3B4 — comparable policy execution**
+- Active stage: **B3B4 — complete, pending human review**
 - Session handoff: `HANDOFF.md`
 
-## Gate B pre-execution state
+## Gate B approved pre-execution state
 
 Final executable benchmark:
 
@@ -47,6 +47,35 @@ Accepted static evidence:
 - no Gate B selected model was executed before B3B4 authorization.
 
 A stale informational `case_file` label inside the v1.1.1 case YAML still names v1.1.0. The actual v1.1.1 path/manifest/hash/runtime identity is correct; this is recorded as non-material metadata hygiene and does not affect execution or scoring.
+
+## B3B4 execution completion
+
+Status: **COMPLETE — PENDING HUMAN REVIEW**.
+
+The frozen route receipt persisted all 96 semantic-task-only decisions before
+model output: 48 `mathematics_specialist`, 48 `general_baseline`, and no
+fallback routes. General ran once on all 96 cases, then the Math specialist ran
+only on the persisted 48 Math routes. No General result was inspected between
+phases. No Coder checkpoint was executed.
+
+Evidence:
+
+`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
+
+Both formal rows completed with zero generation failures. The approved
+semantic adapter and CPU-only judge-v2 scoring completed with 96 General
+per-case records, 48 Math-specialist records, 48 coding judge records, and a
+96-case policy-composition receipt. General-only scored 76/96 overall (Math
+40/48, Coding 36/48); skill-routed scored 77/96 (Math 41/48, Coding 36/48).
+The observed overall delta is +1.04 percentage points, with paired-bootstrap
+95% CI [0, +3.125] points; the Math delta is +2.08 points with CI [0, +6.25]
+points; Coding degradation is 0 points. These results do not independently
+assign the final Gate B decision.
+
+The first execution attempt is preserved as a preflight-only infrastructure
+failure with no model output. A corrected new execution ID completed the
+authorized run. No benchmark, router, scoring rule, threshold, or candidate
+revision was changed after output.
 
 ## Active B3B4 execution contract
 

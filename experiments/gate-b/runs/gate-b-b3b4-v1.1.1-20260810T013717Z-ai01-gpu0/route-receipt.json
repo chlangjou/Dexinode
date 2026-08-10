@@ -1,0 +1,21 @@
+{
+  "benchmark_id": "gate-b-orchestration-v1.1.1",
+  "case_count": 96,
+  "decision_before_first_model_output": true,
+  "decision_input": "semantic_task_only",
+  "evaluation_domain_recorded_after_decision": true,
+  "execution_id": "gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0",
+  "expected_value_visible_to_router": false,
+  "model_output_visible_to_router": false,
+  "route_counts": {
+    "fallback": 0,
+    "general_baseline": 48,
+    "mathematics_specialist": 48
+  },
+  "route_decisions": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0/route-decisions.jsonl",
+  "router": "experiments/gate-b/router-v2/router.py",
+  "router_sha256": "4f74942b2168f188149cb21af083768b5100141be07e920a02d10834e7d2685e",
+  "schema_version": 1,
+  "selected_math_case_ids": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0/mathematics-specialist/selected-case-ids.txt",
+  "timestamp_utc": "2026-08-10T01:42:45.682679Z"
+}
