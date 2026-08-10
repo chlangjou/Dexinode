@@ -1,8 +1,9 @@
 id: gate-b-orchestration-acceptance-v1
-status: frozen-pending-human-review
+status: frozen-approved-for-execution
 final_decision_owner: human
 thresholds_changed_from_initial_proposal: false
 selected_model_execution_before_approval: false
+selected_model_execution_authorized_stage: B3B4-comparable-policy-execution
 
 review_history:
   b1_v1_0_0:
@@ -16,24 +17,36 @@ review_history:
     review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
     accepted_structural_freshness: true
     accepted_router_information_boundary: true
-    blocking_oracle_or_specification_defect: true
+  b1r2_v1_1_1:
+    benchmark_version: gate-b-orchestration-v1.1.1
+    reviewed_commit: af02e88cb190604fbd3a0d2497ade19e2597ae15
+    decision: APPROVED
+    review_record: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
+  b2_static_qualification:
+    decision: PASS
+    review_record: gates/gate-b-orchestration/reviews/b2-static-qualification.md
+    B3B4_authorized: true
 
 target_revision:
   benchmark_version: gate-b-orchestration-v1.1.1
   target_root: experiments/gate-b/benchmark-v1.1.1/
-  prior_router: experiments/gate-b/router-v2/router.py
-  status: frozen-pending-human-review
-  selected_model_execution_authorized: false
-  required_math_corrections:
-    math-14: 136
-    math-37: "161/36"
-  required_coding_semantic_contract_audit: "48/48 prompt-to-evaluator review"
-  required_static_revalidation: true
+  router: experiments/gate-b/router-v2/router.py
+  status: approved
+  selected_model_execution_authorized: true
+  selected_model_execution_scope: B3B4-only-under-frozen-protocol
+  math_oracle_validation: 48/48 PASS
+  coding_evaluator_validation: 48/48 PASS
+  coding_semantic_contract_audit: 48/48 PASS
   completion_record:
     manifest: experiments/gate-b/benchmark-v1.1.1/manifest.yaml
     oracle_validation: experiments/gate-b/benchmark-v1.1.1/oracle-validation.yaml
     semantic_contract_audit: experiments/gate-b/benchmark-v1.1.1/semantic-contract-audit.yaml
-    decision: PENDING HUMAN REVIEW
+    B1R2_human_review: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
+    B2_qualification: gates/gate-b-orchestration/reviews/b2-static-qualification.md
+  non_material_metadata_note: >-
+    The informational case_file strings inside v1.1.1 case YAML retain a
+    v1.1.0 identifier; repository path, manifest/version/hash and runtime lookup
+    identities are correct, so this does not affect execution or scoring.
 
 question: >-
   Does a frozen evidence-based semantic-task router improve structurally fresh
@@ -82,6 +95,7 @@ router_information_boundary:
 primary_policies:
   general_only:
     model: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
     model_calls_per_case: 1
   skill_routed:
     model_calls_per_case: 1
@@ -89,6 +103,8 @@ primary_policies:
       mathematics: Qwen/Qwen2.5-Math-7B-Instruct
       software_coding: Qwen/Qwen2.5-7B-Instruct
       fallback: Qwen/Qwen2.5-7B-Instruct
+    math_revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    general_revision: a09a35458c702b33eeacc393d103063234e8bc28
     coder_checkpoint_used_as_validated_coding_specialist: false
 
 resource_parity:
@@ -106,11 +122,15 @@ resource_parity:
 
 execution_freeze:
   one_orchestrated_selected_model_sequence_required: true
+  route_decisions_persisted_before_first_selected_model_output: true
   result_review_between_general_and_specialist_collection: false
   general_run_all_cases_once: true
   specialist_run_only_frozen_router_selected_cases: true
   treatment_composed_from_frozen_routing_decisions: true
   protocol_changes_after_first_selected_model_output: forbidden
+  performance_early_stop: forbidden
+  genuine_infrastructure_or_methodological_failure_may_stop: true
+  partial_or_invalid_evidence_must_be_preserved: true
 
 primary_orchestration_signal:
   metric: overall_semantic_accuracy_delta_routed_minus_general
