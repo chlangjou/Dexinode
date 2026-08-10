@@ -84,6 +84,27 @@ A complete 48/48 prompt-to-evaluator semantic-contract audit is required rather 
 
 ## Active bounded task — B1R2
 
+Status: **COMPLETE — PENDING HUMAN REVIEW**.
+
+Created immutable `gate-b-orchestration-v1.1.1` under
+`experiments/gate-b/benchmark-v1.1.1/` without modifying v1.0.0, v1.1.0, or
+router-v2. Corrected the two reviewed Math values: `math-14 = 136` and
+`math-37 = 161/36`. Recomputed all 48 Math oracles independently.
+
+Completed the full 48/48 Coding prompt-to-evaluator semantic-contract audit.
+Clarified the five reviewed defects and additional indexing, tie, input-shape,
+edge-case, and traversal wording; evaluator behavior and structural case
+constructions were preserved.
+
+Static validation passed: Math oracle 48/48, Coding evaluator 48/48, Coding
+semantic-contract audit 48/48, adapter 13/13, router-v2 5/5 with target
+benchmark routes 96/96, and token/context 96/96. Maximum rendered input is
+124 tokens; maximum with 1024 generation is 1148; context margin is 2948.
+
+No selected model was executed or inspected. Gate B thresholds, candidate
+revisions, router boundary, and execution sequence remain unchanged. B2 and
+all selected-model execution remain unauthorized; human review is required.
+
 Target benchmark: `gate-b-orchestration-v1.1.1`.
 
 Target root: `experiments/gate-b/benchmark-v1.1.1/`.
