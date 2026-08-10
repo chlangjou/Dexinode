@@ -3,84 +3,84 @@
 - Updated: 2026-08-10
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
-- Gate B final decision record: `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
-- Gate B post-closure retrospective: `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
-- Session handoff: `HANDOFF.md`
-- No new research gate is active yet.
+- FIM / syntax-aware MVSS eligibility: **HOLD**
+- Active experimental Gate: **none**
+- Active work type: **pre-Gate literature / official-metadata / production-evidence research**
+- Decision issue: [#27](https://github.com/chlangjou/Dexinode/issues/27)
+- Research-frame ADR: `docs/decisions/0001-hybrid-resident-agent-research-frame.md`
+- Current Worker brief: `docs/research/hybrid-agent-architecture-worker-brief.md`
 
-## Gate B frozen evidence
+## Closed evidence that must not change
 
-Benchmark: `gate-b-orchestration-v1.1.1`
+Gate A established measurable specialization on a bounded panel. Gate B established that a perfect broad-domain router did not convert that result into material held-out orchestration advantage.
 
-Execution ID: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
-
-Evidence root: `experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
-
-Frozen scores:
+Gate B frozen result:
 
 | Policy | Overall | Mathematics | Coding |
 |---|---:|---:|---:|
 | General-only | 76/96 = 79.17% | 40/48 = 83.33% | 36/48 = 75.00% |
 | Skill-routed | 77/96 = 80.21% | 41/48 = 85.42% | 36/48 = 75.00% |
 
-Paired routed-minus-General:
+Routed-minus-General overall was +1.04 pp with 95% CI [0, +3.125] pp. Post-closure content review found no paired Mathematics content advantage. Gate B remains **FAIL / CLOSED** with the preserved protocol-purity caveat.
 
-- overall: **+1.04 pp**, paired-bootstrap 95% CI **[0.00, +3.125] pp**;
-- Mathematics: **+2.08 pp**, CI **[0.00, +6.25] pp**;
-- Coding: **0.00 pp**;
-- router accuracy: **100%**.
+## Current evidence interpretation
 
-The frozen +10 pp overall and +10 pp Mathematics thresholds were not met. The human owner assigned final **FAIL**.
+| Claim | State |
+|---|---|
+| Bounded specialist existence | `ESTABLISHED` |
+| Structural transfer of specialist advantage | `PARTIALLY SUPPORTED` |
+| Broad standalone dense 1–7B replacement | `CONTRADICTED` |
+| Model complementarity | `ESTABLISHED` |
+| Robust per-task model-success prediction | `PARTIALLY SUPPORTED` |
+| Conditional production routing savings | `ESTABLISHED` |
+| Full-stack absolute-small / edge economics | `OPEN` |
+| Distributed edge-specialist-network viability | `OPEN` |
 
-## Post-closure Mathematics errata and content review
+Detailed baseline: `docs/research/2026-08-10-mvss-routing-evidence-baseline.md`.
 
-After closure, preserved raw outputs were inspected without rerunning a model or patching the frozen benchmark. The retrospective found:
+## FIM HOLD
 
-- `math-23` oracle is wrong: frozen `19/48`; correct posterior **95/242 ~= 0.392562**. Both checkpoints independently computed approximately 0.392, while the frozen exact-rational extractor rejected both decimal answers.
-- `math-11`, `math-12`, and `math-17` are mathematically correct for both checkpoints but were rejected by the frozen structured-output parser.
-- `math-41`, the sole frozen paired Math improvement, is mathematically correct for both checkpoints: General returned `0.75`; Math specialist returned `3/4`. The +1 case is therefore an answer-representation effect, not a mathematical-content advantage.
-- `math-16` and `math-32` are genuine shared arithmetic/self-check failures after both checkpoints selected an appropriate method.
-- `math-36` is interpretation-sensitive; both returned the same general `(1-p)^3 p` solution rather than assuming `p=1/2` from the phrase `fair trials`.
+FIM remains a possible bounded specialist regime, but no Gate design is authorized. The current study does not perform DELULU artifact/licensing/verifier closure or Qwen comparability/runtime supplements.
 
-Under a human mathematical-content classification of these inspected cases, the specialist's frozen +1 Math advantage collapses to **no content-level paired advantage**.
+## Current hypothesis under review
 
-### Protocol-purity caveat
+Evaluate the complete configuration:
 
-The frozen acceptance definition listed a benchmark oracle defect as an INCONCLUSIVE condition. The post-closure `math-23` discovery therefore creates a literal-protocol caveat and is explicitly preserved in the final decision and acceptance record.
+`deterministic local software + Local Resident Model + memory/context orchestration + tools/verifiers + optional Local Specialist + Remote Model escalation + human review`
 
-It is non-differential for the paired result and cannot move the specialist toward the +10 pp thresholds; the content-level retrospective moves the observed specialist advantage from +1 case to zero. The final human Gate B label remains **FAIL / CLOSED** unless explicitly revised by the human owner.
+The core unknowns are:
 
-## Architectural interpretation
+1. **MVRC:** can a small local Resident Core reliably own task state, context compilation, tools, recovery, and escalation?
+2. **MVSS:** do at least two bounded absolute-small agent-specialized capabilities have credible end-to-end value?
+3. **Memory/context:** can a large workspace be compiled into a reliable 8K–32K working set without hiding intelligence in a remote large-model manager?
+4. **Harness/loop:** which workflows reduce required model capability, and which only add retry, latency, judge, or overfit costs?
+5. **Hybrid value:** does the local layer materially improve privacy, offline resilience, cost, latency, auditability, or active human time?
 
-Gate A and Gate B together imply:
+## Non-frozen context assumptions
 
-1. specialization can create large capability divergence on one measured distribution;
-2. a checkpoint label or broad domain such as `Mathematics` is not a sufficient skill identity;
-3. end-to-end exact-answer scores confound task comprehension, domain method selection, computation, self-review and answer-contract compliance;
-4. capability entries should be finer-grained and validated across multiple structurally independent panels;
-5. routing should estimate expected utility by task subtype rather than assume a broad specialist is uniformly superior.
+- Local Specialist packet: target 8K–16K; 32K provisional ceiling.
+- Resident Core invocation: target 16K–32K.
+- 64K+ input: normally retrieve, decompose, or summarize.
+- Durable memory and repository history stay outside model context with provenance.
 
-## Post-Gate hypothesis: General meta-capabilities
+## Authorized next action
 
-A plausible but **not causally established** explanation for the Gate A / Gate B contrast is that the General checkpoint may retain stronger cross-domain meta-capabilities such as natural-language comprehension, specification grounding, ambiguity resolution, answer selection and self-checking, while specialist training primarily strengthens domain solution patterns.
+Run the Hybrid Agent Architecture Worker brief and produce four auditable documents:
 
-Current evidence does not yet prove that General is better at self-review: both checkpoints share arithmetic verification failures. The hypothesis should therefore be tested by independently scoring comprehension, method selection, derivation/computation, verification and answer representation.
+1. `hybrid-agent-evidence-map.md`
+2. `agent-specialized-small-model-landscape.md`
+3. `dexinode-hybrid-architecture-hypothesis.md`
+4. `hybrid-agent-research-decision.md`
 
-## Candidate next research design
+The decision must be exactly one of:
 
-Before any new GPU/model run, define a bounded gate that separates:
+- `PROCEED TO BOUNDED ARCHITECTURE SPEC`
+- `HOLD`
+- `PIVOT TO LOCAL CONTROL PLANE`
+- `STOP / NEGATIVE`
 
-1. task/specification comprehension;
-2. domain-method selection;
-3. derivation/computation or implementation correctness;
-4. final verification/self-review;
-5. answer representation / handoff-contract compliance;
-6. generalization across independent task families.
+The Worker must propose only one next bounded question and stop for human review.
 
-A later or parallel efficiency gate can then test whether a substantially smaller specialist retains near-General quality on a validated narrow skill while materially reducing VRAM, latency, energy, concurrency or deployment cost.
+## Authorization boundary
 
-## Authorization
-
-**Gate B v1 is closed. No additional Gate B selected-model execution is authorized.**
-
-The next step is research-design work only until a new gate, benchmark and acceptance criteria are explicitly frozen.
+No model downloads, inference/GPU work, benchmark creation/freeze, acceptance thresholds, new Gate, Gate A/B evidence changes, FIM HOLD resolution, DELULU continuation, routing-economics design, or token/reputation/settlement work is authorized.

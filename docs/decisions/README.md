@@ -59,3 +59,7 @@ Example: 0001-first-prototype-domain.md.
 ## Working rule
 
 Do not create an ADR for every idea. Use one when a choice changes future work, closes a meaningful alternative, or needs an explicit condition for reconsideration.
+
+## Records
+
+- [0001 — Use a hybrid resident-agent frame for the next research stage](0001-hybrid-resident-agent-research-frame.md) — Accepted, 2026-08-10; decision issue [#27](https://github.com/chlangjou/Dexinode/issues/27).

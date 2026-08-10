@@ -67,17 +67,39 @@ If an Agent has already completed work from stale state, push that work to a dis
 
 ## Research loop
 
-1. Human discussion identifies a falsifiable question or next bounded decision.
-2. The question becomes a Gate specification with frozen acceptance criteria.
-3. The accepted active state is recorded in `main` through `status/current.md` and the relevant task contract.
-4. An execution branch is created from the accepted base.
-5. Before substantive work, the Agent fetches relevant remote refs and checks that the intended base has not changed unexpectedly.
-6. The Agent reads the repository state and performs one bounded task.
-7. The Agent commits and pushes code, evidence, metrics, and its proposed status handoff to its own branch.
-8. Human/planning review evaluates the evidence without writing directly to the Agent branch.
-9. The integration layer creates or updates `integration/<task>`, preserves review records, reconciles status/task state, and opens the merge candidate.
-10. After integration review, the accepted state is merged to `main`.
-11. Only then is the next bounded execution branch created.
+Not every uncertainty should become an experiment Gate immediately. Dexinode uses two explicit stages.
+
+### Pre-Gate research
+
+1. Human discussion identifies an upstream uncertainty or material research-frame decision.
+2. A decision issue is opened before the related durable-document PR. It records context, the working decision, consequences, and revisit conditions.
+3. A bounded literature, official-metadata, or production-evidence task is defined. It must state its evidence policy, exclusions, deliverables, decision vocabulary, and stop point.
+4. The Agent performs only the authorized research. Literature-first work must not silently create a benchmark, acceptance threshold, selected-model run, or Gate.
+5. Human review chooses whether to proceed to a bounded architecture specification, hold, pivot, stop, or formulate one falsifiable Gate question.
+
+### Experimental Gate
+
+1. The selected question becomes a Gate specification with frozen acceptance criteria.
+2. The accepted active state is recorded in `main` through `status/current.md` and the relevant task contract.
+3. An execution branch is created from the accepted base.
+4. Before substantive work, the Agent fetches relevant remote refs and checks that the intended base has not changed unexpectedly.
+5. The Agent reads the repository state and performs one bounded task.
+6. The Agent commits and pushes code, evidence, metrics, and its proposed status handoff to its own branch.
+7. Human/planning review evaluates the evidence without writing directly to the Agent branch.
+8. The integration layer creates or updates `integration/<task>`, preserves review records, reconciles status/task state, and opens the merge candidate.
+9. After integration review, the accepted state is merged to `main`.
+10. Only then is the next bounded execution branch created.
+
+## Durable publication order
+
+For a material architecture, roadmap, security, or research-direction decision:
+
+1. open the neutral decision issue with the applicable labels;
+2. link that issue from the ADR and durable-document PR;
+3. publish the focused branch and draft PR;
+4. merge only after human review.
+
+Do not make the durable-doc commit first and create the decision record afterward.
 
 ## Divergence recovery
 

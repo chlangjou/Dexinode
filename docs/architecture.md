@@ -2,7 +2,90 @@
 
 This document records a design space, not a frozen system architecture.
 
-## Minimal interaction
+The current research frame is recorded in [ADR 0001](decisions/0001-hybrid-resident-agent-research-frame.md). It does not assert that the architecture is production-viable.
+
+## Current candidate: Hybrid Resident-Agent configuration
+
+The nearest-term system boundary is local-first, not local-only:
+
+`deterministic local software + Local Resident Model + memory/context orchestration + tools/verifiers + optional Local Specialist + Remote Model escalation + human review`
+
+The research unit is the complete configuration. A model score that omits the memory manager, context policy, retries, verifier, fallback, and human review is incomplete evidence.
+
+### Responsibility hypothesis
+
+| Component | Candidate responsibility | Constraint / uncertainty |
+|---|---|---|
+| Deterministic local software | storage, indexes, versions, credentials, permissions, tool execution, pseudonymization maps, budgets, audit log | engineering feasibility is high, but sensitive-entity detection and policy completeness are not automatic |
+| Local Resident Model | clarify intent, interpret task state, propose decomposition/context expansion, select bounded tools, decide clarification/refusal/escalation | MVRC is open; function calling alone does not establish failure recovery or multi-step integration |
+| Local Specialist | execute a narrow, explicit, locally verifiable contract | MVSS and structural transfer are task-conditioned; labels and active parameters are not sufficient evidence |
+| Remote Model | perform a task-scoped difficult subtask or produce a candidate artifact | receives minimum context; must not own durable memory, credentials, or unverified side effects |
+| Human reviewer | approve ambiguity, sensitive mappings, high-impact actions, and research decisions | active human time is part of system cost, not a free verifier |
+
+### Local ownership and trust boundary
+
+The local control plane should retain:
+
+- the original workspace and long-term memory;
+- current task state, provenance, and evidence;
+- pseudonymization/restoration mappings;
+- tool credentials, permissions, and side-effect policy;
+- loop budget, stopping conditions, and failure history;
+- remote escalation policy and final artifact integration.
+
+A Remote Model should receive only the context packet required for one subtask. If every material step still requires a Remote Model, the Local Resident Model's practical value must be treated as unproven rather than assumed.
+
+### Memory and context lifecycle
+
+1. Store raw source, versions, task state, decisions, test results, and failure records outside model context.
+2. Retrieve candidate evidence for the current contract.
+3. Reconcile updates, conflicts, stale facts, and provenance.
+4. Compile a bounded context packet with goal, constraints, relevant source, interfaces, prior decisions, and verification method.
+5. Execute locally or escalate the packet.
+6. Verify the returned artifact and write back only confirmed state.
+
+The v0.1 effective-context ranges are working assumptions, not frozen limits:
+
+| Invocation | Target | Provisional handling beyond target |
+|---|---:|---|
+| Local Specialist | 8K–16K tokens | 32K provisional ceiling |
+| Local Resident Model | 16K–32K tokens | 64K+ normally requires retrieval, decomposition, or summarization |
+| Repository/history/long-term memory | outside model context | local indexed storage with source/version provenance |
+
+Semantic boundaries—module, API, data structure, test, or workflow state—should drive decomposition. Fixed token slicing alone is not sufficient.
+
+### Local pseudonymization and restoration
+
+This is treated as an engineerable safety component rather than a core model-scale hypothesis:
+
+1. a local model proposes sensitive or equivalent-entity candidates;
+2. a human approves the mappings when required;
+3. deterministic code applies stable placeholders and keeps the map local;
+4. placeholder integrity is checked before restoration;
+5. replacement, approval, failure, and restoration are audited.
+
+This can guarantee round-trip behavior for approved mappings. It cannot guarantee complete sensitive-data discovery, immunity to contextual re-identification, or zero semantic loss.
+
+### Candidate execution path
+
+1. Clarify the user outcome, authority, quality floor, and failure cost.
+2. Load trusted task/project state from local memory.
+3. Compile a bounded context packet with provenance.
+4. Select deterministic tooling, Local Resident Model, or a registered Local Specialist.
+5. Clarify, refuse, or escalate when the packet or capability evidence is insufficient.
+6. Send only a pseudonymized, task-scoped packet to a Remote Model when policy permits.
+7. Validate schema, placeholders, tests, invariants, and side effects locally.
+8. Integrate accepted artifacts and record evidence; do not persist unverified model summaries as fact.
+
+## Current evidence boundary
+
+- Gate A supports measurable specialization as a bounded existence claim.
+- Gate B contradicts broad-domain labels as sufficient routing contracts.
+- FIM / syntax-aware MVSS eligibility is `HOLD`.
+- MVRC, automatic context compilation, agent-specialized absolute-small capability, and full hybrid user value remain open.
+- No runtime prototype, benchmark, or experimental Gate is currently authorized.
+
+## Long-term network interaction
 
 1. A provider publishes a signed skill declaration.
 2. A router discovers candidates that satisfy the request policy.
@@ -119,9 +202,9 @@ Each state needs an observable transition and a bounded recovery action.
 - transparent protocol evolution;
 - no mandatory settlement provider.
 
-## First prototype boundary
+## Later network prototype boundary
 
-Keep the first runtime intentionally small:
+If the Hybrid Resident-Agent evidence later supports a bounded architecture specification, a network prototype may remain intentionally small:
 
 - three specialist services run by at least two operators or trust boundaries;
 - one router;
@@ -131,4 +214,4 @@ Keep the first runtime intentionally small:
 - a replayable event log;
 - no token, blockchain, or global reputation.
 
-The target is to learn whether explicit handoffs and verification improve outcomes enough to justify a broader protocol.
+This is not the current authorized task. The current target is to determine whether the local control plane, Resident Core, bounded specialists, and remote escalation can be assigned credible responsibilities without hiding all difficult reasoning in a remote large model.

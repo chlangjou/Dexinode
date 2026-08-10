@@ -2,7 +2,7 @@
 
 > Working name for a decentralized AI skill-weaving network.
 
-Dexinode is an exploratory project about enabling specialized models, agents, and compute nodes to discover one another, negotiate explicit handoffs, perform verifiable work, and build portable reputation without depending on a single AI provider.
+Dexinode is an exploratory project about whether a trusted local agent can coordinate resident models, bounded specialists, remote models, tools, and verifiers through explicit handoffs—and whether that architecture can later support independently operated skill nodes without depending on one AI provider.
 
 This repository is currently a **feasibility and architecture notebook**, not a finished protocol or product.
 
@@ -22,7 +22,7 @@ Dexinode asks whether those resources can cooperate through an open network:
 
 ## Working hypothesis
 
-The future role of an agent may be less about wrapping one model and more about coordinating multiple specialized models and agents. If specialization reduces drift and repeated dead ends, the coordination layer becomes a protocol for discovery, delegation, verification, recovery, and accountability.
+The future role of an agent may be less about wrapping one model and more about owning local state, compiling bounded context, controlling tools, and coordinating models with different capability and trust boundaries. A decentralized specialist network is one possible later extension, not an assumed prerequisite.
 
 This is a hypothesis to test—not a conclusion.
 
@@ -33,21 +33,30 @@ This is a hypothesis to test—not a conclusion.
 - [Architecture](docs/architecture.md)
 - [Open questions](docs/open-questions.md)
 - [Roadmap](docs/roadmap.md)
+- [Current evidence baseline](docs/research/2026-08-10-mvss-routing-evidence-baseline.md)
+- [Hybrid Agent Architecture Worker brief](docs/research/hybrid-agent-architecture-worker-brief.md)
 - [Decision records](docs/decisions/README.md)
+- [Current status](status/current.md)
 
 ## Current status
 
 - Project name: **Dexinode** (working name)
-- Stage: problem framing and feasibility research
-- Repository visibility: private
+- Stage: hybrid resident-agent feasibility research
+- Repository visibility: public
 - License: undecided
 - Protocol, economics, governance, and threat model: under exploration
+- Gate A — Specialist Validation: **PASS / CLOSED**
+- Gate B — Orchestration Advantage: **FAIL / CLOSED**
+- FIM / syntax-aware MVSS eligibility: **HOLD**
+- Active experiment Gate: **none**
 
 ## Near-term objective
 
-Define the smallest falsifiable prototype that can answer one question:
+Use primary research, official model metadata, and production evidence to answer one upstream question before specifying another experiment:
 
-> Can independently operated specialist nodes complete a multi-step task more reliably or efficiently than a single general model, while keeping handoffs observable and verifiable?
+> Is there a credible Hybrid Resident-Agent architecture region—local control plane, Local Resident Model, memory/context orchestration, tools/verifiers, optional Local Specialists, and controlled Remote Model escalation—worth turning into a bounded architecture specification?
+
+The current work is literature- and metadata-first. It does not authorize model downloads, inference, a new benchmark, or a new Gate.
 
 ## Principles
 
