@@ -1,5 +1,5 @@
 id: gate-b-orchestration-acceptance-v1
-status: revision-required-pending-human-review
+status: frozen-pending-human-review
 final_decision_owner: human
 thresholds_changed_from_initial_proposal: false
 selected_model_execution_before_approval: false
@@ -22,13 +22,18 @@ target_revision:
   benchmark_version: gate-b-orchestration-v1.1.1
   target_root: experiments/gate-b/benchmark-v1.1.1/
   prior_router: experiments/gate-b/router-v2/router.py
-  status: remediation-required-before-freeze
+  status: frozen-pending-human-review
   selected_model_execution_authorized: false
   required_math_corrections:
     math-14: 136
     math-37: "161/36"
   required_coding_semantic_contract_audit: "48/48 prompt-to-evaluator review"
   required_static_revalidation: true
+  completion_record:
+    manifest: experiments/gate-b/benchmark-v1.1.1/manifest.yaml
+    oracle_validation: experiments/gate-b/benchmark-v1.1.1/oracle-validation.yaml
+    semantic_contract_audit: experiments/gate-b/benchmark-v1.1.1/semantic-contract-audit.yaml
+    decision: PENDING HUMAN REVIEW
 
 question: >-
   Does a frozen evidence-based semantic-task router improve structurally fresh

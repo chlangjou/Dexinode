@@ -31,6 +31,22 @@ Gate B decision: **PENDING**.
 
 **No Gate B selected-model execution is authorized.**
 
+## B1R2 completion
+
+Commit artifacts freeze `gate-b-orchestration-v1.1.1` under
+`experiments/gate-b/benchmark-v1.1.1/`. v1.0.0, v1.1.0, and router-v2 remain
+unchanged. The two Math oracle corrections are recorded as `math-14 = 136` and
+`math-37 = 161/36`; all 48 Math cases pass independent recomputation.
+
+All 48 Coding semantic tasks pass the prompt-to-evaluator audit. The five
+reviewed specification defects were clarified, with evaluator behavior and
+structural constructions preserved. Static validation passes for Coding
+evaluators (48/48), adapter (13/13), router-v2 (5/5; target routes 96/96), and
+token/context (96/96; max input 124; margin 2948).
+
+No selected model was executed or inspected. Human approval is required before
+B2 or any Gate B model execution. Do not push until instructed.
+
 ## Preserved history
 
 ### B1 v1.0.0
@@ -77,9 +93,9 @@ Independent human review found:
 
 All 48 Coding cases require a prompt-to-evaluator semantic-contract audit before any model output is observed.
 
-## Active B1R2 target
+## Preserved B1R2 target and evidence
 
-Create new immutable revision:
+The immutable revision is:
 
 - benchmark: `gate-b-orchestration-v1.1.1`;
 - root: `experiments/gate-b/benchmark-v1.1.1/`.

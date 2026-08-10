@@ -1,0 +1,147 @@
+schema_version: 1
+benchmark_version: gate-b-orchestration-v1.1.1
+revision:
+  inherited_structural_audit: experiments/gate-b/benchmark-v1.1.0/freshness-audit.yaml
+  structural_case_constructions_unchanged: true
+  coding_wording_only_remediation: true
+  router_revision: experiments/gate-b/router-v2/
+comparison_scope:
+  definitions_only: true
+  compared_gate_a_files: [experiments/gate-a/benchmark-v1.1.0/cases/math.yaml, experiments/gate-a/benchmark-v1.2.2/cases/math.yaml, experiments/gate-a/benchmark-v1.1.0/cases/coding.yaml, experiments/gate-a/benchmark-v1.2.2/cases/coding.yaml]
+  gate_a_per_case_results_read: false
+  gate_a_raw_outputs_read: false
+exact_overlap:
+  prompt_text:
+    current_field: semantic_task
+    gate_a_field: prompt
+    count: 0
+    status: PASS
+    interpretation: "No v1.1.0 semantic task is an exact Gate A prompt string."
+  expected_oracle:
+    comparison_key: "expected type plus normalized expected value"
+    gate_a_v1_1_0_count: 8
+    gate_a_v1_2_2_count: 13
+    union_count: 21
+    denominator: 48
+    status: PASS
+    interpretation: "These are repeated scalar values such as 8 or 10, not reused answer-bearing case instances; no current prompt/oracle pair is copied."
+  numeric_constants:
+    method: "Deterministic comparison of decimal numeric tokens in each Math semantic task against Gate A Math definitions."
+    cases_with_any_shared_token: 34
+    denominator: 48
+    status: PASS
+    interpretation: "Small generic numerals occur in unrelated fresh constructions; shared tokens do not establish structural reuse. Case-level structural review below is authoritative."
+  coding_semantic_task_text_overlap: 0
+  coding_entrypoint_overlap: 0
+  coding_entrypoint_method: "Exact comparison of all 48 current evaluator entrypoint names against Gate A v1.1.0 and v1.2.2 evaluator entrypoint names."
+  external_copying: false
+  contamination_absence_claimed: false
+manual_structural_review:
+  method: "A reviewer compared each fresh definition with Gate A Math/Coding case skeletons, checking construction, required reasoning path, and role of constants. PASS means not a one-to-one positional mirror, constant substitution, or near-isomorphic instance."
+  math_result: 48/48 PASS
+  coding_result: 48/48 PASS
+  positional_mirroring: PASS
+  positional_statement: "The Math order is grouped by new construction families (numeric representation/statistics/probability/geometry/advanced discrete analysis), not the Gate A order; the Coding order follows a separate new API inventory."
+math_cases:
+  - {case_id: math-01, broad_skill_family: positional_number_representation, not_simple_transformation_of_gate_a: true, review_basis: "Base-four interpretation is a representation task, not Gate A arithmetic or a changed-constant equation."}
+  - {case_id: math-02, broad_skill_family: periodic_decimal_reasoning, not_simple_transformation_of_gate_a: true, review_basis: "Repeating-decimal conversion uses an infinite-period identity, not a Gate A fraction operation with new operands."}
+  - {case_id: math-03, broad_skill_family: analog_clock_geometry, not_simple_transformation_of_gate_a: true, review_basis: "Clock-hand angular velocities are a new physical geometry construction."}
+  - {case_id: math-04, broad_skill_family: complement_of_union, not_simple_transformation_of_gate_a: true, review_basis: "A complement over a finite interval is not a Gate A divisibility-count substitution."}
+  - {case_id: math-05, broad_skill_family: weighted_statistics, not_simple_transformation_of_gate_a: true, review_basis: "Weighted mean combines three observations and weights; no Gate A case has this construction."}
+  - {case_id: math-06, broad_skill_family: unit_conversion_rate, not_simple_transformation_of_gate_a: true, review_basis: "A decimal unit-rate reduction is not a substituted fraction addition/division case."}
+  - {case_id: math-07, broad_skill_family: decimal_digit_aggregation, not_simple_transformation_of_gate_a: true, review_basis: "Digit summation changes the operation from Gate A arithmetic expressions and divisibility tests."}
+  - {case_id: math-08, broad_skill_family: percentage_growth, not_simple_transformation_of_gate_a: true, review_basis: "Percentage growth is a one-stage multiplicative model, not a Gate A equation with changed coefficients."}
+  - {case_id: math-09, broad_skill_family: exterior_angle_geometry, not_simple_transformation_of_gate_a: true, review_basis: "Exterior-angle inference differs from Gate A triangle area and coordinate geometry."}
+  - {case_id: math-10, broad_skill_family: consecutive_square_identity, not_simple_transformation_of_gate_a: true, review_basis: "A difference-of-squares inverse question is a new construction, not a substituted quadratic root task."}
+  - {case_id: math-11, broad_skill_family: complex_algebra, not_simple_transformation_of_gate_a: true, review_basis: "Complex multiplication with two reported components is absent from Gate A case skeletons."}
+  - {case_id: math-12, broad_skill_family: robust_statistics, not_simple_transformation_of_gate_a: true, review_basis: "Median absolute deviation requires an ordered deviation distribution, not a Gate A mean/sequence case."}
+  - {case_id: math-13, broad_skill_family: exact_binomial_event, not_simple_transformation_of_gate_a: true, review_basis: "Exactly-one outcome across three dice is a product-event construction, not the Gate A urn/dice skeleton."}
+  - {case_id: math-14, broad_skill_family: distinct_digit_enumeration, not_simple_transformation_of_gate_a: true, review_basis: "A positional last-digit constraint with distinctness differs from Gate A string/counting constructions."}
+  - {case_id: math-15, broad_skill_family: discrete_expected_value, not_simple_transformation_of_gate_a: true, review_basis: "Equal-payout spinner expectation is a new random-variable construction."}
+  - {case_id: math-16, broad_skill_family: three_set_inclusion_exclusion, not_simple_transformation_of_gate_a: true, review_basis: "Three overlapping language sets require union accounting, not Gate A pair/urn arrangements."}
+  - {case_id: math-17, broad_skill_family: absolute_value_case_split, not_simple_transformation_of_gate_a: true, review_basis: "Two-branch absolute-value solution with ordered object output is not a Gate A linear-system mirror."}
+  - {case_id: math-18, broad_skill_family: complex_norm, not_simple_transformation_of_gate_a: true, review_basis: "Complex modulus is a norm computation rather than a changed Pythagorean geometry prompt."}
+  - {case_id: math-19, broad_skill_family: matrix_trace_invariant, not_simple_transformation_of_gate_a: true, review_basis: "Trace of an upper-triangular matrix is an invariant query, not Gate A matrix multiplication."}
+  - {case_id: math-20, broad_skill_family: polygon_angle_sum, not_simple_transformation_of_gate_a: true, review_basis: "Interior-angle sum uses a polygon invariant, not Gate A polygon triangulation or diagonal count."}
+  - {case_id: math-21, broad_skill_family: reciprocal_optimization, not_simple_transformation_of_gate_a: true, review_basis: "Reciprocal AM-GM minimization differs from Gate A finite-domain quadratic optimization."}
+  - {case_id: math-22, broad_skill_family: pigeonhole_principle, not_simple_transformation_of_gate_a: true, review_basis: "Guarantee reasoning by pigeonhole is absent from Gate A case constructions."}
+  - {case_id: math-23, broad_skill_family: Bayesian_conditioning, not_simple_transformation_of_gate_a: true, review_basis: "Bayes with prevalence/sensitivity/false-positive rates is not a changed-card or urn probability."}
+  - {case_id: math-24, broad_skill_family: harmonic_mean, not_simple_transformation_of_gate_a: true, review_basis: "Harmonic aggregation is a new mean operation, not a Gate A ratio substitution."}
+  - {case_id: math-25, broad_skill_family: Horner_polynomial_evaluation, not_simple_transformation_of_gate_a: true, review_basis: "Direct polynomial evaluation differs from Gate A remainder/identity tasks."}
+  - {case_id: math-26, broad_skill_family: nonuniform_binomial_probability, not_simple_transformation_of_gate_a: true, review_basis: "Five Bernoulli trials with p=1/3 use a new parameterized event composition, not Gate A dice/urn cases."}
+  - {case_id: math-27, broad_skill_family: finite_geometric_series, not_simple_transformation_of_gate_a: true, review_basis: "Finite geometric accumulation is not a substituted arithmetic sequence or recurrence."}
+  - {case_id: math-28, broad_skill_family: angle_bisector_theorem, not_simple_transformation_of_gate_a: true, review_basis: "Side division by an angle bisector is a proportional geometry construction absent from Gate A."}
+  - {case_id: math-29, broad_skill_family: distance_between_parallel_lines, not_simple_transformation_of_gate_a: true, review_basis: "Normal-form line distance differs from Gate A line-region counting and coordinate areas."}
+  - {case_id: math-30, broad_skill_family: positive_lattice_circle_points, not_simple_transformation_of_gate_a: true, review_basis: "Positive solutions on a circle are not Gate A lattice-point area or quadratic-residue tasks."}
+  - {case_id: math-31, broad_skill_family: matrix_rank, not_simple_transformation_of_gate_a: true, review_basis: "Row-reduction rank is an invariant query, not Gate A matrix multiplication or polynomial coefficient extraction."}
+  - {case_id: math-32, broad_skill_family: product_of_independent_expectations, not_simple_transformation_of_gate_a: true, review_basis: "Independence factorization of a product expectation is a new probability composition."}
+  - {case_id: math-33, broad_skill_family: cube_surface_measure, not_simple_transformation_of_gate_a: true, review_basis: "Surface area of a cube is not a changed-dimension triangle/trapezoid/ellipse formula."}
+  - {case_id: math-34, broad_skill_family: geometric_progression_inverse, not_simple_transformation_of_gate_a: true, review_basis: "Recovering a ratio from separated terms is not the Gate A explicit sequence/recurrence skeleton."}
+  - {case_id: math-35, broad_skill_family: exact_fixed_point_permutations, not_simple_transformation_of_gate_a: true, review_basis: "Exactly-one-fixed-point counting differs from Gate A total derangements and repeated-letter arrangements."}
+  - {case_id: math-36, broad_skill_family: geometric_waiting_time, not_simple_transformation_of_gate_a: true, review_basis: "First-success timing is a sequential probability path, not a Gate A static selection event."}
+  - {case_id: math-37, broad_skill_family: order_statistic_expectation, not_simple_transformation_of_gate_a: true, review_basis: "Expected maximum of two dice uses outcome multiplicities and an order statistic."}
+  - {case_id: math-38, broad_skill_family: frustum_volume, not_simple_transformation_of_gate_a: true, review_basis: "Frustum volume combines two radii and a height; it is not a swapped-dimension planar area."}
+  - {case_id: math-39, broad_skill_family: Cayley_tree_enumeration, not_simple_transformation_of_gate_a: true, review_basis: "Complete-graph spanning-tree enumeration is a graph theorem, not Gate A topological ordering or cycle coloring."}
+  - {case_id: math-40, broad_skill_family: nonnegative_Diophantine_count, not_simple_transformation_of_gate_a: true, review_basis: "Counting all nonnegative pairs on one line is not a bounded composition with caps or Gate A recurrence."}
+  - {case_id: math-41, broad_skill_family: expected_value_with_loss, not_simple_transformation_of_gate_a: true, review_basis: "A signed payout expectation is not a substituted card or dice event."}
+  - {case_id: math-42, broad_skill_family: coordinate_tetrahedron_volume, not_simple_transformation_of_gate_a: true, review_basis: "Three-axis intercept volume is a 3D simplex construction, not Gate A planar coordinate area."}
+  - {case_id: math-43, broad_skill_family: rational_inequality_sign_chart, not_simple_transformation_of_gate_a: true, review_basis: "Counting integer points across a pole and zero differs from Gate A inequality optimization."}
+  - {case_id: math-44, broad_skill_family: multinomial_word_permutation, not_simple_transformation_of_gate_a: true, review_basis: "Four repeated copies of two letters in MISSISSIPPI form a materially different multiset than Gate A's five-letter toy."}
+  - {case_id: math-45, broad_skill_family: complement_of_repeated_trials, not_simple_transformation_of_gate_a: true, review_basis: "At-least-one success by complement is a repeated-trial event, not a Gate A conditional-card or urn draw."}
+  - {case_id: math-46, broad_skill_family: annulus_measure, not_simple_transformation_of_gate_a: true, review_basis: "Difference of concentric disk areas is a new planar construction, not Gate A circle chord/sector geometry."}
+  - {case_id: math-47, broad_skill_family: translated_cube_root, not_simple_transformation_of_gate_a: true, review_basis: "A translated cubic equation is not a changed-coefficient linear/quadratic equation."}
+  - {case_id: math-48, broad_skill_family: paired_alternating_sum, not_simple_transformation_of_gate_a: true, review_basis: "Pair cancellation over an alternating range is not any Gate A finite sum of powers or recurrence."}
+coding_cases:
+  review_basis: "All 48 entrypoints and semantic task constructions are newly authored for this revision; no Gate A entrypoint or prompt text is copied. The audit checked that the new list is not a positional copy of the prior array/string/grid/graph inventory."
+  case_count: 48
+  status: PASS
+  case_records:
+    - {case_id: code-01, broad_skill_family: integer_rounding, not_simple_transformation_of_gate_a: true, review_basis: "Rounding-to-step API is absent from Gate A."}
+    - {case_id: code-02, broad_skill_family: hex_validation, not_simple_transformation_of_gate_a: true, review_basis: "Fixed-format color validation is absent from Gate A."}
+    - {case_id: code-03, broad_skill_family: spreadsheet_labels, not_simple_transformation_of_gate_a: true, review_basis: "Bijective column naming is a new representation task."}
+    - {case_id: code-04, broad_skill_family: alternating_aggregation, not_simple_transformation_of_gate_a: true, review_basis: "Alternating positional arithmetic is not prefix accumulation."}
+    - {case_id: code-05, broad_skill_family: transition_index_scan, not_simple_transformation_of_gate_a: true, review_basis: "Change-index reporting differs from run-length decoding/counting."}
+    - {case_id: code-06, broad_skill_family: one_level_flattening, not_simple_transformation_of_gate_a: true, review_basis: "One-level concatenation has no Gate A positional mirror."}
+    - {case_id: code-07, broad_skill_family: padded_pairing, not_simple_transformation_of_gate_a: true, review_basis: "Unequal-list padding is a new pairwise transformation."}
+    - {case_id: code-08, broad_skill_family: sign_classification, not_simple_transformation_of_gate_a: true, review_basis: "Three-way numeric sign labeling is not boolean parsing."}
+    - {case_id: code-09, broad_skill_family: time_decomposition, not_simple_transformation_of_gate_a: true, review_basis: "Structured quotient/remainder time decomposition is not Gate A duration formatting."}
+    - {case_id: code-10, broad_skill_family: order_statistic, not_simple_transformation_of_gate_a: true, review_basis: "A scalar middle-of-three API is absent from Gate A."}
+    - {case_id: code-11, broad_skill_family: line_field_parsing, not_simple_transformation_of_gate_a: true, review_basis: "Last-write key/value line parsing is a new parser composition."}
+    - {case_id: code-12, broad_skill_family: prefix_distinctness, not_simple_transformation_of_gate_a: true, review_basis: "Per-prefix cardinality reporting is not Gate A stable deduplication output."}
+    - {case_id: code-13, broad_skill_family: ragged_shape_profile, not_simple_transformation_of_gate_a: true, review_basis: "Shape-only profiling is not matrix transpose."}
+    - {case_id: code-14, broad_skill_family: index_permutation, not_simple_transformation_of_gate_a: true, review_basis: "Explicit index application is a different array contract from Gate A sorting/merging."}
+    - {case_id: code-15, broad_skill_family: alternating_comparison_scan, not_simple_transformation_of_gate_a: true, review_basis: "Alternating rise/fall run detection is absent from Gate A."}
+    - {case_id: code-16, broad_skill_family: Gregorian_calendar, not_simple_transformation_of_gate_a: true, review_basis: "Calendar arithmetic is absent from Gate A interval algorithms."}
+    - {case_id: code-17, broad_skill_family: last_event_compaction, not_simple_transformation_of_gate_a: true, review_basis: "Last-event retention by label is not interval merging."}
+    - {case_id: code-18, broad_skill_family: weighted_token_parsing, not_simple_transformation_of_gate_a: true, review_basis: "Delimited weighted-name parsing is not RLE decoding."}
+    - {case_id: code-19, broad_skill_family: local_extremum_scan, not_simple_transformation_of_gate_a: true, review_basis: "First strict local peak differs from sorted-list lower bound."}
+    - {case_id: code-20, broad_skill_family: grouped_records, not_simple_transformation_of_gate_a: true, review_basis: "Stable grouping by month is a new record aggregation."}
+    - {case_id: code-21, broad_skill_family: diagonal_grid_words, not_simple_transformation_of_gate_a: true, review_basis: "Diagonal word enumeration is not Gate A spiral/grid path behavior."}
+    - {case_id: code-22, broad_skill_family: prefix_suffix_balance, not_simple_transformation_of_gate_a: true, review_basis: "Balance-index detection is not a subarray-target count."}
+    - {case_id: code-23, broad_skill_family: cyclic_neighbor_difference, not_simple_transformation_of_gate_a: true, review_basis: "Circular adjacent differences are absent from Gate A."}
+    - {case_id: code-24, broad_skill_family: adjacent_token_collapse, not_simple_transformation_of_gate_a: true, review_basis: "Run collapse without counts is distinct from Gate A encoders."}
+    - {case_id: code-25, broad_skill_family: Roman_numeral_value, not_simple_transformation_of_gate_a: true, review_basis: "Subtractive Roman parsing is absent from Gate A."}
+    - {case_id: code-26, broad_skill_family: stable_sign_partition, not_simple_transformation_of_gate_a: true, review_basis: "Stable sign partition has no Gate A equivalent."}
+    - {case_id: code-27, broad_skill_family: counted_pair_expansion, not_simple_transformation_of_gate_a: true, review_basis: "Value/count list expansion is not a Gate A named RLE decoder."}
+    - {case_id: code-28, broad_skill_family: parity_balance_range, not_simple_transformation_of_gate_a: true, review_basis: "Equal parity balance is not sum-target subarray counting."}
+    - {case_id: code-29, broad_skill_family: transitive_ancestor_closure, not_simple_transformation_of_gate_a: true, review_basis: "Ancestor closure differs from Gate A topological ordering."}
+    - {case_id: code-30, broad_skill_family: absolute_path_normalization, not_simple_transformation_of_gate_a: true, review_basis: "Path component normalization is a new string/path contract."}
+    - {case_id: code-31, broad_skill_family: latest_record_selection, not_simple_transformation_of_gate_a: true, review_basis: "Latest-by-key records are not Gate A interval overlap/resource scheduling."}
+    - {case_id: code-32, broad_skill_family: tree_level_width, not_simple_transformation_of_gate_a: true, review_basis: "Breadth width profile is distinct from Gate A tree view/diameter cases."}
+    - {case_id: code-33, broad_skill_family: bipartite_coloring, not_simple_transformation_of_gate_a: true, review_basis: "Two-color feasibility is not Gate A topological/connected-component output."}
+    - {case_id: code-34, broad_skill_family: monotone_visibility_span, not_simple_transformation_of_gate_a: true, review_basis: "Per-position visibility spans are a new stack contract."}
+    - {case_id: code-35, broad_skill_family: articulation_vertices, not_simple_transformation_of_gate_a: true, review_basis: "Articulation detection is not any Gate A named graph evaluator."}
+    - {case_id: code-36, broad_skill_family: minimum_spanning_tree, not_simple_transformation_of_gate_a: true, review_basis: "Kruskal MST weight is absent from Gate A."}
+    - {case_id: code-37, broad_skill_family: palindrome_pairing, not_simple_transformation_of_gate_a: true, review_basis: "Pairwise concatenation palindrome counting is a new string composition."}
+    - {case_id: code-38, broad_skill_family: contiguous_partition_product, not_simple_transformation_of_gate_a: true, review_basis: "Exact contiguous partition product DP differs from Gate A knapsack/coin change."}
+    - {case_id: code-39, broad_skill_family: polynomial_convolution, not_simple_transformation_of_gate_a: true, review_basis: "Coefficient-list convolution is not a Gate A source-code arithmetic task."}
+    - {case_id: code-40, broad_skill_family: integral_linear_pair, not_simple_transformation_of_gate_a: true, review_basis: "Integral 2-by-2 system solving is a new source API."}
+    - {case_id: code-41, broad_skill_family: knight_reachability, not_simple_transformation_of_gate_a: true, review_basis: "Chess-knight reachability differs from Gate A flood-fill/island tasks."}
+    - {case_id: code-42, broad_skill_family: ordered_multiset_difference, not_simple_transformation_of_gate_a: true, review_basis: "Ordered deletion with multiplicities is not a minimum-window search."}
+    - {case_id: code-43, broad_skill_family: CSV_projection, not_simple_transformation_of_gate_a: true, review_basis: "Header projection is a new structured-text evaluator."}
+    - {case_id: code-44, broad_skill_family: threshold_index_span, not_simple_transformation_of_gate_a: true, review_basis: "Extremal qualifying-index span is not largest-histogram area."}
+    - {case_id: code-45, broad_skill_family: cyclic_rotation_order, not_simple_transformation_of_gate_a: true, review_basis: "Lexicographically minimal cyclic rotation is absent from Gate A."}
+    - {case_id: code-46, broad_skill_family: anagram_window_count, not_simple_transformation_of_gate_a: true, review_basis: "Fixed-size anagram window counting is not word break or minimum window."}
+    - {case_id: code-47, broad_skill_family: common_prefix, not_simple_transformation_of_gate_a: true, review_basis: "Common-prefix scan is distinct from Gate A LCS/edit-distance tasks."}
+    - {case_id: code-48, broad_skill_family: tree_vertex_cover, not_simple_transformation_of_gate_a: true, review_basis: "Tree minimum vertex cover is absent from Gate A tree evaluators."}
+status: PASS_WITH_SHARED_GENERIC_NUMERALS

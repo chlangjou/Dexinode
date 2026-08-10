@@ -1,0 +1,56 @@
+schema_version: 1
+benchmark_version: gate-b-orchestration-v1.1.1
+method: "Independent standard-library exact arithmetic, Fraction for rationals, direct bounded enumeration where useful; no selected LLM or model output used."
+result: 48/48 PASS
+corrections_from_v1_1_0:
+  - {case_id: math-14, prior_value: 64, corrected_value: 136, reason: "Both possible final digits were counted: 9*8=72 ending in 0 and 8*8=64 ending in 5."}
+  - {case_id: math-37, prior_value: "41/9", corrected_value: "161/36", reason: "Direct enumeration gives sum k*(2k-1)=161 over 36 ordered die outcomes."}
+cases:
+  - {case_id: math-01, expected_type: integer, proposed_frozen_expected: 45, independently_recomputed: 45, validation_method: positional_base_expansion, evidence: "2*16+3*4+1=45", status: PASS}
+  - {case_id: math-02, expected_type: rational, proposed_frozen_expected: "3/11", independently_recomputed: "3/11", validation_method: repeating_fraction_equation, evidence: "27/99 reduces to 3/11", status: PASS}
+  - {case_id: math-03, expected_type: integer, proposed_frozen_expected: 10, independently_recomputed: 10, validation_method: clock_angle, evidence: "minute=120, hour=130, difference=10", status: PASS}
+  - {case_id: math-04, expected_type: integer, proposed_frozen_expected: 11, independently_recomputed: 11, validation_method: inclusion_exclusion, evidence: "20-(floor(20/3)+floor(20/5)-floor(20/15))=11", status: PASS}
+  - {case_id: math-05, expected_type: rational, proposed_frozen_expected: "849/10", independently_recomputed: "849/10", validation_method: Fraction, evidence: "(2*74+3*82+5*91)/(2+3+5)=849/10", status: PASS}
+  - {case_id: math-06, expected_type: rational, proposed_frozen_expected: "9/20", independently_recomputed: "9/20", validation_method: Fraction, evidence: "3.6/8=36/80=9/20", status: PASS}
+  - {case_id: math-07, expected_type: integer, proposed_frozen_expected: 20, independently_recomputed: 20, validation_method: digit_enumeration, evidence: "4+8+3+0+5=20", status: PASS}
+  - {case_id: math-08, expected_type: integer, proposed_frozen_expected: 90, independently_recomputed: 90, validation_method: Fraction, evidence: "80*(1+1/8)=90", status: PASS}
+  - {case_id: math-09, expected_type: integer, proposed_frozen_expected: 115, independently_recomputed: 115, validation_method: triangle_angle_sum, evidence: "180-(180-47-68)=47+68=115", status: PASS}
+  - {case_id: math-10, expected_type: integer, proposed_frozen_expected: 16, independently_recomputed: 16, validation_method: difference_of_squares, evidence: "2n-1=31, n=16", status: PASS}
+  - {case_id: math-11, expected_type: structured_object, proposed_frozen_expected: {real: 11, imaginary: 10}, independently_recomputed: {real: 11, imaginary: 10}, validation_method: complex_multiplication, evidence: "8+12i-2i-3i^2=11+10i", status: PASS}
+  - {case_id: math-12, expected_type: structured_object, proposed_frozen_expected: {median: 12, mad: 6}, independently_recomputed: {median: 12, mad: 6}, validation_method: sorted_deviation_enumeration, evidence: "sorted deviations [0,3,4,6,9,9,18] have middle 6", status: PASS}
+  - {case_id: math-13, expected_type: rational, proposed_frozen_expected: "25/72", independently_recomputed: "25/72", validation_method: Fraction, evidence: "3*(1/6)*(25/36)=75/216=25/72", status: PASS}
+  - {case_id: math-14, expected_type: integer, proposed_frozen_expected: 136, independently_recomputed: 136, validation_method: complete_bounded_digit_enumeration, evidence: "last digit 0: 9*8=72; last digit 5: 8*8=64; total=136", status: PASS}
+  - {case_id: math-15, expected_type: rational, proposed_frozen_expected: "7/2", independently_recomputed: "7/2", validation_method: Fraction, evidence: "(0+1+4+9)/4=7/2", status: PASS}
+  - {case_id: math-16, expected_type: integer, proposed_frozen_expected: 21, independently_recomputed: 21, validation_method: three_set_inclusion_exclusion, evidence: "12+9+8-4-3-2+1=21", status: PASS}
+  - {case_id: math-17, expected_type: structured_object, proposed_frozen_expected: {first: -3, second: 6}, independently_recomputed: {first: -3, second: 6}, validation_method: absolute_value_cases, evidence: "2x-3=9 or -9 gives x=6 or -3", status: PASS}
+  - {case_id: math-18, expected_type: integer, proposed_frozen_expected: 13, independently_recomputed: 13, validation_method: Pythagorean_identity, evidence: "sqrt(5^2+12^2)=13", status: PASS}
+  - {case_id: math-19, expected_type: integer, proposed_frozen_expected: 8, independently_recomputed: 8, validation_method: diagonal_sum, evidence: "3+5=8", status: PASS}
+  - {case_id: math-20, expected_type: integer, proposed_frozen_expected: 1620, independently_recomputed: 1620, validation_method: polygon_angle_formula, evidence: "(11-2)*180=1620", status: PASS}
+  - {case_id: math-21, expected_type: integer, proposed_frozen_expected: 8, independently_recomputed: 8, validation_method: AM_GM, evidence: "x+16/x >= 2*sqrt(16)=8", status: PASS}
+  - {case_id: math-22, expected_type: integer, proposed_frozen_expected: 13, independently_recomputed: 13, validation_method: pigeonhole_principle, evidence: "12 months plus one", status: PASS}
+  - {case_id: math-23, expected_type: rational, proposed_frozen_expected: "19/48", independently_recomputed: "19/48", validation_method: Fraction_Bayes, evidence: ".02*.95/(.02*.95+.98*.03)=.019/.048=19/48", status: PASS}
+  - {case_id: math-24, expected_type: integer, proposed_frozen_expected: 8, independently_recomputed: 8, validation_method: harmonic_mean_formula, evidence: "2/(1/6+1/12)=8", status: PASS}
+  - {case_id: math-25, expected_type: integer, proposed_frozen_expected: 55, independently_recomputed: 55, validation_method: Horner_evaluation, evidence: "2*27-3+4=55", status: PASS}
+  - {case_id: math-26, expected_type: rational, proposed_frozen_expected: "80/243", independently_recomputed: "80/243", validation_method: Fraction_binomial, evidence: "C(5,2)*(1/3)^2*(2/3)^3=80/243", status: PASS}
+  - {case_id: math-27, expected_type: integer, proposed_frozen_expected: 63, independently_recomputed: 63, validation_method: finite_geometric_sum, evidence: "2^6-1=63", status: PASS}
+  - {case_id: math-28, expected_type: integer, proposed_frozen_expected: 6, independently_recomputed: 6, validation_method: angle_bisector_theorem, evidence: "4/x=6/9, x=6", status: PASS}
+  - {case_id: math-29, expected_type: integer, proposed_frozen_expected: 4, independently_recomputed: 4, validation_method: parallel_line_distance, evidence: "|(-5)-15|/sqrt(3^2+4^2)=20/5=4", status: PASS}
+  - {case_id: math-30, expected_type: integer, proposed_frozen_expected: 2, independently_recomputed: 2, validation_method: bounded_enumeration, evidence: "positive pairs are (3,4) and (4,3)", status: PASS}
+  - {case_id: math-31, expected_type: integer, proposed_frozen_expected: 2, independently_recomputed: 2, validation_method: exact_row_reduction, evidence: "row 2 is 2*row 1; rows 1 and 3 are independent, so rank=2", status: PASS}
+  - {case_id: math-32, expected_type: rational, proposed_frozen_expected: "49/9", independently_recomputed: "49/9", validation_method: independent_expectation_factorization, evidence: "E[XY]=E[X]E[Y]=(7/3)^2=49/9", status: PASS}
+  - {case_id: math-33, expected_type: integer, proposed_frozen_expected: 294, independently_recomputed: 294, validation_method: cube_surface_formula, evidence: "6*7^2=294", status: PASS}
+  - {case_id: math-34, expected_type: integer, proposed_frozen_expected: 2, independently_recomputed: 2, validation_method: geometric_progression, evidence: "3r^4=48, positive r=2", status: PASS}
+  - {case_id: math-35, expected_type: integer, proposed_frozen_expected: 8, independently_recomputed: 8, validation_method: fixed_point_enumeration, evidence: "choose fixed point 4 ways times derangements of remaining 3 (2)", status: PASS}
+  - {case_id: math-36, expected_type: rational, proposed_frozen_expected: "1/16", independently_recomputed: "1/16", validation_method: geometric_probability, evidence: "(1/2)^3*(1/2)=1/16", status: PASS}
+  - {case_id: math-37, expected_type: rational, proposed_frozen_expected: "161/36", independently_recomputed: "161/36", validation_method: direct_six_by_six_enumeration, evidence: "sum_{k=1}^6 k*(2k-1)=1+6+15+28+45+66=161; divide by 36", status: PASS}
+  - {case_id: math-38, expected_type: integer, proposed_frozen_expected: 84, independently_recomputed: 84, validation_method: frustum_formula, evidence: "(1/3)*4*(3^2+3*6+6^2)=84", status: PASS}
+  - {case_id: math-39, expected_type: integer, proposed_frozen_expected: 125, independently_recomputed: 125, validation_method: Cayley_formula, evidence: "5^(5-2)=125", status: PASS}
+  - {case_id: math-40, expected_type: integer, proposed_frozen_expected: 11, independently_recomputed: 11, validation_method: bounded_enumeration, evidence: "x=0 through 10 gives 11 pairs", status: PASS}
+  - {case_id: math-41, expected_type: rational, proposed_frozen_expected: "3/4", independently_recomputed: "3/4", validation_method: direct_payout_arithmetic, evidence: "12/4-3*(3/4)=3-9/4=3/4", status: PASS}
+  - {case_id: math-42, expected_type: integer, proposed_frozen_expected: 10, independently_recomputed: 10, validation_method: tetrahedron_volume, evidence: "3*4*5/6=10", status: PASS}
+  - {case_id: math-43, expected_type: integer, proposed_frozen_expected: 7, independently_recomputed: 7, validation_method: bounded_sign_case_enumeration, evidence: "valid values -5,-4,-3,2,3,4,5", status: PASS}
+  - {case_id: math-44, expected_type: integer, proposed_frozen_expected: 34650, independently_recomputed: 34650, validation_method: multinomial_formula, evidence: "11!/(4!*4!*2!)=34650", status: PASS}
+  - {case_id: math-45, expected_type: rational, proposed_frozen_expected: "175/256", independently_recomputed: "175/256", validation_method: complement_probability, evidence: "1-(3/4)^4=175/256", status: PASS}
+  - {case_id: math-46, expected_type: integer, proposed_frozen_expected: 16, independently_recomputed: 16, validation_method: annulus_area, evidence: "5^2-3^2=16", status: PASS}
+  - {case_id: math-47, expected_type: integer, proposed_frozen_expected: 5, independently_recomputed: 5, validation_method: cube_root_equation, evidence: "x-2=3, x=5", status: PASS}
+  - {case_id: math-48, expected_type: integer, proposed_frozen_expected: -50, independently_recomputed: -50, validation_method: paired_alternating_sum, evidence: "50 pairs each equal -1", status: PASS}
