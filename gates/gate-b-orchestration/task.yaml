@@ -2,8 +2,10 @@ id: gate-b-orchestration-v1
 title: Orchestration Advantage
 owner: human
 executor: agent
-status: completed-pending-human-decision
-active_stage: B5-evidence-report
+status: completed
+active_stage: closed
+final_gate_decision: FAIL
+final_decision_record: gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md
 
 precondition:
   gate_a_final_decision: PASS
@@ -26,6 +28,9 @@ frozen_artifacts:
   benchmark_root: experiments/gate-b/benchmark-v1.1.1/
   router_root: experiments/gate-b/router-v2/
   acceptance: gates/gate-b-orchestration/acceptance.yaml
+  evidence_report: gates/gate-b-orchestration/evidence-report.md
+  execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+  evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
 
 empirical_skill_registry:
   mathematics:
@@ -55,52 +60,23 @@ human_review_history:
     decision: APPROVED_AS_VALID_EXECUTION_EVIDENCE
     reviewed_commit: ef24cc4b45561d693fdc8f405d1f05b088e030da
     record: gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md
-
-stages:
-  B1-protocol-router-benchmark-freeze:
-    status: frozen-not-approved
-    benchmark_version: gate-b-orchestration-v1.0.0
-  B1R-structural-freshness-and-router-boundary-revision:
-    status: frozen-not-approved-benchmark-definition-errors
-    benchmark_version: gate-b-orchestration-v1.1.0
-    structural_freshness_accepted: true
-    router_information_boundary_accepted: true
-  B1R2-oracle-and-semantic-contract-remediation:
-    status: approved
-    benchmark_version: gate-b-orchestration-v1.1.1
-  B2-router-static-qualification:
-    status: completed-pass
-  B3B4-comparable-policy-execution:
-    status: approved-complete
-    execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
-    evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
-    route_decisions: 96/96 persisted before model output
-    general_generated: 96/96
-    math_specialist_generated: 48/48
-    generation_failures: 0
-    coder_executed: false
-    general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
-    skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
-    overall_delta_percentage_points: 1.0416666666666665
-    overall_bootstrap_ci95_percentage_points: [0.0, 3.125]
-    mathematics_delta_percentage_points: 2.083333333333333
-    mathematics_bootstrap_ci95_percentage_points: [0.0, 6.25]
-    coding_delta_percentage_points: 0.0
-    router_accuracy: 96/96
-    preserved_failed_attempt:
-      execution_id: gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0
-      status: stopped_preflight_failure
-      formal_model_execution_started: false
-      model_output_created: false
-  B5-evidence-report:
-    status: completed-pending-human-review
-    evidence_report: gates/gate-b-orchestration/evidence-report.md
+  B5:
     recommendation: FAIL
-    rationale: >-
-      The fresh comparable execution is valid, but the predefined overall and
-      Mathematics improvement thresholds were not met and both paired-bootstrap
-      intervals include zero. No unresolved material methodological defect
-      requires an INCONCLUSIVE classification.
+    record: gates/gate-b-orchestration/evidence-report.md
+  final:
+    decision: FAIL
+    record: gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md
+
+results:
+  general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
+  skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
+  overall_delta_percentage_points: 1.0416666666666665
+  overall_bootstrap_ci95_percentage_points: [0.0, 3.125]
+  mathematics_delta_percentage_points: 2.083333333333333
+  mathematics_bootstrap_ci95_percentage_points: [0.0, 6.25]
+  coding_delta_percentage_points: 0.0
+  router_accuracy: 96/96
+  generation_failures: 0
 
 acceptance_assessment:
   minimum_evidence: SATISFIED
@@ -113,14 +89,34 @@ acceptance_assessment:
   validated_math_skill_signal_on_fresh_distribution: NOT_SATISFIED
   unresolved_material_methodological_defect: NONE_IDENTIFIED
 
+architectural_conclusion: >-
+  Gate A showed that specialization can exist, while Gate B showed that broad
+  domain identity does not guarantee a generalizable orchestration advantage.
+  Capability registry entries should be finer-grained and supported by evidence
+  across multiple structurally independent panels rather than checkpoint labels
+  or broad domains alone.
+
+post_gate_hypothesis:
+  status: plausible_not_established
+  statement: >-
+    The General checkpoint may retain stronger cross-domain meta-capabilities
+    such as natural-language task interpretation, specification grounding,
+    ambiguity resolution, answer selection and self-review. Specialist training
+    may improve domain-specific solution competence without matching those
+    meta-capabilities, causing gains to shrink on tasks that require both domain
+    knowledge and robust comprehension/verification.
+  future_dimensions_to_separate:
+    - domain_solution_competence
+    - task_and_specification_comprehension
+    - derivation_or_implementation_reliability
+    - answer_verification_and_self_review
+    - generalization_across_independent_task_families
+
 constraints:
-  additional_selected_model_execution_authorized: false
-  training_allowed: false
-  fine_tuning_allowed: false
-  model_merging_allowed: false
+  additional_gate_b_selected_model_execution_authorized: false
   final_gate_decision_by_agent: false
 
 handoff:
   durable_state: git
-  final_decision: PENDING HUMAN REVIEW
-  next_action: human chooses PASS, FAIL, or INCONCLUSIVE for Gate B
+  final_decision: FAIL
+  next_action: define a new bounded research question and acceptance criteria before any new selected-model experiment
