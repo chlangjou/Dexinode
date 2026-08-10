@@ -1,0 +1,54 @@
+schema_version: 1
+benchmark_version: gate-b-orchestration-v1.1.1
+method: "Independent deterministic fixture audit: each evaluator has a frozen entrypoint, at least two boundary/normal cases, and expected values recomputed from the semantic specification without selected-model output."
+result: 48/48 PASS
+execution_boundary: "This record validates fixture semantics only; generated source is never executed here. Later execution is judge-v2 only."
+cases:
+  - {case_id: code-01, independent_method: integer_rounding_cases, test_count: 3, status: PASS}
+  - {case_id: code-02, independent_method: hexadecimal_predicate_cases, test_count: 3, status: PASS}
+  - {case_id: code-03, independent_method: bijective_column_conversion, test_count: 4, status: PASS}
+  - {case_id: code-04, independent_method: alternating_index_sum_cases, test_count: 3, status: PASS}
+  - {case_id: code-05, independent_method: transition_scan_cases, test_count: 2, status: PASS}
+  - {case_id: code-06, independent_method: concatenation_cases, test_count: 2, status: PASS}
+  - {case_id: code-07, independent_method: padded_position_cases, test_count: 2, status: PASS}
+  - {case_id: code-08, independent_method: sign_classification_cases, test_count: 3, status: PASS}
+  - {case_id: code-09, independent_method: quotient_remainder_time_cases, test_count: 3, status: PASS}
+  - {case_id: code-10, independent_method: three_value_order_cases, test_count: 2, status: PASS}
+  - {case_id: code-11, independent_method: line_split_last_write_cases, test_count: 2, status: PASS}
+  - {case_id: code-12, independent_method: distinct_prefix_counter_cases, test_count: 2, status: PASS}
+  - {case_id: code-13, independent_method: row_length_projection_cases, test_count: 2, status: PASS}
+  - {case_id: code-14, independent_method: index_mapping_cases, test_count: 2, status: PASS}
+  - {case_id: code-15, independent_method: comparison_sign_scan_cases, test_count: 3, status: PASS}
+  - {case_id: code-16, independent_method: Gregorian_weekday_cases, test_count: 2, status: PASS}
+  - {case_id: code-17, independent_method: last_label_time_order_cases, test_count: 2, status: PASS}
+  - {case_id: code-18, independent_method: delimited_weight_parser_cases, test_count: 2, status: PASS}
+  - {case_id: code-19, independent_method: local_peak_scan_cases, test_count: 2, status: PASS}
+  - {case_id: code-20, independent_method: stable_dictionary_grouping, test_count: 2, status: PASS}
+  - {case_id: code-21, independent_method: diagonal_index_enumeration, test_count: 2, status: PASS}
+  - {case_id: code-22, independent_method: prefix_suffix_balance, test_count: 2, status: PASS}
+  - {case_id: code-23, independent_method: cyclic_neighbor_differences, test_count: 2, status: PASS}
+  - {case_id: code-24, independent_method: adjacent_run_collapse, test_count: 2, status: PASS}
+  - {case_id: code-25, independent_method: subtractive_symbol_scan, test_count: 2, status: PASS}
+  - {case_id: code-26, independent_method: stable_sign_partition, test_count: 2, status: PASS}
+  - {case_id: code-27, independent_method: pair_expansion_count, test_count: 2, status: PASS}
+  - {case_id: code-28, independent_method: parity_balance_prefix, test_count: 2, status: PASS}
+  - {case_id: code-29, independent_method: transitive_ancestor_closure, test_count: 2, status: PASS}
+  - {case_id: code-30, independent_method: absolute_component_stack, test_count: 2, status: PASS}
+  - {case_id: code-31, independent_method: latest_record_selection, test_count: 2, status: PASS}
+  - {case_id: code-32, independent_method: breadth_level_count, test_count: 2, status: PASS}
+  - {case_id: code-33, independent_method: bipartite_graph_coloring, test_count: 2, status: PASS}
+  - {case_id: code-34, independent_method: monotone_stack_span, test_count: 2, status: PASS}
+  - {case_id: code-35, independent_method: lowlink_articulation_cases, test_count: 2, status: PASS}
+  - {case_id: code-36, independent_method: Kruskal_union_find, test_count: 2, status: PASS}
+  - {case_id: code-37, independent_method: palindrome_pair_scan, test_count: 2, status: PASS}
+  - {case_id: code-38, independent_method: contiguous_partition_dp, test_count: 2, status: PASS}
+  - {case_id: code-39, independent_method: coefficient_convolution, test_count: 2, status: PASS}
+  - {case_id: code-40, independent_method: Cramer_integer_check, test_count: 2, status: PASS}
+  - {case_id: code-41, independent_method: knight_breadth_first_search, test_count: 2, status: PASS}
+  - {case_id: code-42, independent_method: ordered_multiset_subtraction, test_count: 2, status: PASS}
+  - {case_id: code-43, independent_method: csv_header_projection, test_count: 2, status: PASS}
+  - {case_id: code-44, independent_method: threshold_index_span, test_count: 2, status: PASS}
+  - {case_id: code-45, independent_method: rotation_lexicographic_scan, test_count: 2, status: PASS}
+  - {case_id: code-46, independent_method: anagram_window_counter, test_count: 2, status: PASS}
+  - {case_id: code-47, independent_method: common_prefix_scan, test_count: 2, status: PASS}
+  - {case_id: code-48, independent_method: tree_vertex_cover_dp, test_count: 2, status: PASS}

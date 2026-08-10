@@ -1,0 +1,49 @@
+schema_version: 1
+scoring_id: gate-b-orchestration-v1.1.1-scoring
+benchmark_version: gate-b-orchestration-v1.1.1
+status: frozen-pending-human-review
+principles:
+  - "Primary case scoring is deterministic semantic correctness; strict interface compliance is secondary."
+  - "Each policy receives one logical model inference per case; specialist inference is limited to frozen selected routes."
+  - "All cases have equal weight; no LLM judge is used."
+  - "Raw responses, route decisions, adapter decisions, per-case scores, and resource receipts are preserved."
+  - "The router receives semantic task text only and cannot see expected answers or evaluator tests."
+adapter:
+  implementation: adapter/semantic_adapter.py
+  source: copied byte-identically from experiments/gate-a/benchmark-v1.2.2/adapter/semantic_adapter.py
+  synthetic_tests: adapter/test_adapter.py
+  expected_value_guided_extraction: false
+mathematics:
+  case_score: 0_or_1
+  extraction: "Use only the frozen expected TYPE/schema grammar; canonical ANSWER or permitted boxed candidate; conflicting semantic candidates are rejected."
+  normalization: "Integers parse as signed base-10 values; rationals reduce to denominator-positive Fraction; structured objects require exact frozen integer keys and key order."
+  strict_metric: math_canonical_answer_contract
+software_coding:
+  case_score: 0_or_1
+  extraction: "Inspect Python or unlabeled fenced blocks in order, parse with AST only, and select the first top-level definition of the requested entrypoint."
+  fallback: "Only when no fenced candidates exist, parse the complete response as Python and require the entrypoint."
+  execution_boundary: "Only the approved judge-v2 sandbox may execute selected source after extraction."
+  strict_metric: coding_single_clean_source_block
+aggregation:
+  case_weights: equal
+  mathematics: "sum(math scores) / 48"
+  software_coding: "sum(coding scores) / 48"
+  overall: "sum(all 96 scores) / 96"
+  primary_delta: "routed overall accuracy minus General-only overall accuracy"
+  uncertainty: "paired bootstrap over identical case IDs, 20000 resamples, 95%, seed 0"
+  secondary_metrics: [mathematics_accuracy, software_coding_accuracy, routing_accuracy, strict_interface_compliance, input_tokens, output_tokens, inference_elapsed_seconds, router_elapsed_seconds]
+policy_comparison:
+  general_only:
+    route: general_baseline
+    calls_per_case: 1
+    model: Qwen/Qwen2.5-7B-Instruct
+  skill_routed:
+    calls_per_case: 1
+    registry: {mathematics: mathematics_specialist, software_coding: general_baseline, fallback: general_baseline}
+    specialist_inference: frozen_router_selected_cases_only
+    reuse_general_output_when_route_is_general: true
+    no_retry_or_fallback_call: true
+  same_case_order: true
+  model_output_visible_to_router: false
+  result_driven_rerouting: false
+  between_phase_result_review: false

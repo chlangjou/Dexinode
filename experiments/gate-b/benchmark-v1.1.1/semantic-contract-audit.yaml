@@ -1,0 +1,62 @@
+schema_version: 1
+benchmark_version: gate-b-orchestration-v1.1.1
+scope: "Complete prompt-to-evaluator semantic-contract audit of all 48 Coding cases before any selected-model output."
+method: >-
+  For each case, compare the natural-language semantic_task with the frozen
+  entrypoint, argument shapes, expected values, edge cases, and deterministic
+  reference behavior. PASS requires that a competent implementation can infer
+  the tested behavior without seeing hidden evaluator code. No model output,
+  model performance, or Gate A per-case result was consulted.
+result: 48/48 PASS
+evaluator_behavior_changed: false
+structural_case_constructions_changed: false
+known_review_defects_corrected: [code-02, code-09, code-21, code-38, code-42]
+cases:
+  - {case_id: code-01, entrypoint: round_half_up, audit_status: PASS, contract: "Nonnegative integer value, positive step, nearest multiple, exact half upward; fixtures agree.", wording_action: retained_clear}
+  - {case_id: code-02, entrypoint: is_hex_color, audit_status: PASS, contract: "Exactly seven characters: # plus six hexadecimal digits; fixtures agree.", wording_action: clarified_total_length}
+  - {case_id: code-03, entrypoint: column_label, audit_status: PASS, contract: "Positive one-based spreadsheet-style uppercase column labels.", wording_action: retained_clear}
+  - {case_id: code-04, entrypoint: alternating_total, audit_status: PASS, contract: "Zero-based even positions add and odd positions subtract; empty gives zero.", wording_action: retained_clear}
+  - {case_id: code-05, entrypoint: transition_positions, audit_status: PASS, contract: "Zero-based indexes where each character differs from its predecessor.", wording_action: clarified_indexing}
+  - {case_id: code-06, entrypoint: flatten_once, audit_status: PASS, contract: "Concatenate exactly one level of inner lists left to right.", wording_action: retained_clear}
+  - {case_id: code-07, entrypoint: zip_fill, audit_status: PASS, contract: "Two-item lists through the longer input, using fill for exhausted sides.", wording_action: clarified_output_shape}
+  - {case_id: code-08, entrypoint: sign_label, audit_status: PASS, contract: "Exact lowercase negative/zero/positive classification.", wording_action: retained_clear}
+  - {case_id: code-09, entrypoint: split_seconds, audit_status: PASS, contract: "Dictionary named hours/minutes/seconds with integer quotient/remainder values.", wording_action: corrected_key_value_wording}
+  - {case_id: code-10, entrypoint: middle_value, audit_status: PASS, contract: "Median of three scalar values, with no caller collection to mutate.", wording_action: retained_clear}
+  - {case_id: code-11, entrypoint: parse_fields, audit_status: PASS, contract: "First equals split, trimmed fields, empty or equals-free lines ignored, later key wins.", wording_action: clarified_ignored_lines}
+  - {case_id: code-12, entrypoint: distinct_prefix_counts, audit_status: PASS, contract: "Distinct-count snapshot after every input item.", wording_action: retained_clear}
+  - {case_id: code-13, entrypoint: row_width_profile, audit_status: PASS, contract: "Return each nested row length without transposing or mutating.", wording_action: retained_clear}
+  - {case_id: code-14, entrypoint: apply_permutation, audit_status: PASS, contract: "Zero-based order maps result index i to old values[order[i]].", wording_action: clarified_index_mapping}
+  - {case_id: code-15, entrypoint: longest_alternating, audit_status: PASS, contract: "Longest nonempty contiguous strict rise/fall alternating segment; equal breaks; empty is zero.", wording_action: clarified_equal_break}
+  - {case_id: code-16, entrypoint: weekday_index, audit_status: PASS, contract: "Proleptic Gregorian ISO weekday 1 Monday through 7 Sunday.", wording_action: retained_clear}
+  - {case_id: code-17, entrypoint: compact_events, audit_status: PASS, contract: "Final occurrence per label in input order, then retained events sorted by time.", wording_action: clarified_last_occurrence}
+  - {case_id: code-18, entrypoint: parse_weighted_tokens, audit_status: PASS, contract: "Nonempty comma pieces name:integer, trimmed, later name wins.", wording_action: clarified_input_grammar}
+  - {case_id: code-19, entrypoint: first_local_peak, audit_status: PASS, contract: "First strict interior element greater than both immediate neighbors, else -1.", wording_action: clarified_endpoints}
+  - {case_id: code-20, entrypoint: group_months, audit_status: PASS, contract: "Append values by month, preserving value order and first-seen dictionary key order.", wording_action: clarified_key_order}
+  - {case_id: code-21, entrypoint: diagonal_words, audit_status: PASS, contract: "Anti-diagonal parameter s and increasing row index explicitly define every output word.", wording_action: replaced_ambiguous_traversal}
+  - {case_id: code-22, entrypoint: split_balance, audit_status: PASS, contract: "First zero-based i with sum(values[:i]) equal to sum(values[i:]), else -1.", wording_action: clarified_slices}
+  - {case_id: code-23, entrypoint: circular_differences, audit_status: PASS, contract: "Absolute adjacent differences including last-to-first; singleton gives zero.", wording_action: retained_clear}
+  - {case_id: code-24, entrypoint: collapse_tokens, audit_status: PASS, contract: "One token per maximal equal run, preserving first token.", wording_action: retained_clear}
+  - {case_id: code-25, entrypoint: roman_value, audit_status: PASS, contract: "Valid Roman numeral with subtractive notation evaluated by adjacent-value rule.", wording_action: retained_clear}
+  - {case_id: code-26, entrypoint: sign_partition, audit_status: PASS, contract: "Stable negatives followed by stable nonnegative values in a new list.", wording_action: clarified_zero_side}
+  - {case_id: code-27, entrypoint: expand_pairs, audit_status: PASS, contract: "Repeat each pair value its nonnegative count in pair order.", wording_action: retained_clear}
+  - {case_id: code-28, entrypoint: longest_parity_balance, audit_status: PASS, contract: "Longest nonempty contiguous equal-even/equal-odd range, else zero.", wording_action: clarified_nonempty}
+  - {case_id: code-29, entrypoint: prerequisite_closure, audit_status: PASS, contract: "All transitive predecessors under prerequisite-to-dependent edges, sorted.", wording_action: clarified_edge_direction}
+  - {case_id: code-30, entrypoint: normalize_path, audit_status: PASS, contract: "Absolute slash path; dot ignored, double-dot pops without crossing root.", wording_action: retained_clear}
+  - {case_id: code-31, entrypoint: latest_records, audit_status: PASS, contract: "Greatest time per key, first input record on ties, output pairs sorted by key.", wording_action: clarified_tie_behavior}
+  - {case_id: code-32, entrypoint: tree_level_widths, audit_status: PASS, contract: "Binary [value,left,right] tree breadth counts by depth; None gives empty.", wording_action: clarified_node_schema}
+  - {case_id: code-33, entrypoint: can_two_color, audit_status: PASS, contract: "Undirected graph including isolated nodes is bipartite iff two-colorable.", wording_action: clarified_graph_scope}
+  - {case_id: code-34, entrypoint: visibility_span, audit_status: PASS, contract: "Count current and consecutive left heights strictly below current, stopping at first at least as high.", wording_action: replaced_stack_ambiguity}
+  - {case_id: code-35, entrypoint: articulation_points, audit_status: PASS, contract: "For connected undirected graph, remove vertex and incident edges; return sorted component-increasing vertices.", wording_action: clarified_connected_input}
+  - {case_id: code-36, entrypoint: minimum_spanning_weight, audit_status: PASS, contract: "Undirected [u,v,weight] edges; MST total or None when disconnected.", wording_action: clarified_edge_schema}
+  - {case_id: code-37, entrypoint: palindrome_pair_count, audit_status: PASS, contract: "Count unordered position pairs once if either concatenation order is a palindrome.", wording_action: clarified_pair_counting}
+  - {case_id: code-38, entrypoint: maximize_partition_product, audit_status: PASS, contract: "Exactly groups nonempty contiguous parts; objective is sum of each part's element product.", wording_action: corrected_objective}
+  - {case_id: code-39, entrypoint: multiply_polynomials, audit_status: PASS, contract: "Ascending-degree coefficient convolution with trailing zero coefficients removed.", wording_action: retained_clear}
+  - {case_id: code-40, entrypoint: solve_integer_pair, audit_status: PASS, contract: "Return unique integral solution only; singular or nonintegral systems return None.", wording_action: clarified_failure_cases}
+  - {case_id: code-41, entrypoint: knight_reachable, audit_status: PASS, contract: "Zero-based board coordinates and legal knight moves avoid blocked cells.", wording_action: clarified_coordinates}
+  - {case_id: code-42, entrypoint: multiset_difference, audit_status: PASS, contract: "Consume requested character counts left-to-right; preserve all unconsumed text order; insufficient request is None.", wording_action: specified_consumption_order}
+  - {case_id: code-43, entrypoint: project_csv, audit_status: PASS, contract: "Standard CSV header/data rows projected into requested-column dictionaries in requested order.", wording_action: clarified_csv_scope}
+  - {case_id: code-44, entrypoint: max_gap_between_tall_bars, audit_status: PASS, contract: "Rightmost minus leftmost zero-based index among bars meeting threshold; fewer than two is zero.", wording_action: clarified_index_rule}
+  - {case_id: code-45, entrypoint: minimum_rotation_index, audit_status: PASS, contract: "Smallest index of lexicographically least cyclic rotation; empty is zero.", wording_action: retained_clear}
+  - {case_id: code-46, entrypoint: count_anagram_windows, audit_status: PASS, contract: "Count all overlapping contiguous windows of word length with equal character multiplicities.", wording_action: clarified_overlap}
+  - {case_id: code-47, entrypoint: common_prefix, audit_status: PASS, contract: "Longest case-preserving prefix common to every word; no words or no prefix gives empty.", wording_action: clarified_empty_input}
+  - {case_id: code-48, entrypoint: tree_cover_size, audit_status: PASS, contract: "Tree vertex cover: every undirected edge has a selected endpoint; minimize selected vertices.", wording_action: clarified_tree_scope}

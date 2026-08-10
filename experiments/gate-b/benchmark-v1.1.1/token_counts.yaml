@@ -1,0 +1,117 @@
+schema_version: 1
+benchmark_version: gate-b-orchestration-v1.1.1
+tokenizer:
+  model_reference: Qwen/Qwen2.5-7B-Instruct
+  revision: a09a35458c702b33eeacc393d103063234e8bc28
+  tokenizer_class: Qwen2TokenizerFast
+  tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+  byte_identical_across_selected_set: true
+rendering:
+  template: template.yaml
+  add_special_tokens: false
+  includes_assistant_prefix: true
+  count_method: "Qwen2TokenizerFast with add_special_tokens=false on the fully rendered neutral template including assistant prefix"
+constraints:
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  maximum_rendered_input_tokens: 124
+  maximum_total_budget: 1148
+  remaining_context_margin: 2948
+  all_cases_fit: true
+cases:
+  - {case_id: math-01, rendered_input_tokens: 88}
+  - {case_id: math-02, rendered_input_tokens: 91}
+  - {case_id: math-03, rendered_input_tokens: 94}
+  - {case_id: math-04, rendered_input_tokens: 98}
+  - {case_id: math-05, rendered_input_tokens: 110}
+  - {case_id: math-06, rendered_input_tokens: 99}
+  - {case_id: math-07, rendered_input_tokens: 86}
+  - {case_id: math-08, rendered_input_tokens: 94}
+  - {case_id: math-09, rendered_input_tokens: 99}
+  - {case_id: math-10, rendered_input_tokens: 97}
+  - {case_id: math-11, rendered_input_tokens: 94}
+  - {case_id: math-12, rendered_input_tokens: 111}
+  - {case_id: math-13, rendered_input_tokens: 94}
+  - {case_id: math-14, rendered_input_tokens: 89}
+  - {case_id: math-15, rendered_input_tokens: 104}
+  - {case_id: math-16, rendered_input_tokens: 124}
+  - {case_id: math-17, rendered_input_tokens: 92}
+  - {case_id: math-18, rendered_input_tokens: 87}
+  - {case_id: math-19, rendered_input_tokens: 92}
+  - {case_id: math-20, rendered_input_tokens: 91}
+  - {case_id: math-21, rendered_input_tokens: 87}
+  - {case_id: math-22, rendered_input_tokens: 90}
+  - {case_id: math-23, rendered_input_tokens: 118}
+  - {case_id: math-24, rendered_input_tokens: 85}
+  - {case_id: math-25, rendered_input_tokens: 92}
+  - {case_id: math-26, rendered_input_tokens: 93}
+  - {case_id: math-27, rendered_input_tokens: 89}
+  - {case_id: math-28, rendered_input_tokens: 102}
+  - {case_id: math-29, rendered_input_tokens: 100}
+  - {case_id: math-30, rendered_input_tokens: 91}
+  - {case_id: math-31, rendered_input_tokens: 99}
+  - {case_id: math-32, rendered_input_tokens: 100}
+  - {case_id: math-33, rendered_input_tokens: 87}
+  - {case_id: math-34, rendered_input_tokens: 94}
+  - {case_id: math-35, rendered_input_tokens: 86}
+  - {case_id: math-36, rendered_input_tokens: 95}
+  - {case_id: math-37, rendered_input_tokens: 93}
+  - {case_id: math-38, rendered_input_tokens: 99}
+  - {case_id: math-39, rendered_input_tokens: 87}
+  - {case_id: math-40, rendered_input_tokens: 88}
+  - {case_id: math-41, rendered_input_tokens: 96}
+  - {case_id: math-42, rendered_input_tokens: 113}
+  - {case_id: math-43, rendered_input_tokens: 102}
+  - {case_id: math-44, rendered_input_tokens: 90}
+  - {case_id: math-45, rendered_input_tokens: 94}
+  - {case_id: math-46, rendered_input_tokens: 96}
+  - {case_id: math-47, rendered_input_tokens: 91}
+  - {case_id: math-48, rendered_input_tokens: 92}
+  - {case_id: code-01, rendered_input_tokens: 104}
+  - {case_id: code-02, rendered_input_tokens: 111}
+  - {case_id: code-03, rendered_input_tokens: 95}
+  - {case_id: code-04, rendered_input_tokens: 96}
+  - {case_id: code-05, rendered_input_tokens: 96}
+  - {case_id: code-06, rendered_input_tokens: 91}
+  - {case_id: code-07, rendered_input_tokens: 114}
+  - {case_id: code-08, rendered_input_tokens: 95}
+  - {case_id: code-09, rendered_input_tokens: 118}
+  - {case_id: code-10, rendered_input_tokens: 92}
+  - {case_id: code-11, rendered_input_tokens: 122}
+  - {case_id: code-12, rendered_input_tokens: 90}
+  - {case_id: code-13, rendered_input_tokens: 90}
+  - {case_id: code-14, rendered_input_tokens: 104}
+  - {case_id: code-15, rendered_input_tokens: 115}
+  - {case_id: code-16, rendered_input_tokens: 106}
+  - {case_id: code-17, rendered_input_tokens: 107}
+  - {case_id: code-18, rendered_input_tokens: 111}
+  - {case_id: code-19, rendered_input_tokens: 99}
+  - {case_id: code-20, rendered_input_tokens: 108}
+  - {case_id: code-21, rendered_input_tokens: 123}
+  - {case_id: code-22, rendered_input_tokens: 108}
+  - {case_id: code-23, rendered_input_tokens: 100}
+  - {case_id: code-24, rendered_input_tokens: 96}
+  - {case_id: code-25, rendered_input_tokens: 87}
+  - {case_id: code-26, rendered_input_tokens: 97}
+  - {case_id: code-27, rendered_input_tokens: 95}
+  - {case_id: code-28, rendered_input_tokens: 106}
+  - {case_id: code-29, rendered_input_tokens: 98}
+  - {case_id: code-30, rendered_input_tokens: 95}
+  - {case_id: code-31, rendered_input_tokens: 115}
+  - {case_id: code-32, rendered_input_tokens: 115}
+  - {case_id: code-33, rendered_input_tokens: 108}
+  - {case_id: code-34, rendered_input_tokens: 119}
+  - {case_id: code-35, rendered_input_tokens: 110}
+  - {case_id: code-36, rendered_input_tokens: 114}
+  - {case_id: code-37, rendered_input_tokens: 103}
+  - {case_id: code-38, rendered_input_tokens: 107}
+  - {case_id: code-39, rendered_input_tokens: 98}
+  - {case_id: code-40, rendered_input_tokens: 122}
+  - {case_id: code-41, rendered_input_tokens: 121}
+  - {case_id: code-42, rendered_input_tokens: 115}
+  - {case_id: code-43, rendered_input_tokens: 113}
+  - {case_id: code-44, rendered_input_tokens: 118}
+  - {case_id: code-45, rendered_input_tokens: 110}
+  - {case_id: code-46, rendered_input_tokens: 110}
+  - {case_id: code-47, rendered_input_tokens: 104}
+  - {case_id: code-48, rendered_input_tokens: 108}

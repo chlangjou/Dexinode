@@ -11,11 +11,10 @@ Read, in order:
 1. `AGENTS.md`
 2. this file
 3. `status/current.md`
-4. `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
-5. `gates/gate-b-orchestration/task.yaml`
-6. `gates/gate-b-orchestration/acceptance.yaml`
-7. `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`
-8. `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`
+4. `gates/gate-b-orchestration/task.yaml`
+5. `gates/gate-b-orchestration/acceptance.yaml`
+6. `gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md`
+7. `gates/gate-b-orchestration/reviews/b2-static-qualification.md`
 
 Git is the durable source of truth.
 
@@ -25,78 +24,54 @@ Gate A — Specialist Validation: **PASS / CLOSED**.
 
 Active gate: **Gate B — Orchestration Advantage**.
 
-Active bounded stage: **B1R2 — oracle and semantic-contract remediation**.
+Gate B final decision: **PENDING HUMAN REVIEW**.
 
-Gate B decision: **PENDING**.
+Active bounded stage: **B3B4 — comparable policy execution**.
 
-**No Gate B selected-model execution is authorized.**
+B1R2 `gate-b-orchestration-v1.1.1` is human-approved. B2 static qualification is PASS/COMPLETE. Selected-model execution is now authorized **only** under the frozen B3B4 protocol.
 
-## Preserved history
+## Frozen benchmark and registry
 
-### B1 v1.0.0
+Benchmark:
 
-- commit: `7228c973130ed6032226118873a140927c48f17f`;
-- benchmark: `experiments/gate-b/benchmark-v1.0.0/`;
-- router: `experiments/gate-b/router-v1/`;
-- review: `gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md`;
-- decision: **CHANGES REQUIRED** for structural freshness and handoff-contract routing leakage.
+`experiments/gate-b/benchmark-v1.1.1/`
 
-### B1R v1.1.0
+Router:
 
-- commit: `48d768799bba4d5f3862359eddeb44cf134a962e`;
-- benchmark: `experiments/gate-b/benchmark-v1.1.0/`;
-- router: `experiments/gate-b/router-v2/`;
-- review: `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`;
-- decision: **CHANGES REQUIRED** for oracle/specification defects.
+`experiments/gate-b/router-v2/`
 
-The v1.1.0 structural freshness remediation and router information boundary are accepted. Preserve v1.1.0/router-v2 unchanged as frozen-not-approved audit history.
+Registry:
 
-## Accepted v1.1.0 controls
+- Mathematics → `Qwen/Qwen2.5-Math-7B-Instruct` @ `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d`;
+- Coding/fallback → `Qwen/Qwen2.5-7B-Instruct` @ `a09a35458c702b33eeacc393d103063234e8bc28`;
+- Qwen2.5-Coder must **not** be executed in Gate B v1.
 
-- 96 cases: 48 Math + 48 Coding; 10/24/14 difficulty split per domain;
-- case-by-case structural freshness audit accepted;
-- exact semantic-task overlap with Gate A = 0;
-- router sees `semantic_task` only, before handoff/output contract append;
-- Gate A adapter byte-identical; 13/13 tests PASS;
-- router-v2 tests 5/5 and current benchmark routes 96/96;
-- max input 124; max with 1024 generation 1148; context margin 2948;
-- route decisions freeze before model output;
-- later execution: General all 96 once, then Math specialist only on frozen Math routes, no between-phase result review;
-- acceptance thresholds unchanged;
-- no selected model executed during B1R.
+Static acceptance evidence is complete: Math 48/48, Coding evaluator 48/48, Coding semantic-contract audit 48/48, adapter 13/13, router tests 5/5 with 96/96 target routes, max input 124, context margin 2948. Numerical Gate B thresholds are frozen unchanged.
 
-Router-v2's 96/96 accuracy is only a qualification for this minimal benchmark. Because Coding tasks consistently begin with `Implement`, do not interpret it as evidence of a general-purpose router.
+The informational `case_file` strings inside the v1.1.1 case YAML still contain a v1.1.0 label; this is a recorded non-material metadata issue. Do not create a new revision or patch the benchmark for it.
 
-## Why v1.1.0 is not executable
+## B3B4 execution sequence
 
-Independent human review found:
+1. Persist all 96 router decisions from semantic task text before the first model output.
+2. Run General once on all 96 cases in frozen order and preserve every response/receipt.
+3. **Do not inspect, score, summarize, or review General results.**
+4. Run the Math specialist only on the frozen `mathematics_specialist` routes and preserve every response/receipt.
+5. Reuse the preserved General response for General/fallback routes in the routed-policy row.
+6. Only after both evidence phases finish, compose/score General-only and routed rows and compute frozen metrics.
+7. No retries, second-model fallback, voting, ensemble, Coder execution, result-driven rerouting, performance early stop, protocol/benchmark/scoring/threshold change, or result-conditioned tuning.
+8. Genuine infrastructure/methodological failure may stop the run; preserve partial/invalid evidence and do not patch from observed results.
+9. Commit all durable evidence and stop for human review before B5 or a final Gate B decision.
 
-1. `math-14`: frozen 64, correct **136**.
-2. `math-37`: frozen `41/9`, correct **161/36**.
-3. Coding semantic-task/evaluator contract defects, including at least `code-02`, `code-09`, `code-21`, `code-38`, and `code-42`.
+The execution environment remains the approved `ai01` / single NVIDIA L40 / BF16 / no quantization / deterministic-generation substrate recorded in the benchmark manifest and protocol.
 
-All 48 Coding cases require a prompt-to-evaluator semantic-contract audit before any model output is observed.
+## Execution Agent branch
 
-## Active B1R2 target
+Prepared branch after integration:
 
-Create new immutable revision:
+`agent/gate-b-b3b4-comparable-policy-execution`
 
-- benchmark: `gate-b-orchestration-v1.1.1`;
-- root: `experiments/gate-b/benchmark-v1.1.1/`.
+Before touching `ai01`, verify this branch is based on current approved `main` and read the controlling files above.
 
-Required work:
+## Minimal Agent instruction
 
-- preserve v1.0.0 and v1.1.0 artifacts unchanged;
-- correct the two Math oracles;
-- recompute all 48 Math oracles independently;
-- audit all 48 Coding task specifications against their evaluator behavior and make wording unambiguous;
-- re-run Coding reference validation;
-- retain accepted structural freshness and router boundary unless a correction materially changes a case, in which case re-audit it;
-- re-run adapter/router/token/context/static validation and refresh hashes;
-- keep numerical acceptance thresholds unchanged;
-- execute **no selected model**;
-- stop for human review before B2.
-
-## Minimal B1R2 Agent instruction
-
-> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md`. Execute only active stage B1R2. Preserve prior benchmark/router revisions unchanged, create `gate-b-orchestration-v1.1.1` with the required oracle and 48/48 Coding semantic-contract remediation, run complete static validation only, execute no selected model, update durable status, commit, stop for human review, and do not push until instructed.
+> Read `AGENTS.md`, `HANDOFF.md`, `status/current.md`, `gates/gate-b-orchestration/task.yaml`, `gates/gate-b-orchestration/acceptance.yaml`, and `gates/gate-b-orchestration/reviews/b2-static-qualification.md`. Execute only active B3B4 exactly as frozen. Persist all routes before model output; run General on all 96, do not inspect results, then run Math specialist only on frozen specialist routes. Preserve all evidence, compose/score only after both phases, update durable status, commit, stop for human review, do not execute Coder, and do not push until instructed.
