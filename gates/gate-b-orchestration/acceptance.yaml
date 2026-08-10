@@ -1,8 +1,9 @@
 id: gate-b-orchestration-acceptance-v1
-status: evaluated-final
+status: evaluated-final-with-post-closure-caveat
 final_decision_owner: human
 final_human_decision: FAIL
 final_decision_record: gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md
+post_closure_retrospective: gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md
 thresholds_changed_from_initial_proposal: false
 
 benchmark:
@@ -45,20 +46,20 @@ router_quality:
 observed_execution:
   execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
   evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
-  general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
-  skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
-  overall_delta_percentage_points: 1.0416666666666665
-  overall_ci95_percentage_points: [0.0, 3.125]
-  mathematics_delta_percentage_points: 2.083333333333333
-  mathematics_ci95_percentage_points: [0.0, 6.25]
-  coding_delta_percentage_points: 0.0
+  frozen_general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
+  frozen_skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
+  frozen_overall_delta_percentage_points: 1.0416666666666665
+  frozen_overall_ci95_percentage_points: [0.0, 3.125]
+  frozen_mathematics_delta_percentage_points: 2.083333333333333
+  frozen_mathematics_ci95_percentage_points: [0.0, 6.25]
+  frozen_coding_delta_percentage_points: 0.0
   router_accuracy: 1.0
   coder_executed: false
   generation_failures: 0
   coding_judge_infrastructure_failures: 0
   coding_judge_timeouts: 0
 
-criterion_evaluation:
+criterion_evaluation_at_B5:
   minimum_evidence_satisfied: true
   freshness_and_leakage_controls_satisfied: true
   router_information_boundary_satisfied: true
@@ -68,15 +69,37 @@ criterion_evaluation:
   non_target_protection_satisfied: true
   primary_orchestration_signal_satisfied: false
   validated_math_skill_signal_satisfied: false
-  no_unresolved_material_methodological_defect: true
+
+post_closure_errata:
+  oracle_defect_discovered: true
+  case: math-23
+  frozen_expected: 19/48
+  corrected_expected: 95/242
+  both_models_computed_correct_decimal_posterior: true
+  frozen_extractor_rejected_both_decimal_answers: true
+  changes_frozen_paired_score_vector: false
+  additional_common_mode_content_parser_false_negatives: [math-11, math-12, math-17]
+  sole_frozen_math_improvement_math_41_content_correct_for_both: true
+  math_41_general_form: decimal_0.75
+  math_41_specialist_form: exact_rational_3/4
+  retrospective_content_level_specialist_advantage_cases: 0
+  protocol_purity_caveat: >-
+    The original acceptance definition listed a benchmark oracle defect as an
+    INCONCLUSIVE condition. The post-closure math-23 defect therefore creates a
+    literal-protocol caveat. It is non-differential for the paired conclusion,
+    and the content-level retrospective reduces rather than increases the
+    specialist advantage. The final human FAIL label remains unless explicitly
+    revised by the human owner.
 
 final_evaluation:
   label: FAIL
+  owner: human
   reason: >-
-    The valid comparable fresh execution did not meet the frozen overall or
-    Mathematics improvement thresholds, and both improvement confidence
-    intervals include zero. The fail conditions are satisfied and no material
-    inconclusive condition remains.
+    The frozen execution missed the +10 pp overall and Mathematics thresholds.
+    Post-closure content inspection does not reveal a hidden specialist gain;
+    it removes the sole frozen +1 Math advantage as a representation effect.
+    The math-23 oracle defect is disclosed as a protocol-purity caveat but does
+    not change the paired substantive conclusion.
 
 closure:
   additional_gate_b_selected_model_execution_authorized: false
