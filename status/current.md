@@ -1,53 +1,29 @@
 # Current Research Status
 
 - Updated: 2026-08-10
-- Active gate: **Gate B — Orchestration Advantage**
-- Gate A final decision: **PASS / CLOSED**
-- Gate B final decision: **PENDING HUMAN REVIEW**
-- Active stage: **B5 — evidence report complete, pending final human decision**
-- B5 recommendation: **FAIL**
+- Gate A — Specialist Validation: **PASS / CLOSED**
+- Gate B — Orchestration Advantage: **FAIL / CLOSED**
+- Gate B final decision record: `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 - Session handoff: `HANDOFF.md`
+- No new research gate is active yet.
 
-## Approved Gate B evidence set
+## Gate B final evidence
 
 Executable benchmark: `gate-b-orchestration-v1.1.1`
 
-Benchmark root: `experiments/gate-b/benchmark-v1.1.1/`
-
-Router: `experiments/gate-b/router-v2/`
-
-B1R2 human review: `gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md` — **APPROVED**.
-
-B2 static qualification: `gates/gate-b-orchestration/reviews/b2-static-qualification.md` — **PASS / COMPLETE**.
-
-B3B4 human review: `gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md` — **APPROVED AS VALID COMPARABLE EXECUTION EVIDENCE**.
-
-B5 report: `gates/gate-b-orchestration/evidence-report.md` — recommendation **FAIL**.
-
-## B3B4 execution
-
-Execution ID:
-
-`gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
+Execution ID: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
 
 Evidence root:
 
 `experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
 
-Protocol validity:
+Human reviews:
 
-- 96/96 routes persisted before selected-model output;
-- 48 Math-specialist routes, 48 General routes, 0 fallback;
-- General generated 96/96 first;
-- no General result inspection/scoring/review between phases;
-- Math specialist generated exactly the frozen 48 routes;
-- composition/scoring occurred only after both phases;
-- Qwen2.5-Coder was not executed;
-- zero generation failures;
-- Coding judge: 48 records, zero infrastructure failures, zero timeouts;
-- no result-driven retry/rerouting, performance early stop, or post-output benchmark/protocol change.
-
-The earlier execution ID `gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0` is preserved as a preflight-only failure caused by the runner reading token-manifest field `id` instead of `case_id`. Formal inference never started and no model output was created; this is non-contaminating invalid/preflight history.
+- B1R2 benchmark: **APPROVED** — `gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md`
+- B2 static qualification: **PASS / COMPLETE** — `gates/gate-b-orchestration/reviews/b2-static-qualification.md`
+- B3B4 execution: **APPROVED AS VALID COMPARABLE EXECUTION EVIDENCE** — `gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md`
+- B5 evidence report: recommendation **FAIL** — `gates/gate-b-orchestration/evidence-report.md`
+- Final human decision: **FAIL** — `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 
 ## Results
 
@@ -63,37 +39,52 @@ Paired routed-minus-General:
 - Coding: **0.00 pp**;
 - router accuracy: **96/96 = 100%**.
 
-The only paired Math improvement was `math-41`: General incorrect, Math specialist correct. There were no reverse Math regressions; the other 47 paired Math correctness outcomes were unchanged.
+Only `math-41` changed from General incorrect to Math-specialist correct. There were no reverse Math regressions; the other 47 paired Math correctness outcomes were unchanged.
 
-## Frozen acceptance outcome
+## Why Gate B is FAIL
 
-Satisfied:
+The execution was valid and comparable, with no material methodology defect requiring INCONCLUSIVE. However, the frozen acceptance criteria required at least +10 pp overall and +10 pp Mathematics, with both paired-bootstrap intervals excluding zero. Neither required performance signal was met.
 
-- minimum evidence;
-- structural freshness/leakage controls;
-- router information boundary;
-- resource/execution parity;
-- frozen execution sequence;
-- router quality;
-- Coding non-target protection.
+The router itself was not the bottleneck: routing accuracy was 100%, and Coding protection was satisfied. The weak point was generalization of the measured specialist advantage onto a structurally fresh Math distribution.
 
-Not satisfied:
+## Architectural interpretation
 
-- routed overall improvement >= +10 pp;
-- overall improvement CI excludes zero;
-- routed Mathematics improvement >= +10 pp;
-- Mathematics improvement CI excludes zero.
+Gate A and Gate B together imply:
 
-No unresolved material methodology defect requires INCONCLUSIVE. Under the frozen acceptance definition, the valid fresh execution supports a **FAIL recommendation**.
+1. specialization can create large capability divergence on a measured distribution;
+2. a checkpoint label or broad domain such as `Mathematics` is not a sufficient skill identity;
+3. capability registry entries should be finer-grained and carry evidence across multiple structurally independent panels;
+4. routing should target expected utility for task subtypes, not assume that a broad specialist is uniformly superior within a domain.
 
-## Interpretation
+## Post-Gate hypothesis: General meta-capabilities
 
-The router itself was not the bottleneck: it routed the benchmark 100% correctly. The measured specialist advantage did not generalize strongly enough to the structurally fresh Gate B Math distribution. A broad registry entry such as `Mathematics -> Math specialist` therefore appears too coarse for reliable expected-utility routing.
+A plausible but **not yet causally established** explanation for the Gate A / Gate B contrast is that the General checkpoint may retain stronger cross-domain meta-capabilities that become increasingly important on fresh or less templated tasks:
 
-This does not invalidate Gate A or the broader Dexinode thesis. Gate A established that same-size specialization can exist; Gate B shows that the advantage can be strongly distribution-sensitive and must be validated at finer capability granularity and across multiple independent panels.
+- natural-language task interpretation;
+- specification grounding;
+- ambiguity resolution;
+- selecting the intended answer representation;
+- self-checking / consistency review;
+- deciding whether a familiar solution pattern actually matches the current problem.
 
-## Current authorization
+Specialist training may improve domain-specific solution patterns or mathematical representations while not improving — and potentially partially trading off — these general comprehension and review capabilities. A task that requires both mathematical competence and robust interpretation/verification can therefore show much less specialist advantage than a benchmark concentrated on patterns aligned with the specialization distribution.
 
-**No additional Gate B selected-model execution is required or authorized for the current v1 evidence set.**
+This hypothesis is consistent with the Coding postmortem as well: many differential failures were not missing algorithm knowledge but failures of input representation, language semantics, edge constraints, or final implementation correctness.
 
-The next action is the final human Gate B choice: **PASS / FAIL / INCONCLUSIVE**. The repository evidence recommendation is **FAIL**.
+## Candidate next research question
+
+Before any new selected-model experiment, define a bounded gate that separates at least:
+
+- domain solution competence;
+- task/specification comprehension;
+- derivation or implementation reliability;
+- answer verification / self-review;
+- generalization across independent task families.
+
+A later efficiency gate can then ask whether a much smaller specialist preserves enough quality relative to a stronger General/MoE model to justify Dexinode on VRAM, latency, energy, concurrency or deployment cost.
+
+## Authorization
+
+**Gate B v1 is closed. No additional Gate B selected-model execution is authorized.**
+
+The next step is research-design work only until a new gate, benchmark and acceptance criteria are explicitly frozen.
