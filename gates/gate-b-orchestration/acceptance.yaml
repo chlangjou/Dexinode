@@ -1,67 +1,16 @@
 id: gate-b-orchestration-acceptance-v1
-status: frozen-approved-for-execution
+status: evaluated-pending-final-human-decision
 final_decision_owner: human
 thresholds_changed_from_initial_proposal: false
-selected_model_execution_before_approval: false
-selected_model_execution_authorized_stage: B3B4-comparable-policy-execution
 
-review_history:
-  b1_v1_0_0:
-    benchmark_version: gate-b-orchestration-v1.0.0
-    decision: CHANGES_REQUIRED
-    review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
-  b1r_v1_1_0:
-    benchmark_version: gate-b-orchestration-v1.1.0
-    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
-    decision: CHANGES_REQUIRED
-    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
-    accepted_structural_freshness: true
-    accepted_router_information_boundary: true
-  b1r2_v1_1_1:
-    benchmark_version: gate-b-orchestration-v1.1.1
-    reviewed_commit: af02e88cb190604fbd3a0d2497ade19e2597ae15
-    decision: APPROVED
-    review_record: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
-  b2_static_qualification:
-    decision: PASS
-    review_record: gates/gate-b-orchestration/reviews/b2-static-qualification.md
-    B3B4_authorized: true
-
-target_revision:
-  benchmark_version: gate-b-orchestration-v1.1.1
-  target_root: experiments/gate-b/benchmark-v1.1.1/
+benchmark:
+  version: gate-b-orchestration-v1.1.1
+  root: experiments/gate-b/benchmark-v1.1.1/
   router: experiments/gate-b/router-v2/router.py
-  status: approved
-  selected_model_execution_authorized: true
-  selected_model_execution_scope: B3B4-only-under-frozen-protocol
-  math_oracle_validation: 48/48 PASS
-  coding_evaluator_validation: 48/48 PASS
-  coding_semantic_contract_audit: 48/48 PASS
-  completion_record:
-    manifest: experiments/gate-b/benchmark-v1.1.1/manifest.yaml
-    oracle_validation: experiments/gate-b/benchmark-v1.1.1/oracle-validation.yaml
-    semantic_contract_audit: experiments/gate-b/benchmark-v1.1.1/semantic-contract-audit.yaml
-    B1R2_human_review: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
-    B2_qualification: gates/gate-b-orchestration/reviews/b2-static-qualification.md
-
-execution_record:
-  execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
-  evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
-  status: complete-pending-human-review
-  general_only_overall: 76/96
-  skill_routed_overall: 77/96
-  overall_delta_percentage_points: 1.0416666666666665
-  overall_bootstrap_ci95_percentage_points: [0.0, 3.125]
-  mathematics_delta_percentage_points: 2.083333333333333
-  mathematics_bootstrap_ci95_percentage_points: [0.0, 6.25]
-  coding_degradation_percentage_points: 0.0
-  router_accuracy: 96/96
-  coder_executed: false
-  final_gate_decision: PENDING HUMAN REVIEW
-  non_material_metadata_note: >-
-    The informational case_file strings inside v1.1.1 case YAML retain a
-    v1.1.0 identifier; repository path, manifest/version/hash and runtime lookup
-    identities are correct, so this does not affect execution or scoring.
+  B1R2_review: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
+  B2_qualification: gates/gate-b-orchestration/reviews/b2-static-qualification.md
+  B3B4_review: gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md
+  evidence_report: gates/gate-b-orchestration/evidence-report.md
 
 question: >-
   Does a frozen evidence-based semantic-task router improve structurally fresh
@@ -104,8 +53,8 @@ router_information_boundary:
   router_may_read_model_output: false
   router_is_deterministic_cpu_only: true
   scope_note: >-
-    Router qualification in this minimal two-domain Gate is benchmark-specific;
-    it does not establish a general-purpose learned or paraphrase-robust router.
+    Router qualification is benchmark-specific and does not establish a
+    general-purpose learned or paraphrase-robust router.
 
 primary_policies:
   general_only:
@@ -183,6 +132,11 @@ pass_recommendation_requires:
   - router_quality_satisfied
   - no_unresolved_material_methodological_defect
 
+fail_recommendation_requires:
+  - valid_fresh_benchmark_existed
+  - both_primary_policies_completed_comparably
+  - predefined_primary_orchestration_threshold_not_met
+
 inconclusive_conditions:
   - benchmark_oracle_or_evaluator_defect
   - benchmark_semantic_contract_defect
@@ -194,18 +148,42 @@ inconclusive_conditions:
   - post_freeze_methodological_defect
   - execution_environment_prevents_fair_comparison
 
-secondary_metrics:
-  - mathematics_accuracy
-  - software_coding_accuracy
-  - routing_accuracy
-  - strict_interface_compliance
-  - input_tokens
-  - output_tokens
-  - inference_elapsed_seconds
-  - router_elapsed_seconds
-  - task_family_accuracy
+observed_execution:
+  execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+  evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
+  general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
+  skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
+  overall_delta_percentage_points: 1.0416666666666665
+  overall_ci95_percentage_points: [0.0, 3.125]
+  mathematics_delta_percentage_points: 2.083333333333333
+  mathematics_ci95_percentage_points: [0.0, 6.25]
+  coding_delta_percentage_points: 0.0
+  router_accuracy: 1.0
+  coder_executed: false
+  generation_failures: 0
+  coding_judge_infrastructure_failures: 0
+  coding_judge_timeouts: 0
+
+criterion_evaluation:
+  minimum_evidence_satisfied: true
+  freshness_and_leakage_controls_satisfied: true
+  router_information_boundary_satisfied: true
+  resource_parity_satisfied: true
+  execution_freeze_satisfied: true
+  router_quality_satisfied: true
+  non_target_protection_satisfied: true
+  primary_orchestration_signal_satisfied: false
+  validated_math_skill_signal_satisfied: false
+  no_unresolved_material_methodological_defect: true
+
+recommendation:
+  label: FAIL
+  reason: >-
+    The valid comparable execution did not meet the frozen overall or
+    Mathematics improvement thresholds, and both improvement confidence
+    intervals include zero. The fail conditions are met; no inconclusive
+    condition is currently material.
+  final_human_decision: PENDING HUMAN REVIEW
 
 agent_output_rule:
-  allowed: recommend_pass_fail_or_inconclusive
-  required_final_label: PENDING HUMAN REVIEW
   may_assign_final_gate_result: false
