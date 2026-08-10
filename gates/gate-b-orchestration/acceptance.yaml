@@ -1,6 +1,8 @@
 id: gate-b-orchestration-acceptance-v1
-status: evaluated-pending-final-human-decision
+status: evaluated-final
 final_decision_owner: human
+final_human_decision: FAIL
+final_decision_record: gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md
 thresholds_changed_from_initial_proposal: false
 
 benchmark:
@@ -17,84 +19,6 @@ question: >-
   mixed-workload semantic accuracy relative to a General-only policy when both
   logical policies use exactly one model inference per task and the same
   generation budget?
-
-minimum_evidence:
-  fresh_total_cases: 96
-  mathematics_cases: 48
-  software_coding_cases: 48
-  general_only_policy_completed: true
-  routed_policy_completed: true
-  same_cases_and_case_order: true
-  raw_per_case_results_preserved: true
-  routing_decisions_preserved: true
-  reproducibility_metadata_complete: true
-  failed_and_invalid_runs_preserved: true
-
-freshness_and_leakage_controls:
-  exact_gate_a_prompt_reuse_allowed: false
-  structural_case_freshness_required: true
-  one_to_one_positional_mirror_allowed: false
-  coefficient_or_constant_substitution_only_allowed: false
-  near_isomorphic_gate_a_case_reuse_allowed: false
-  case_by_case_structural_audit_required: true
-  selected_model_calibration_allowed: false
-  gate_a_per_case_win_loss_used_for_case_selection: false
-  gate_a_raw_outputs_used_as_router_fixtures: false
-  gate_a_retrospective_postmortem_used_for_case_selection: false
-  gate_a_human_approved_aggregate_capability_profile_allowed: true
-
-router_information_boundary:
-  router_may_read_semantic_task_text_only: true
-  handoff_or_output_contract_visible_to_router: false
-  router_may_read_hidden_domain_label: false
-  router_may_read_expected_answer: false
-  router_may_read_coding_evaluator_tests: false
-  router_may_read_case_metadata: false
-  router_may_read_model_output: false
-  router_is_deterministic_cpu_only: true
-  scope_note: >-
-    Router qualification is benchmark-specific and does not establish a
-    general-purpose learned or paraphrase-robust router.
-
-primary_policies:
-  general_only:
-    model: Qwen/Qwen2.5-7B-Instruct
-    revision: a09a35458c702b33eeacc393d103063234e8bc28
-    model_calls_per_case: 1
-  skill_routed:
-    model_calls_per_case: 1
-    registry:
-      mathematics: Qwen/Qwen2.5-Math-7B-Instruct
-      software_coding: Qwen/Qwen2.5-7B-Instruct
-      fallback: Qwen/Qwen2.5-7B-Instruct
-    math_revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
-    general_revision: a09a35458c702b33eeacc393d103063234e8bc28
-    coder_checkpoint_used_as_validated_coding_specialist: false
-
-resource_parity:
-  logical_model_calls_per_case_equal: true
-  total_context_envelope_equal: true
-  max_new_tokens_equal: true
-  dtype_equal: true
-  quantization_equal: true
-  generation_policy_equal: true
-  external_tools_equal: true
-  routed_fallback_second_model_call_allowed: false
-  ensemble_or_voting_allowed: false
-  result_driven_rerouting_allowed: false
-  reuse_general_output_when_both_policies_select_same_model_and_prompt: allowed
-
-execution_freeze:
-  one_orchestrated_selected_model_sequence_required: true
-  route_decisions_persisted_before_first_selected_model_output: true
-  result_review_between_general_and_specialist_collection: false
-  general_run_all_cases_once: true
-  specialist_run_only_frozen_router_selected_cases: true
-  treatment_composed_from_frozen_routing_decisions: true
-  protocol_changes_after_first_selected_model_output: forbidden
-  performance_early_stop: forbidden
-  genuine_infrastructure_or_methodological_failure_may_stop: true
-  partial_or_invalid_evidence_must_be_preserved: true
 
 primary_orchestration_signal:
   metric: overall_semantic_accuracy_delta_routed_minus_general
@@ -117,36 +41,6 @@ non_target_protection:
 
 router_quality:
   minimum_domain_routing_accuracy: 0.95
-  measured_against_hidden_evaluation_domain_labels: true
-  route_decision_made_before_model_output: true
-
-pass_recommendation_requires:
-  - minimum_evidence_satisfied
-  - freshness_and_leakage_controls_satisfied
-  - router_information_boundary_satisfied
-  - resource_parity_satisfied
-  - execution_freeze_satisfied
-  - primary_orchestration_signal_satisfied
-  - validated_math_skill_signal_satisfied
-  - non_target_protection_satisfied
-  - router_quality_satisfied
-  - no_unresolved_material_methodological_defect
-
-fail_recommendation_requires:
-  - valid_fresh_benchmark_existed
-  - both_primary_policies_completed_comparably
-  - predefined_primary_orchestration_threshold_not_met
-
-inconclusive_conditions:
-  - benchmark_oracle_or_evaluator_defect
-  - benchmark_semantic_contract_defect
-  - structural_freshness_defect
-  - router_contract_changed_after_selected_model_results
-  - router_information_boundary_broken
-  - resource_parity_broken
-  - insufficient_sample_or_statistical_power
-  - post_freeze_methodological_defect
-  - execution_environment_prevents_fair_comparison
 
 observed_execution:
   execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
@@ -176,14 +70,14 @@ criterion_evaluation:
   validated_math_skill_signal_satisfied: false
   no_unresolved_material_methodological_defect: true
 
-recommendation:
+final_evaluation:
   label: FAIL
   reason: >-
-    The valid comparable execution did not meet the frozen overall or
+    The valid comparable fresh execution did not meet the frozen overall or
     Mathematics improvement thresholds, and both improvement confidence
-    intervals include zero. The fail conditions are met; no inconclusive
-    condition is currently material.
-  final_human_decision: PENDING HUMAN REVIEW
+    intervals include zero. The fail conditions are satisfied and no material
+    inconclusive condition remains.
 
-agent_output_rule:
-  may_assign_final_gate_result: false
+closure:
+  additional_gate_b_selected_model_execution_authorized: false
+  gate_b_v1_closed: true
