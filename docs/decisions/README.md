@@ -63,3 +63,4 @@ Do not create an ADR for every idea. Use one when a choice changes future work, 
 ## Records
 
 - [0001 — Use a hybrid resident-agent frame for the next research stage](0001-hybrid-resident-agent-research-frame.md) — Accepted, 2026-08-10; decision issue [#27](https://github.com/chlangjou/Dexinode/issues/27).
+- [0002 — Proceed to a bounded repository-repair Resident Core specification](0002-proceed-to-bounded-repository-repair-spec.md) — Accepted, 2026-08-11; decision issue [#29](https://github.com/chlangjou/Dexinode/issues/29).

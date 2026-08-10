@@ -4,6 +4,7 @@
 - Date: 2026-08-10
 - Deciders: Human project owner
 - Decision issue: [#27](https://github.com/chlangjou/Dexinode/issues/27)
+- Revisited by: [ADR 0002](0002-proceed-to-bounded-repository-repair-spec.md)
 - Supersedes: None
 - Superseded by: None
 
@@ -92,3 +93,5 @@ The decision is revisited after the Hybrid Agent Architecture Worker returns fou
 - `STOP / NEGATIVE`
 
 The working context ranges and provisional responsibility split expire when stronger evidence or a human-approved bounded architecture specification supersedes them.
+
+Human review on 2026-08-11 selected `PROCEED TO BOUNDED ARCHITECTURE SPEC`. ADR 0002 narrows that work to one recoverable, deterministically verified repository-repair workflow; it does not validate this research frame.

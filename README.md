@@ -34,14 +34,17 @@ This is a hypothesis to test—not a conclusion.
 - [Open questions](docs/open-questions.md)
 - [Roadmap](docs/roadmap.md)
 - [Current evidence baseline](docs/research/2026-08-10-mvss-routing-evidence-baseline.md)
-- [Hybrid Agent Architecture Worker brief](docs/research/hybrid-agent-architecture-worker-brief.md)
+- [Hybrid Agent evidence map](docs/research/hybrid-agent-evidence-map.md)
+- [Agent-specialized small-model landscape](docs/research/agent-specialized-small-model-landscape.md)
+- [Hybrid architecture hypothesis](docs/research/dexinode-hybrid-architecture-hypothesis.md)
+- [Bounded repository-repair specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md)
 - [Decision records](docs/decisions/README.md)
 - [Current status](status/current.md)
 
 ## Current status
 
 - Project name: **Dexinode** (working name)
-- Stage: hybrid resident-agent feasibility research
+- Stage: bounded repository-repair Resident Core architecture specification, pending human review
 - Repository visibility: public
 - License: undecided
 - Protocol, economics, governance, and threat model: under exploration
@@ -52,11 +55,11 @@ This is a hypothesis to test—not a conclusion.
 
 ## Near-term objective
 
-Use primary research, official model metadata, and production evidence to answer one upstream question before specifying another experiment:
+Human review selected `PROCEED TO BOUNDED ARCHITECTURE SPEC` after the Hybrid Agent evidence review. The current bounded question is:
 
-> Is there a credible Hybrid Resident-Agent architecture region—local control plane, Local Resident Model, memory/context orchestration, tools/verifiers, optional Local Specialists, and controlled Remote Model escalation—worth turning into a bounded architecture specification?
+> For a recoverable repository-repair workflow whose result can be checked by deterministic tests, what minimum responsibility contract, packet/receipt schema, state transitions, and escalation boundary should a 4B–8B Local Resident Core have so that later evidence can determine whether it works without a Remote Model managing every step?
 
-The current work is literature- and metadata-first. It does not authorize model downloads, inference, a new benchmark, or a new Gate.
+The [v0.1 specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md) is a falsifiable hypothesis boundary, not a validated architecture. Current work is human review only; it does not authorize model selection, downloads, inference, implementation, benchmark design, acceptance thresholds, or a new Gate.
 
 ## Principles
 

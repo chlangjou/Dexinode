@@ -2,7 +2,9 @@
 
 This document records a design space, not a frozen system architecture.
 
-The current research frame is recorded in [ADR 0001](decisions/0001-hybrid-resident-agent-research-frame.md). It does not assert that the architecture is production-viable.
+The research frame is recorded in [ADR 0001](decisions/0001-hybrid-resident-agent-research-frame.md). Human review then selected `PROCEED TO BOUNDED ARCHITECTURE SPEC` in [ADR 0002](decisions/0002-proceed-to-bounded-repository-repair-spec.md).
+
+The current bounded artifact is the [Repository-Repair Resident Core Specification v0.1](specifications/bounded-repository-repair-resident-core-v0.1.md). It defines a falsifiable responsibility and evidence boundary; it does not assert that the architecture is production-viable.
 
 ## Current candidate: Hybrid Resident-Agent configuration
 
@@ -82,7 +84,8 @@ This can guarantee round-trip behavior for approved mappings. It cannot guarante
 - Gate A supports measurable specialization as a bounded existence claim.
 - Gate B contradicts broad-domain labels as sufficient routing contracts.
 - FIM / syntax-aware MVSS eligibility is `HOLD`.
-- MVRC, automatic context compilation, agent-specialized absolute-small capability, and full hybrid user value remain open.
+- Hybrid Agent research found a credible Resident candidate region and at least three absolute-small capability regions, while MVRC, automatic context compilation, deployment, and full hybrid user value remain open.
+- Human review authorized a repository-repair specification, not an implementation or validation claim.
 - No runtime prototype, benchmark, or experimental Gate is currently authorized.
 
 ## Long-term network interaction
@@ -204,7 +207,7 @@ Each state needs an observable transition and a bounded recovery action.
 
 ## Later network prototype boundary
 
-If the Hybrid Resident-Agent evidence later supports a bounded architecture specification, a network prototype may remain intentionally small:
+If later evidence supports the bounded Resident Core hypothesis, a network prototype may remain intentionally small:
 
 - three specialist services run by at least two operators or trust boundaries;
 - one router;
@@ -214,4 +217,4 @@ If the Hybrid Resident-Agent evidence later supports a bounded architecture spec
 - a replayable event log;
 - no token, blockchain, or global reputation.
 
-This is not the current authorized task. The current target is to determine whether the local control plane, Resident Core, bounded specialists, and remote escalation can be assigned credible responsibilities without hiding all difficult reasoning in a remote large model.
+This is not the current authorized task. The current target is human review of the bounded repository-repair specification, including whether its receipts expose rather than hide Remote substitution.

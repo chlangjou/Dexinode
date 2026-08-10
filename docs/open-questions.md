@@ -4,9 +4,9 @@ This is the active research backlog. Questions should move into experiments or d
 
 ## Highest-decision-value question
 
-Does existing evidence support a credible Hybrid Resident-Agent configuration worth turning into a bounded architecture specification, or is Dexinode's nearer-term value limited to a trusted local control plane?
+Does the [bounded repository-repair specification](specifications/bounded-repository-repair-resident-core-v0.1.md) define a sufficiently narrow, attributable, and falsifiable Resident Core boundary without turning provisional assumptions into acceptance criteria?
 
-The current Worker must answer this without creating a benchmark or running a model.
+Human review must answer this before any implementation, benchmark, Gate, or model run is considered.
 
 ## User workflow and task contract
 

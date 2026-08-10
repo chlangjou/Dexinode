@@ -26,41 +26,43 @@ Result:
 - full-stack absolute-small economics and edge decentralization remain open;
 - FIM / syntax-aware candidate eligibility is `HOLD`.
 
-## Current stage — Hybrid Resident-Agent evidence review
+### Hybrid Resident-Agent evidence review
 
-Goal: decide whether there is a credible architecture hypothesis worth specifying, before another benchmark or runtime experiment.
+Result: **`PROCEED TO BOUNDED ARCHITECTURE SPEC`** by human decision.
 
-Research tracks:
+Completed outputs:
 
-1. Agent memory and context engineering.
-2. Loop, harness, workflow, and graph engineering—including negative evidence for unnecessary complexity.
-3. Agent-specialized edge-small, absolute-small, active-small MoE, and remote-reference models.
-4. Hybrid local/remote responsibility, trust, verification, and user-value evidence.
+- memory／context and loop／harness evidence map;
+- non-exhaustive agent-specialized small-model landscape;
+- responsibility-based Hybrid Resident-Agent hypothesis;
+- Worker `HOLD` recommendation and separate human review;
+- ADR 0002 decision to specify one recoverable repository-repair workflow.
 
-Required outputs:
+The decision means that component evidence is sufficient for a falsifiable specification. It does not validate MVRC, any model, the context envelope, deployment economics, or user value.
 
-- evidence map;
-- agent-specialized small-model landscape;
-- responsibility-based architecture hypothesis;
-- one decision: `PROCEED TO BOUNDED ARCHITECTURE SPEC`, `HOLD`, `PIVOT TO LOCAL CONTROL PLANE`, or `STOP / NEGATIVE`.
+## Current stage — Bounded repository-repair architecture specification
 
-Current restrictions:
+Goal: human-review the [v0.1 specification](specifications/bounded-repository-repair-resident-core-v0.1.md) for one recoverable, deterministically verified repository-repair workflow.
 
-- no model weights or inference;
-- no GPU experiment;
-- no benchmark creation/freeze or acceptance threshold;
-- no new Gate;
+The specification defines:
+
+- deterministic local authority and sandbox boundary;
+- six non-delegable Resident semantic responsibilities;
+- task, packet, proposal, execution, verification, escalation, and integration records;
+- legal states, termination, rollback, disclosure, and security invariants;
+- explicit Remote-dependence attribution, including `core_substitution`;
+- observability, falsifiers, unsupported tasks, and deferred decisions.
+
+Current restrictions remain:
+
+- no checkpoint selection, model weights, inference, quantization, or GPU work;
+- no implementation or execution plan;
+- no benchmark creation/freeze, task sampling, acceptance threshold, or new Gate;
 - no changes to Gate A/B evidence;
 - no DELULU/FIM HOLD closure work;
-- no routing-economics, token, settlement, or reputation design.
+- no routing-economics, token, settlement, reputation, or governance design.
 
-Exit condition: human review accepts exactly one decision and, only if appropriate, one next bounded question.
-
-## Conditional next stage — Bounded architecture specification
-
-Enter only after `PROCEED TO BOUNDED ARCHITECTURE SPEC`.
-
-Possible specification subjects include the Local Resident Core boundary, memory/context lifecycle, responsibility and escalation matrix, task contract, privacy boundary, measurable workflow utility, and explicit unsupported-task boundary. This stage still does not automatically authorize an experimental Gate.
+Exit condition: human review accepts the specification boundary or requests a focused revision. Any experimental question requires a later, separate human decision.
 
 ## Conditional evidence stages
 
@@ -174,6 +176,6 @@ A blockchain or token is one possible implementation, not a prerequisite or defa
 
 ## Immediate next decisions
 
-1. Complete the [Hybrid Agent Architecture Worker brief](research/hybrid-agent-architecture-worker-brief.md).
-2. Human-review the four deliverables and choose one permitted decision.
-3. If and only if the result is `PROCEED`, write one bounded architecture specification before considering a Gate.
+1. Review the [bounded repository-repair specification](specifications/bounded-repository-repair-resident-core-v0.1.md).
+2. Confirm that responsibility attribution, `core_substitution`, packet／receipt schemas, unsupported tasks, and falsifiers are complete without freezing performance criteria.
+3. Stop before an experiment. Formulating any Gate question requires a new decision issue.
