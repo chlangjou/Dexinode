@@ -1,109 +1,195 @@
 # Dexinode Session Handoff
 
 Repository: `chlangjou/Dexinode`
-Canonical/default branch: `main`
-Snapshot date: 2026-08-10
+Canonical branch: `main`
+Snapshot: 2026-08-10
+
+Git is the durable source of truth. This file is intentionally compact for a fresh ChatGPT session.
 
 ## Start here
 
-Read, in order:
+Read only what is needed, in this order:
 
 1. `AGENTS.md`
-2. this file
+2. `HANDOFF.md`
 3. `status/current.md`
 4. `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 5. `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
 6. `gates/gate-b-orchestration/evidence-report.md`
-7. `gates/gate-b-orchestration/task.yaml`
-8. `gates/gate-b-orchestration/acceptance.yaml`
 
-Git is the durable source of truth.
+Also consult the File Library research report when available:
 
-## Current state
+`Dexinode-specialist-llm-literature-review-2026-08-10.md`
 
-Gate A — Specialist Validation: **PASS / CLOSED**.
+Do not reopen old Gate A/B execution unless a new question specifically requires it.
 
-Gate B — Orchestration Advantage: **FAIL / CLOSED**.
+## Closed experimental gates
 
-Final Gate B decision:
+### Gate A — Specialist Validation
 
+**PASS / CLOSED.**
+
+Same-size Qwen2.5-7B comparison established that specialization can produce strong capability divergence on a measured distribution. The Math checkpoint showed a large Math advantage on Gate A; the Coder checkpoint did not validate as a Coding specialist.
+
+Key architectural lesson: checkpoint/domain labels are not sufficient skill identities; capability must be empirically registered.
+
+### Gate B — Orchestration Advantage
+
+**FAIL / CLOSED.**
+
+Final decision record:
 `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 
-Post-closure retrospective / errata:
+Frozen execution:
+`gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
 
+Frozen result:
+
+- General-only: 76/96 = 79.17%; Math 40/48; Coding 36/48.
+- Skill-routed: 77/96 = 80.21%; Math 41/48; Coding 36/48.
+- Overall delta: +1.04 pp, 95% CI [0, +3.125] pp.
+- Math delta: +2.08 pp, CI [0, +6.25] pp.
+- Router domain accuracy: 100%.
+- Frozen +10 pp overall and +10 pp Math requirements were not met.
+
+Conclusion: perfect broad-domain routing did not create material system advantage because specialist advantage did not transfer strongly to the fresh panel.
+
+## Important post-closure caveats
+
+See:
 `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
 
-No new research gate is active. No additional Gate B selected-model execution is authorized.
+Key findings:
 
-## Gate B frozen evidence
+- `math-23` has a frozen oracle error: correct Bayes posterior is `95/242`, not `19/48`; both models computed approximately the correct decimal and both were rejected by the rational-only scorer.
+- `math-11`, `math-12`, `math-17` were mathematically correct for both models but rejected by answer-representation parsing.
+- `math-41`, the sole frozen specialist win, was mathematically correct for both (`0.75` vs `3/4`); only specialist representation was accepted.
+- `math-16` and `math-32` show genuine shared arithmetic/self-check failures.
 
-Benchmark: `gate-b-orchestration-v1.1.1`
+These errata do not rescue Gate B; content-level retrospective makes the Math specialist advantage smaller, not larger. Preserve frozen scores as historical evidence and keep errata explicit.
 
-Execution: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
+## Current research pivot
 
-Evidence root:
+Do **not** assume Dexinode is practical. Current position:
 
-`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
+> Specialized/cheaper models are clearly possible and routing has real production value, but useful specialization may require a much larger model scale and stricter conditions than the original edge-small-model thesis assumed.
 
-Frozen scores:
+Separate three hypotheses:
 
-- General-only: 76/96 = 79.17%; Math 40/48 = 83.33%; Coding 36/48 = 75.00%.
-- Skill-routed: 77/96 = 80.21%; Math 41/48 = 85.42%; Coding 36/48 = 75.00%.
-- overall delta: **+1.04 pp**, 95% CI **[0.00, +3.125] pp**;
-- Math delta: **+2.08 pp**, 95% CI **[0.00, +6.25] pp**;
-- Coding delta: **0.00 pp**;
-- router accuracy: **100%**.
+1. **Specialization thesis** — a cheaper/specialized model can be better on a bounded task region.
+2. **Routing thesis** — the system can predict before expensive inference when that model is good enough.
+3. **Decentralization thesis** — the minimum viable specialist scale is small enough for distributed/idle/consumer compute.
 
-The frozen +10 pp overall and +10 pp Math thresholds were not met. The human owner assigned final **FAIL**.
+Evidence for (1) and (2) exists in research and production. (3) remains open and is the most Dexinode-specific risk.
 
-## Post-closure Mathematics retrospective
+Important distinction:
 
-After closure, inspection of preserved raw outputs found benchmark/scoring issues that are important to future methodology but do not improve the routed-vs-General paired signal:
+- **Absolute-small**: roughly consumer/edge-deployable 1B–14B class.
+- **Relative-small**: substantially cheaper than frontier, but still datacenter-scale (for example tens of billions active parameters or large MoE specialists).
 
-- `math-23` frozen oracle `19/48` is wrong; exact posterior is **95/242 ~= 0.392562**. Both models independently calculated approximately 0.392 but the frozen rational extractor rejected both decimal-form answers.
-- `math-11`, `math-12`, and `math-17` were mathematically correct for both models but rejected because final structured representations did not satisfy the frozen parser.
-- `math-41`, the **only** frozen paired Math improvement, was mathematically correct for both models: General returned `0.75`, Math specialist returned `3/4`; only the exact rational representation was accepted.
-- `math-16` and `math-32` are genuine shared arithmetic/self-check failures after both models selected an appropriate method.
-- `math-36` uses interpretation-sensitive wording (`fair trials`) and both models returned the same general `(1-p)^3 p` form instead of assuming `p=1/2`.
+Production routing can succeed with relative-small models without validating the edge-decentralization thesis.
 
-Under a human mathematical-content reading of these cases, the observed specialist Math advantage collapses rather than grows: the checkpoints have the same content-level correctness classification across the inspected Gate B Math panel.
+## Literature review conclusions already absorbed
 
-Protocol-purity caveat: the frozen acceptance document listed a benchmark oracle defect as an INCONCLUSIVE condition. The post-closure `math-23` defect therefore deserves explicit disclosure. It is nevertheless non-differential for the paired conclusion and cannot rescue the failed +10 pp thresholds; the final human Gate B label remains FAIL unless the human owner explicitly revises it.
+The literature review supports these concepts:
 
-## Combined Gate A / Gate B interpretation
+- catastrophic forgetting is not the whole problem;
+- **General Capability Integration (GCI)** is a distinct concern: a specialist may retain general abilities yet fail to combine them reliably with domain expertise;
+- mixed general/domain training can outperform pure specialization (Qwen2.5-Coder's reported code/general/math mixture is an important example, not a universal ratio);
+- specialists may work as augmentation modules rather than full General-model replacements (e.g. specialist knowledge/derivation feeding a General reasoning core);
+- model complementarity does not imply easy model selection; model-recall/oracle-gap is a central routing problem;
+- routing should eventually estimate expected utility / probability of success, not merely classify domain;
+- small-specialist quality/resource Pareto improvements exist, but often under narrow, identifiable, verifiable distributions.
 
-Gate A proved that specialization can exist strongly on a measured distribution. Gate B showed that the same broad specialist identity did not generalize into a material orchestration advantage on a structurally fresh panel.
+## Current hypothesis about Qwen2.5 General / Math / Coder
 
-Do not register a skill solely as a checkpoint label or broad domain such as `Mathematics` or `Coding`. Future capability registry entries should become finer-grained and include evidence across multiple structurally independent panels.
+All inherit a strong Qwen2.5 base, but later training objectives differ materially.
 
-## Post-Gate hypothesis to investigate
+- General-Instruct emphasizes broad instruction following, human preference, structured behavior and general reasoning.
+- Math adds >1T math-oriented continued pretraining plus math CoT/TIR, reward modeling and GRPO-style specialist alignment.
+- Coder adds ~5.5T continued training with an explicit mixed code/general/math recipe, FIM/repository training, then coding-focused instruction/preference stages while deliberately retaining common data.
 
-A plausible but unproven explanation for the Gate A / Gate B contrast is that the General model retains stronger cross-domain meta-capabilities such as:
+Plausible but unproven hypothesis:
 
-- natural-language comprehension;
-- specification grounding;
-- ambiguity resolution;
-- answer-format/intention selection;
-- self-checking and consistency review;
-- recognizing when a familiar domain pattern does not actually fit the present task.
+> Specialist training may improve domain-method competence while changing the relative weighting/integration of general comprehension, grounding, verification and output-control abilities.
 
-Specialist training may increase domain solution competence without preserving the same level of comprehension/review capability. Tasks requiring both could therefore erase much of the apparent specialist advantage.
+Do not treat this as established causality.
 
-Current Gate B raw evidence does **not** yet prove General is better at review: both checkpoints share arithmetic verification failures, and many frozen zero scores are common-mode answer-contract effects. Treat this as a research hypothesis, not a causal conclusion.
+## Production examples that motivated the current pivot
 
-## Candidate next bounded research design
+Two relevant patterns should be verified from primary/credible sources when reused:
 
-Before any new GPU/model run, design a gate that separates at least:
+- OpenAI-style model ladders/routing: route easier work to cheaper/faster models and escalate harder tasks. Do not repeat an exact `1/10 compute` claim without primary evidence.
+- Cursor-style routing/first-party specialist economics: first-party coding models and production routing can reduce dependence on frontier providers and improve inference economics, but successful specialists may still be datacenter-scale rather than edge-small.
 
-1. task/specification comprehension;
-2. domain-method selection;
-3. derivation/computation or implementation correctness;
-4. final verification/self-review;
-5. answer representation / handoff-contract compliance;
-6. generalization across independent task families.
+The key research question is therefore no longer "can specialists exist?" but:
 
-A later or parallel efficiency gate should test the economic Dexinode thesis directly: whether a substantially smaller specialist can retain near-General quality on a validated narrow skill while materially reducing VRAM, latency, energy or deployment cost.
+> At a required quality threshold, what is the minimum-cost / minimum-scale model that remains reliable, and can we predict when to use it cheaply enough?
 
-## Next action
+## Next work: two parallel literature-first Worker sessions
 
-Research-design only. Freeze a new hypothesis, benchmark and acceptance criteria before any selected-model experiment.
+No new GPU Gate is active. Run two independent research workers first.
+
+### Worker A — Specialist Viability / Minimum Viable Specialist Scale
+
+Research whether and at what scale specialists can retain:
+
+- domain advantage;
+- General Capability Integration;
+- instruction/specification comprehension;
+- reliability and verification;
+- transferable advantage across fresh panels;
+- meaningful VRAM/latency/energy/cost advantage.
+
+Explicitly distinguish absolute-small from relative-small specialists.
+
+Primary output: evidence on the **minimum viable specialist scale** by task regime and whether edge-scale specialists are realistic.
+
+### Worker B — Routing / Model Recall / Escalation Economics
+
+Research whether model complementarity can be converted into production savings through:
+
+- pre-inference success prediction;
+- cost/quality routing;
+- model recall / oracle-gap reduction;
+- confidence calibration and abstention;
+- cheap-first cascades / escalation;
+- verifier-assisted routing;
+- production systems such as OpenAI/Cursor where publicly documented.
+
+Primary output: evidence on whether routing can predict **P(success | model, task)** cheaply and robustly enough to beat a strong single model.
+
+Both workers must be literature-first and actively seek negative evidence. Do not design a Dexinode benchmark until literature gaps are established.
+
+## Main-session synthesis after Workers A/B
+
+When both worker reports return, do not immediately start another model experiment.
+
+Build an evidence matrix across:
+
+- Specialist Viability
+- Routing Predictability
+- Deployment Scale
+
+Classify major claims as:
+
+- ESTABLISHED
+- PARTIALLY SUPPORTED
+- OPEN
+- CONTRADICTED
+
+Then decide whether the next falsifiable Gate should test:
+
+1. minimum viable specialist scale / edge viability;
+2. General Capability Integration;
+3. routing success prediction / escalation;
+4. specialist augmentation + verifier;
+5. or whether evidence is too weak to justify further Dexinode-specific experimentation.
+
+## Research discipline
+
+Dexinode is currently a **possible architecture under potentially strict conditions**, not an assumed product direction.
+
+Research goal: progressively narrow the region in which it could be practical. If that region becomes too narrow or expensive for decentralized deployment, record that as a valid negative result.
+
+No new selected-model execution is authorized until a new bounded hypothesis, benchmark and acceptance criteria are explicitly frozen.
