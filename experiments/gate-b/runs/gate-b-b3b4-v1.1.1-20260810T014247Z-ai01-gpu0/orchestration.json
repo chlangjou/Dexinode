@@ -1,0 +1,83 @@
+{
+  "benchmark_id": "gate-b-orchestration-v1.1.1",
+  "benchmark_manifest_sha256": "abb2483533b94ff532a7f65edf0af59a3d9267936ac7a7ddb82155b7ec576449",
+  "benchmark_root": "experiments/gate-b/benchmark-v1.1.1/",
+  "execution_id": "gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0",
+  "finished_utc": "2026-08-10T01:59:51.159140Z",
+  "protocol_sha256": "a5b5e2699016616b39fe4699f33e892e27ac304192be80d494ab0fcb0e9ac272",
+  "result_inspection_between_phases": false,
+  "route_receipt": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/route-receipt.json",
+  "rows": [
+    {
+      "elapsed_seconds": 2.1307095289230347,
+      "exit_code": 0,
+      "ordinal": 1,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-general_baseline-output",
+      "phase": "preflight",
+      "role": "general_baseline",
+      "run_dir": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/general-baseline",
+      "selected_case_count": 96
+    },
+    {
+      "elapsed_seconds": 2.0067588929086924,
+      "exit_code": 0,
+      "ordinal": 2,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-mathematics_specialist-output",
+      "phase": "preflight",
+      "role": "mathematics_specialist",
+      "run_dir": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/mathematics-specialist",
+      "selected_case_count": 48
+    },
+    {
+      "elapsed_seconds": 578.3659610562027,
+      "exit_code": 0,
+      "ordinal": 1,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-general_baseline-output",
+      "phase": "formal_inference",
+      "raw_output": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/general-baseline/raw-responses.jsonl",
+      "result_inspected_by_orchestrator": false,
+      "role": "general_baseline",
+      "selected_case_count": 96
+    },
+    {
+      "elapsed_seconds": 408.1824607504532,
+      "exit_code": 0,
+      "ordinal": 2,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-mathematics_specialist-output",
+      "phase": "formal_inference",
+      "raw_output": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/mathematics-specialist/raw-responses.jsonl",
+      "result_inspected_by_orchestrator": false,
+      "role": "mathematics_specialist",
+      "selected_case_count": 48
+    },
+    {
+      "error": "",
+      "exit_code": 0,
+      "ordinal": 1,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-general_baseline-output",
+      "phase": "output_collection",
+      "result_inspected_by_orchestrator": false,
+      "role": "general_baseline"
+    },
+    {
+      "error": "",
+      "exit_code": 0,
+      "ordinal": 2,
+      "output_volume": "dexinode-gate-b3b4-gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0-mathematics_specialist-output",
+      "phase": "output_collection",
+      "result_inspected_by_orchestrator": false,
+      "role": "mathematics_specialist"
+    }
+  ],
+  "run_order": [
+    "general_baseline",
+    "mathematics_specialist"
+  ],
+  "runner_sha256": "2ade7e00c4ad8efeeaa54eb923dd3213f3904606af9a5f0195fae623591a5e22",
+  "schema_version": 1,
+  "scoring_sha256": "c0d656c78cad2e66361df9ff3998b66b80091b68d0a18f83052dbf6402f41e8e",
+  "started_utc": "2026-08-10T01:43:20.287067Z",
+  "status": "complete_pending_human_review",
+  "scoring_receipt": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/scoring-receipt.json",
+  "policy_metrics": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/policy-metrics.json"
+}

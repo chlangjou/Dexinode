@@ -1,0 +1,37 @@
+{
+  "completed_utc": "2026-08-10T02:02:28.979991Z",
+  "execution_id": "gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0",
+  "general_per_case_results": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/general-baseline/per-case-results.jsonl",
+  "general_raw_responses": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/general-baseline/raw-responses.jsonl",
+  "judge_policy": {
+    "cap_drop": [
+      "ALL"
+    ],
+    "cpus": "0.5",
+    "docker_socket": "none",
+    "file_size_bytes": 1048576,
+    "gpu_devices": "none",
+    "host_mounts": "none",
+    "image": "python:3.10-slim@sha256:63669fd2563fa90b0442fa7b568e66e3667755636cda086d7bcaaa895f66fe39",
+    "log_max_file": 1,
+    "log_max_size": "64k",
+    "memory": "256m",
+    "network": "none",
+    "no_new_privileges": true,
+    "nproc": "1:1",
+    "pids_limit": 1,
+    "read_only_root": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=16m",
+    "user": "0:0",
+    "watchdog_kill_after_seconds": 1,
+    "watchdog_seconds": 2
+  },
+  "llm_judge": false,
+  "math_specialist_per_case_results": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/mathematics-specialist/per-case-results.jsonl",
+  "math_specialist_raw_responses": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/mathematics-specialist/raw-responses.jsonl",
+  "policy_composition": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/policy-composition.jsonl",
+  "policy_metrics": "experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/policy-metrics.json",
+  "schema_version": 1,
+  "source_execution_boundary": "approved judge-v2 only",
+  "status": "complete"
+}

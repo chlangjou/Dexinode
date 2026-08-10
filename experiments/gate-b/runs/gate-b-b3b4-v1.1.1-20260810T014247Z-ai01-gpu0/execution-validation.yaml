@@ -1,0 +1,126 @@
+schema_version: 1
+execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+benchmark_id: gate-b-orchestration-v1.1.1
+benchmark_git_commit_at_execution: 3cba9b03cd7d75e0f405ed0df4ec91b3fb285ddc
+status: complete-pending-human-review
+gate_decision: PENDING HUMAN REVIEW
+
+protocol:
+  route_decisions_persisted_before_first_model_output: true
+  route_input: semantic_task_only
+  route_count: 96
+  route_counts: {mathematics_specialist: 48, general_baseline: 48, fallback: 0}
+  general_phase_case_count: 96
+  math_specialist_phase_case_count: 48
+  result_inspection_between_phases: false
+  composition_after_both_phases: true
+  coder_executed: false
+  retries_for_performance_recovery: false
+  result_driven_rerouting: false
+  performance_early_stop: false
+  benchmark_or_protocol_changed_after_output: false
+
+models:
+  general_baseline:
+    model_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    generated_records: 96
+    failed_records: 0
+    inference_seconds: 578.3659610562027
+    inference_receipt: general-baseline/inference-receipt.json
+  mathematics_specialist:
+    model_id: Qwen/Qwen2.5-Math-7B-Instruct
+    revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
+    selected_route_records: 48
+    generated_records: 48
+    failed_records: 0
+    inference_seconds: 408.1824607504532
+    inference_receipt: mathematics-specialist/inference-receipt.json
+  excluded:
+    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    executed: false
+
+resources:
+  host: ai01
+  gpu_uuid: GPU-e1760d1d-d9a5-29ce-32f0-bbd70bc98664
+  gpu_class: NVIDIA L40
+  dtype: bfloat16
+  quantization: none
+  total_context_tokens: 4096
+  max_new_tokens: 1024
+  external_tools: false
+  tokenizer_json_sha256: c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539
+  max_rendered_input_tokens: 124
+  max_rendered_input_plus_generation: 1148
+  context_margin: 2948
+
+validation:
+  route_decisions_and_order: PASS
+  raw_response_order_and_counts: PASS
+  generation_failures: 0
+  coding_judge_records: 48
+  coding_judge_infrastructure_failures: 0
+  coding_judge_timeouts: 0
+  general_per_case_scores: 96
+  math_specialist_per_case_scores: 48
+  policy_composition_records: 96
+  adapter: experiments/gate-b/benchmark-v1.1.1/adapter/semantic_adapter.py
+  scoring_policy: experiments/gate-b/benchmark-v1.1.1/scoring.yaml
+  judge_policy: approved CPU-only judge-v2
+  llm_judge: false
+
+tooling:
+  orchestrator: experiments/gate-b/execution/b3b4_orchestrate.py
+  orchestrator_sha256: 846432ffca8943cdaa544d7ba85e70d6e5fc9a2d88fc20a5520bbdd8ad16c5a5
+  runner: experiments/gate-b/execution/b3b4_runner.py
+  runner_sha256: 2ade7e00c4ad8efeeaa54eb923dd3213f3904606af9a5f0195fae623591a5e22
+  scorer: experiments/gate-b/execution/b3b4_score.py
+  scorer_sha256: f98ff18926e23f45e050a27b24c32fba6f41c932fd5422ac42499a86d2712cd4
+
+results:
+  general_only:
+    overall: {correct: 76, total: 96, accuracy: 0.7916666666666666}
+    mathematics: {correct: 40, total: 48, accuracy: 0.8333333333333334}
+    software_coding: {correct: 36, total: 48, accuracy: 0.75}
+  skill_routed:
+    overall: {correct: 77, total: 96, accuracy: 0.8020833333333334}
+    mathematics: {correct: 41, total: 48, accuracy: 0.8541666666666666}
+    software_coding: {correct: 36, total: 48, accuracy: 0.75}
+  routed_minus_general:
+    overall: {observed: 0.010416666666666666, percentage_points: 1.0416666666666665, ci95: [0.0, 0.03125]}
+    mathematics: {observed: 0.020833333333333332, percentage_points: 2.083333333333333, ci95: [0.0, 0.0625]}
+    software_coding: {observed: 0.0, percentage_points: 0.0, ci95: [0.0, 0.0]}
+  bootstrap: {method: paired case resampling, resamples: 20000, confidence_level: 0.95, seed: 0}
+  routing_accuracy: {correct: 96, total: 96, accuracy: 1.0}
+  strict_interface_secondary:
+    general_only: {math: 0, coding: 48}
+    skill_routed: {math: 0, coding: 48}
+
+evidence_paths:
+  route_receipt: route-receipt.json
+  route_decisions: route-decisions.jsonl
+  orchestration: orchestration.json
+  general_raw: general-baseline/raw-responses.jsonl
+  general_receipt: general-baseline/inference-receipt.json
+  general_scores: general-baseline/per-case-results.jsonl
+  general_judge_records: general-baseline/coding-judge-records.jsonl
+  math_raw: mathematics-specialist/raw-responses.jsonl
+  math_receipt: mathematics-specialist/inference-receipt.json
+  math_scores: mathematics-specialist/per-case-results.jsonl
+  policy_composition: policy-composition.jsonl
+  policy_metrics: policy-metrics.json
+  scoring_receipt: scoring-receipt.json
+
+preserved_failed_attempts:
+  - execution_id: gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0
+    status: stopped_preflight_failure
+    phase: general_baseline_preflight
+    cause: runner expected token manifest field id instead of case_id
+    model_output_created: false
+    formal_model_execution_started: false
+    evidence: ../gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0/orchestration.json
+
+human_review:
+  final_gate_decision: PENDING HUMAN REVIEW
+  agent_may_assign_final_gate_result: false
+  next_action: human review of complete B3B4 evidence before B5

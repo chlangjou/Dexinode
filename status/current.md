@@ -4,70 +4,96 @@
 - Active gate: **Gate B — Orchestration Advantage**
 - Gate A final decision: **PASS / CLOSED**
 - Gate B final decision: **PENDING HUMAN REVIEW**
-- Active stage: **B3B4 — comparable policy execution**
+- Active stage: **B5 — evidence report complete, pending final human decision**
+- B5 recommendation: **FAIL**
 - Session handoff: `HANDOFF.md`
 
-## Gate B pre-execution state
+## Approved Gate B evidence set
 
-Final executable benchmark:
+Executable benchmark: `gate-b-orchestration-v1.1.1`
 
-`gate-b-orchestration-v1.1.1`
+Benchmark root: `experiments/gate-b/benchmark-v1.1.1/`
 
-Benchmark root:
+Router: `experiments/gate-b/router-v2/`
 
-`experiments/gate-b/benchmark-v1.1.1/`
+B1R2 human review: `gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md` — **APPROVED**.
 
-Router:
+B2 static qualification: `gates/gate-b-orchestration/reviews/b2-static-qualification.md` — **PASS / COMPLETE**.
 
-`experiments/gate-b/router-v2/`
+B3B4 human review: `gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md` — **APPROVED AS VALID COMPARABLE EXECUTION EVIDENCE**.
 
-B1R2 human review:
+B5 report: `gates/gate-b-orchestration/evidence-report.md` — recommendation **FAIL**.
 
-`gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md`
+## B3B4 execution
 
-Decision: **APPROVED**.
+Execution ID:
 
-B2 static qualification:
+`gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
 
-`gates/gate-b-orchestration/reviews/b2-static-qualification.md`
+Evidence root:
 
-Decision: **PASS / COMPLETE**.
+`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
 
-Accepted static evidence:
+Protocol validity:
 
-- 96 cases: 48 Math + 48 Coding; 10 foundational / 24 intermediate / 14 advanced per domain;
-- structural freshness and semantic-task-only router boundary accepted;
-- Math oracle validation 48/48 PASS, including corrected `math-14 = 136` and `math-37 = 161/36`;
-- Coding evaluator validation 48/48 PASS;
-- Coding prompt-to-evaluator semantic-contract audit 48/48 PASS;
-- semantic adapter 13/13 tests PASS and behavior unchanged;
-- router-v2 5/5 tests PASS and target benchmark routes 96/96;
-- token/context 96/96 PASS; max input 124; max with generation 1148; margin 2948;
-- model revisions, BF16/no-quantization controls, scoring, protocol, resources, and numerical acceptance thresholds unchanged;
-- no Gate B selected model was executed before B3B4 authorization.
+- 96/96 routes persisted before selected-model output;
+- 48 Math-specialist routes, 48 General routes, 0 fallback;
+- General generated 96/96 first;
+- no General result inspection/scoring/review between phases;
+- Math specialist generated exactly the frozen 48 routes;
+- composition/scoring occurred only after both phases;
+- Qwen2.5-Coder was not executed;
+- zero generation failures;
+- Coding judge: 48 records, zero infrastructure failures, zero timeouts;
+- no result-driven retry/rerouting, performance early stop, or post-output benchmark/protocol change.
 
-A stale informational `case_file` label inside the v1.1.1 case YAML still names v1.1.0. The actual v1.1.1 path/manifest/hash/runtime identity is correct; this is recorded as non-material metadata hygiene and does not affect execution or scoring.
+The earlier execution ID `gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0` is preserved as a preflight-only failure caused by the runner reading token-manifest field `id` instead of `case_id`. Formal inference never started and no model output was created; this is non-contaminating invalid/preflight history.
 
-## Active B3B4 execution contract
+## Results
 
-Selected-model execution is **authorized only under this frozen sequence**:
+| Policy | Overall | Mathematics | Coding |
+|---|---:|---:|---:|
+| General-only | 76/96 = 79.17% | 40/48 = 83.33% | 36/48 = 75.00% |
+| Skill-routed | 77/96 = 80.21% | 41/48 = 85.42% | 36/48 = 75.00% |
 
-1. Compute and persist all 96 router-v2 decisions from `semantic_task` before the first selected-model output.
-2. Run General `Qwen/Qwen2.5-7B-Instruct` revision `a09a35458c702b33eeacc393d103063234e8bc28` once on all 96 cases in frozen order.
-3. Do **not** inspect, score, summarize, or human-review General results before specialist evidence collection completes.
-4. Run Math specialist `Qwen/Qwen2.5-Math-7B-Instruct` revision `ef9926d75ab1d54532f6a30dd5e760355eb9aa4d` only on frozen `mathematics_specialist` routes.
-5. Reuse preserved General outputs for General/fallback routes when composing the routed policy.
-6. Only after both evidence phases are complete, compose and score General-only and skill-routed rows and compute frozen paired metrics.
-7. No Coder checkpoint, retry, voting, ensemble, second-model fallback, result-driven rerouting, benchmark/protocol patch, performance early stop, or acceptance-threshold change is allowed.
-8. A genuine infrastructure/methodological failure may stop execution; preserve all partial/invalid evidence and do not tune from observed results.
-9. After comparable evidence is complete, commit and stop for human review before B5/final Gate B decision.
+Paired routed-minus-General:
 
-Primary thresholds remain unchanged:
+- overall: **+1.04 pp**, paired-bootstrap 95% CI **[0.00, +3.125] pp**;
+- Mathematics: **+2.08 pp**, CI **[0.00, +6.25] pp**;
+- Coding: **0.00 pp**;
+- router accuracy: **96/96 = 100%**.
 
-- routed overall ≥ General +10 pp;
-- paired-bootstrap 95% CI for overall delta excludes zero;
-- routed Math ≥ General Math +10 pp with CI excluding zero;
-- routed Coding degradation no worse than 5 pp;
-- router domain accuracy ≥95%.
+The only paired Math improvement was `math-41`: General incorrect, Math specialist correct. There were no reverse Math regressions; the other 47 paired Math correctness outcomes were unchanged.
 
-Gate B final PASS/FAIL remains a human decision.
+## Frozen acceptance outcome
+
+Satisfied:
+
+- minimum evidence;
+- structural freshness/leakage controls;
+- router information boundary;
+- resource/execution parity;
+- frozen execution sequence;
+- router quality;
+- Coding non-target protection.
+
+Not satisfied:
+
+- routed overall improvement >= +10 pp;
+- overall improvement CI excludes zero;
+- routed Mathematics improvement >= +10 pp;
+- Mathematics improvement CI excludes zero.
+
+No unresolved material methodology defect requires INCONCLUSIVE. Under the frozen acceptance definition, the valid fresh execution supports a **FAIL recommendation**.
+
+## Interpretation
+
+The router itself was not the bottleneck: it routed the benchmark 100% correctly. The measured specialist advantage did not generalize strongly enough to the structurally fresh Gate B Math distribution. A broad registry entry such as `Mathematics -> Math specialist` therefore appears too coarse for reliable expected-utility routing.
+
+This does not invalidate Gate A or the broader Dexinode thesis. Gate A established that same-size specialization can exist; Gate B shows that the advantage can be strongly distribution-sensitive and must be validated at finer capability granularity and across multiple independent panels.
+
+## Current authorization
+
+**No additional Gate B selected-model execution is required or authorized for the current v1 evidence set.**
+
+The next action is the final human Gate B choice: **PASS / FAIL / INCONCLUSIVE**. The repository evidence recommendation is **FAIL**.

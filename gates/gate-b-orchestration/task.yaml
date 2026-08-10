@@ -2,8 +2,8 @@ id: gate-b-orchestration-v1
 title: Orchestration Advantage
 owner: human
 executor: agent
-status: active
-active_stage: B3B4-comparable-policy-execution
+status: completed-pending-human-decision
+active_stage: B5-evidence-report
 
 precondition:
   gate_a_final_decision: PASS
@@ -21,163 +21,106 @@ bounded_hypothesis: >-
   over General-only, with paired-bootstrap 95% confidence interval excluding
   zero, while each logical policy uses exactly one model inference per task.
 
+frozen_artifacts:
+  benchmark_version: gate-b-orchestration-v1.1.1
+  benchmark_root: experiments/gate-b/benchmark-v1.1.1/
+  router_root: experiments/gate-b/router-v2/
+  acceptance: gates/gate-b-orchestration/acceptance.yaml
+
 empirical_skill_registry:
   mathematics:
     model_id: Qwen/Qwen2.5-Math-7B-Instruct
     revision: ef9926d75ab1d54532f6a30dd5e760355eb9aa4d
-    gate_a_status: validated_specialist
-  software_coding:
+  software_coding_and_fallback:
     model_id: Qwen/Qwen2.5-7B-Instruct
     revision: a09a35458c702b33eeacc393d103063234e8bc28
-    gate_a_status: best_validated_route_for_initial_gate_b
-  fallback:
-    model_id: Qwen/Qwen2.5-7B-Instruct
-    revision: a09a35458c702b33eeacc393d103063234e8bc28
-  excluded_coder_checkpoint:
-    model_id: Qwen/Qwen2.5-Coder-7B-Instruct
-    revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
-    reason: Gate A did not establish a Coding advantage
+  coder_checkpoint:
+    executed: false
+    reason: Gate A did not validate it as a Coding specialist
 
-human_review:
-  b1_v1_0_0:
-    reviewed_commit: 7228c973130ed6032226118873a140927c48f17f
+human_review_history:
+  B1:
     decision: CHANGES_REQUIRED
-    review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
-  b1r_v1_1_0:
-    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
+    record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
+  B1R:
     decision: CHANGES_REQUIRED
-    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
-    accepted_structural_freshness: true
-    accepted_router_information_boundary: true
-  b1r2_v1_1_1:
-    reviewed_commit: af02e88cb190604fbd3a0d2497ade19e2597ae15
-    benchmark_version: gate-b-orchestration-v1.1.1
+    record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
+  B1R2:
     decision: APPROVED
-    review_record: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
-    math_oracle_validation: 48/48 PASS
-    coding_evaluator_validation: 48/48 PASS
-    coding_semantic_contract_audit: 48/48 PASS
-    adapter_tests: 13/13 PASS
-    router_tests: 5/5 PASS; 96/96 target routes
-    B2_authorized: true
-  b2_static_qualification:
+    record: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
+  B2:
     decision: PASS
-    status: completed
-    qualification_record: gates/gate-b-orchestration/reviews/b2-static-qualification.md
-    B3B4_authorized: true
-
-constraints:
-  training_allowed: false
-  fine_tuning_allowed: false
-  model_merging_allowed: false
-  llm_router_allowed: false
-  deterministic_cpu_router_only: true
-  router_semantic_task_text_only: true
-  handoff_output_contract_visible_to_router: false
-  logical_model_calls_per_case: 1
-  fallback_second_model_call_allowed: false
-  ensemble_allowed: false
-  voting_allowed: false
-  external_tools_allowed: false
-  gate_b_selected_model_execution_allowed: true
-  selected_model_execution_scope: B3B4-only-under-frozen-protocol
-  final_gate_decision_by_agent: false
+    record: gates/gate-b-orchestration/reviews/b2-static-qualification.md
+  B3B4:
+    decision: APPROVED_AS_VALID_EXECUTION_EVIDENCE
+    reviewed_commit: ef24cc4b45561d693fdc8f405d1f05b088e030da
+    record: gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md
 
 stages:
   B1-protocol-router-benchmark-freeze:
     status: frozen-not-approved
     benchmark_version: gate-b-orchestration-v1.0.0
-    reviewed_commit: 7228c973130ed6032226118873a140927c48f17f
-    review_record: gates/gate-b-orchestration/reviews/b1-v1.0.0-human-review.md
-    preserve_unchanged: true
-
   B1R-structural-freshness-and-router-boundary-revision:
     status: frozen-not-approved-benchmark-definition-errors
     benchmark_version: gate-b-orchestration-v1.1.0
-    reviewed_commit: 48d768799bba4d5f3862359eddeb44cf134a962e
-    review_record: gates/gate-b-orchestration/reviews/b1r-v1.1.0-human-review.md
-    preserve_unchanged: true
     structural_freshness_accepted: true
     router_information_boundary_accepted: true
-
   B1R2-oracle-and-semantic-contract-remediation:
     status: approved
     benchmark_version: gate-b-orchestration-v1.1.1
-    benchmark_root: experiments/gate-b/benchmark-v1.1.1/
-    router_root: experiments/gate-b/router-v2/
-    reviewed_commit: af02e88cb190604fbd3a0d2497ade19e2597ae15
-    review_record: gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md
-    corrections: {math-14: 136, math-37: "161/36"}
-    math_oracle_validation: 48/48 PASS
-    coding_evaluator_validation: 48/48 PASS
-    coding_semantic_contract_audit: 48/48 PASS
-    token_context_validation: "96/96 PASS; max input 124; context margin 2948"
-    selected_model_execution: false
-
   B2-router-static-qualification:
     status: completed-pass
-    qualification_record: gates/gate-b-orchestration/reviews/b2-static-qualification.md
-    selected_model_execution: false
-    B3B4_authorized: true
-
   B3B4-comparable-policy-execution:
-    status: active
-    benchmark_version: gate-b-orchestration-v1.1.1
-    benchmark_root: experiments/gate-b/benchmark-v1.1.1/
-    router_root: experiments/gate-b/router-v2/
-    objective: >-
-      Collect comparable General-only and routed-policy evidence under one
-      frozen sequence without inspecting results between evidence phases.
-    execution_sequence:
-      - persist_all_96_router_decisions_before_first_selected_model_output
-      - run_general_once_on_all_96_cases_in_frozen_order
-      - no_result_inspection_scoring_summary_or_human_review
-      - run_math_specialist_only_on_frozen_mathematics_specialist_routes
-      - reuse_preserved_general_outputs_for_general_or_fallback_routes
-      - compose_and_score_both_policy_rows_only_after_evidence_collection_complete
-    required_evidence:
-      - route receipt for all 96 cases
-      - raw response and generation receipt for every General case
-      - raw response and generation receipt for every specialist-selected Math case
-      - exact model IDs and revisions
-      - benchmark Git/version identity and file hashes
-      - runtime/package/GPU/resource metadata
-      - per-case adapter/extraction/scoring decision
-      - Coding judge-v2 record for General Coding cases
-      - generation failures/timeouts/invalid reasons
-      - policy-composition receipt proving General reuse on General/fallback routes
-      - aggregate domain/difficulty/task-family/overall metrics after both phases
-      - paired bootstrap evidence using the frozen method
-    stop_conditions:
-      performance_early_stop: forbidden
-      genuine_infrastructure_or_methodological_failure: allowed
-      preserve_partial_or_invalid_evidence_on_stop: required
-      benchmark_or_protocol_patch_from_observed_results: forbidden
-    stop_for_human_review_after_completion: true
-
+    status: approved-complete
+    execution_id: gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0
+    evidence_root: experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/
+    route_decisions: 96/96 persisted before model output
+    general_generated: 96/96
+    math_specialist_generated: 48/48
+    generation_failures: 0
+    coder_executed: false
+    general_only: {overall: 76/96, mathematics: 40/48, coding: 36/48}
+    skill_routed: {overall: 77/96, mathematics: 41/48, coding: 36/48}
+    overall_delta_percentage_points: 1.0416666666666665
+    overall_bootstrap_ci95_percentage_points: [0.0, 3.125]
+    mathematics_delta_percentage_points: 2.083333333333333
+    mathematics_bootstrap_ci95_percentage_points: [0.0, 6.25]
+    coding_delta_percentage_points: 0.0
+    router_accuracy: 96/96
+    preserved_failed_attempt:
+      execution_id: gate-b-b3b4-v1.1.1-20260810T013717Z-ai01-gpu0
+      status: stopped_preflight_failure
+      formal_model_execution_started: false
+      model_output_created: false
   B5-evidence-report:
-    status: inactive
-    activation: human_review_after_B3B4
-    objective: >-
-      Compute/finalize paired uncertainty, routing accuracy, domain/task-family
-      effects, resource parity and a Gate B recommendation without assigning the
-      final human Gate B decision.
+    status: completed-pending-human-review
+    evidence_report: gates/gate-b-orchestration/evidence-report.md
+    recommendation: FAIL
+    rationale: >-
+      The fresh comparable execution is valid, but the predefined overall and
+      Mathematics improvement thresholds were not met and both paired-bootstrap
+      intervals include zero. No unresolved material methodological defect
+      requires an INCONCLUSIVE classification.
 
-acceptance_reference: gates/gate-b-orchestration/acceptance.yaml
+acceptance_assessment:
+  minimum_evidence: SATISFIED
+  freshness_and_leakage_controls: SATISFIED
+  router_information_boundary: SATISFIED
+  resource_and_execution_parity: SATISFIED
+  router_quality: SATISFIED
+  non_target_coding_protection: SATISFIED
+  primary_overall_orchestration_signal: NOT_SATISFIED
+  validated_math_skill_signal_on_fresh_distribution: NOT_SATISFIED
+  unresolved_material_methodological_defect: NONE_IDENTIFIED
 
-forbidden_actions_during_B3B4:
-  - inspect_score_summarize_or_review_general_results_before_specialist_collection_finishes
-  - execute_coder_checkpoint
-  - retry_failed_case_for_performance_recovery
-  - use_second_model_fallback
-  - ensemble_or_vote
-  - result_driven_rerouting
-  - change_router_benchmark_oracle_evaluator_adapter_scoring_template_generation_or_acceptance_after_first_output
-  - performance_based_early_stop
-  - use_gate_a_case_specific_wins_or_losses_to_tune_gate_b
-  - broaden_to_multi_step_agent_collaboration
+constraints:
+  additional_selected_model_execution_authorized: false
+  training_allowed: false
+  fine_tuning_allowed: false
+  model_merging_allowed: false
+  final_gate_decision_by_agent: false
 
 handoff:
   durable_state: git
-  final_decision: human_review
-  next_action: execute_B3B4_exactly_as_frozen_then_stop_for_human_review
+  final_decision: PENDING HUMAN REVIEW
+  next_action: human chooses PASS, FAIL, or INCONCLUSIVE for Gate B
