@@ -1,10 +1,12 @@
 # Gate B — Orchestration Advantage Evidence Report
 
-Status: **B5 COMPLETE — PENDING FINAL HUMAN DECISION**
+Status: **B5 COMPLETE / GATE B CLOSED**
 
 Recommendation: **FAIL**
 
-Final Gate B decision: **PENDING HUMAN REVIEW**
+Final human Gate B decision: **FAIL**
+
+Final decision record: `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 
 Benchmark: `gate-b-orchestration-v1.1.1`
 
@@ -57,7 +59,7 @@ Only one routed Math case improved relative to General (`math-41`); no Math case
 - validated Mathematics skill signal on the fresh Gate B distribution: **NOT SATISFIED**;
 - unresolved material methodological defect: **NONE IDENTIFIED**.
 
-The acceptance definition specifies FAIL when a valid fresh benchmark exists, both policies complete comparably, and the predefined primary orchestration threshold is not met. Those conditions are satisfied here. The evidence therefore supports a **FAIL recommendation**, not INCONCLUSIVE.
+The acceptance definition specifies FAIL when a valid fresh benchmark exists, both policies complete comparably, and the predefined primary orchestration threshold is not met. Those conditions are satisfied here. The evidence supports **FAIL**, not INCONCLUSIVE.
 
 ## Interpretation
 
@@ -72,13 +74,21 @@ Because the workload is exactly 50% Math and Coding is routed to the identical G
 ## Architectural implications for Dexinode
 
 1. **Capability registries need generalization evidence, not one benchmark score.** A specialist should register a capability only after demonstrating repeatable advantage across multiple structurally independent panels or task families.
-2. **Skill granularity should be finer than broad domains.** `mathematics` and `coding` are likely too coarse. The next useful analysis is to identify which Math subfamilies preserve or lose specialist advantage, analogous to the earlier Coding morphology analysis.
+2. **Skill granularity should be finer than broad domains.** `mathematics` and `coding` are likely too coarse.
 3. **Routing should eventually estimate expected utility, not merely domain identity.** A perfect Math/Coding classifier cannot help when the selected specialist is only marginally better on the actual task distribution.
 4. **Gate A remains valid but narrower.** It established that specialization can exist in same-size checkpoints; Gate B shows that the observed advantage can be distribution-sensitive.
-5. **The broader Dexinode thesis is not rejected.** This Gate only rejects the specific v1 hypothesis that this coarse two-domain registry and these same-size Qwen2.5 checkpoints deliver >=10 pp mixed-workload advantage on a fresh panel.
+5. **The broader Dexinode thesis is not rejected.** This Gate rejects the specific v1 hypothesis that this coarse two-domain registry and these same-size Qwen2.5 checkpoints deliver >=10 pp mixed-workload advantage on a fresh panel.
 
-## Recommendation
+## Post-Gate causal hypothesis to test
 
-**Recommend final Gate B = FAIL.**
+A plausible explanation for the Gate A / Gate B contrast is that the General checkpoint may retain stronger cross-domain meta-capabilities such as task-language comprehension, specification grounding, ambiguity resolution, answer selection and self-checking. Specialist training may improve domain-specific solution competence without matching those general interpretation and review capabilities. On tasks requiring both, the two effects can offset each other.
 
-This report does not assign the final human Gate B label. If the human owner accepts FAIL, close Gate B without additional model execution and use the result to redesign the next research gate around capability granularity/generalization before or alongside small-specialist efficiency testing.
+Gate B does **not** establish that causal mechanism; it is a research hypothesis for a future bounded study. The next design should separate domain solution competence from comprehension/grounding, derivation reliability, and verification/self-review.
+
+## Final decision
+
+The human owner accepted the evidence recommendation on 2026-08-10.
+
+**Final Gate B = FAIL / CLOSED.**
+
+No additional Gate B selected-model execution is authorized for the current v1 evidence set. A new benchmark and acceptance criteria must be frozen before any new selected-model experiment.
