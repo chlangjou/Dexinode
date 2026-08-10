@@ -4,28 +4,19 @@
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - Gate B final decision record: `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
+- Gate B post-closure retrospective: `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
 - Session handoff: `HANDOFF.md`
 - No new research gate is active yet.
 
-## Gate B final evidence
+## Gate B frozen evidence
 
-Executable benchmark: `gate-b-orchestration-v1.1.1`
+Benchmark: `gate-b-orchestration-v1.1.1`
 
 Execution ID: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
 
-Evidence root:
+Evidence root: `experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
 
-`experiments/gate-b/runs/gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0/`
-
-Human reviews:
-
-- B1R2 benchmark: **APPROVED** — `gates/gate-b-orchestration/reviews/b1r2-v1.1.1-human-review.md`
-- B2 static qualification: **PASS / COMPLETE** — `gates/gate-b-orchestration/reviews/b2-static-qualification.md`
-- B3B4 execution: **APPROVED AS VALID COMPARABLE EXECUTION EVIDENCE** — `gates/gate-b-orchestration/reviews/b3b4-v1.1.1-human-review.md`
-- B5 evidence report: recommendation **FAIL** — `gates/gate-b-orchestration/evidence-report.md`
-- Final human decision: **FAIL** — `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
-
-## Results
+Frozen scores:
 
 | Policy | Overall | Mathematics | Coding |
 |---|---:|---:|---:|
@@ -37,51 +28,56 @@ Paired routed-minus-General:
 - overall: **+1.04 pp**, paired-bootstrap 95% CI **[0.00, +3.125] pp**;
 - Mathematics: **+2.08 pp**, CI **[0.00, +6.25] pp**;
 - Coding: **0.00 pp**;
-- router accuracy: **96/96 = 100%**.
+- router accuracy: **100%**.
 
-Only `math-41` changed from General incorrect to Math-specialist correct. There were no reverse Math regressions; the other 47 paired Math correctness outcomes were unchanged.
+The frozen +10 pp overall and +10 pp Mathematics thresholds were not met. The human owner assigned final **FAIL**.
 
-## Why Gate B is FAIL
+## Post-closure Mathematics errata and content review
 
-The execution was valid and comparable, with no material methodology defect requiring INCONCLUSIVE. However, the frozen acceptance criteria required at least +10 pp overall and +10 pp Mathematics, with both paired-bootstrap intervals excluding zero. Neither required performance signal was met.
+After closure, preserved raw outputs were inspected without rerunning a model or patching the frozen benchmark. The retrospective found:
 
-The router itself was not the bottleneck: routing accuracy was 100%, and Coding protection was satisfied. The weak point was generalization of the measured specialist advantage onto a structurally fresh Math distribution.
+- `math-23` oracle is wrong: frozen `19/48`; correct posterior **95/242 ~= 0.392562**. Both checkpoints independently computed approximately 0.392, while the frozen exact-rational extractor rejected both decimal answers.
+- `math-11`, `math-12`, and `math-17` are mathematically correct for both checkpoints but were rejected by the frozen structured-output parser.
+- `math-41`, the sole frozen paired Math improvement, is mathematically correct for both checkpoints: General returned `0.75`; Math specialist returned `3/4`. The +1 case is therefore an answer-representation effect, not a mathematical-content advantage.
+- `math-16` and `math-32` are genuine shared arithmetic/self-check failures after both checkpoints selected an appropriate method.
+- `math-36` is interpretation-sensitive; both returned the same general `(1-p)^3 p` solution rather than assuming `p=1/2` from the phrase `fair trials`.
+
+Under a human mathematical-content classification of these inspected cases, the specialist's frozen +1 Math advantage collapses to **no content-level paired advantage**.
+
+### Protocol-purity caveat
+
+The frozen acceptance definition listed a benchmark oracle defect as an INCONCLUSIVE condition. The post-closure `math-23` discovery therefore creates a literal-protocol caveat and is explicitly preserved in the final decision and acceptance record.
+
+It is non-differential for the paired result and cannot move the specialist toward the +10 pp thresholds; the content-level retrospective moves the observed specialist advantage from +1 case to zero. The final human Gate B label remains **FAIL / CLOSED** unless explicitly revised by the human owner.
 
 ## Architectural interpretation
 
 Gate A and Gate B together imply:
 
-1. specialization can create large capability divergence on a measured distribution;
+1. specialization can create large capability divergence on one measured distribution;
 2. a checkpoint label or broad domain such as `Mathematics` is not a sufficient skill identity;
-3. capability registry entries should be finer-grained and carry evidence across multiple structurally independent panels;
-4. routing should target expected utility for task subtypes, not assume that a broad specialist is uniformly superior within a domain.
+3. end-to-end exact-answer scores confound task comprehension, domain method selection, computation, self-review and answer-contract compliance;
+4. capability entries should be finer-grained and validated across multiple structurally independent panels;
+5. routing should estimate expected utility by task subtype rather than assume a broad specialist is uniformly superior.
 
 ## Post-Gate hypothesis: General meta-capabilities
 
-A plausible but **not yet causally established** explanation for the Gate A / Gate B contrast is that the General checkpoint may retain stronger cross-domain meta-capabilities that become increasingly important on fresh or less templated tasks:
+A plausible but **not causally established** explanation for the Gate A / Gate B contrast is that the General checkpoint may retain stronger cross-domain meta-capabilities such as natural-language comprehension, specification grounding, ambiguity resolution, answer selection and self-checking, while specialist training primarily strengthens domain solution patterns.
 
-- natural-language task interpretation;
-- specification grounding;
-- ambiguity resolution;
-- selecting the intended answer representation;
-- self-checking / consistency review;
-- deciding whether a familiar solution pattern actually matches the current problem.
+Current evidence does not yet prove that General is better at self-review: both checkpoints share arithmetic verification failures. The hypothesis should therefore be tested by independently scoring comprehension, method selection, derivation/computation, verification and answer representation.
 
-Specialist training may improve domain-specific solution patterns or mathematical representations while not improving — and potentially partially trading off — these general comprehension and review capabilities. A task that requires both mathematical competence and robust interpretation/verification can therefore show much less specialist advantage than a benchmark concentrated on patterns aligned with the specialization distribution.
+## Candidate next research design
 
-This hypothesis is consistent with the Coding postmortem as well: many differential failures were not missing algorithm knowledge but failures of input representation, language semantics, edge constraints, or final implementation correctness.
+Before any new GPU/model run, define a bounded gate that separates:
 
-## Candidate next research question
+1. task/specification comprehension;
+2. domain-method selection;
+3. derivation/computation or implementation correctness;
+4. final verification/self-review;
+5. answer representation / handoff-contract compliance;
+6. generalization across independent task families.
 
-Before any new selected-model experiment, define a bounded gate that separates at least:
-
-- domain solution competence;
-- task/specification comprehension;
-- derivation or implementation reliability;
-- answer verification / self-review;
-- generalization across independent task families.
-
-A later efficiency gate can then ask whether a much smaller specialist preserves enough quality relative to a stronger General/MoE model to justify Dexinode on VRAM, latency, energy, concurrency or deployment cost.
+A later or parallel efficiency gate can then test whether a substantially smaller specialist retains near-General quality on a validated narrow skill while materially reducing VRAM, latency, energy, concurrency or deployment cost.
 
 ## Authorization
 
