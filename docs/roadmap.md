@@ -40,40 +40,57 @@ Completed outputs:
 
 The decision means that component evidence is sufficient for a falsifiable specification. It does not validate MVRC, any model, the context envelope, deployment economics, or user value.
 
-## Current stage — Bounded repository-repair architecture specification
+### Strategic reorientation review
 
-Goal: human-review the [v0.1 specification](specifications/bounded-repository-repair-resident-core-v0.1.md) for one recoverable, deterministically verified repository-repair workflow.
+Result: **continue with a revised foundation** by human decision in ADR 0003.
+
+The review found that rapid changes in local models, inference hardware, automated research, and recurrent／latent reasoning make a fixed 4B–8B single-Resident premise too volatile. It did not validate any named model, hardware claim, automated-research acceleration rate, or latent architecture.
+
+The durable candidate is now:
+
+> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
+
+Specification v0.1 remains preserved as provenance. Model landscapes become dated evidence snapshots rather than roadmap anchors.
+
+## Current stage — Bounded repository-repair verifiable execution specification
+
+Goal: human-review the [v0.2 specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) for one recoverable repository-repair workflow with relevant deterministic checks.
 
 The specification defines:
 
-- deterministic local authority and sandbox boundary;
-- six non-delegable Resident semantic responsibilities;
-- task, packet, proposal, execution, verification, escalation, and integration records;
-- legal states, termination, rollback, disclosure, and security invariants;
-- explicit Remote-dependence attribution, including `core_substitution`;
+- deterministic local authority and reversible sandbox boundary;
+- a replaceable Local Decision Configuration rather than one mandatory 4B–8B model;
+- complete configuration identity across models, runtime, hardware, memory, harness, tools, search, verifier, fallback, and human policy;
+- six local semantic responsibility types with actual component ownership;
+- separate generator, selector, verifier, policy, Remote, and human roles;
+- run state plus per-attempt state and candidate lineage;
+- verifier coverage, independence, exposure, baseline, and false-accept risks;
+- complete attempt-set and selection receipts rather than winner-only reporting;
+- explicit Remote and human substitution attribution;
 - observability, falsifiers, unsupported tasks, and deferred decisions.
 
 Current restrictions remain:
 
 - no checkpoint selection, model weights, inference, quantization, or GPU work;
-- no implementation or execution plan;
+- no implementation, custom-hardware, or execution plan;
 - no benchmark creation/freeze, task sampling, acceptance threshold, or new Gate;
 - no changes to Gate A/B evidence;
 - no DELULU/FIM HOLD closure work;
 - no routing-economics, token, settlement, reputation, or governance design.
 
-Exit condition: human review accepts the specification boundary or requests a focused revision. Any experimental question requires a later, separate human decision.
+Exit condition: human review accepts the v0.2 specification boundary or requests a focused revision. Any experimental question requires a later, separate human decision.
 
 ## Conditional evidence stages
 
-Only after the architecture question is resolved should the project decide whether to test:
+Only after the architecture question is resolved should the project decide whether one falsifiable test has enough decision value. Candidate questions are:
 
-1. MVRC and context-packet compilation;
-2. one bounded absolute-small agent-specialist capability;
-3. hybrid local/remote task completion and human burden;
-4. independent/federated skill nodes;
-5. portable evidence and reputation;
-6. economics and open participation.
+1. whether a Local Decision Configuration can contract, contextualize, interpret failure, select, and stop under bounded repository repair;
+2. whether attempt diversity plus an independent verifier improves valid-candidate yield without unacceptable false acceptance;
+3. whether a resource-bounded local configuration retains useful quality, privacy, resilience, cost, latency, or human-time value against a strong Remote baseline;
+4. whether one bounded Local Specialist supplies transferable value after full configuration and verifier costs;
+5. only later, whether independent/federated skill nodes add value beyond one trust domain.
+
+Do not maintain an exhaustive model catalog as a standing phase. Refresh model, runtime, hardware, and latent-reasoning evidence when a material trigger changes one of these questions.
 
 The following original phases remain long-term possibilities, not the current sequence.
 
@@ -176,6 +193,6 @@ A blockchain or token is one possible implementation, not a prerequisite or defa
 
 ## Immediate next decisions
 
-1. Review the [bounded repository-repair specification](specifications/bounded-repository-repair-resident-core-v0.1.md).
-2. Confirm that responsibility attribution, `core_substitution`, packet／receipt schemas, unsupported tasks, and falsifiers are complete without freezing performance criteria.
+1. Review the [v0.2 bounded repository-repair specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md).
+2. Confirm that deterministic authority, complete configuration identity, attempt lineage, verifier exposure, selection, Remote／human substitution, unsupported tasks, and falsifiers are complete without freezing performance criteria.
 3. Stop before an experiment. Formulating any Gate question requires a new decision issue.

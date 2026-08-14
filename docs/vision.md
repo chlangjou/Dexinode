@@ -19,7 +19,7 @@ A useful Dexinode network would:
 - reward demonstrated capability rather than scale or branding alone;
 - make handoffs inspectable, replayable, and contestable.
 
-This remains the long-term possibility. The current research does not assume the network layer is the first or primary source of value. It first asks whether a trusted local control plane can own state, memory, context, tools, and verification while using Local and Remote Models through bounded contracts.
+This remains the long-term possibility. The current research does not assume the network layer is the first or primary source of value. It first asks whether a trusted local control plane can own state, memory, context, tools, candidate provenance, verification, selection, and recovery while coordinating replaceable Local and Remote configurations through bounded contracts.
 
 ## Intended contribution
 
@@ -64,7 +64,7 @@ Idle compute and small models matter only if participation does not require runn
 
 ## Success criteria
 
-These are long-term network criteria, not the current research exit condition. The current exit condition is whether evidence supports a bounded Hybrid Resident-Agent architecture specification.
+These are long-term network criteria, not the current research exit condition. The current exit condition is human acceptance or focused revision of a bounded repository-repair verifiable execution／search specification. It does not require a fixed model size or one Resident Model.
 
 The idea becomes more credible if a prototype demonstrates all of the following:
 

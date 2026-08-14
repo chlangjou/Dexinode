@@ -11,11 +11,13 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [Hybrid Resident-Agent architecture hypothesis](dexinode-hybrid-architecture-hypothesis.md)
 - [Worker research decision](hybrid-agent-research-decision.md)
 - [2026-08-11 human review](2026-08-11-hybrid-agent-human-review.md)
+- [2026-08-14 strategic reorientation review](2026-08-14-strategic-reorientation-review.md)
 
 ## Interpretation
 
 - Gate evidence remains under `gates/` and `experiments/`.
 - Human research-frame decisions remain under `docs/decisions/`.
 - Bounded architecture specifications remain under `docs/specifications/`.
+- Model and runtime landscapes are dated evidence snapshots, not registries or durable roadmap anchors.
 - `status/current.md` identifies the only current bounded action.
 - A Worker brief may propose a decision, but it must stop for human review and cannot create a Gate unless explicitly authorized later.

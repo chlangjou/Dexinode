@@ -43,9 +43,11 @@ An agent can also expose a skill. The distinction is functional:
 
 The complete system evaluated for a task:
 
-`model + memory + context policy + harness/loop + tools + verifier + fallback + human review`
+`model(s) + memory + context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback + human policy + runtime/hardware`
 
 Dexinode should not attribute a result to a model when a large memory backbone, judge, retry budget, or remote fallback supplied material capability.
+
+Parameter count, active parameters, advertised context, and tokens per second are configuration metadata. None is a complete capability identity.
 
 ## Local control plane
 
@@ -53,13 +55,23 @@ Trusted deterministic software and policy that owns the workspace, durable memor
 
 It may use learned models, but its durable state and security decisions must not exist only inside a model context.
 
+## Local Decision Configuration
+
+The complete learned and procedural configuration inside the local trust boundary for one task run:
+
+`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
+
+It may use one general model, multiple local models, Specialists, deterministic algorithms, visible token loops, or latent/recurrent inference. Each actual component and role must remain attributable.
+
+The Local Decision Configuration may make bounded semantic decisions, generate or select proposals, and request tools. It does not own canonical state, credentials, policy override, direct side effects, or final external publication authority.
+
 ## Resident Core
 
-The local configuration that remains available to manage a workflow:
+The earlier, narrower candidate in which one Local Resident Model plus deterministic support remains available to manage a workflow:
 
 `Local general model + memory + context orchestrator + tools/verifiers + task state`
 
-The **Minimum Viable Resident Core (MVRC)** is the smallest such complete configuration that remains reliable enough for a specified workflow and resource envelope. It is not merely the parameter count of the local model.
+The **Minimum Viable Resident Core (MVRC)** remains useful historical terminology. Under ADR 0003, a Resident Core is one possible Local Decision Configuration, not a mandatory single-model architecture. Any viability claim is task- and resource-conditioned and cannot be reduced to model parameter count.
 
 ## Specialist
 
@@ -123,6 +135,32 @@ Evidence strength is task-dependent.
 A party or mechanism that evaluates a result against the handoff contract. It may be local, remote, deterministic, model-based, replicated, or human.
 
 Verifiers can also be wrong or collude, so their judgments need provenance and reputation.
+
+Verifier identity should include revision, environment, scope, coverage limitations, independence from the generator and selector, and what feedback was exposed during candidate search.
+
+## Attempt
+
+One bounded proposal-generation and verification path inside a run. An attempt has a hypothesis, parent lineage, configuration, context packet, budget, verifier exposure, sandbox, receipts, and terminal state.
+
+Failed, invalid, cancelled, and rolled-back attempts are evidence and must not disappear merely because a later attempt succeeds.
+
+## Candidate lineage
+
+The causal graph connecting attempts and artifacts. It records whether a candidate was generated independently, mutated from an earlier proposal, repaired using verifier feedback, or derived from Local, Remote, deterministic, or human work.
+
+Lineage prevents correlated best-of-N results from being represented as independent trials.
+
+## Selector
+
+A fallible component or policy that compares eligible candidates and recommends a disposition using the task contract, verifier receipts, coverage, uncertainty, cost, and policy.
+
+A selector cannot override a deterministic hard failure. When the same model generates and selects candidates, that coupling must be disclosed and is not independent verification.
+
+## Search / stopping policy
+
+The configured rules for how attempts are generated, diversified, repaired, compared, budgeted, and terminated.
+
+More attempts improve the chance of finding a good candidate only when the candidate set, selector, and verifier support that inference. “Try until something passes” is not a valid unbounded policy.
 
 ## Reputation
 

@@ -143,6 +143,8 @@ Agents should separate:
 
 The final Gate outcome is a human decision.
 
+Model, runtime, inference-hardware, and reasoning-architecture evidence must also state its cutoff date and complete applicable configuration. Treat landscapes as dated snapshots. Refresh them when a material event changes a pending decision; do not maintain an exhaustive catalog as an end in itself.
+
 ## Change control
 
 Once formal evidence collection begins:
@@ -154,6 +156,8 @@ Once formal evidence collection begins:
 - methodological changes require a new benchmark/experiment version or explicit human approval.
 
 Accepted architectural or research decisions that materially constrain future work should use ADRs under `docs/decisions/`.
+
+Parameter count, advertised context length, or tokens per second must not stand in for a complete configuration claim. Applicable model revision, quantization, runtime, hardware, memory/context policy, harness, tools, search/stopping policy, verifier set, fallback, and human boundary belong in later execution evidence.
 
 ## Dogfooding objective
 

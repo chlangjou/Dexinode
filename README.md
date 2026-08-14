@@ -2,7 +2,7 @@
 
 > Working name for a decentralized AI skill-weaving network.
 
-Dexinode is an exploratory project about whether a trusted local agent can coordinate resident models, bounded specialists, remote models, tools, and verifiers through explicit handoffs—and whether that architecture can later support independently operated skill nodes without depending on one AI provider.
+Dexinode is an exploratory project about whether a trusted local control plane can coordinate replaceable local decision configurations, bounded specialists, remote capabilities, tools, candidate search, and verifiers through explicit contracts—and whether that architecture can later support independently operated skill nodes without depending on one AI provider.
 
 This repository is currently a **feasibility and architecture notebook**, not a finished protocol or product.
 
@@ -22,7 +22,7 @@ Dexinode asks whether those resources can cooperate through an open network:
 
 ## Working hypothesis
 
-The future role of an agent may be less about wrapping one model and more about owning local state, compiling bounded context, controlling tools, and coordinating models with different capability and trust boundaries. A decentralized specialist network is one possible later extension, not an assumed prerequisite.
+The future role of an agent may be less about wrapping one model and more about owning local state, compiling bounded context, controlling tools, preserving attempts and evidence, and coordinating replaceable models with different capability and trust boundaries. A decentralized specialist network is one possible later extension, not an assumed prerequisite.
 
 This is a hypothesis to test—not a conclusion.
 
@@ -37,14 +37,16 @@ This is a hypothesis to test—not a conclusion.
 - [Hybrid Agent evidence map](docs/research/hybrid-agent-evidence-map.md)
 - [Agent-specialized small-model landscape](docs/research/agent-specialized-small-model-landscape.md)
 - [Hybrid architecture hypothesis](docs/research/dexinode-hybrid-architecture-hypothesis.md)
-- [Bounded repository-repair specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md)
+- [Strategic reorientation review](docs/research/2026-08-14-strategic-reorientation-review.md)
+- [Current bounded repository-repair specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md)
+- [Prior Resident Core specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md)
 - [Decision records](docs/decisions/README.md)
 - [Current status](status/current.md)
 
 ## Current status
 
 - Project name: **Dexinode** (working name)
-- Stage: bounded repository-repair Resident Core architecture specification, pending human review
+- Stage: bounded repository-repair verifiable execution fabric specification, pending human review
 - Repository visibility: public
 - License: undecided
 - Protocol, economics, governance, and threat model: under exploration
@@ -55,11 +57,13 @@ This is a hypothesis to test—not a conclusion.
 
 ## Near-term objective
 
-Human review selected `PROCEED TO BOUNDED ARCHITECTURE SPEC` after the Hybrid Agent evidence review. The current bounded question is:
+Human review accepted a strategic reframe after rapid changes in local model capability, inference hardware, automated research, and latent/recurrent reasoning weakened the fixed 4B–8B premise. The current candidate is:
 
-> For a recoverable repository-repair workflow whose result can be checked by deterministic tests, what minimum responsibility contract, packet/receipt schema, state transitions, and escalation boundary should a 4B–8B Local Resident Core have so that later evidence can determine whether it works without a Remote Model managing every step?
+> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-The [v0.1 specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md) is a falsifiable hypothesis boundary, not a validated architecture. Current work is human review only; it does not authorize model selection, downloads, inference, implementation, benchmark design, acceptance thresholds, or a new Gate.
+The evaluated unit is the complete Local Decision Configuration—models, memory/context, harness, tools, search/stopping, verifiers, fallback/human policy, runtime, and hardware—not a parameter count alone.
+
+The [v0.2 specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md) is a falsifiable hypothesis boundary, not a validated architecture. Current work is human review only; it does not authorize model selection, downloads, inference, implementation, benchmark design, acceptance thresholds, or a new Gate. [v0.1](docs/specifications/bounded-repository-repair-resident-core-v0.1.md) remains unchanged as provenance.
 
 ## Principles
 
@@ -70,6 +74,7 @@ The [v0.1 specification](docs/specifications/bounded-repository-repair-resident-
 5. Recovery and dispute handling as first-class protocol behavior.
 6. Governance and anti-concentration considered from the start.
 7. Economics are optional until they prove necessary.
+8. Complete configurations and attempt sets over model-only or winner-only claims.
 
 ## Contributing to the exploration
 

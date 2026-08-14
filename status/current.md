@@ -1,18 +1,19 @@
 # Current Research Status
 
-- Updated: 2026-08-11
+- Updated: 2026-08-14
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
 - Active experimental Gate: **none**
-- Active work type: **pre-Gate bounded architecture specification / human review**
-- Research-frame issue／ADR: [#27](https://github.com/chlangjou/Dexinode/issues/27)／`docs/decisions/0001-hybrid-resident-agent-research-frame.md`
-- Proceed-to-spec issue／ADR: [#29](https://github.com/chlangjou/Dexinode/issues/29)／`docs/decisions/0002-proceed-to-bounded-repository-repair-spec.md`
-- Current specification: `docs/specifications/bounded-repository-repair-resident-core-v0.1.md`
+- Active work type: **pre-Gate strategic architecture revision / human review**
+- Strategic decision issue／ADR: [#30](https://github.com/chlangjou/Dexinode/issues/30)／`docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
+- Current specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
+- Preserved prior specification: `docs/specifications/bounded-repository-repair-resident-core-v0.1.md`
+- Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
 
 ## Closed evidence that must not change
 
-Gate A established measurable specialization on a bounded panel. Gate B established that a perfect broad-domain router did not convert that result into material held-out orchestration advantage.
+Gate A established measurable specialization on one pinned same-family panel. Gate B established that a perfect broad-domain router did not convert that result into material held-out orchestration advantage for its pinned models, benchmark, runtime, and date.
 
 Gate B frozen result:
 
@@ -23,78 +24,93 @@ Gate B frozen result:
 
 Routed-minus-General overall was +1.04 pp with 95% CI [0, +3.125] pp. Post-closure content review found no paired Mathematics content advantage. Gate B remains **FAIL / CLOSED** with the preserved protocol-purity caveat.
 
-## Current evidence interpretation
+## Evidence interpretation after the strategic review
 
-| Claim | State |
+| Claim | Current state |
 |---|---|
-| Bounded specialist existence | `ESTABLISHED` |
+| Bounded specialist existence | `ESTABLISHED` as a pinned existence result |
 | Structural transfer of specialist advantage | `PARTIALLY SUPPORTED` |
-| Broad standalone dense 1–7B replacement | `CONTRADICTED` |
+| Broad standalone dense 1–7B replacement for the Gate-era configurations | `CONTRADICTED` |
+| Universal claim that later 1–7B models cannot fill broader roles | `OPEN`; not answered by Gate A/B |
 | Model complementarity | `ESTABLISHED` |
 | Robust per-task model-success prediction | `PARTIALLY SUPPORTED` |
 | Conditional production routing savings | `ESTABLISHED` |
 | Full-stack absolute-small / edge economics | `OPEN` |
+| High-throughput search with trustworthy selection | `OPEN` and verifier-conditioned |
+| Production-ready recurrent／latent reasoning | `OPEN` |
 | Distributed edge-specialist-network viability | `OPEN` |
-| Integrated 4B–8B Local Resident Core | `OPEN` |
+| Trusted Local Control Plane value | `PARTIALLY SUPPORTED` as a design hypothesis; unvalidated end to end |
 
-Detailed pre-Hybrid baseline: `docs/research/2026-08-10-mvss-routing-evidence-baseline.md`.
+Detailed evidence:
 
-## FIM HOLD
+- pre-Hybrid baseline: `docs/research/2026-08-10-mvss-routing-evidence-baseline.md`;
+- Hybrid evidence: `docs/research/hybrid-agent-evidence-map.md`;
+- strategic review: `docs/research/2026-08-14-strategic-reorientation-review.md`.
 
-FIM remains a possible bounded specialist regime, but no Gate design is authorized. The current stage does not perform DELULU artifact/licensing/verifier closure or Qwen comparability/runtime supplements.
+## Preserved FIM decision
 
-## Completed Hybrid Agent research and decision
+FIM remains a possible bounded specialist regime, but eligibility is **`HOLD`**. The current revision does not perform DELULU artifact／licensing／verifier closure or Qwen comparability／runtime supplements.
 
-The Worker completed:
+## Accepted strategic reframe
 
-1. `docs/research/hybrid-agent-evidence-map.md`
-2. `docs/research/agent-specialized-small-model-landscape.md`
-3. `docs/research/dexinode-hybrid-architecture-hypothesis.md`
-4. `docs/research/hybrid-agent-research-decision.md`
+[ADR 0003](../docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md) changes the near-term candidate from a fixed single 4B–8B Resident Model to:
 
-The Worker recommended `HOLD`. Human review accepted the evidence but changed the decision to **`PROCEED TO BOUNDED ARCHITECTURE SPEC`** because integrated validation is a later evidence requirement, not a prerequisite for writing a falsifiable specification.
+> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-Proceed-to-spec does not mean architecture validated. The model landscape is non-exhaustive, the SERA-8B deployment caveat is preserved, and the “durable state outside context” choice is a `PARTIALLY SUPPORTED` Dexinode design constraint rather than a universal necessity.
+The evaluated unit is a **Local Decision Configuration**:
+
+`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
+
+This preserves the durable parts of the prior hypothesis:
+
+- deterministic local ownership of canonical state, policy, credentials, side effects, receipts, verification, rollback, and audit;
+- explicit context and disclosure boundaries;
+- typed Local Specialist and Remote handoffs;
+- contribution and substitution attribution;
+- bounded, reversible repository repair as the first workflow;
+- long-term model／provider diversity and decentralized skill-node optionality.
+
+It removes these as project foundations:
+
+- one mandatory Resident Model;
+- a fixed 4B–8B capability boundary;
+- visible token loops as the only reasoning form;
+- inference price／latency assumptions tied to current general-purpose hardware;
+- the implication that more attempts are useful without a trustworthy selector and verifier.
 
 ## Current bounded specification
 
-The only active question is:
+Specification v0.2 asks:
 
-> For a recoverable repository-repair workflow whose result can be checked by deterministic tests, what minimum responsibility contract, packet/receipt schema, state transitions, and escalation boundary should a 4B–8B Local Resident Core have so that later evidence can determine whether it works without a Remote Model managing every step?
+> For a recoverable repository-repair workflow with relevant deterministic checks, what minimum control-plane, Local Decision Configuration, attempt／candidate, verification, selection, and escalation contracts would let later evidence determine whether a resource-bounded local configuration is useful without assuming a fixed model size, model count, reasoning architecture, or Remote Model dependency?
 
-Specification v0.1 defines:
+It defines:
 
-- deterministic local state, policy, tool, sandbox, verifier, rollback, and audit authority;
-- six non-delegable Resident semantic decisions: intent, decomposition, context request, failure interpretation, integration, and escalation;
-- typed task, context, semantic-decision, proposal, execution, verification, escalation, delegation, and integration records;
-- legal workflow states and fail-closed transitions;
-- `none`, `bounded_artifact`, `core_advice`, and `core_substitution` Remote-dependence classes;
-- security, human-review, observability, unsupported-task, and falsifier boundaries.
+- deterministic local authority and reversible sandbox boundary;
+- complete capability-configuration identity;
+- six local semantic responsibility types without requiring one model to own all six;
+- distinct generator, selector, verifier, policy, Remote, and human roles;
+- run states plus per-attempt lineage and terminal states;
+- verifier revision, coverage, independence, feedback exposure, and baseline receipts;
+- complete attempt-set and selection receipts rather than winner-only reporting;
+- `local_configuration`, `bounded_artifact`, `core_advice`, `core_substitution`, and `human_substitution` attribution;
+- security, recovery, observability, unsupported tasks, deferred decisions, and falsifiers.
 
-A `core_substitution` run may complete for the user but cannot support the claim that the Local Resident performed that core responsibility.
-
-## Non-frozen assumptions
-
-- Local Specialist packet: target 8K–16K; 32K provisional ceiling.
-- Resident invocation: target 16K–32K.
-- 64K+ input: normally retrieve, decompose, or summarize.
-- Repository and durable task history remain outside model context as the current design constraint.
-- 70% success, -30% active human time, and -50% variable cost remain research screening values only.
-
-None of these values is an architecture requirement or acceptance criterion.
+Specification v0.1 remains unchanged as provenance for ADR 0002.
 
 ## Authorized next action
 
-Human-review `docs/specifications/bounded-repository-repair-resident-core-v0.1.md` for:
+Human-review specification v0.2 for whether it:
 
-1. one bounded and recoverable workflow;
-2. complete contribution attribution;
-3. visible Remote substitution;
-4. explicit security, recovery, and unsupported-task boundaries;
-5. no frozen model, benchmark, performance threshold, or execution plan.
+1. remains one bounded, recoverable repository-repair workflow;
+2. preserves deterministic local authority;
+3. attributes every semantic decision, attempt, candidate, verification, selection, Remote contribution, and human action;
+4. exposes verifier reuse, coupling, correlation, and false-accept risk;
+5. permits model, reasoning-mode, and hardware replacement without changing the trust contract;
+6. freezes no model, benchmark, performance threshold, or execution plan.
 
 Stop after specification review. Any experimental question requires a separate human decision issue.
 
 ## Authorization boundary
 
-No checkpoint selection, model download, inference/GPU work, implementation, benchmark creation/freeze, task sampling, acceptance threshold, new Gate, Gate A/B evidence change, FIM HOLD resolution, DELULU continuation, routing-economics design, or token/reputation/settlement/governance work is authorized.
+No checkpoint selection, model download, inference／GPU／hardware work, implementation, benchmark creation or freeze, task sampling, statistical method, acceptance threshold, new Gate, Gate A／B evidence change, FIM HOLD resolution, DELULU continuation, routing-economics design, or federation／token／reputation／settlement／governance work is authorized.

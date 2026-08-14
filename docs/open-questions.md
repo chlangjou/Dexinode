@@ -4,7 +4,7 @@ This is the active research backlog. Questions should move into experiments or d
 
 ## Highest-decision-value question
 
-Does the [bounded repository-repair specification](specifications/bounded-repository-repair-resident-core-v0.1.md) define a sufficiently narrow, attributable, and falsifiable Resident Core boundary without turning provisional assumptions into acceptance criteria?
+Does the [v0.2 bounded repository-repair specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) define a sufficiently narrow, attributable, and falsifiable execution／search boundary while keeping model size, reasoning architecture, inference hardware, attempt count, benchmark, and thresholds replaceable?
 
 Human review must answer this before any implementation, benchmark, Gate, or model run is considered.
 
@@ -15,12 +15,14 @@ Human review must answer this before any implementation, benchmark, Gate, or mod
 - Which tasks can be decomposed and verified, and which remain irreducibly global or high risk?
 - Is software engineering the strongest first domain because it exposes deterministic tools, tests, repository provenance, and real context pressure?
 
-## Minimum Viable Resident Core
+## Local Decision Configuration
 
-- What is the smallest local model/configuration that can clarify intent, maintain task state, choose tools, recover from failure, and escalate correctly?
-- Which Resident Core functions are deterministic software problems, and which require learned judgment?
-- Can an absolute-small model manage memory/context without a hidden remote large-model backbone?
-- How should clarification, abstention, and escalation quality be measured?
+- What is the lowest-resource complete local configuration that can clarify intent, request context, interpret failure, compare candidates, stop, and escalate correctly?
+- Which responsibilities are best assigned to deterministic software, one model, several local models, a Specialist, or Remote fallback?
+- Can a local configuration manage memory/context without a hidden Remote backbone or unrecorded human selection?
+- Which capability changes come from model weights, context policy, harness, search, tools, verifier, hardware, or fallback?
+- How should clarification, abstention, selection, and stopping quality be measured without freezing a model generation?
+- When is the earlier single-model Resident Core still the simplest adequate Local Decision Configuration?
 
 ## Memory and context engineering
 
@@ -39,20 +41,45 @@ Human review must answer this before any implementation, benchmark, Gate, or mod
 - Which gains depend on a scalar verifier that is unavailable in real work?
 - How should model, harness, context policy, tool interface, budget, retries, and evaluator be reported separately?
 
+## Candidate search, selection, and verifier risk
+
+- For which repair classes does additional candidate search produce materially different hypotheses rather than correlated paraphrases?
+- How should parent lineage and shared model／prompt／context／training dependencies be used to estimate candidate correlation?
+- Which selector can identify a valid candidate without merely reproducing the generator's preferences?
+- What verifier independence classes are operationally useful?
+- How does adaptive reuse of compiler／test feedback change the evidentiary meaning of a pass?
+- How should false acceptance be controlled when many candidates see the same incomplete verifier?
+- When are hidden or holdout checks necessary, and when would they create benchmark rather than workflow evidence?
+- How should verifier execution, sandboxing, selection, and human review costs be counted against cheap generation?
+- What stopping policy prevents “try until pass” while still benefiting from fast inference?
+- Can a later study distinguish search gain from test overfitting, selector leakage, Remote substitution, and human repair?
+
 ## Agent-specialized small models
 
 - Which edge-small or absolute-small models have end-to-end evidence for tool use, GUI operation, coding agents, search, context selection, routing, or verification?
 - Which apparently small systems are actually large-total MoE models with low active parameters?
 - Do tool-call syntax scores transfer to multi-turn recovery, clarification, and real environment success?
 - Are there at least two bounded absolute-small capability classes worth retaining?
+- Which claims remain stable when the full configuration—including runtime, quantization, hardware, harness, search, and verifier—is pinned?
+- What event should trigger a model-landscape refresh rather than continuous catalog maintenance?
+
+## Model and inference architecture turnover
+
+- Which distilled or locally deployable models materially cross a workflow frontier after independent end-to-end evaluation?
+- When do model-specific accelerators improve total workflow economics after quality loss, refresh cadence, verifier cost, and hardware availability are included?
+- Which recurrent／latent methods survive compute-, parameter-, memory-, and task-matched comparisons outside narrow reasoning benchmarks?
+- How can hidden-state recurrence be observed and budgeted without requiring hidden chain-of-thought?
+- Does faster inference improve verified completion, or only increase candidate volume and test exposure?
+- How short should the validity period of model-specific evidence be, and which changes require a new configuration identity?
 
 ## Hybrid trust boundary
 
 - Which work must stay in deterministic local software, a Local Resident Model, a Local Specialist, a Remote Model, or human review?
 - Can remote disclosure remain task-scoped while preserving enough semantics to succeed?
-- If every important step still calls a Remote Model, what measurable value remains in the Local Resident Model?
+- If every important step still calls a Remote Model, what measurable value remains in the Local Decision Configuration and Control Plane?
 - How are prompt injection, poisoned memory, untrusted artifacts, and side effects prevented from persisting across tasks?
 - How much human review and rework does the complete workflow require?
+- Can responsibility-level `core_substitution` and `human_substitution` be detected without access to private chain-of-thought?
 
 ## Engineering-bound but not fully solved
 
