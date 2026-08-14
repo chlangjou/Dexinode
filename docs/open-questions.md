@@ -2,11 +2,17 @@
 
 This is the active research backlog. Questions should move into experiments or decision records as they become concrete.
 
-## Highest-decision-value question
+## Resolved architecture-boundary question
 
 Does the [v0.2 bounded repository-repair specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) define a sufficiently narrow, attributable, and falsifiable execution／search boundary while keeping model size, reasoning architecture, inference hardware, attempt count, benchmark, and thresholds replaceable?
 
-Human review must answer this before any implementation, benchmark, Gate, or model run is considered.
+[Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) answered **yes** and accepted v0.2 as the current architecture boundary. This is an architecture decision, not evidence that the design works.
+
+## Highest-decision-value unresolved question
+
+Should Dexinode open a separate decision issue to formulate exactly one bounded experimental question under v0.2, and would that question have enough decision value to justify implementation and evidence collection?
+
+No experiment, benchmark, Gate, model run, or implementation is authorized while this remains unresolved.
 
 ## User workflow and task contract
 

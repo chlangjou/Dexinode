@@ -5,9 +5,10 @@
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
 - Active experimental Gate: **none**
-- Active work type: **pre-Gate strategic architecture revision / human review**
+- Active work type: **architecture boundary accepted / no research execution authorized**
 - Strategic decision issue／ADR: [#30](https://github.com/chlangjou/Dexinode/issues/30)／`docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
-- Current specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
+- Current specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md` — **accepted architecture boundary**
+- Human review: `docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md`
 - Preserved prior specification: `docs/specifications/bounded-repository-repair-resident-core-v0.1.md`
 - Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
 
@@ -98,9 +99,9 @@ It defines:
 
 Specification v0.1 remains unchanged as provenance for ADR 0002.
 
-## Authorized next action
+## Accepted human review
 
-Human-review specification v0.2 for whether it:
+[The 2026-08-14 human review](../docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted specification v0.2 as the current architecture boundary. The owner accepted all of the following:
 
 1. remains one bounded, recoverable repository-repair workflow;
 2. preserves deterministic local authority;
@@ -109,7 +110,13 @@ Human-review specification v0.2 for whether it:
 5. permits model, reasoning-mode, and hardware replacement without changing the trust contract;
 6. freezes no model, benchmark, performance threshold, or execution plan.
 
-Stop after specification review. Any experimental question requires a separate human decision issue.
+The owner also confirmed that a relevant deterministic verifier remains mandatory and that automatic Draft PR creation remains outside v0.2.
+
+## Authorized next action
+
+No research execution is authorized. Repository-level review and disposition of Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28) may proceed separately.
+
+If the project continues beyond the accepted architecture boundary, a new human decision issue must first determine whether exactly one bounded experimental question has enough decision value to formulate. Specification acceptance does not create that issue, Gate, benchmark, or task.
 
 ## Authorization boundary
 

@@ -52,9 +52,9 @@ The durable candidate is now:
 
 Specification v0.1 remains preserved as provenance. Model landscapes become dated evidence snapshots rather than roadmap anchors.
 
-## Current stage — Bounded repository-repair verifiable execution specification
+## Completed stage — Bounded repository-repair verifiable execution specification
 
-Goal: human-review the [v0.2 specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) for one recoverable repository-repair workflow with relevant deterministic checks.
+Result: [human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted the [v0.2 specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) as the current architecture boundary for one recoverable repository-repair workflow with relevant deterministic checks.
 
 The specification defines:
 
@@ -78,7 +78,9 @@ Current restrictions remain:
 - no DELULU/FIM HOLD closure work;
 - no routing-economics, token, settlement, reputation, or governance design.
 
-Exit condition: human review accepts the v0.2 specification boundary or requests a focused revision. Any experimental question requires a later, separate human decision.
+Exit condition: **met**. Human review accepted all eight review points, retained the relevant deterministic-verifier requirement, and kept automatic Draft PR creation outside v0.2.
+
+This acceptance authorizes no experiment. There is no active Gate or implementation task. Any experimental question requires a later, separate human decision issue.
 
 ## Conditional evidence stages
 
@@ -193,6 +195,6 @@ A blockchain or token is one possible implementation, not a prerequisite or defa
 
 ## Immediate next decisions
 
-1. Review the [v0.2 bounded repository-repair specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md).
-2. Confirm that deterministic authority, complete configuration identity, attempt lineage, verifier exposure, selection, Remote／human substitution, unsupported tasks, and falsifiers are complete without freezing performance criteria.
-3. Stop before an experiment. Formulating any Gate question requires a new decision issue.
+1. Complete repository-level review and disposition of Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28); specification acceptance does not itself authorize merge.
+2. Decide separately whether to open a new decision issue to formulate exactly one bounded, falsifiable experimental question.
+3. If no such issue is approved, remain stopped. Do not infer a Gate, benchmark, implementation task, or model run from v0.2 acceptance.

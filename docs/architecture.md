@@ -211,4 +211,4 @@ Only if later evidence supports the local execution fabric and independent-node 
 - replayable event and attempt logs;
 - no token, blockchain, or global reputation.
 
-This is not the current task. The current target is human review of specification v0.2.
+This is not the current task. [Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted specification v0.2 as the current architecture boundary, but no implementation, experimental Gate, or network prototype is authorized.

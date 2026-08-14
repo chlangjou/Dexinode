@@ -19,8 +19,9 @@ Read in this order:
 3. `status/current.md`
 4. `docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
 5. `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
-6. `docs/research/2026-08-14-strategic-reorientation-review.md`
-7. `docs/architecture.md`
+6. `docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md`
+7. `docs/research/2026-08-14-strategic-reorientation-review.md`
+8. `docs/architecture.md`
 
 Read the prior decision and specification for provenance:
 
@@ -103,6 +104,8 @@ Question:
 
 The strongest automatic output remains a locally verified candidate set for human disposition. Push, PR, merge, deployment, credentials, production mutation, and irreversible work remain outside scope.
 
+[Human review](docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted v0.2 as the current architecture boundary, including the relevant deterministic-verifier requirement and the exclusion of automatic Draft PR creation. Acceptance does not validate the architecture or authorize execution.
+
 Key v0.2 additions:
 
 - complete configuration identity rather than model identity alone;
@@ -115,9 +118,9 @@ Key v0.2 additions:
 
 ## Current bounded task
 
-Human-review specification v0.2 for boundedness, authority, attribution, verifier risk, replaceability, and absence of frozen performance criteria.
+The v0.2 architecture-boundary review is complete. No experimental Gate, implementation task, model run, benchmark, or execution plan is active.
 
-Stop after review. Any implementation, model run, benchmark, threshold, or Gate requires a separate decision issue.
+The only current integration surface is Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28). Its repository-level disposition remains separate from the specification decision.
 
 ## Hard stop conditions
 
@@ -135,4 +138,4 @@ Do not:
 
 ## Next human decision
 
-Accept specification v0.2 as the current falsifiable boundary or request a focused revision. Do not infer authorization for an experiment from specification acceptance.
+Decide separately whether Dexinode should remain at the accepted architecture boundary or open a new decision issue to formulate exactly one bounded experimental question. Do not infer authorization for an experiment, implementation, or PR automation from specification acceptance.

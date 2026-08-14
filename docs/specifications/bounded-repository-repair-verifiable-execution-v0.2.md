@@ -1,13 +1,14 @@
 # Bounded Repository-Repair Verifiable Execution Fabric Specification v0.2
 
-- Status: Draft for human review
+- Status: Accepted architecture boundary
 - Date: 2026-08-14
 - Decision: [ADR 0003](../decisions/0003-resource-bounded-verifiable-execution-fabric.md)
 - Decision issue: [#30](https://github.com/chlangjou/Dexinode/issues/30)
 - Evidence basis: [strategic reorientation review](../research/2026-08-14-strategic-reorientation-review.md)
+- Human review: [2026-08-14 v0.2 human review](../research/2026-08-14-verifiable-execution-v0.2-human-review.md)
 - Prior specification: [Resident Core v0.1](bounded-repository-repair-resident-core-v0.1.md), preserved as provenance
 
-This document supersedes v0.1 as the current candidate architecture boundary. It does not invalidate v0.1's historical role, select a model, define a benchmark, freeze a performance threshold, authorize implementation or inference, or assert that the architecture works.
+This document supersedes v0.1 as the current accepted architecture boundary. It does not invalidate v0.1's historical role, select a model, define a benchmark, freeze a performance threshold, authorize implementation or inference, or assert that the architecture works.
 
 Normative words `MUST`, `MUST NOT`, `SHOULD`, and `MAY` describe interface, authority, attribution, and safety invariants inside this candidate architecture. They are not experimental acceptance criteria.
 
@@ -404,6 +405,6 @@ The following MUST NOT be inferred from v0.2:
 
 ## 17. Stop point
 
-This document completes the strategic revision authorized by ADR 0003. It stops before implementation, model selection, inference, benchmark design, Gate creation, or execution planning.
+This document completes the strategic revision authorized by ADR 0003. Human review accepted it as the current architecture boundary on 2026-08-14. It stops before implementation, model selection, inference, benchmark design, Gate creation, or execution planning.
 
-The next action is human review of whether v0.2 preserves the bounded workflow while making configuration, search, verification, selection, and substitution sufficiently attributable. Any experiment requires a separate human decision record.
+Acceptance of this specification authorizes no experiment. Any experimental question requires a separate human decision record.

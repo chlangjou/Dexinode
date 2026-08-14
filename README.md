@@ -39,6 +39,7 @@ This is a hypothesis to test—not a conclusion.
 - [Hybrid architecture hypothesis](docs/research/dexinode-hybrid-architecture-hypothesis.md)
 - [Strategic reorientation review](docs/research/2026-08-14-strategic-reorientation-review.md)
 - [Current bounded repository-repair specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md)
+- [Specification v0.2 human review](docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md)
 - [Prior Resident Core specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md)
 - [Decision records](docs/decisions/README.md)
 - [Current status](status/current.md)
@@ -46,7 +47,7 @@ This is a hypothesis to test—not a conclusion.
 ## Current status
 
 - Project name: **Dexinode** (working name)
-- Stage: bounded repository-repair verifiable execution fabric specification, pending human review
+- Stage: bounded repository-repair verifiable execution architecture boundary accepted; no execution task authorized
 - Repository visibility: public
 - License: undecided
 - Protocol, economics, governance, and threat model: under exploration
@@ -57,13 +58,13 @@ This is a hypothesis to test—not a conclusion.
 
 ## Near-term objective
 
-Human review accepted a strategic reframe after rapid changes in local model capability, inference hardware, automated research, and latent/recurrent reasoning weakened the fixed 4B–8B premise. The current candidate is:
+Human review accepted a strategic reframe after rapid changes in local model capability, inference hardware, automated research, and latent/recurrent reasoning weakened the fixed 4B–8B premise. It also accepted specification v0.2 as the current architecture boundary. The current candidate is:
 
 > **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
 The evaluated unit is the complete Local Decision Configuration—models, memory/context, harness, tools, search/stopping, verifiers, fallback/human policy, runtime, and hardware—not a parameter count alone.
 
-The [v0.2 specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md) is a falsifiable hypothesis boundary, not a validated architecture. Current work is human review only; it does not authorize model selection, downloads, inference, implementation, benchmark design, acceptance thresholds, or a new Gate. [v0.1](docs/specifications/bounded-repository-repair-resident-core-v0.1.md) remains unchanged as provenance.
+The [v0.2 specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md) is an accepted falsifiable hypothesis boundary, not a validated architecture. Its [human review](docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md) authorizes no model selection, downloads, inference, implementation, benchmark design, acceptance thresholds, or new Gate. [v0.1](docs/specifications/bounded-repository-repair-resident-core-v0.1.md) remains unchanged as provenance.
 
 ## Principles
 

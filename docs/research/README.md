@@ -12,6 +12,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [Worker research decision](hybrid-agent-research-decision.md)
 - [2026-08-11 human review](2026-08-11-hybrid-agent-human-review.md)
 - [2026-08-14 strategic reorientation review](2026-08-14-strategic-reorientation-review.md)
+- [2026-08-14 specification v0.2 human review](2026-08-14-verifiable-execution-v0.2-human-review.md)
 
 ## Interpretation
 
