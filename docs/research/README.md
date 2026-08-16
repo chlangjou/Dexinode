@@ -13,6 +13,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-08-11 human review](2026-08-11-hybrid-agent-human-review.md)
 - [2026-08-14 strategic reorientation review](2026-08-14-strategic-reorientation-review.md)
 - [2026-08-14 specification v0.2 human review](2026-08-14-verifiable-execution-v0.2-human-review.md)
+- [2026-08-16 DMoE parametric knowledge-injection evidence review](2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md)
 
 ## Interpretation
 
