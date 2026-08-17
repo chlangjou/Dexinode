@@ -4,40 +4,42 @@ These definitions are provisional. They exist to keep discussion precise and wil
 
 ## Node
 
-An independently operated runtime that can receive, execute, or forward work. A node may host one or more models, tools, data sources, agents, or verifiers.
+An independently operated runtime that can receive, execute, or forward work. A node may host one or more models, tools, data sources, agents, knowledge artifacts, operators, or verifiers.
 
-A node is an operational and trust boundary—not necessarily one physical machine.
+A node is an operational and trust boundary—not necessarily one physical machine and not necessarily one model.
 
 ## Skill
 
-A versioned, addressable capability offered by a node.
+A versioned, addressable capability contract offered by a node or provider.
 
-A useful skill declaration should eventually describe:
+A Skill is an externally observable promise about behavior under stated conditions. It is **not** a claim that the capability occupies one model, one Adapter, one J-Space location, or one network node. Its implementation may combine models, parameter artifacts, knowledge sources, memory, deterministic algorithms, tools, agents, Remote services, verifiers, and humans.
+
+A useful Skill declaration should eventually describe:
 
 - purpose and scope;
 - input and output schemas;
 - constraints and side effects;
 - privacy and data-retention policy;
 - resource, latency, and price expectations;
-- model/tool/runtime provenance where disclosure is possible;
+- model／artifact／tool／runtime provenance where disclosure is possible;
 - supported verification methods;
 - failure and cancellation behavior;
 - compatibility and versioning rules.
 
 ## Model
 
-A learned inference component used by a skill. A skill may use no model, one model, or several models. Dexinode should route by demonstrated capability, not model brand alone.
+A learned inference component used by a Skill or Local Decision Configuration. A Skill may use no model, one model, or several models. Dexinode should route by demonstrated capability, not model brand alone.
 
 ## Agent
 
-A component that plans, selects skills, manages state, evaluates results, and decides whether to continue, retry, verify, or escalate.
+A component that plans, selects Skills, manages state, evaluates results, and decides whether to continue, retry, verify, or escalate.
 
-An agent can also expose a skill. The distinction is functional:
+An agent can also expose a Skill. The distinction is functional:
 
-- a **skill** is the contract visible to callers;
+- a **Skill** is the contract visible to callers;
 - an **agent** manages a process;
 - a **model** supplies learned inference;
-- a **node** operates the runtime.
+- a **node** operates a runtime／trust boundary.
 
 ## Agent configuration
 
@@ -45,7 +47,7 @@ The complete system evaluated for a task:
 
 `model(s) + memory + context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback + human policy + runtime/hardware`
 
-Dexinode should not attribute a result to a model when a large memory backbone, judge, retry budget, or remote fallback supplied material capability.
+Dexinode should not attribute a result to a model when a large memory backbone, judge, retry budget, operator, or Remote fallback supplied material capability.
 
 Parameter count, active parameters, advertised context, and tokens per second are configuration metadata. None is a complete capability identity.
 
@@ -53,7 +55,7 @@ Parameter count, active parameters, advertised context, and tokens per second ar
 
 Trusted deterministic software and policy that owns the workspace, durable memory, provenance, credentials, tool authority, privacy mappings, budgets, audit log, escalation, and final integration.
 
-It may use learned models, but its durable state and security decisions must not exist only inside a model context.
+It may use learned models, but its durable state and security decisions must not exist only inside a model context or latent workspace.
 
 ## Local Decision Configuration
 
@@ -65,19 +67,52 @@ It may use one general model, multiple local models, Specialists, deterministic 
 
 The Local Decision Configuration may make bounded semantic decisions, generate or select proposals, and request tools. It does not own canonical state, credentials, policy override, direct side effects, or final external publication authority.
 
+## Cognitive Core
+
+A provisional research term for the minimum broadly pretrained local substrate able to integrate a task rather than merely supply one narrow capability.
+
+A complete Cognitive Core may include:
+
+- language and semantic grounding;
+- broadly reusable concepts and world priors;
+- automatic foundation capabilities;
+- deliberate reasoning, planning, clarification, abstention, and escalation;
+- a mechanism for preserving and reusing task-relevant intermediate state;
+- integration of external knowledge, memory, operators, tools, and verifier feedback.
+
+A Cognitive Core may be one model or several tightly coupled components. It is one possible organization inside a Local Decision Configuration, not a new authority boundary and not a fixed parameter range.
+
+## Deliberative workspace
+
+A limited internal medium through which a Cognitive Core may hold, transform, and broadcast task-relevant intermediate state for flexible reasoning.
+
+J-Space is one research example of workspace-like representations. Dexinode does not require J-Space, does not treat raw latent vectors as a protocol, and does not assume the workspace is the whole reasoning engine. Automatic capabilities and the circuits that read, write, and operate on workspace state remain part of the complete Cognitive Core.
+
+## Knowledge and memory plane
+
+Sources outside the immediate Cognitive Core that provide factual, current, private, domain, episodic, or project state. Examples include documents, databases, retrieved context, structured memory, indexes, and parameterized knowledge artifacts.
+
+The plane must preserve source, version, validity, conflict, trust, revocation, and provenance. Correct retrieval is not equivalent to correct downstream integration.
+
+## Operator capability
+
+A bounded component that performs a transformation or analysis rather than merely returning facts. It may be a deterministic algorithm, compiler, solver, tool, Adapter, Specialist model, agent, Remote service, or human contribution.
+
+An operator should return a typed artifact or integration packet that preserves relevant claims, relations, constraints, uncertainty, evidence, and unresolved questions. It does not automatically own the complete task or final decision.
+
 ## Resident Core
 
 The earlier, narrower candidate in which one Local Resident Model plus deterministic support remains available to manage a workflow:
 
 `Local general model + memory + context orchestrator + tools/verifiers + task state`
 
-The **Minimum Viable Resident Core (MVRC)** remains useful historical terminology. Under ADR 0003, a Resident Core is one possible Local Decision Configuration, not a mandatory single-model architecture. Any viability claim is task- and resource-conditioned and cannot be reduced to model parameter count.
+The **Minimum Viable Resident Core (MVRC)** remains useful historical terminology. Under ADR 0003, a Resident Core is one possible Local Decision Configuration, not a mandatory single-model architecture. Under the Cognitive Decomposition Hypothesis, the broader research question is the minimum viable complete Cognitive Core and its externalizable boundaries. Any viability claim is task- and resource-conditioned and cannot be reduced to model parameter count.
 
 ## Specialist
 
-A model or complete service optimized for a bounded task contract. A specialist may run locally or remotely; its identity comes from measured capability, interface, verifier, runtime, and version—not a checkpoint label.
+A model, operator, or complete service optimized for a bounded task contract. A Specialist may run locally or remotely and may return an intermediate claim, typed artifact, score, refusal, clarification, or final result. Its identity comes from measured capability, interface, verifier, runtime, and version—not a checkpoint label.
 
-The **Minimum Viable Specialist Scale (MVSS)** is task-conditioned: the smallest complete specialist service that meets a stated quality floor after context, runtime, verification, and lifecycle costs are included.
+The **Minimum Viable Specialist Scale (MVSS)** remains task-conditioned historical terminology: the smallest complete Specialist service that meets a stated quality floor after context, runtime, verification, and lifecycle costs are included. It is no longer the project-defining scale question.
 
 ## Context packet
 
@@ -93,9 +128,9 @@ Current 8K–32K ranges are research assumptions documented in ADR 0001, not pro
 
 ## Remote escalation
 
-A controlled handoff from the local control plane to a stronger or differently specialized remote capability. Escalation should be task-scoped, privacy-constrained, budgeted, auditable, and locally verified.
+A controlled handoff from the local control plane to a stronger or differently specialized Remote capability. Escalation should be task-scoped, privacy-constrained, budgeted, auditable, and locally verified.
 
-Correct clarification, refusal, or escalation can satisfy a specialist contract; standalone replacement is not required.
+Correct clarification, refusal, or escalation can satisfy a Specialist contract; standalone replacement is not required.
 
 ## Pseudonymization / restoration
 
@@ -109,7 +144,7 @@ A machine-readable agreement for one delegation step. It binds a request to acce
 
 Candidate fields include:
 
-- task and skill identifiers;
+- task and Skill identifiers;
 - input schema and content references;
 - expected output and evidence;
 - time, compute, privacy, and cost limits;
@@ -122,7 +157,7 @@ The contract should make failure explicit instead of relying on conversational i
 
 ## Capability claim
 
-A node's assertion that it can perform a skill under stated conditions. A claim is discoverable metadata, not proof.
+A node's or provider's assertion that it can perform a Skill under stated conditions. A claim is discoverable metadata, not proof.
 
 ## Evidence
 
@@ -146,7 +181,7 @@ Failed, invalid, cancelled, and rolled-back attempts are evidence and must not d
 
 ## Candidate lineage
 
-The causal graph connecting attempts and artifacts. It records whether a candidate was generated independently, mutated from an earlier proposal, repaired using verifier feedback, or derived from Local, Remote, deterministic, or human work.
+The causal graph connecting attempts and artifacts. It records whether a candidate was generated independently, mutated from an earlier proposal, repaired using verifier feedback, or derived from Local, Remote, deterministic, operator, or human work.
 
 Lineage prevents correlated best-of-N results from being represented as independent trials.
 
@@ -164,17 +199,17 @@ More attempts improve the chance of finding a good candidate only when the candi
 
 ## Reputation
 
-A contextual summary of historical evidence. Reputation should be scoped by skill, version, workload, verifier set, and time—not reduced prematurely to one global score.
+A contextual summary of historical evidence. Reputation should be scoped by Skill, version, workload, verifier set, and time—not reduced prematurely to one global score.
 
 ## Router
 
-A component that selects candidate skills or nodes based on capability, evidence, policy, availability, latency, cost, privacy, and diversity.
+A component that selects candidate Skills, knowledge sources, operators, configurations, or nodes based on capability, evidence, policy, availability, latency, cost, privacy, and diversity.
 
-Routing is a policy choice. The network should allow competing routers.
+Routing is a policy choice. Broad domain classification alone is not a sufficient success predictor, and the network should allow competing routers.
 
 ## Registry
 
-A discovery mechanism for publishing and finding skill declarations and endpoints. A registry may be centralized, federated, peer-to-peer, or local. It should not become the sole authority on truth.
+A discovery mechanism for publishing and finding Skill declarations, artifacts, evidence, and endpoints. A registry may be centralized, federated, peer-to-peer, or local. It should not become the sole authority on truth.
 
 ## Settlement
 
