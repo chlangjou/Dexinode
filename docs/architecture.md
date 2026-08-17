@@ -25,11 +25,11 @@ A model score, parameter count, advertised context window, or tokens-per-second 
 | Component or logical role | Candidate responsibility | Constraint / uncertainty |
 |---|---|---|
 | Deterministic Local Control Plane | canonical repository/task state, provenance, credentials, permissions, packet compilation, typed tools, sandboxes, budgets, receipts, verifier invocation, stopping enforcement, rollback, audit | must not infer uncovered semantics or treat model statements as execution evidence |
-| Local Decision Configuration | local intent, decomposition, context request, failure interpretation, candidate generation/selection, stopping/escalation | may use one or several models or reasoning modes; composition and actual decision owner must remain visible |
+| Local Decision Configuration | local intent, decomposition, context request, failure interpretation, candidate generation/selection, stopping/escalation | may use one or several models, cognitive cores, operators, or reasoning modes; composition and actual decision owner must remain visible |
 | Proposal generator | produce one bounded typed hypothesis and artifact | cannot directly mutate canonical state or accept its own work |
 | Candidate selector/integrator | compare eligible candidates against contract, evidence, coverage, uncertainty, and cost | cannot override deterministic hard failures; coupling to generator/verifier must be disclosed |
-| Local Specialist | one declared subtask, proposal, artifact, score, refusal, or clarification | capability identity is configuration- and task-conditioned, not a label |
-| Remote capability | one task-scoped difficult subtask or candidate artifact | untrusted; no durable memory, credentials, unrestricted workspace, policy authority, or direct side effects |
+| Local Operator／Specialist | one declared subtask, claim, artifact, score, refusal, or clarification | capability identity is configuration- and task-conditioned, not a label or necessarily a whole model |
+| Remote capability | one task-scoped difficult subtask, operator result, or candidate artifact | untrusted; no durable memory, credentials, unrestricted workspace, policy authority, or direct side effects |
 | Verifier | scoped reproducible evidence and coverage statement | can be incomplete, exposed, gamed, correlated, wrong, or model-coupled |
 | Human reviewer | clarify intent, judge uncovered/high-impact semantics, approve exceptional disclosure and external disposition | human repair, selection, and takeover are system cost and capability contributions |
 
@@ -45,7 +45,7 @@ The Local Control Plane retains:
 - budgets, stopping conditions, rollback, quarantine, and recovery;
 - final candidate-set assembly for human disposition.
 
-No Local or Remote model receives authority merely because it generated a plausible plan or patch.
+No Local or Remote model, operator, or latent workspace receives authority merely because it generated a plausible plan or patch.
 
 ### Replaceable Local Decision Configuration
 
@@ -53,6 +53,7 @@ The Local Decision Configuration may be:
 
 - a single local general model;
 - a Resident Model plus Local Specialists;
+- a resource-bounded Cognitive Core using external knowledge and operator capabilities;
 - several small models with deterministic routing or selection;
 - a model using visible tool/reflection loops;
 - a recurrent or latent-reasoning model;
@@ -72,7 +73,7 @@ Each variant competes as a complete configuration under the same authority and e
 7. Verify every candidate under recorded coverage and exposure.
 8. Select or abstain using the closed attempt set; persist only confirmed state.
 
-Semantic boundaries—module, API, data structure, test, or workflow state—should drive decomposition. Token counts remain observations, not architectural constants.
+Semantic boundaries—module, API, data structure, test, workflow state, knowledge request, or operator contract—should drive decomposition. Token counts remain observations, not architectural constants.
 
 ### Candidate-search path
 
@@ -108,22 +109,79 @@ This can guarantee round-trip behavior only for approved mappings. It cannot gua
 - Neither Gate is a universal claim about all later models of the same parameter range.
 - FIM / syntax-aware MVSS eligibility remains `HOLD`.
 - Rapid model, inference-hardware, automated-research, and latent-reasoning developments justify architecture-level replaceability, not a specific model endorsement.
-- The strategic review supports moving the foundation from a fixed Resident scale to control, evidence, verification, and search contracts.
+- DMoE supports modular parametric knowledge in its evaluated setting, not general procedural Skill injection.
+- J-Space provides causal evidence for a privileged deliberative workspace in evaluated Claude models; J-CoT reports a usable recurrent J-Space interface on resource-bounded open backbones, but does not prove an 8B core is sufficient.
+- The [Cognitive Decomposition route review](research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) closes standalone model-node specialization and broad-domain replacement routing as primary project directions.
 - No runtime prototype, benchmark, model selection, or experimental Gate is currently authorized.
+
+## Provisional long-horizon cognitive decomposition hypothesis
+
+The current candidate architecture remains v0.2. Beneath its replaceable Local Decision Configuration, Dexinode now uses the following provisional research model:
+
+```text
+Trusted Local Control Plane
+            │
+            ▼
+Resource-bounded Cognitive Core
+  ├─ language and semantic grounding
+  ├─ automatic foundation capabilities
+  ├─ deliberative／recurrent workspace
+  └─ planning, integration, stopping
+            │
+     capability requests
+            │
+   ┌────────┴─────────┐
+   ▼                  ▼
+Knowledge／Memory   Operator／Capability
+Plane              Plane
+   │                  │
+   └────────┬─────────┘
+            ▼
+       typed claims,
+   artifacts and evidence
+            │
+            ▼
+Verification／Selection
+```
+
+This hypothesis is intentionally substrate-neutral:
+
+- a J-Space-like workspace is one possible internal reasoning interface, not a Dexinode protocol;
+- DMoE-like parameter experts are one possible knowledge substrate, not the definition of a Skill;
+- language ability and other automatic capabilities may remain deeply integrated with the core;
+- external knowledge may include factual, current, private, domain, and episodic material;
+- operators may be deterministic algorithms, tools, solvers, Adapters, models, agents, services, or humans;
+- every external contribution remains typed, attributable, policy-constrained, and verified.
+
+The central open question is partial decoupling: which capabilities and knowledge can be externalized while a resource-bounded core still integrates them reliably on structurally new tasks?
+
+The following are closed as current foundations:
+
+- `one Skill = one standalone model`;
+- `one Skill = one node`;
+- broad-domain routing that replaces the General core with one Specialist by default;
+- a fixed Resident parameter range;
+- distributed whole-model inference as a required decentralization mechanism;
+- direct J-Space or DMoE productization as the immediate next Gate.
+
+Whole-model Specialists and distributed compute remain permissible implementations when evidence supports them. They are not mandatory architecture.
 
 ## Long-term network interaction
 
-The local execution fabric can later become one node or trust domain in a wider network:
+The local execution fabric can later become one node or trust domain in a wider network. A provider may publish a knowledge source, parameter artifact, operator, tool, verifier, complete Skill service, or compute endpoint under a signed versioned declaration.
 
-1. a provider publishes a signed versioned skill declaration;
+A generic interaction remains:
+
+1. a provider publishes a signed versioned capability declaration;
 2. a router discovers candidates satisfying hard policy constraints;
-3. the caller proposes a handoff contract;
-4. a selected node accepts, rejects, or negotiates;
-5. the node executes and returns output plus evidence;
-6. verifiers evaluate the result under disclosed coverage;
-7. the caller accepts, retries, selects another node, escalates, or abstains;
-8. execution evidence updates local or shared reputation views;
-9. optional accounting or settlement occurs after acceptance.
+3. the caller proposes a handoff or invocation contract;
+4. a selected provider accepts, rejects, or negotiates;
+5. the provider returns a typed result, artifact, or evidence receipt;
+6. the local Cognitive Core or selector integrates eligible contributions;
+7. verifiers evaluate the result under disclosed coverage;
+8. the caller accepts, retries, selects another provider, escalates, or abstains;
+9. execution evidence updates local or shared reputation views;
+10. optional accounting or settlement occurs after acceptance.
 
 This remains a long-term possibility. Current work does not implement it.
 
@@ -133,9 +191,9 @@ This remains a long-term possibility. Current work does not implement it.
 
 Node identity, authentication, secure messaging, endpoint reachability, replay protection, key rotation, and recovery.
 
-### 2. Skill description and discovery
+### 2. Capability description and discovery
 
-Versioned capability declarations and candidate discovery, separating self-report from evidence-backed behavior.
+Versioned Skill, knowledge, operator, artifact, verifier, and endpoint declarations, separating self-report from evidence-backed behavior.
 
 ### 3. Contract and workflow
 
@@ -143,7 +201,7 @@ Request/response schemas, policies, budgets, state transitions, cancellation, an
 
 ### 4. Execution
 
-Models, tools, agents, data queries, or hybrid processes inside provider boundaries with sandboxing, limits, and observability.
+Models, tools, agents, data queries, knowledge services, operators, or hybrid processes inside provider boundaries with sandboxing, limits, and observability.
 
 ### 5. Evidence and verification
 
@@ -162,13 +220,14 @@ Optional value accounting, kept replaceable and separate from core task executio
 | Object | Owned by | Main responsibility |
 |---|---|---|
 | Capability configuration | Operator / run owner | Bind behavior to model, runtime, harness, search, verifier, fallback, and hardware |
-| Skill declaration | Provider | Describe capability, contract, and operating conditions |
+| Skill／capability declaration | Provider | Describe externally observable capability, compatibility, contract, and operating conditions |
+| Knowledge artifact declaration | Provider | Describe source, version, validity, compatibility, provenance, and update／revocation behavior |
 | Task request | Caller | State desired outcome, inputs, authority, and policy |
-| Handoff contract | Caller + provider | Define acceptance, evidence, disclosure, and limits |
+| Handoff／invocation contract | Caller + provider | Define acceptance, evidence, disclosure, and limits |
 | Attempt / candidate lineage | Control Plane | Preserve all candidate derivations and terminal states |
 | Execution receipt | Execution authority | Record what actually ran and changed |
 | Verification record | Verifier | Record scope, revision, coverage, exposure, and result |
-| Selection record | Selector / Control Plane | Explain eligibility, comparison, stopping, and uncertainty |
+| Selection／integration record | Selector / Control Plane | Explain eligibility, comparison, contribution, stopping, and uncertainty |
 | Reputation view | Router / consumer | Interpret historical evidence contextually |
 | Settlement record | Parties / payment layer | Account for accepted work |
 
@@ -188,12 +247,16 @@ The architecture distinguishes at least:
 - policy or disclosure mismatch;
 - timeout or resource exhaustion;
 - schema-invalid output;
+- missing or incorrect knowledge;
+- correct knowledge that the Cognitive Core fails to reconcile;
+- missing or incorrect operator capability;
 - plausible but incorrect candidate;
 - verifier false positive, false negative, error, or disagreement;
 - correlated candidate failures;
 - adaptive overfitting to exposed checks;
 - malicious result or fabricated evidence;
-- selector failure or hidden substitution;
+- selector or integration failure;
+- hidden Remote or human substitution;
 - partial side effect and failed rollback;
 - caller cancellation or human takeover.
 
@@ -201,14 +264,15 @@ Each state requires an observable transition and bounded recovery action.
 
 ## Later network prototype boundary
 
-Only if later evidence supports the local execution fabric and independent-node value, a small prototype might include:
+Only if later evidence supports the local execution fabric and independent-provider value, a small prototype might include:
 
-- three skill services across at least two operators or trust domains;
-- one replaceable router;
-- JSON-based declarations and handoff contracts;
+- three independently provided capabilities across at least two operators or trust domains;
+- at least two different capability substrates, such as knowledge plus operator or operator plus verifier;
+- one replaceable router／selector;
+- JSON-based declarations and invocation contracts;
 - signed execution, verification, and selection receipts;
 - deterministic and model-assisted verifiers with disclosed independence;
 - replayable event and attempt logs;
 - no token, blockchain, or global reputation.
 
-This is not the current task. [Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted specification v0.2 as the current architecture boundary, but no implementation, experimental Gate, or network prototype is authorized.
+This is not the current task. [Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted specification v0.2 as the current architecture boundary, and the cognitive-decomposition review changed research priorities without authorizing implementation, an experimental Gate, or a network prototype.
