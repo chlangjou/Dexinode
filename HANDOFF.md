@@ -4,11 +4,11 @@ Repository: `chlangjou/Dexinode`
 
 Canonical branch: `main`
 
-Canonical merged base: `e72499506c4ada56a3782a427c210f564f694fff`
+Canonical merged base: `174b235fed6ac69a20c285c4a0cb2829d09d28a9`
 
-Current integration branch: `agent/cognitive-decomposition-attribution-feasibility`
+Current integration branch: `agent/intervention-supported-attribution-experiment-design`
 
-Current decision issue: [#31](https://github.com/chlangjou/Dexinode/issues/31)
+Current decision issue: [#33](https://github.com/chlangjou/Dexinode/issues/33)
 
 Snapshot: 2026-08-17
 
@@ -21,12 +21,13 @@ Read in this order:
 1. `AGENTS.md`
 2. `HANDOFF.md`
 3. `status/current.md`
-4. `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
-5. `docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md`
-6. `docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
-7. `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
-8. `docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md`
-9. `docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md`
+4. `docs/research/2026-08-17-intervention-supported-attribution-experiment-design.md`
+5. `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
+6. `docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md`
+7. `docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
+8. `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
+9. `docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md`
+10. `docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md`
 
 Read Gate closure records only when their evidence is needed:
 
@@ -34,7 +35,7 @@ Read Gate closure records only when their evidence is needed:
 - `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 - `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
 
-Do not reopen Gate A／B execution unless a new human decision explicitly requires it.
+Do not reopen Gate A／B unless a new human decision explicitly requires it.
 
 ## Durable empirical state
 
@@ -48,14 +49,12 @@ Same-family Qwen2.5-7B evidence established capability divergence on one pinned 
 
 **FAIL / CLOSED.**
 
-Frozen result:
-
 - General-only: 76/96 = 79.17%;
 - Skill-routed: 77/96 = 80.21%;
 - overall delta: +1.04 pp, 95% CI [0, +3.125] pp;
 - Router domain accuracy: 100%.
 
-Post-closure content review found no paired Mathematics content advantage. Durable lesson: broad-domain classification is not per-task success prediction, and choosing one whole-model Specialist is not a sufficient integration architecture.
+Post-closure content review found no paired Mathematics content advantage. Durable lesson: broad-domain classification is not per-task success prediction, and selecting one whole-model Specialist is not a sufficient integration architecture.
 
 Gate conclusions remain scoped to their pinned models, benchmark, runtime, and date.
 
@@ -65,120 +64,151 @@ Gate conclusions remain scoped to their pinned models, benchmark, runtime, and d
 - ADR 0002 and specification v0.1 remain accepted history and unchanged provenance.
 - ADR 0003 remains the current architecture decision.
 - Specification v0.2 remains the accepted architecture boundary for one recoverable repository-repair workflow.
-- No experimental Gate, implementation, benchmark, model run, or execution plan is active.
+- No experimental Gate, implementation, benchmark, selected model, or execution plan is active.
 
-## Accepted near-term architecture boundary
+## Accepted architecture and long-horizon framing
+
+Near-term:
 
 > **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-The evaluated unit is the complete Local Decision Configuration:
+The evaluated unit is a complete Local Decision Configuration:
 
 `model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
 
-The deterministic Local Control Plane retains canonical state, credentials, policy, provenance, typed tool authority, reversible effects, receipts, Verifier invocation, budgets, stopping, rollback, quarantine, recovery, and audit.
+Long-horizon:
 
-## Provisional long-horizon framing
+> Useful intelligence may be partially decomposable into a trusted deterministic control plane; a resource-bounded Cognitive Core with language／semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
 
-The Cognitive Decomposition Hypothesis treats useful intelligence as potentially partially decomposable into:
+Knowledge–reasoning decoupling is partial. J-Space is one possible internal workspace, not a protocol. DMoE is one possible Knowledge substrate, not proof of procedural Skill injection. Skill remains a substrate-neutral capability contract.
 
-- trusted deterministic local authority;
-- a resource-bounded Cognitive Core with language／semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration;
-- external Knowledge／Memory;
-- heterogeneous Operator／Capability providers;
-- independent Verification.
+## Accepted attribution-feasibility result
 
-Knowledge–reasoning decoupling is partial, not absolute. J-Space is one candidate internal workspace rather than a protocol. DMoE is one possible Knowledge substrate rather than procedural-Skill proof. Skill remains a substrate-neutral externally observable capability contract.
+PR #32 was human-approved and merged into `main@174b235fed6ac69a20c285c4a0cb2829d09d28a9`.
 
-## Current bounded review
-
-Issue #31 authorized one literature-first, design-only attribution-feasibility review:
-
-> Can controlled interventions and observable receipts distinguish failures caused by Knowledge, Operator capability, Cognitive Core integration, Verification／Selection, and hidden Remote／human substitution without relying on private chain-of-thought?
-
-The completed review recommends:
+Accepted recommendation:
 
 > **`PIVOT TO COARSER ATTRIBUTION`**
 
-### Why
+Do not force one unique root-cause label. Use intervention-supported, set-valued attribution across:
 
-A targeted correction and prefix／state-preserving replay can establish that an intervention was sufficient to change a pinned outcome. It does not generally establish a unique, minimal, or earliest root cause. Real runs may contain multiple sufficient causes, propagation, detection failures, recovery failures, and terminal-acceptance failures.
+1. component family — `K` Knowledge, `O` Operator, `C` Cognitive Core, `V` Verification／Selection;
+2. orthogonal provenance integrity — `P` Remote／human contribution, disclosure, attribution, and authority;
+3. causal role — initiating, enabling, propagating, detection, recovery, terminal acceptance;
+4. evidence grade — `E0` narrative, `E1` observational, `E2` controlled-no-flip, `E3` sufficiency-supported, and limited `E4` minimality／necessity;
+5. run disposition — detected, recovered, masked, escaped, false accepted／rejected, or unresolved.
 
-The original five categories also mix causal levels. Knowledge, Operator, Core, and Verification／Selection are possible component loci. Hidden Remote／human substitution is mainly a provenance-integrity axis; a disclosed contribution is not automatically a semantic failure.
+A disclosed authorized Remote／human contribution is not automatically a failure. `Cognitive Core failure` requires positive upstream sufficiency evidence and must never be residual.
 
-### Proposed attribution dimensions
+## Current bounded experiment design
 
-1. **Component family**
-   - `K` Knowledge;
-   - `O` Operator;
-   - `C` Cognitive Core;
-   - `V` Verification／Selection.
-2. **Provenance integrity**
-   - `P` Remote／human contribution, disclosure, attribution, and authority.
-3. **Causal role**
-   - initiating;
-   - enabling;
-   - propagating;
-   - detection;
-   - recovery;
-   - terminal acceptance.
-4. **Evidence grade**
-   - narrative;
-   - observational;
-   - controlled intervention without outcome flip;
-   - sufficiency-supported outcome flip;
-   - limited minimality／necessity within a predeclared intervention set.
+Issue #33 authorized one design-only specification. The completed design recommends:
 
-Attribution should be set-valued and preserve unresolved alternatives. Do not claim one unique root cause by default.
+> **`PROCEED TO GATE SPECIFICATION`**
 
-### Core-failure guardrail
+This is not an active Gate and does not authorize implementation or execution.
 
-`Cognitive Core failure` must never be a residual catch-all. It requires positive evidence that:
+### Critical stage split
 
-- the task contract is complete;
-- the Knowledge packet is oracle-sufficient and delivered exactly;
-- required Operator outputs are independently valid;
-- authority, environment, and tools are fixed;
-- the Core still fails to interpret, integrate, plan, stop, or escalate;
-- and a targeted observable correction or controlled alternative configuration enables verified continuation.
+The next candidate Gate should test **Attribution Contract Calibration**, not autonomous AI root-cause diagnosis.
 
-This supports a configuration-conditional integration locus, not an internal neural-mechanism claim.
+Candidate question:
 
-## Candidate workflow family
+> Can one synthetic repository-local migration workflow provide faithful receipts, controlled fault boundaries, prefix／state-preserving replay, independent oracles, and negative controls sufficient for correct `E3` set-valued attribution records for predeclared `K`／`O`／`C`／`V` faults and `P` provenance conditions?
 
-If a later human decision authorizes experiment design, the best first family is a **synthetic or repository-local versioned API／configuration migration**.
+Only after that contract is validated should a later decision consider an **Automatic Attribution Policy Evaluation** where a learned or rule-based system proposes hypotheses and interventions without seeing the fault manifest.
 
-Reasons:
+### Candidate workflow
 
-- old, stale, conflicting, absent, and correct Knowledge can be controlled;
-- compiler／schema validation can provide deterministic Operators and acceptance evidence;
-- the Core must integrate bounded changes across files and constraints;
-- Verifier coverage can be varied;
-- Remote／human contribution lineage can be injected and audited.
+Use a fictional repository-local Relay API v1 → v2 plus configuration migration.
 
-Configuration repair is useful for calibration. Dependency constraints and schema migrations are possible later. Concurrency-invariant repair and arbitrary real repository issues are not recommended first because attribution and oracles are too entangled.
+Conceptually:
 
-No task set, benchmark, model, threshold, or statistical method is selected.
+```text
+publish(topic, payload)
+```
+
+becomes:
+
+```text
+publish(PublishRequest { channel, body, tenant, codec })
+```
+
+The repository-local v2 contract requires preserved channel／body behavior, config-derived tenant and codec, error propagation, and removal of v1 usage.
+
+The scenario is selected because Knowledge revisions, deterministic Operator outputs, Core integration, Verifier coverage, Selector decisions, Remote／human provenance, and reversible effects can be controlled.
+
+No language, fixture, case, file count, model, or benchmark is frozen.
+
+### Candidate conditions
+
+The design proposes:
+
+- clean reference;
+- missing, stale, conflicting, or packet-omitted Knowledge;
+- unavailable, schema-invalid, or semantically wrong Operator outputs;
+- controlled Core-plan／integration／stop-or-escalate faults with valid upstream inputs;
+- complete, partial, false-positive, or false-negative workflow Verifiers;
+- Selector failure on a closed candidate set;
+- authorized disclosed and hidden／misattributed Remote or human contributions;
+- no-op interventions and negative controls;
+- only a small predeclared set of two-fault cascades.
+
+### Replay contract
+
+Snapshots are required before Knowledge delivery, Operator output, Core decision, candidate closure, Verifier record, and Selector disposition.
+
+Only a prefix／state-preserving replay that changes the hidden-oracle outcome is eligible for `E3` sufficiency language. Independent stochastic reruns remain observational unless the targeted state is preserved.
+
+No-op replay stability is a hard prerequisite.
+
+### Oracle separation
+
+Keep separate:
+
+- Operator oracle;
+- exposed workflow Verifier;
+- hidden final acceptance oracle;
+- fault manifest.
+
+The hidden oracle and fault manifest must not be exposed to generation, repair, or selection.
+
+### Candidate metrics
+
+A later Gate specification must freeze numerical criteria for:
+
+- attribution coverage and abstention;
+- supported precision／recall;
+- set-valued truth containment and ambiguity;
+- overclaim and negative-control false attribution;
+- residual-Core guardrail violations;
+- provenance detection and false accusation;
+- false acceptance／rejection, recovery, stopping, and rollback;
+- replay fidelity;
+- full instrumentation, replay, Verifier, Remote, and active-human cost.
 
 ## Current stop point
 
 Stop for human review of:
 
-- the `PIVOT TO COARSER ATTRIBUTION` recommendation;
-- the component／role／evidence ontology;
-- the positive Core-failure criteria;
-- the candidate workflow family;
-- whether a separate later decision should authorize one bounded experiment-design specification.
+1. the split between attribution-contract calibration and later automatic-attribution evaluation;
+2. the Relay API／configuration migration scenario family;
+3. single-fault calibration before limited two-fault cascades;
+4. replay fidelity and evidence-grade requirements;
+5. the recommendation to proceed only to a formal Gate specification.
 
-Review completion does not automatically authorize an experiment.
+Acceptance of the design does not create or activate a Gate. A separate decision must authorize and human-approve a formal Gate specification before implementation or execution.
 
 ## Hard stop conditions
 
 Do not:
 
+- create or activate a Gate;
+- freeze benchmark cases, fixtures, model baselines, statistical methods, thresholds, or acceptance criteria;
 - select or download a checkpoint;
-- run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
-- implement an attribution harness, runtime, or Verifier;
-- create or freeze a benchmark, task set, oracle set, baseline, statistical method, threshold, or Gate;
+- run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, Remote execution, custom-hardware, or deployment work;
+- implement the synthetic repository, attribution harness, receipt schema, replay system, Operator, Verifier, Selector, or runtime;
 - modify Gate A／B evidence or conclusions;
+- revise ADR 0003 or specification v0.2;
 - resolve FIM HOLD or continue DELULU work;
-- design or implement federation, marketplace, token, reputation, settlement, or governance.
+- design or implement federation, marketplace, reputation, token, settlement, or governance.

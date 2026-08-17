@@ -17,6 +17,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-08-17 J-Space and J-CoT material evidence review](2026-08-17-j-space-j-cot-material-evidence-review.md)
 - [2026-08-17 Cognitive Decomposition Hypothesis and research route review](2026-08-17-cognitive-decomposition-hypothesis-route-review.md)
 - [2026-08-17 Cognitive Decomposition attribution feasibility review](2026-08-17-cognitive-decomposition-attribution-feasibility-review.md)
+- [2026-08-17 Intervention-supported attribution bounded experiment design](2026-08-17-intervention-supported-attribution-experiment-design.md)
 
 ## Interpretation
 
@@ -26,4 +27,4 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - Dated external evidence reviews separate source-supported observations from Dexinode inference.
 - Model and runtime landscapes are evidence snapshots, not registries or durable roadmap anchors.
 - `status/current.md` identifies the current bounded action and authorization boundary.
-- A research review may prioritize or close routes, but it cannot create a Gate unless explicitly authorized later.
+- A research review or experiment design may recommend a Gate specification, but neither can create or activate a Gate without a separate human decision.
