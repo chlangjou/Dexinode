@@ -1,195 +1,186 @@
 # Dexinode Session Handoff
 
 Repository: `chlangjou/Dexinode`
-Canonical branch: `main`
-Snapshot: 2026-08-10
 
-Git is the durable source of truth. This file is intentionally compact for a fresh ChatGPT session.
+Canonical branch: `main`
+
+Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
+
+Snapshot: 2026-08-17
+
+Git is the durable source of truth. This file is intentionally compact for a fresh session.
 
 ## Start here
 
-Read only what is needed, in this order:
+Read in this order:
 
 1. `AGENTS.md`
 2. `HANDOFF.md`
 3. `status/current.md`
-4. `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
-5. `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
-6. `gates/gate-b-orchestration/evidence-report.md`
+4. `docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
+5. `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
+6. `docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md`
+7. `docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md`
+8. `docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md`
+9. `docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md`
+10. `docs/architecture.md`
 
-Also consult the File Library research report when available:
+Read the earlier decision chain for provenance when needed:
 
-`Dexinode-specialist-llm-literature-review-2026-08-10.md`
+- `docs/research/2026-08-14-strategic-reorientation-review.md`
+- `docs/decisions/0002-proceed-to-bounded-repository-repair-spec.md`
+- `docs/specifications/bounded-repository-repair-resident-core-v0.1.md`
+- `docs/research/2026-08-11-hybrid-agent-human-review.md`
 
-Do not reopen old Gate A/B execution unless a new question specifically requires it.
+Read Gate closure records only when their evidence is needed:
 
-## Closed experimental gates
+- `gates/gate-a-specialization/reviews/gate-a-final-human-decision.md`
+- `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
+- `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
+
+Do not reopen Gate A/B execution unless a new human decision explicitly requires a materially different falsifiable question.
+
+## Durable empirical state
 
 ### Gate A — Specialist Validation
 
 **PASS / CLOSED.**
 
-Same-size Qwen2.5-7B comparison established that specialization can produce strong capability divergence on a measured distribution. The Math checkpoint showed a large Math advantage on Gate A; the Coder checkpoint did not validate as a Coding specialist.
+Same-family Qwen2.5-7B evidence established strong capability divergence on one pinned distribution. The Math checkpoint showed a large Mathematics advantage; the Coder checkpoint did not validate as a Coding specialist.
 
-Key architectural lesson: checkpoint/domain labels are not sufficient skill identities; capability must be empirically registered.
+Durable lesson: a model label is not a capability identity.
 
 ### Gate B — Orchestration Advantage
 
 **FAIL / CLOSED.**
 
-Final decision record:
-`gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
+Frozen execution: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`.
 
-Frozen execution:
-`gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`
-
-Frozen result:
-
-- General-only: 76/96 = 79.17%; Math 40/48; Coding 36/48.
-- Skill-routed: 77/96 = 80.21%; Math 41/48; Coding 36/48.
+- General-only: 76/96 = 79.17%.
+- Skill-routed: 77/96 = 80.21%.
 - Overall delta: +1.04 pp, 95% CI [0, +3.125] pp.
-- Math delta: +2.08 pp, CI [0, +6.25] pp.
 - Router domain accuracy: 100%.
-- Frozen +10 pp overall and +10 pp Math requirements were not met.
 
-Conclusion: perfect broad-domain routing did not create material system advantage because specialist advantage did not transfer strongly to the fresh panel.
+The frozen thresholds were not met. Post-closure content review found no paired Mathematics content advantage. Gate B remains `FAIL / CLOSED` with its oracle／protocol caveat.
 
-## Important post-closure caveats
+Durable lesson: broad-domain classification is not per-task success prediction, and routing one complete task to one whole-model Specialist is not a sufficient integration architecture.
 
-See:
-`gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
+Gate conclusions apply to pinned models, benchmark, runtime, and date.
 
-Key findings:
+## Preserved decisions
 
-- `math-23` has a frozen oracle error: correct Bayes posterior is `95/242`, not `19/48`; both models computed approximately the correct decimal and both were rejected by the rational-only scorer.
-- `math-11`, `math-12`, `math-17` were mathematically correct for both models but rejected by answer-representation parsing.
-- `math-41`, the sole frozen specialist win, was mathematically correct for both (`0.75` vs `3/4`); only specialist representation was accepted.
-- `math-16` and `math-32` show genuine shared arithmetic/self-check failures.
+- FIM / syntax-aware MVSS eligibility remains **`HOLD`**.
+- ADR 0002 remains accepted history: write one bounded, falsifiable repository-repair specification before any experiment.
+- Specification v0.1 remains unchanged as the single-Resident／4B–8B candidate produced under ADR 0002.
+- ADR 0003 remains the current architecture decision.
+- Specification v0.2 remains the accepted architecture boundary.
+- No experimental Gate is active.
 
-These errata do not rescue Gate B; content-level retrospective makes the Math specialist advantage smaller, not larger. Preserve frozen scores as historical evidence and keep errata explicit.
+## Current near-term architecture
 
-## Current research pivot
+[ADR 0003](docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md) keeps the project foundation at:
 
-Do **not** assume Dexinode is practical. Current position:
+> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-> Specialized/cheaper models are clearly possible and routing has real production value, but useful specialization may require a much larger model scale and stricter conditions than the original edge-small-model thesis assumed.
+The evaluated unit is a complete **Local Decision Configuration**:
 
-Separate three hypotheses:
+`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
 
-1. **Specialization thesis** — a cheaper/specialized model can be better on a bounded task region.
-2. **Routing thesis** — the system can predict before expensive inference when that model is good enough.
-3. **Decentralization thesis** — the minimum viable specialist scale is small enough for distributed/idle/consumer compute.
+The current bounded artifact is:
 
-Evidence for (1) and (2) exists in research and production. (3) remains open and is the most Dexinode-specific risk.
+`docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
 
-Important distinction:
+It defines one recoverable repository-repair workflow with deterministic local authority, reversible sandboxes, complete attempt and candidate lineage, verifier coverage and exposure, selection and stopping receipts, and explicit Remote／human substitution. The strongest automatic output is a locally verified candidate set for human disposition.
 
-- **Absolute-small**: roughly consumer/edge-deployable 1B–14B class.
-- **Relative-small**: substantially cheaper than frontier, but still datacenter-scale (for example tens of billions active parameters or large MoE specialists).
+Acceptance does not validate the architecture or authorize execution.
 
-Production routing can succeed with relative-small models without validating the edge-decentralization thesis.
+## New material external evidence
 
-## Literature review conclusions already absorbed
+### DMoE
 
-The literature review supports these concepts:
+The 2026-08-16 review records that DMoE supports independently updatable parametric knowledge modules in its evaluated setting. It does not establish procedural Skill injection, safe composition, open-provider trust, or universal efficiency superiority.
 
-- catastrophic forgetting is not the whole problem;
-- **General Capability Integration (GCI)** is a distinct concern: a specialist may retain general abilities yet fail to combine them reliably with domain expertise;
-- mixed general/domain training can outperform pure specialization (Qwen2.5-Coder's reported code/general/math mixture is an important example, not a universal ratio);
-- specialists may work as augmentation modules rather than full General-model replacements (e.g. specialist knowledge/derivation feeding a General reasoning core);
-- model complementarity does not imply easy model selection; model-recall/oracle-gap is a central routing problem;
-- routing should eventually estimate expected utility / probability of success, not merely classify domain;
-- small-specialist quality/resource Pareto improvements exist, but often under narrow, identifiable, verifiable distributions.
+Strategic effect: `Skill = standalone model` is weakened, and capability ownership is separated from distributed inference.
 
-## Current hypothesis about Qwen2.5 General / Math / Coder
+### J-Space and J-CoT
 
-All inherit a strong Qwen2.5 base, but later training objectives differ materially.
+The 2026-08-17 review records:
 
-- General-Instruct emphasizes broad instruction following, human preference, structured behavior and general reasoning.
-- Math adds >1T math-oriented continued pretraining plus math CoT/TIR, reward modeling and GRPO-style specialist alignment.
-- Coder adds ~5.5T continued training with an explicit mixed code/general/math recipe, FIM/repository training, then coding-focused instruction/preference stages while deliberately retaining common data.
+- causal evidence that evaluated Claude models use a small privileged workspace for deliberate control, intermediate reasoning, and flexible reuse;
+- much routine language processing and familiar inference proceeds outside that workspace;
+- J-CoT reports a recurrent J-Space interface on a reasoning-adapted Qwen3-8B backbone and scaling from 7B to 405B;
+- J-Space is not the complete reasoning engine, a cross-model ABI, or proof that an 8B core is sufficient.
 
-Plausible but unproven hypothesis:
+## Current provisional long-horizon hypothesis
 
-> Specialist training may improve domain-method competence while changing the relative weighting/integration of general comprehension, grounding, verification and output-control abilities.
+The human project owner accepted the [Cognitive Decomposition Hypothesis and route review](docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) as the current research framing:
 
-Do not treat this as established causality.
+> **Trusted Local Control Plane + resource-bounded Cognitive Core + external Knowledge／Memory Plane + heterogeneous Operator／Capability Plane + independent Verification.**
 
-## Production examples that motivated the current pivot
+The Cognitive Core contains broadly pretrained language and semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration. Knowledge–reasoning decoupling is expected to be partial rather than absolute.
 
-Two relevant patterns should be verified from primary/credible sources when reused:
+J-Space is one possible internal workspace mechanism. DMoE is one possible knowledge substrate. Neither is a required Dexinode component.
 
-- OpenAI-style model ladders/routing: route easier work to cheaper/faster models and escalate harder tasks. Do not repeat an exact `1/10 compute` claim without primary evidence.
-- Cursor-style routing/first-party specialist economics: first-party coding models and production routing can reduce dependence on frontier providers and improve inference economics, but successful specialists may still be datacenter-scale rather than edge-small.
+Skill now means an externally observable capability contract. Its implementation may be a model, parameter artifact, knowledge source, tool, solver, agent, service, verifier, human, or composed configuration.
 
-The key research question is therefore no longer "can specialists exist?" but:
+## Current research priorities
 
-> At a required quality threshold, what is the minimum-cost / minimum-scale model that remains reliable, and can we predict when to use it cheaply enough?
+Continue only work that sharpens:
 
-## Next work: two parallel literature-first Worker sessions
+1. the minimum complete Cognitive Core and the boundary between foundational semantics and externalizable knowledge;
+2. knowledge／memory provenance, freshness, conflict, revocation, poisoning, and reader reconciliation;
+3. typed operator outputs preserving relations, role bindings, constraints, uncertainty, evidence, and actual contribution;
+4. workspace and recurrent／latent reasoning under complete compute- and configuration-matched evidence;
+5. deterministic authority, candidate lineage, verifier independence, false acceptance, stopping, and Remote／human substitution;
+6. whether a bounded workflow can distinguish missing knowledge, missing operator capability, core integration failure, verifier failure, and substitution.
 
-No new GPU Gate is active. Run two independent research workers first.
+## Routes closed as primary directions
 
-### Worker A — Specialist Viability / Minimum Viable Specialist Scale
+The following are closed as foundations or current phases, not declared scientifically impossible:
 
-Research whether and at what scale specialists can retain:
+- `one Skill = one standalone model`;
+- `one Skill = one network node`;
+- broad-domain routing that replaces the General core with one Specialist;
+- a fixed 4B–8B Resident or reasoning boundary;
+- distributed whole-model inference／idle compute as a necessary decentralization thesis;
+- continuous standalone-small-model landscape or leaderboard work;
+- Parametric Procedural Skill or J-Space ABI as the immediate next Gate;
+- re-running Gate A／B because a newer model exists without a new system hypothesis;
+- network-first federation, marketplace, token, reputation, settlement, or governance design.
 
-- domain advantage;
-- General Capability Integration;
-- instruction/specification comprehension;
-- reliability and verification;
-- transferable advantage across fresh panels;
-- meaningful VRAM/latency/energy/cost advantage.
+Whole-model Specialists, distributed compute, parameter modules, and independent providers remain optional implementations when later evidence supports them.
 
-Explicitly distinguish absolute-small from relative-small specialists.
+## Current bounded task
 
-Primary output: evidence on the **minimum viable specialist scale** by task regime and whether edge-scale specialists are realistic.
+No experimental Gate, implementation task, model run, benchmark, or execution plan is active.
 
-### Worker B — Routing / Model Recall / Escalation Economics
+The only current integration surface is Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28). Repository-level disposition remains separate from research-record acceptance.
 
-Research whether model complementarity can be converted into production savings through:
+## Highest-decision-value unresolved question
 
-- pre-inference success prediction;
-- cost/quality routing;
-- model recall / oracle-gap reduction;
-- confidence calibration and abstention;
-- cheap-first cascades / escalation;
-- verifier-assisted routing;
-- production systems such as OpenAI/Cursor where publicly documented.
+Before any new Gate, determine whether one bounded recoverable workflow can attribute failures separately to:
 
-Primary output: evidence on whether routing can predict **P(success | model, task)** cheaply and robustly enough to beat a strong single model.
+1. missing or incorrect external knowledge;
+2. missing or incorrect operator capability;
+3. Cognitive Core comprehension／reasoning／integration failure;
+4. selector or verifier failure;
+5. hidden Remote or human substitution.
 
-Both workers must be literature-first and actively seek negative evidence. Do not design a Dexinode benchmark until literature gaps are established.
+Only then may a separate human decision formulate exactly one experiment.
 
-## Main-session synthesis after Workers A/B
+## Hard stop conditions
 
-When both worker reports return, do not immediately start another model experiment.
+Do not:
 
-Build an evidence matrix across:
+- select or download a checkpoint;
+- run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
+- implement the runtime;
+- create or freeze a benchmark, task set, baseline, statistical method, or threshold;
+- add or activate a Gate;
+- modify Gate A/B evidence or conclusions;
+- resolve FIM HOLD or continue DELULU work;
+- design or implement federation, marketplace, token, reputation, settlement, governance, or a network prototype.
 
-- Specialist Viability
-- Routing Predictability
-- Deployment Scale
+## Next human decision
 
-Classify major claims as:
-
-- ESTABLISHED
-- PARTIALLY SUPPORTED
-- OPEN
-- CONTRADICTED
-
-Then decide whether the next falsifiable Gate should test:
-
-1. minimum viable specialist scale / edge viability;
-2. General Capability Integration;
-3. routing success prediction / escalation;
-4. specialist augmentation + verifier;
-5. or whether evidence is too weak to justify further Dexinode-specific experimentation.
-
-## Research discipline
-
-Dexinode is currently a **possible architecture under potentially strict conditions**, not an assumed product direction.
-
-Research goal: progressively narrow the region in which it could be practical. If that region becomes too narrow or expensive for decentralized deployment, record that as a valid negative result.
-
-No new selected-model execution is authorized until a new bounded hypothesis, benchmark and acceptance criteria are explicitly frozen.
+Decide separately whether the decomposition-attribution question has enough decision value and measurement clarity to justify a new issue. Do not infer authorization for an experiment, implementation, or PR automation from the new research framing.
