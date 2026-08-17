@@ -5,14 +5,12 @@
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
 - Active experimental Gate: **none**
-- Active work type: **cognitive-decomposition research framing accepted / no research execution authorized**
+- Active work type: **Cognitive Decomposition attribution feasibility review complete / pending human review**
 - Current architecture decision: [ADR 0003](../docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md)
 - Current bounded specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md` — **accepted architecture boundary**
-- Current route review: `docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md`
-- Supporting evidence reviews:
-  - `docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md`
-  - `docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md`
-- Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
+- Authorizing decision: [Issue #31](https://github.com/chlangjou/Dexinode/issues/31)
+- Current review: `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
+- Integration branch: `agent/cognitive-decomposition-attribution-feasibility`
 
 ## Closed empirical evidence that must not change
 
@@ -37,110 +35,89 @@ Durable lesson: broad-domain classification is not per-task success prediction, 
 
 Gate conclusions remain scoped to pinned models, benchmark, runtime, and date.
 
-## Accepted near-term architecture boundary
+## Accepted architecture and research framing
 
 ADR 0003 and specification v0.2 remain current:
 
 > **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-The evaluated unit remains a complete **Local Decision Configuration**:
-
-`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
-
-The deterministic Local Control Plane retains canonical state, credentials, policy, typed tools, side effects, provenance, receipts, verifier invocation, budgets, stopping, rollback, quarantine, recovery, and audit.
-
-Specification v0.2 remains the accepted boundary for one recoverable repository-repair workflow. It is not a validated implementation and authorizes no execution.
-
-## Provisional long-horizon Cognitive Decomposition Hypothesis
-
-The human project owner accepted the following as the current research framing:
+The provisional Cognitive Decomposition Hypothesis remains:
 
 > Useful intelligence may be partially decomposable into a trusted deterministic control plane; a resource-bounded Cognitive Core containing semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
 
-Important constraints:
+This review does not validate or supersede either boundary.
 
-- decoupling is expected to be partial, not absolute;
-- the Cognitive Core still requires broadly pretrained language, semantic concepts, world priors, automatic routines, and neural read／write machinery;
-- J-Space is one candidate internal deliberative workspace, not the whole reasoning engine or a Dexinode protocol;
-- DMoE is one example of modular parametric knowledge, not proof of procedural Skill injection;
-- Skill is an externally observable capability contract, not a model, Adapter, node, or cognitive location;
-- knowledge, operators, verifiers, and compute may be supplied independently while the local core remains the integration owner.
+## Attribution feasibility result
 
-This hypothesis does not supersede ADR 0003 or specification v0.2. It changes research priorities underneath the replaceable Local Decision Configuration.
+The authorized review asked whether one bounded recoverable workflow could distinguish failures caused by:
 
-## Current evidence interpretation
+1. missing or incorrect external Knowledge;
+2. missing or incorrect Operator capability;
+3. Cognitive Core comprehension／reasoning／integration failure;
+4. Selector or Verifier failure;
+5. hidden Remote or human substitution.
 
-| Claim | Current state |
-|---|---|
-| Bounded whole-model specialization exists | `ESTABLISHED / PINNED` |
-| Broad-domain whole-model routing creates material advantage | `CONTRADICTED / PINNED` |
-| Tiny independently updatable modules can encode knowledge | `ESTABLISHED IN DMoE PAPER SCOPE` |
-| Tiny modules inject transferable procedural Skill | `OPEN` |
-| Evaluated Claude models use a privileged deliberative workspace | `ESTABLISHED IN J-SPACE PAPER SCOPE` |
-| Much routine language processing can proceed outside that workspace | `PARTIALLY ESTABLISHED` |
-| A workspace-like recurrent interface can help 7B–8B models | `PARTIALLY SUPPORTED`; J-CoT work in progress and unreplicated |
-| An 8B Cognitive Core is sufficient for Dexinode | `OPEN` |
-| Long-tail knowledge and deliberate reasoning can be partially separated | `HIGH-PLAUSIBILITY / OPEN` |
-| Foundational semantics and automatic capabilities can be fully externalized | `NOT SUPPORTED` |
-| Skill must be a standalone model or node | `REJECT AS FOUNDATION` |
-| Trusted Local Control Plane has measurable end-to-end value | `PARTIALLY SUPPORTED / UNVALIDATED` |
-| Open decentralized capability supply is viable | `OPEN / LONG TERM` |
+Recommendation:
 
-## Active research priorities
+> **`PIVOT TO COARSER ATTRIBUTION`**
 
-Continue only literature／design work that sharpens:
+Exact five-way assignment of one unique root-cause label is not sufficiently identifiable. A targeted intervention that flips the outcome supports sufficiency under the pinned configuration, but does not establish uniqueness, minimality, or the earliest causal origin. Multi-cause and cascading failures must remain representable.
 
-1. the minimum complete Cognitive Core and the knowledge／reasoning decomposition boundary;
-2. external knowledge and memory provenance, freshness, conflict, poisoning, revocation, and reader integration;
-3. typed operator outputs preserving relations, bindings, constraints, uncertainty, evidence, and actual contribution;
-4. workspace and recurrent／latent reasoning under compute-, parameter-, memory-, and task-matched evidence;
-5. deterministic authority, candidate lineage, verifier independence, false acceptance, stopping, Remote／human substitution, and total workflow cost;
-6. a future bounded workflow's ability to distinguish missing knowledge, missing operator capability, core integration failure, verifier failure, and substitution.
+A defensible future target is **intervention-supported, set-valued attribution** with four separate dimensions:
 
-No continuous model catalog is authorized or desired.
+- component family: `K` Knowledge, `O` Operator, `C` Cognitive Core, `V` Verification／Selection;
+- provenance-integrity axis: `P` Remote／human substitution and attribution;
+- causal role: initiating, enabling, propagating, detection, recovery, terminal acceptance;
+- evidence grade: narrative, observational, controlled-no-flip, sufficiency-supported, or limited minimality／necessity-supported.
 
-## Routes closed as primary directions
+`Cognitive Core failure` requires positive evidence that the task contract, Knowledge packet, Operator outputs, authority, and environment were sufficient and fixed. It must not be assigned as a residual catch-all.
 
-The following are closed as project foundations or current phases, not declared scientifically impossible:
+Hidden Remote／human substitution is primarily an attribution-integrity property. A disclosed human or Remote contribution is not automatically a semantic failure.
 
-- `one Skill = one standalone model`;
-- `one Skill = one network node`;
-- broad-domain routing that hands the complete task to one Specialist as General replacement;
-- a fixed 4B–8B Resident or reasoning boundary;
-- distributed whole-model inference／idle compute as a necessary decentralization thesis;
-- continuous standalone-small-model landscape and leaderboard work;
-- Parametric Procedural Skill or J-Space ABI as the immediate next Gate;
-- re-running Gate A／B because a newer model exists without a new system hypothesis;
-- network-first federation, marketplace, token, reputation, settlement, or governance design.
+## Observable and intervention requirements
+
+Any later design must preserve:
+
+- exact task contract and immutable base;
+- versioned Knowledge source, retrieval, and frozen packet receipts;
+- Operator request, revision, output, and independent oracle status;
+- observable Core decisions and typed artifacts without requiring private chain-of-thought;
+- complete attempt and candidate lineage, including Verifier feedback exposure;
+- Verifier scope, revision, coverage, independence, and result;
+- closed candidate set and Selector disposition;
+- Remote and human contribution receipts;
+- independent acceptance evidence.
+
+Static traces or model rationales can propose hypotheses but cannot establish causation. The preferred evidence is prefix／state-preserving targeted replay with a faithful intervention and verified outcome comparison.
+
+## Candidate workflow assessment
+
+Bounded repository repair remains suitable only after narrowing the task family.
+
+The best candidate family for a later design is a **synthetic or repository-local versioned API／configuration migration** because it can provide controlled old／stale／conflicting／correct Knowledge, deterministic compiler or schema Operators, bounded multi-file integration, variable Verifier coverage, and complete contribution lineage.
+
+Configuration repair is useful for calibration. Dependency constraints and schema migration are possible later families. Concurrency-invariant repair and arbitrary real repository issues are not recommended as the first attribution study because their causes and oracles are substantially more entangled.
+
+No task set or benchmark is selected or frozen.
+
+## Human decision required
+
+Human review should decide whether to:
+
+1. accept `PIVOT TO COARSER ATTRIBUTION`;
+2. request changes to the ontology, evidence grades, or workflow assessment;
+3. authorize a later bounded experiment-design specification using the revised attribution target;
+4. or remain stopped.
+
+Completion of this review does not automatically authorize an experiment.
 
 ## Preserved but dormant
 
 - FIM remains **`HOLD`** and DELULU work does not resume.
 - Whole-model Specialists remain permitted implementations where measured, but are not the universal Skill unit.
 - Distributed compute remains a possible resource provider, but not a required foundation.
+- DMoE, J-Space, J-CoT, and Parametric Procedural Skill remain evidence／watch items, not selected implementations.
 - Independent capability providers remain a long-term possibility only after one trust domain demonstrates measurable composition and verification value.
-
-## Highest-decision-value unresolved question
-
-Before opening any Gate, determine whether one bounded recoverable workflow can attribute failures separately to:
-
-1. missing or incorrect external knowledge;
-2. missing or incorrect operator capability;
-3. Cognitive Core comprehension／reasoning／integration failure;
-4. candidate selection or verifier failure;
-5. hidden Remote or human substitution.
-
-Only if this separation is credible should a new human decision issue formulate exactly one experiment.
-
-## Authorized next action
-
-No research execution is authorized.
-
-Allowed work is limited to:
-
-- repository-level review and disposition of Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28);
-- literature／design synthesis that materially sharpens the decomposition boundary;
-- drafting a future human decision issue without selecting a model, benchmark, task sample, threshold, or implementation.
 
 ## Authorization boundary
 
@@ -148,9 +125,8 @@ Do not:
 
 - select or download a checkpoint;
 - run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
-- implement the runtime;
-- create or freeze a benchmark, task set, baseline, statistical method, or threshold;
-- add or activate a Gate;
+- implement an attribution harness, runtime, or verifier;
+- create or freeze a benchmark, task set, oracle set, baseline, statistical method, acceptance threshold, or Gate;
 - modify Gate A／B evidence or conclusions;
 - resolve FIM HOLD or continue DELULU work;
 - design or implement federation, marketplace, token, reputation, settlement, or governance.
