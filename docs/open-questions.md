@@ -144,6 +144,24 @@ Independent providers may eventually supply knowledge, operators, verifiers, com
 
 ## Longer-term conditional network backlog
 
+### Agent Swarm cooperation and institutional layer
+
+This is a dormant future architecture pressure, not an active Dexinode research route or implementation authorization.
+
+If Dexinode later involves independently operated capability providers with different owners, incentives, costs, reliability, and authority boundaries, cooperation can no longer be treated only as an orchestration or model-alignment problem.
+
+The working hypothesis is:
+
+- robust cooperation should rely primarily on protocol, capability isolation, verification, incentives, and bounded failure containment;
+- cooperative model post-training is defense in depth, not the primary security boundary;
+- the target is conditional, incentive-compatible cooperation rather than unconditional cooperation or cooperation as a universal dominant strategy;
+- low switching cost, revocable authority, evidence recording, and rerouting may be more important than requiring high interpersonal trust between agents;
+- identity and reputation may eventually need separate scopes for operator, provider, capability version, implementation, endpoint, verifier, and supply chain.
+
+If this pressure becomes active, Skill Contracts may need to expand beyond input/output semantics to include authority, cost, SLA, verification, failure semantics, revocation, arbitration, and optional settlement hooks.
+
+Activation condition: one trust domain must first demonstrate measurable composition and verification value. This note does not authorize federation, marketplace, token, reputation-system, settlement, governance, or Agent Swarm implementation work.
+
 ### Value and scope
 
 - What can a capability and evidence fabric provide that conventional local plugins, agent tool protocols, or distributed job systems cannot?
