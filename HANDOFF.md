@@ -6,7 +6,7 @@ Canonical branch: `main`
 
 Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
 
-Snapshot: 2026-08-14
+Snapshot: 2026-08-17
 
 Git is the durable source of truth. This file is intentionally compact for a fresh session.
 
@@ -19,12 +19,15 @@ Read in this order:
 3. `status/current.md`
 4. `docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md`
 5. `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
-6. `docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md`
-7. `docs/research/2026-08-14-strategic-reorientation-review.md`
-8. `docs/architecture.md`
+6. `docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md`
+7. `docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md`
+8. `docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md`
+9. `docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md`
+10. `docs/architecture.md`
 
-Read the prior decision and specification for provenance:
+Read the earlier decision chain for provenance when needed:
 
+- `docs/research/2026-08-14-strategic-reorientation-review.md`
 - `docs/decisions/0002-proceed-to-bounded-repository-repair-spec.md`
 - `docs/specifications/bounded-repository-repair-resident-core-v0.1.md`
 - `docs/research/2026-08-11-hybrid-agent-human-review.md`
@@ -35,7 +38,7 @@ Read Gate closure records only when their evidence is needed:
 - `gates/gate-b-orchestration/reviews/gate-b-final-human-decision.md`
 - `gates/gate-b-orchestration/reviews/post-closure-math-content-retrospective.md`
 
-Do not reopen Gate A/B execution unless a new human decision explicitly requires it.
+Do not reopen Gate A/B execution unless a new human decision explicitly requires a materially different falsifiable question.
 
 ## Durable empirical state
 
@@ -60,82 +63,124 @@ Frozen execution: `gate-b-b3b4-v1.1.1-20260810T014247Z-ai01-gpu0`.
 
 The frozen thresholds were not met. Post-closure content review found no paired Mathematics content advantage. Gate B remains `FAIL / CLOSED` with its oracle／protocol caveat.
 
-Durable lesson: broad-domain classification is not per-task success prediction.
+Durable lesson: broad-domain classification is not per-task success prediction, and routing one complete task to one whole-model Specialist is not a sufficient integration architecture.
 
-Gate conclusions apply to pinned models, benchmark, runtime, and date. They are not universal claims about all later models of the same parameter range.
+Gate conclusions apply to pinned models, benchmark, runtime, and date.
 
 ## Preserved decisions
 
 - FIM / syntax-aware MVSS eligibility remains **`HOLD`**.
 - ADR 0002 remains accepted history: write one bounded, falsifiable repository-repair specification before any experiment.
 - Specification v0.1 remains unchanged as the single-Resident／4B–8B candidate produced under ADR 0002.
+- ADR 0003 remains the current architecture decision.
+- Specification v0.2 remains the accepted architecture boundary.
 - No experimental Gate is active.
 
-## Current strategic decision
+## Current near-term architecture
 
-[Issue #30](https://github.com/chlangjou/Dexinode/issues/30) and [ADR 0003](docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md) record the human decision to continue Dexinode while moving the foundation up one abstraction layer:
+[ADR 0003](docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md) keeps the project foundation at:
 
 > **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
 
-Replace the mandatory single 4B–8B Resident Model with a **Local Decision Configuration**:
+The evaluated unit is a complete **Local Decision Configuration**:
 
 `model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
 
-Reasons recorded in the strategic review:
-
-- locally deployable and distilled model capability is moving quickly;
-- model-specific inference hardware can change attempt economics abruptly;
-- automated research loops increase the expected turnover of model assumptions without proving a fixed acceleration rate;
-- latent/recurrent reasoning may decouple capability from parameter count and visible reasoning tokens;
-- cheap attempts move the bottleneck toward candidate diversity, selection, verifier independence, false acceptance, and exposure.
-
-The review explicitly corrects two overstatements:
-
-- Discovery Loop is a company founded by senior former Google researchers, not a DeepSeek spinout;
-- Taalas' 17K tokens/sec is a vendor result for aggressively quantized, model-specific silicon with an acknowledged quality caveat, not a general hardware baseline.
-
-## Current bounded artifact
+The current bounded artifact is:
 
 `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md`
 
-Question:
+It defines one recoverable repository-repair workflow with deterministic local authority, reversible sandboxes, complete attempt and candidate lineage, verifier coverage and exposure, selection and stopping receipts, and explicit Remote／human substitution. The strongest automatic output is a locally verified candidate set for human disposition.
 
-> For a recoverable repository-repair workflow with relevant deterministic checks, what minimum control-plane, Local Decision Configuration, attempt／candidate, verification, selection, and escalation contracts would let later evidence determine whether a resource-bounded local configuration is useful without assuming a fixed model size, model count, reasoning architecture, or Remote Model dependency?
+Acceptance does not validate the architecture or authorize execution.
 
-The strongest automatic output remains a locally verified candidate set for human disposition. Push, PR, merge, deployment, credentials, production mutation, and irreversible work remain outside scope.
+## New material external evidence
 
-[Human review](docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted v0.2 as the current architecture boundary, including the relevant deterministic-verifier requirement and the exclusion of automatic Draft PR creation. Acceptance does not validate the architecture or authorize execution.
+### DMoE
 
-Key v0.2 additions:
+The 2026-08-16 review records that DMoE supports independently updatable parametric knowledge modules in its evaluated setting. It does not establish procedural Skill injection, safe composition, open-provider trust, or universal efficiency superiority.
 
-- complete configuration identity rather than model identity alone;
-- logical separation of generator, selector, verifier, policy, Remote, and human roles;
-- per-attempt state and candidate lineage;
-- verifier revision, coverage, independence, visibility, and exposure;
-- complete attempt-set and selection receipts;
-- explicit Remote and human substitution attribution;
-- no assumption that more attempts imply reliability.
+Strategic effect: `Skill = standalone model` is weakened, and capability ownership is separated from distributed inference.
+
+### J-Space and J-CoT
+
+The 2026-08-17 review records:
+
+- causal evidence that evaluated Claude models use a small privileged workspace for deliberate control, intermediate reasoning, and flexible reuse;
+- much routine language processing and familiar inference proceeds outside that workspace;
+- J-CoT reports a recurrent J-Space interface on a reasoning-adapted Qwen3-8B backbone and scaling from 7B to 405B;
+- J-Space is not the complete reasoning engine, a cross-model ABI, or proof that an 8B core is sufficient.
+
+## Current provisional long-horizon hypothesis
+
+The human project owner accepted the [Cognitive Decomposition Hypothesis and route review](docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) as the current research framing:
+
+> **Trusted Local Control Plane + resource-bounded Cognitive Core + external Knowledge／Memory Plane + heterogeneous Operator／Capability Plane + independent Verification.**
+
+The Cognitive Core contains broadly pretrained language and semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration. Knowledge–reasoning decoupling is expected to be partial rather than absolute.
+
+J-Space is one possible internal workspace mechanism. DMoE is one possible knowledge substrate. Neither is a required Dexinode component.
+
+Skill now means an externally observable capability contract. Its implementation may be a model, parameter artifact, knowledge source, tool, solver, agent, service, verifier, human, or composed configuration.
+
+## Current research priorities
+
+Continue only work that sharpens:
+
+1. the minimum complete Cognitive Core and the boundary between foundational semantics and externalizable knowledge;
+2. knowledge／memory provenance, freshness, conflict, revocation, poisoning, and reader reconciliation;
+3. typed operator outputs preserving relations, role bindings, constraints, uncertainty, evidence, and actual contribution;
+4. workspace and recurrent／latent reasoning under complete compute- and configuration-matched evidence;
+5. deterministic authority, candidate lineage, verifier independence, false acceptance, stopping, and Remote／human substitution;
+6. whether a bounded workflow can distinguish missing knowledge, missing operator capability, core integration failure, verifier failure, and substitution.
+
+## Routes closed as primary directions
+
+The following are closed as foundations or current phases, not declared scientifically impossible:
+
+- `one Skill = one standalone model`;
+- `one Skill = one network node`;
+- broad-domain routing that replaces the General core with one Specialist;
+- a fixed 4B–8B Resident or reasoning boundary;
+- distributed whole-model inference／idle compute as a necessary decentralization thesis;
+- continuous standalone-small-model landscape or leaderboard work;
+- Parametric Procedural Skill or J-Space ABI as the immediate next Gate;
+- re-running Gate A／B because a newer model exists without a new system hypothesis;
+- network-first federation, marketplace, token, reputation, settlement, or governance design.
+
+Whole-model Specialists, distributed compute, parameter modules, and independent providers remain optional implementations when later evidence supports them.
 
 ## Current bounded task
 
-The v0.2 architecture-boundary review is complete. No experimental Gate, implementation task, model run, benchmark, or execution plan is active.
+No experimental Gate, implementation task, model run, benchmark, or execution plan is active.
 
-The only current integration surface is Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28). Its repository-level disposition remains separate from the specification decision.
+The only current integration surface is Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28). Repository-level disposition remains separate from research-record acceptance.
+
+## Highest-decision-value unresolved question
+
+Before any new Gate, determine whether one bounded recoverable workflow can attribute failures separately to:
+
+1. missing or incorrect external knowledge;
+2. missing or incorrect operator capability;
+3. Cognitive Core comprehension／reasoning／integration failure;
+4. selector or verifier failure;
+5. hidden Remote or human substitution.
+
+Only then may a separate human decision formulate exactly one experiment.
 
 ## Hard stop conditions
 
 Do not:
 
 - select or download a checkpoint;
-- run inference, quantization, GPU, custom-hardware, or deployment work;
+- run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
 - implement the runtime;
 - create or freeze a benchmark, task set, baseline, statistical method, or threshold;
 - add or activate a Gate;
 - modify Gate A/B evidence or conclusions;
 - resolve FIM HOLD or continue DELULU work;
-- reopen routing economics;
-- design federation, token, reputation, settlement, governance, or a marketplace.
+- design or implement federation, marketplace, token, reputation, settlement, governance, or a network prototype.
 
 ## Next human decision
 
-Decide separately whether Dexinode should remain at the accepted architecture boundary or open a new decision issue to formulate exactly one bounded experimental question. Do not infer authorization for an experiment, implementation, or PR automation from specification acceptance.
+Decide separately whether the decomposition-attribution question has enough decision value and measurement clarity to justify a new issue. Do not infer authorization for an experiment, implementation, or PR automation from the new research framing.
