@@ -17,6 +17,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-08-17 J-Space and J-CoT material evidence review](2026-08-17-j-space-j-cot-material-evidence-review.md)
 - [2026-08-17 Cognitive Decomposition Hypothesis and research route review](2026-08-17-cognitive-decomposition-hypothesis-route-review.md)
 - [2026-08-17 Cognitive Decomposition attribution feasibility review](2026-08-17-cognitive-decomposition-attribution-feasibility-review.md)
+- [2026-08-22 Physics of Agents collective-dynamics evidence note](2026-08-22-physics-of-agents-collective-dynamics-evidence-note.md)
 
 ## Interpretation
 
