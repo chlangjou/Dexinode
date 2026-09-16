@@ -18,6 +18,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-08-17 Cognitive Decomposition Hypothesis and research route review](2026-08-17-cognitive-decomposition-hypothesis-route-review.md)
 - [2026-08-17 Cognitive Decomposition attribution feasibility review](2026-08-17-cognitive-decomposition-attribution-feasibility-review.md)
 - [2026-09-16 Jev / System One decision primitives — Agent reflex-layer watch note](2026-09-16-jev-system-one-agent-reflex-watch.md)
+- [2026-09-16 Functional Cognitive Node reframing — from distributed models to distributed capability nodes](2026-09-16-functional-cognitive-node-reframing.md)
 
 ## Interpretation
 
