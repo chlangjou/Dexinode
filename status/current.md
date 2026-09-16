@@ -1,6 +1,6 @@
 # Current Research Status
 
-- Updated: 2026-08-17
+- Updated: 2026-09-16
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
@@ -10,6 +10,7 @@
 - Current bounded specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md` — **accepted architecture boundary**
 - Authorizing decision: [Issue #31](https://github.com/chlangjou/Dexinode/issues/31)
 - Current review: `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
+- Latest external evidence intake: `docs/research/2026-09-16-emergence-world-2-swarm-evidence-review.md`
 - Integration branch: `agent/cognitive-decomposition-attribution-feasibility`
 
 ## Closed empirical evidence that must not change
@@ -45,7 +46,24 @@ The provisional Cognitive Decomposition Hypothesis remains:
 
 > Useful intelligence may be partially decomposable into a trusted deterministic control plane; a resource-bounded Cognitive Core containing semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
 
-This review does not validate or supersede either boundary.
+The current reviews do not validate or supersede either boundary.
+
+## External evidence intake — 2026-09-16
+
+`Emergence World 2` has been added as a dated external-evidence review for long-horizon Agent Swarm behavior.
+
+Preserved observations and research questions include:
+
+- persistent multi-agent interaction can create system state, shared conventions, and evolving communication protocols beyond isolated-agent behavior;
+- observability of messages does not necessarily imply interpretability of the protocol used by a long-running swarm;
+- detection, containment, memory persistence, recovery, and terminal acceptance must remain distinct safety/attribution stages;
+- heterogeneous model populations do not automatically preserve epistemic independence after repeated communication and shared state;
+- coupling frequency may be both a capability variable and a fault/contamination-propagation variable;
+- verifier independence may require context/memory isolation in addition to a different model or process;
+- `epistemic firebreak` is recorded only as a provisional research term for controlling how information enters and persists in reasoning/memory state;
+- dynamic task-scoped swarm topology and bounded high-frequency interaction cells are preserved as candidate future questions, not selected architecture.
+
+No Gate, benchmark, implementation, network design, or ADR change is authorized by this intake. These items are queued for a later combined architecture synthesis with branch-coupling, memory, recurrent reasoning, verification, attribution, and Agent Swarm cooperation evidence.
 
 ## Attribution feasibility result
 
@@ -109,14 +127,16 @@ Human review should decide whether to:
 3. authorize a later bounded experiment-design specification using the revised attribution target;
 4. or remain stopped.
 
-Completion of this review does not automatically authorize an experiment.
+The 2026-09-16 World 2 evidence intake requires no immediate architecture decision; it remains queued for later combined synthesis.
+
+Completion of either review does not automatically authorize an experiment.
 
 ## Preserved but dormant
 
 - FIM remains **`HOLD`** and DELULU work does not resume.
 - Whole-model Specialists remain permitted implementations where measured, but are not the universal Skill unit.
 - Distributed compute remains a possible resource provider, but not a required foundation.
-- DMoE, J-Space, J-CoT, and Parametric Procedural Skill remain evidence／watch items, not selected implementations.
+- DMoE, J-Space, J-CoT, Parametric Procedural Skill, Agent Swarm coupling, and epistemic-firebreak ideas remain evidence／watch items, not selected implementations.
 - Independent capability providers remain a long-term possibility only after one trust domain demonstrates measurable composition and verification value.
 
 ## Authorization boundary
@@ -125,7 +145,7 @@ Do not:
 
 - select or download a checkpoint;
 - run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
-- implement an attribution harness, runtime, or verifier;
+- implement an attribution harness, runtime, verifier, Agent Swarm, or epistemic-firebreak mechanism;
 - create or freeze a benchmark, task set, oracle set, baseline, statistical method, acceptance threshold, or Gate;
 - modify Gate A／B evidence or conclusions;
 - resolve FIM HOLD or continue DELULU work;
