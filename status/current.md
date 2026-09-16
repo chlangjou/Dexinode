@@ -1,6 +1,6 @@
 # Current Research Status
 
-- Updated: 2026-08-17
+- Updated: 2026-09-16
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
@@ -10,6 +10,7 @@
 - Current bounded specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md` — **accepted architecture boundary**
 - Authorizing decision: [Issue #31](https://github.com/chlangjou/Dexinode/issues/31)
 - Current review: `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
+- Research watch update: `docs/research/2026-09-16-jev-system-one-agent-reflex-watch.md`
 - Integration branch: `agent/cognitive-decomposition-attribution-feasibility`
 
 ## Closed empirical evidence that must not change
@@ -117,6 +118,7 @@ Completion of this review does not automatically authorize an experiment.
 - Whole-model Specialists remain permitted implementations where measured, but are not the universal Skill unit.
 - Distributed compute remains a possible resource provider, but not a required foundation.
 - DMoE, J-Space, J-CoT, and Parametric Procedural Skill remain evidence／watch items, not selected implementations.
+- Jev／System-One-like typed decision primitives remain a **research watch item** for cheap, high-frequency probabilistic Agent control (a possible "reflex layer"). Preserve the hypothesis that **control-coupling frequency may differ from information-coupling frequency**; typed confidence is not independent verification or deterministic authority.
 - Independent capability providers remain a long-term possibility only after one trust domain demonstrates measurable composition and verification value.
 
 ## Authorization boundary
