@@ -19,6 +19,7 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-08-17 Cognitive Decomposition attribution feasibility review](2026-08-17-cognitive-decomposition-attribution-feasibility-review.md)
 - [2026-09-16 Jev / System One decision primitives — Agent reflex-layer watch note](2026-09-16-jev-system-one-agent-reflex-watch.md)
 - [2026-09-16 Functional Cognitive Node reframing — from distributed models to distributed capability nodes](2026-09-16-functional-cognitive-node-reframing.md)
+- [2026-09-19 Latent collaboration and heterogeneous context exchange — architecture watch](2026-09-19-latent-collaboration-context-exchange-watch.md)
 
 ## Interpretation
 
