@@ -1,6 +1,6 @@
 # Current Research Status
 
-- Updated: 2026-09-16
+- Updated: 2026-09-19
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
@@ -12,6 +12,7 @@
 - Current review: `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
 - Research watch update: `docs/research/2026-09-16-jev-system-one-agent-reflex-watch.md`
 - Research framing update: `docs/research/2026-09-16-functional-cognitive-node-reframing.md`
+- Latent collaboration watch: `docs/research/2026-09-19-latent-collaboration-context-exchange-watch.md`
 - Integration branch: `agent/cognitive-decomposition-attribution-feasibility`
 
 ## Closed empirical evidence that must not change
@@ -121,6 +122,7 @@ Completion of this review does not automatically authorize an experiment.
 - DMoE, J-Space, J-CoT, and Parametric Procedural Skill remain evidence／watch items, not selected implementations.
 - Jev／System-One-like typed decision primitives remain a **research watch item** for cheap, high-frequency probabilistic Agent control (a possible "reflex layer"). Preserve the hypothesis that **control-coupling frequency may differ from information-coupling frequency**; typed confidence is not independent verification or deterministic authority.
 - Preserve the **Functional Cognitive Node** reframing as a research lens: the long-term distributed unit may be a capability-bearing node composed from Agent／Core, reflex subsystem, Knowledge, Operators, Verifiers, and policy, rather than a model endpoint. `Node == Agent` is not assumed. Frontier independence is interpreted as avoiding a single mandatory intelligence dependency, not necessarily eliminating frontier escalation.
+- Preserve **latent collaboration / context exchange** as a high-importance architecture watch item: high-frequency latent/KV coupling may be most natural inside a trust-local Functional Cognitive Node, while inter-node Dexinode composition may remain lower-frequency and explicit. Token reduction must not be confused with network-byte reduction. Track latent compatibility／Cognitive ABI, bandwidth crossover, dynamic coupling frequency, and latent-state trust／verification boundaries.
 - Independent capability providers remain a long-term possibility only after one trust domain demonstrates measurable composition and verification value.
 
 ## Authorization boundary
