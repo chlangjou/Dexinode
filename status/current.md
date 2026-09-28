@@ -11,6 +11,7 @@
 - Preserved architecture foundation: [ADR 0003](../docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md)
 - Current implementation specification: [Distributed Cognitive Execution Reference v0.3](../docs/specifications/distributed-cognitive-execution-reference-v0.3.md)
 - Authorizing decision: [Issue #42](https://github.com/chlangjou/Dexinode/issues/42)
+- Active bounded implementation task: [Issue #43](https://github.com/chlangjou/Dexinode/issues/43) — contracts, registry, mock lifecycle
 - Integration branch: integration/reference-vertical-slice-v0.3
 
 ## Phase transition
