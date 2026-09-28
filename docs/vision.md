@@ -8,15 +8,23 @@ Dexinode explores whether an open capability-and-evidence layer can let these in
 
 ## Near-term architectural commitment
 
-The current accepted architecture boundary is:
+The current accepted implementation boundary is:
 
-> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
+> **Distributed Cognitive Execution Fabric**
 
-The evaluated unit is the complete Local Decision Configuration rather than one model or parameter range:
+A Consumer expresses task-level intent, capability requirements, disclosure constraints, and verification needs. A Provider Node advertises cognitive execution capacity and fulfills the request using its own internal Agent／Skill／Operator／Verifier topology.
 
-`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
+The primary security invariant is:
 
-This boundary is intended to survive changes in model scale, reasoning style, inference hardware, memory systems, and Local／Remote allocation. It remains unvalidated end to end.
+> **A Dexinode Provider receives no ambient requester authority.**
+
+The Consumer retains local private state, credentials, local filesystem, browser/session state, durable memory, policy, and final acceptance authority. The Provider receives only the explicit Task Bundle and Execution Contract.
+
+The first reference implementation is defined by [ADR 0004](decisions/0004-distributed-cognitive-execution-reference-slice.md) and [v0.3](specifications/distributed-cognitive-execution-reference-v0.3.md).
+
+The reference Consumer requires no local model or GPU.
+
+ADR 0003 remains the trust and verification foundation beneath this newer Provider boundary.
 
 ## Provisional long-term cognitive hypothesis
 
@@ -34,7 +42,7 @@ The core is not assumed to reason without prior knowledge. Broad semantics, worl
 
 ## Long-term network vision
 
-A future Dexinode system would not require every task to move through a sequence of standalone Specialist models. Instead, a locally controlled Cognitive Core could discover and invoke independently provided resources such as:
+A future Dexinode system would not require every task to move through a sequence of standalone Specialist models or require the Consumer to host a Cognitive Core. A Consumer may request cognitive execution from independent Provider Nodes, while each Provider may internally compose resources such as:
 
 - knowledge sources, indexes, and parameterized knowledge artifacts;
 - deterministic algorithms, tools, compilers, solvers, and simulators;
@@ -46,7 +54,7 @@ A future Dexinode system would not require every task to move through a sequence
 
 Each provider would declare what capability it offers, which inputs and authority it requires, what compatibility constraints apply, which evidence it returns, and how failure, cancellation, update, and revocation work.
 
-The Local Control Plane would preserve task state and policy, while the Cognitive Core or selector integrates eligible typed contributions. Verification would make incorrect, unavailable, malicious, or incompatible providers visible before durable side effects are accepted.
+The Consumer trust domain preserves requester-private state and policy, while Provider execution remains isolated and task-scoped. Provider internals may use a Cognitive Core or other topology. Verification and receipts make incorrect, unavailable, malicious, or incompatible execution visible before Consumer durable state is accepted.
 
 A useful Dexinode ecosystem would:
 
