@@ -4,9 +4,51 @@ These definitions are provisional. They exist to keep discussion precise and wil
 
 ## Node
 
-An independently operated runtime that can receive, execute, or forward work. A node may host one or more models, tools, data sources, agents, knowledge artifacts, operators, or verifiers.
+An independently operated runtime and trust boundary that can receive, execute, or forward work. A node may host one or more Agents, models, Skills, tools, data sources, Operators, or Verifiers.
 
-A node is an operational and trust boundary—not necessarily one physical machine and not necessarily one model.
+A node is not necessarily one physical machine and is not equivalent to one model or one Agent.
+
+## Consumer
+
+The requester-side role that owns task intent, disclosure policy, private state, credentials, local durable state, and final acceptance.
+
+A Consumer may be a Local Agent, CLI, enterprise workflow, service, or another system. Dexinode does not require the Consumer to host a local model.
+
+## Provider Node
+
+A node that offers task-scoped cognitive execution capacity.
+
+A Provider may expose multiple execution classes, Agent slots, Skills, Operators, and Verifiers. Its internal topology is implementation-specific unless an external contract or evidence claim depends on it.
+
+A Provider receives no ambient requester authority. It may use only the Task Bundle and capabilities explicitly granted by the Execution Contract.
+
+## TaskIntent
+
+A machine-readable request describing the desired outcome, required capabilities, verification needs, and execution constraints without prescribing the Provider internal Agent topology.
+
+## TaskBundle
+
+The explicit set of files or other material intentionally disclosed by the Consumer for one execution.
+
+A TaskBundle is a projection of Consumer state, not a mount or capability to access the original Consumer source location.
+
+## ExecutionContract
+
+The task-scoped agreement binding one TaskIntent and TaskBundle to one selected Provider, including granted capabilities, isolation policy, persistence policy, verification requirements, and deadline/budget constraints.
+
+Provider authority must be bounded by the ExecutionContract.
+
+## Artifact
+
+A content-addressed Provider output returned to the Consumer. An Artifact does not directly mutate Consumer durable state.
+
+## ExecutionReceipt
+
+A structured record of what actually executed, including Provider/configuration identity, capabilities used, backend and Skill references, Verifier records, isolation mode, terminal state, artifacts, failure state, and cleanup result.
+
+ExecutionReceipt does not require disclosure of private chain-of-thought or raw latent state.
+
+## Skill
 
 ## Skill
 
@@ -28,7 +70,7 @@ A useful Skill declaration should eventually describe:
 
 ## Model
 
-A learned inference component used by a Skill or Local Decision Configuration. A Skill may use no model, one model, or several models. Dexinode should route by demonstrated capability, not model brand alone.
+A learned inference component used by a Skill, Provider configuration, or Local Decision Configuration. A Skill may use no model, one model, or several models. Dexinode should route by demonstrated capability and execution evidence, not model brand alone.
 
 ## Agent
 
