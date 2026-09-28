@@ -8,6 +8,8 @@ Current integration branch: integration/reference-vertical-slice-v0.3
 
 Current decision issue: [#42](https://github.com/chlangjou/Dexinode/issues/42)
 
+Active implementation issue: [#43](https://github.com/chlangjou/Dexinode/issues/43)
+
 Snapshot: 2026-09-28
 
 Git is the durable source of truth.
