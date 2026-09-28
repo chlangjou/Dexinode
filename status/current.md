@@ -1,138 +1,165 @@
-# Current Research Status
+# Current Project Status
 
-- Updated: 2026-09-19
+- Updated: 2026-09-28
+- Current phase: **Specification Convergence -> Reference Implementation**
+- Active implementation: **Distributed Cognitive Execution Reference v0.3**
+- Active experimental Gate: **none**
 - Gate A — Specialist Validation: **PASS / CLOSED**
 - Gate B — Orchestration Advantage: **FAIL / CLOSED**
 - FIM / syntax-aware MVSS eligibility: **HOLD**
-- Active experimental Gate: **none**
-- Active work type: **Cognitive Decomposition attribution feasibility review complete / pending human review**
-- Current architecture decision: [ADR 0003](../docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md)
-- Current bounded specification: `docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md` — **accepted architecture boundary**
-- Authorizing decision: [Issue #31](https://github.com/chlangjou/Dexinode/issues/31)
-- Current review: `docs/research/2026-08-17-cognitive-decomposition-attribution-feasibility-review.md`
-- Research watch update: `docs/research/2026-09-16-jev-system-one-agent-reflex-watch.md`
-- Research framing update: `docs/research/2026-09-16-functional-cognitive-node-reframing.md`
-- Latent collaboration watch: `docs/research/2026-09-19-latent-collaboration-context-exchange-watch.md`
-- Integration branch: `agent/cognitive-decomposition-attribution-feasibility`
+- Current architecture decision: [ADR 0004](../docs/decisions/0004-distributed-cognitive-execution-reference-slice.md)
+- Preserved architecture foundation: [ADR 0003](../docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md)
+- Current implementation specification: [Distributed Cognitive Execution Reference v0.3](../docs/specifications/distributed-cognitive-execution-reference-v0.3.md)
+- Authorizing decision: [Issue #42](https://github.com/chlangjou/Dexinode/issues/42)
+- Active bounded implementation task: [Issue #43](https://github.com/chlangjou/Dexinode/issues/43) — contracts, registry, mock lifecycle
+- Integration branch: integration/reference-vertical-slice-v0.3
 
-## Closed empirical evidence that must not change
+## Phase transition
+
+Dexinode is no longer blocked on another research Gate before implementation.
+
+The working architecture is now:
+
+> **Distributed Cognitive Execution Fabric**
+
+A Consumer expresses a bounded task-level cognitive execution intent. A Provider Node supplies task-scoped Agent capacity and declared capabilities, chooses its own internal Agent／Skill／Operator／Verifier topology, executes inside an isolated environment, and returns Artifact(s) plus an Execution Receipt.
+
+Research remains active as a watch lane but does not block v0.3 unless new evidence changes a core contract, isolation invariant, verification assumption, or Provider execution boundary.
+
+## Mandatory architecture invariants
+
+### Consumer and Provider are separate security domains
+
+The Consumer owns:
+
+- private source material before explicit disclosure;
+- credentials and identity;
+- local filesystem and browser/session state;
+- local Agent memory;
+- privacy and disclosure policy;
+- final durable-state acceptance.
+
+The Provider owns its own execution environment and receives only the explicit Task Bundle and Execution Contract.
+
+### No ambient requester authority
+
+> **A Dexinode Provider receives no ambient requester authority.**
+
+Provider execution must not implicitly inherit requester filesystem access, credentials, browser/session state, LAN access, local tools, durable memory, environment variables, or policy authority.
+
+### Provider internal topology is replaceable
+
+A Provider may internally use:
+
+- one Agent;
+- multiple exploration Agents plus synthesis;
+- Decision Skills;
+- domain Skills;
+- deterministic Operators;
+- Verifiers;
+- recurrent／latent mechanisms;
+- local or API-backed models.
+
+The Consumer contract must not depend on one specific topology.
+
+### Task execution is ephemeral by default
+
+Provider task state is isolated per request and destroyed or quarantined after completion. Cognitive or workspace state must not silently persist across unrelated tasks or requesters.
+
+## Active reference vertical slice
+
+The first slice is:
+
+    Consumer CLI
+      -> static Provider Registry
+      -> Provider selection
+      -> Execution Contract
+      -> isolated ephemeral Provider task sandbox
+      -> provider-selected Agent/Skill execution
+      -> verification
+      -> Artifact + Execution Receipt
+      -> Consumer acceptance
+
+The initial task family is bounded repository exploration／analysis.
+
+The reference Consumer requires no local model or GPU.
+
+## Implementation authorization
+
+v0.3 authorizes implementation of:
+
+- protocol data models and schema validation;
+- static Provider Registry;
+- deterministic hard-constraint provider matching;
+- Consumer CLI;
+- Provider Runtime;
+- task-scoped sandbox lifecycle;
+- network-denied reference execution;
+- deterministic/mock Agent backend adapter;
+- one real external Agent backend adapter;
+- Artifact and Execution Receipt generation／validation;
+- deterministic verifier adapter;
+- isolation, failure-path, cleanup, and reproducibility tests.
+
+Implementation may use existing Agent runtimes or model APIs behind a provider adapter. The project does not need to select or train its own model to complete v0.3.
+
+## Explicitly deferred
+
+Do not implement in v0.3:
+
+- public or permissionless discovery;
+- federation governance;
+- marketplace or global reputation;
+- token, payment, settlement, or disputes;
+- cross-provider latent／KV exchange;
+- requester-local raw shell or filesystem access;
+- credential delegation;
+- custom model training;
+- a standing model leaderboard;
+- production security certification.
+
+## Preserved empirical state
 
 ### Gate A
 
-Gate A established measurable specialization on one pinned same-family panel. The result remains **PASS / CLOSED**.
+Gate A remains **PASS / CLOSED**. It established measurable specialization on one pinned same-family panel.
 
 Durable lesson: a checkpoint or domain label is not a capability identity.
 
 ### Gate B
 
-Gate B established that a perfect broad-domain router did not convert the pinned General／Math／Coder configuration into material held-out orchestration advantage.
+Gate B remains **FAIL / CLOSED**.
+
+Frozen result:
 
 | Policy | Overall | Mathematics | Coding |
 |---|---:|---:|---:|
 | General-only | 76/96 = 79.17% | 40/48 = 83.33% | 36/48 = 75.00% |
 | Skill-routed | 77/96 = 80.21% | 41/48 = 85.42% | 36/48 = 75.00% |
 
-Routed-minus-General overall was +1.04 pp with 95% CI [0, +3.125] pp. Post-closure content review found no paired Mathematics content advantage. Gate B remains **FAIL / CLOSED** with the preserved oracle／protocol caveat.
+Durable lesson: broad-domain classification is not per-task success prediction, and selecting one whole-model Specialist is not a sufficient orchestration architecture.
 
-Durable lesson: broad-domain classification is not per-task success prediction, and selecting one whole-model Specialist is not a sufficient integration architecture.
+## Preserved research watch
 
-Gate conclusions remain scoped to pinned models, benchmark, runtime, and date.
+The following remain relevant but are not implementation prerequisites:
 
-## Accepted architecture and research framing
+- Cognitive Decomposition and minimum-core research;
+- DMoE and modular knowledge／capability artifacts;
+- J-Space／J-CoT and recurrent reasoning;
+- Jev／System-One-like high-frequency Decision Skills;
+- Functional Cognitive Nodes;
+- latent collaboration and Cognitive ABI questions;
+- Agent Swarm coupling, epistemic independence, and memory contamination;
+- deterministic post-compromise execution governance.
 
-ADR 0003 and specification v0.2 remain current:
+FIM remains HOLD.
 
-> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
+## Current success question
 
-The provisional Cognitive Decomposition Hypothesis remains:
+The first implementation is not trying to prove that Dexinode has better AI.
 
-> Useful intelligence may be partially decomposable into a trusted deterministic control plane; a resource-bounded Cognitive Core containing semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
+It asks:
 
-This review does not validate or supersede either boundary.
+> **Can one stable Consumer／Provider contract support isolated, replaceable cognitive execution and produce useful artifacts plus trustworthy execution evidence without granting the Provider ambient requester authority?**
 
-## Attribution feasibility result
-
-The authorized review asked whether one bounded recoverable workflow could distinguish failures caused by:
-
-1. missing or incorrect external Knowledge;
-2. missing or incorrect Operator capability;
-3. Cognitive Core comprehension／reasoning／integration failure;
-4. Selector or Verifier failure;
-5. hidden Remote or human substitution.
-
-Recommendation:
-
-> **`PIVOT TO COARSER ATTRIBUTION`**
-
-Exact five-way assignment of one unique root-cause label is not sufficiently identifiable. A targeted intervention that flips the outcome supports sufficiency under the pinned configuration, but does not establish uniqueness, minimality, or the earliest causal origin. Multi-cause and cascading failures must remain representable.
-
-A defensible future target is **intervention-supported, set-valued attribution** with four separate dimensions:
-
-- component family: `K` Knowledge, `O` Operator, `C` Cognitive Core, `V` Verification／Selection;
-- provenance-integrity axis: `P` Remote／human substitution and attribution;
-- causal role: initiating, enabling, propagating, detection, recovery, terminal acceptance;
-- evidence grade: narrative, observational, controlled-no-flip, sufficiency-supported, or limited minimality／necessity-supported.
-
-`Cognitive Core failure` requires positive evidence that the task contract, Knowledge packet, Operator outputs, authority, and environment were sufficient and fixed. It must not be assigned as a residual catch-all.
-
-Hidden Remote／human substitution is primarily an attribution-integrity property. A disclosed human or Remote contribution is not automatically a semantic failure.
-
-## Observable and intervention requirements
-
-Any later design must preserve:
-
-- exact task contract and immutable base;
-- versioned Knowledge source, retrieval, and frozen packet receipts;
-- Operator request, revision, output, and independent oracle status;
-- observable Core decisions and typed artifacts without requiring private chain-of-thought;
-- complete attempt and candidate lineage, including Verifier feedback exposure;
-- Verifier scope, revision, coverage, independence, and result;
-- closed candidate set and Selector disposition;
-- Remote and human contribution receipts;
-- independent acceptance evidence.
-
-Static traces or model rationales can propose hypotheses but cannot establish causation. The preferred evidence is prefix／state-preserving targeted replay with a faithful intervention and verified outcome comparison.
-
-## Candidate workflow assessment
-
-Bounded repository repair remains suitable only after narrowing the task family.
-
-The best candidate family for a later design is a **synthetic or repository-local versioned API／configuration migration** because it can provide controlled old／stale／conflicting／correct Knowledge, deterministic compiler or schema Operators, bounded multi-file integration, variable Verifier coverage, and complete contribution lineage.
-
-Configuration repair is useful for calibration. Dependency constraints and schema migration are possible later families. Concurrency-invariant repair and arbitrary real repository issues are not recommended as the first attribution study because their causes and oracles are substantially more entangled.
-
-No task set or benchmark is selected or frozen.
-
-## Human decision required
-
-Human review should decide whether to:
-
-1. accept `PIVOT TO COARSER ATTRIBUTION`;
-2. request changes to the ontology, evidence grades, or workflow assessment;
-3. authorize a later bounded experiment-design specification using the revised attribution target;
-4. or remain stopped.
-
-Completion of this review does not automatically authorize an experiment.
-
-## Preserved but dormant
-
-- FIM remains **`HOLD`** and DELULU work does not resume.
-- Whole-model Specialists remain permitted implementations where measured, but are not the universal Skill unit.
-- Distributed compute remains a possible resource provider, but not a required foundation.
-- DMoE, J-Space, J-CoT, and Parametric Procedural Skill remain evidence／watch items, not selected implementations.
-- Jev／System-One-like typed decision primitives remain a **research watch item** for cheap, high-frequency probabilistic Agent control (a possible "reflex layer"). Preserve the hypothesis that **control-coupling frequency may differ from information-coupling frequency**; typed confidence is not independent verification or deterministic authority.
-- Preserve the **Functional Cognitive Node** reframing as a research lens: the long-term distributed unit may be a capability-bearing node composed from Agent／Core, reflex subsystem, Knowledge, Operators, Verifiers, and policy, rather than a model endpoint. `Node == Agent` is not assumed. Frontier independence is interpreted as avoiding a single mandatory intelligence dependency, not necessarily eliminating frontier escalation.
-- Preserve **latent collaboration / context exchange** as a high-importance architecture watch item: high-frequency latent/KV coupling may be most natural inside a trust-local Functional Cognitive Node, while inter-node Dexinode composition may remain lower-frequency and explicit. Token reduction must not be confused with network-byte reduction. Track latent compatibility／Cognitive ABI, bandwidth crossover, dynamic coupling frequency, and latent-state trust／verification boundaries.
-- Independent capability providers remain a long-term possibility only after one trust domain demonstrates measurable composition and verification value.
-
-## Authorization boundary
-
-Do not:
-
-- select or download a checkpoint;
-- run inference, training, quantization, GPU, J-lens, J-CoT, DMoE, custom-hardware, or deployment work;
-- implement an attribution harness, runtime, or verifier;
-- create or freeze a benchmark, task set, oracle set, baseline, statistical method, acceptance threshold, or Gate;
-- modify Gate A／B evidence or conclusions;
-- resolve FIM HOLD or continue DELULU work;
-- design or implement federation, marketplace, token, reputation, settlement, or governance.
+If the answer is no, the architecture must be revised before federation or promotion.

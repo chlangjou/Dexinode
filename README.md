@@ -1,61 +1,103 @@
 # Dexinode
 
-> Working name for a decentralized AI capability-and-evidence fabric.
+> **Distributed Cognitive Execution Fabric — working project**
 
-Dexinode is an exploratory project about whether a trusted local control plane can coordinate a replaceable local Cognitive Core, external knowledge and memory, heterogeneous operators, Remote capabilities, tools, candidate search, and verifiers through explicit contracts—and whether that architecture can later support independently operated capability providers without depending on one AI provider.
+Dexinode explores an open execution layer in which a Consumer requests a bounded combination of cognitive capabilities, while independent Provider Nodes supply task-scoped Agent capacity, Skills, Operators, and Verification behind a stable execution contract.
 
-This repository is currently a **feasibility and architecture notebook**, not a finished protocol or product.
+The current project phase is no longer research-only. [ADR 0004](docs/decisions/0004-distributed-cognitive-execution-reference-slice.md) authorizes the first reference implementation defined by [Distributed Cognitive Execution Reference v0.3](docs/specifications/distributed-cognitive-execution-reference-v0.3.md).
 
-## Why explore this?
+## Current architecture
 
-Frontier AI capability is concentrating in a small number of large models, cloud providers, and closed orchestration stacks. At the same time, useful knowledge, private data, domain tools, formal solvers, specialized models, verifiers, and compute remain fragmented and difficult to combine safely.
+The external interaction is intentionally simple:
 
-Dexinode asks whether those resources can cooperate through an open capability and evidence layer:
+    Consumer
+       |
+       | TaskIntent + explicit TaskBundle
+       v
+    Dexinode selection / contract
+       |
+       v
+    Provider Node
+       |
+       | isolated task-scoped Agent/Skill execution
+       v
+    Artifact + Execution Receipt
+       |
+       v
+    Consumer acceptance
 
-- expose bounded capabilities rather than claim general intelligence;
-- distinguish knowledge, operators, verification, and complete cognitive configurations;
-- exchange typed requests, artifacts, intermediate claims, and evidence through explicit contracts;
-- preserve local authority over state, credentials, disclosure, tools, side effects, and recovery;
-- verify results instead of trusting self-reported capability;
-- attribute actual contributions from Local, Remote, deterministic, learned, and human components;
-- support independent providers and competing routing／selection policies without requiring every provider to host a complete model stack;
-- resist capture by a single model provider, registry, verifier, or scoring authority.
+A Provider may internally use one Agent, a temporary Swarm, Decision Skills, domain Skills, deterministic Operators, Verifiers, recurrent reasoning, or another implementation. Those details are provider configuration, not the stable network abstraction.
 
-## Working hypothesis
+## Core invariant
 
-The project currently uses two compatible levels of hypothesis.
+> **A Dexinode Provider receives no ambient requester authority.**
 
-### Near-term architecture boundary
+Consumer and Provider are separate security domains.
 
-> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
+The Provider does not implicitly receive access to the Consumer filesystem, credentials, browser/session state, LAN, local Agent memory, tools, or durable state. It receives only the explicit Task Bundle and Execution Contract.
 
-The evaluated unit is a complete Local Decision Configuration:
+The reference Consumer requires no local model or GPU.
 
-`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
+## What Dexinode is trying to provide
 
-This is the accepted boundary in [ADR 0003](docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md) and the [repository-repair specification v0.2](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md). It is not a validated implementation.
+Dexinode aims to make cognitive execution describable and replaceable at the Provider boundary:
 
-### Provisional long-horizon research framing
+- task-level capability requirements rather than model names;
+- Provider declarations of Agent capacity, Skills, Operators, Verifiers, constraints, and evidence support;
+- hard-constraint provider matching;
+- task-scoped execution contracts;
+- isolated, ephemeral Provider execution;
+- artifacts and verifiable execution receipts;
+- provider-internal freedom to optimize Agent topology;
+- later comparison by time-to-verified-result, cost, trust, privacy, and reliability.
 
-> Useful intelligence may be partially decomposable into a trusted deterministic control plane; a resource-bounded Cognitive Core containing semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
+## What a Skill means
 
-The Cognitive Core may use an internal deliberative workspace, explicit tokens, latent recurrence, or another reasoning mechanism. J-Space is one research example, not a Dexinode protocol. DMoE is one example of modular parametric knowledge, not the definition of a Skill.
+A Skill is a versioned capability contract, not a model class.
 
-Knowledge–reasoning decoupling is expected to be **partial**, not absolute. Language, reusable concepts, world priors, automatic routines, and the machinery that performs reasoning may remain deeply integrated inside the core.
+A Skill may be implemented by:
 
-This is a hypothesis to narrow and falsify—not a conclusion.
+- deterministic code;
+- a tiny classifier or Decision model;
+- an Adapter or parameter artifact;
+- a complete local or remote model;
+- an Agent;
+- an Operator;
+- a Verifier;
+- a composite Provider pipeline.
 
-## What a Skill means now
+The external contract and evidence matter more than the substrate.
 
-A **Skill** is a versioned, externally observable capability contract. It is not assumed to be:
+## First reference vertical slice
 
-- one standalone model;
-- one Adapter;
-- one network node;
-- one internal workspace location;
-- or one implementation technology.
+The active v0.3 slice is:
 
-A Skill may be realized by knowledge, memory, deterministic algorithms, tools, learned operators, complete models, agents, Remote services, verifiers, humans, or a composed configuration. Capability identity must include the relevant substrate, compatibility, runtime, policy, provenance, and verification conditions.
+    Consumer CLI
+      -> static Provider Registry
+      -> Provider selection
+      -> Execution Contract
+      -> isolated ephemeral Provider task sandbox
+      -> provider-selected Agent/Skill execution
+      -> verification
+      -> Artifact + Execution Receipt
+      -> Consumer acceptance
+
+The initial task family is bounded repository exploration／analysis.
+
+The first slice deliberately avoids global discovery, reputation, payment, federation, and custom model work. Its purpose is to validate Dexinode's own contract and isolation boundary.
+
+## Why the direction changed
+
+Early work tested whether distributed Specialist models and explicit routing could be the foundation.
+
+- Gate A: **PASS / CLOSED** — bounded specialization exists in the pinned experiment.
+- Gate B: **FAIL / CLOSED** — perfect broad-domain routing did not create material orchestration advantage in the pinned General／Math／Coder setup.
+
+Subsequent architecture work moved the project away from one Skill = one model, one Skill = one node, and fixed Resident-model assumptions.
+
+Recent ecosystem and research signals strengthened a capability-oriented interpretation: Agent workloads contain many narrow Decision functions; Agent runtimes increasingly compose Skills dynamically; specialized AI substrates can be much smaller than full models; high-frequency latent collaboration is often local to a cognitive island; Swarms introduce correlation and contamination risks; and deterministic authority remains separable from probabilistic cognition.
+
+These are supporting signals, not proof that Dexinode will succeed. The remaining high-value uncertainty is now implementation-level.
 
 ## Repository map
 
@@ -65,69 +107,55 @@ A Skill may be realized by knowledge, memory, deterministic algorithms, tools, l
 - [Open questions](docs/open-questions.md)
 - [Roadmap](docs/roadmap.md)
 - [Current status](status/current.md)
-- [Cognitive Decomposition Hypothesis and route review](docs/research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md)
-- [J-Space and J-CoT material evidence review](docs/research/2026-08-17-j-space-j-cot-material-evidence-review.md)
-- [DMoE parametric knowledge-injection evidence review](docs/research/2026-08-16-dmoe-parametric-knowledge-injection-evidence-review.md)
-- [Strategic reorientation review](docs/research/2026-08-14-strategic-reorientation-review.md)
-- [Current bounded repository-repair specification](docs/specifications/bounded-repository-repair-verifiable-execution-v0.2.md)
-- [Specification v0.2 human review](docs/research/2026-08-14-verifiable-execution-v0.2-human-review.md)
-- [Prior Resident Core specification](docs/specifications/bounded-repository-repair-resident-core-v0.1.md)
-- [Gate A／B and pre-Hybrid evidence](docs/research/README.md)
+- [ADR 0004 — Distributed Cognitive Execution phase transition](docs/decisions/0004-distributed-cognitive-execution-reference-slice.md)
+- [Reference specification v0.3](docs/specifications/distributed-cognitive-execution-reference-v0.3.md)
+- [ADR 0003 — Verifiable execution fabric](docs/decisions/0003-resource-bounded-verifiable-execution-fabric.md)
+- [Functional Cognitive Node reframing](docs/research/2026-09-16-functional-cognitive-node-reframing.md)
+- [Jev / System-One reflex watch](docs/research/2026-09-16-jev-system-one-agent-reflex-watch.md)
+- [Latent collaboration watch](docs/research/2026-09-19-latent-collaboration-context-exchange-watch.md)
 - [Decision records](docs/decisions/README.md)
 
 ## Current status
 
-- Project name: **Dexinode** (working name)
-- Stage: Cognitive Decomposition research framing accepted; no experimental execution authorized
+- Stage: **Reference Implementation authorized**
+- Active specification: **v0.3 Distributed Cognitive Execution Reference**
+- Active experimental Gate: **none**
+- Gate A: **PASS / CLOSED**
+- Gate B: **FAIL / CLOSED**
+- FIM / syntax-aware MVSS: **HOLD**
 - Repository visibility: public
 - License: undecided
-- Gate A — Specialist Validation: **PASS / CLOSED**
-- Gate B — Orchestration Advantage: **FAIL / CLOSED**
-- FIM / syntax-aware MVSS eligibility: **HOLD**
-- Active experimental Gate: **none**
-- Integration surface: Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28)
 
-## Current research priorities
+## Current priorities
 
-The project should continue only work that sharpens:
+1. Freeze the v0.3 protocol objects in working code.
+2. Build Consumer -> Provider -> Artifact/Receipt end to end.
+3. Demonstrate Provider isolation and task-state cleanup.
+4. Complete the same lifecycle with a mock backend and one real Agent backend.
+5. Record reproducible implementation evidence.
+6. Review whether the abstraction is still simpler and more useful than an ordinary single-runtime plugin system.
 
-1. the minimum complete Cognitive Core and the boundary between foundational semantics and externalizable knowledge;
-2. knowledge／memory provenance, freshness, conflict, revocation, poisoning, and reader integration;
-3. typed operator outputs preserving relations, bindings, constraints, uncertainty, evidence, and actual contribution;
-4. workspace and recurrent／latent reasoning under complete configuration- and compute-matched evidence;
-5. deterministic authority, candidate lineage, verifier independence, false acceptance, stopping, and Remote／human substitution;
-6. whether one bounded workflow can distinguish missing knowledge, missing operator capability, core integration failure, verifier failure, and hidden substitution.
+## Deferred
 
-No model, benchmark, task set, threshold, implementation, or Gate is currently selected.
+The current phase does not implement:
 
-## Routes no longer used as foundations
-
-The project no longer assumes:
-
-- `one Skill = one standalone model`;
-- `one Skill = one network node`;
-- a broad-domain router should hand the complete task to one Specialist as a General replacement;
-- a fixed parameter range defines the Resident or reasoning role;
-- distributed whole-model inference or idle compute is required for decentralization;
-- continuous small-model leaderboard work is a standing project phase;
-- DMoE procedural modules or a J-Space ABI should be the immediate next Gate;
-- federation, marketplace, token, reputation, settlement, or governance should be designed before local composition and verification show measurable value.
-
-These routes are closed as project foundations or current phases, not declared scientifically impossible. Whole-model Specialists, distributed compute, parameter modules, and independent nodes remain optional implementations where later evidence supports them.
+- permissionless discovery or open federation;
+- marketplace or global reputation;
+- token, payment, settlement, or disputes;
+- cross-provider latent-state communication;
+- requester-local raw shell or filesystem delegation;
+- custom foundation-model training;
+- a standing model leaderboard.
 
 ## Principles
 
 1. Evidence over capability claims.
 2. Explicit contracts over implicit prompt conventions.
-3. Replaceable components over provider lock-in.
-4. Local-first and privacy-aware authority where useful.
-5. Recovery and dispute handling as first-class protocol behavior.
-6. Complete configurations and attempt sets over model-only or winner-only claims.
-7. Skill as a capability contract, not a substrate assumption.
-8. Knowledge, operators, reasoning, and verification should be distinguished before they are composed.
-9. Decentralization is justified only by resilience, privacy, access, interoperability, competition, or anti-capture value.
-10. Economics are optional until technical value is demonstrated.
-
-## Contributing to the exploration
-
-Record new ideas as dated evidence, hypotheses, alternatives, bounded specifications, experiments, or human decisions. Preserve the distinction between external research results and Dexinode inference. Avoid turning an attractive mechanism into a fixed architecture before it survives complete-system comparison and adversarial review.
+3. Consumer and Provider trust domains remain separate.
+4. No ambient requester authority for Providers.
+5. Provider internals are replaceable behind the external capability contract.
+6. Verification is part of execution.
+7. Complete configurations and receipts over model-only claims.
+8. Task-scoped ephemeral execution by default.
+9. Decentralization is justified by measurable resilience, privacy, interoperability, access, competition, or anti-capture value.
+10. Research informs implementation but does not indefinitely postpone it.
