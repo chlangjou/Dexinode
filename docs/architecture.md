@@ -1,25 +1,52 @@
 # Candidate architecture
 
-This document records a design space, not a frozen production architecture.
+This document records the current implementation-oriented architecture and the longer-term design space.
 
-[ADR 0003](decisions/0003-resource-bounded-verifiable-execution-fabric.md) makes the current candidate:
+[ADR 0004](decisions/0004-distributed-cognitive-execution-reference-slice.md) makes the current near-term architecture:
 
-> **Trusted Local Control Plane + Resource-Bounded Verifiable Execution／Search Fabric**
+> **Distributed Cognitive Execution Fabric**
 
-The current bounded artifact is the [Repository-Repair Verifiable Execution Fabric Specification v0.2](specifications/bounded-repository-repair-verifiable-execution-v0.2.md). It preserves [v0.1](specifications/bounded-repository-repair-resident-core-v0.1.md) as provenance while removing a fixed 4B–8B single-Resident premise.
+The active implementation artifact is [Distributed Cognitive Execution Reference v0.3](specifications/distributed-cognitive-execution-reference-v0.3.md).
 
-## Current candidate boundary
+ADR 0003 remains the preserved trust and verification foundation: deterministic authority, explicit provenance, bounded execution, Verifier visibility, stopping, rollback, and audit remain required.
 
-The nearest-term boundary is local-first, not local-only:
+## Current implementation boundary
 
-`deterministic local control + Local Decision Configuration + typed tools/sandboxes + candidate search + verifiers + bounded Remote fallback + human disposition`
+The active boundary is Consumer-to-Provider cognitive execution:
 
-The evaluated unit is the complete configuration:
+    Consumer Trust Domain
+        |
+        | TaskIntent + explicit TaskBundle
+        v
+    Provider selection + ExecutionContract
+        |
+        v
+    Isolated Provider Execution Domain
+        |
+        | provider-selected Agent / Skill / Operator / Verifier topology
+        v
+    Artifact + ExecutionReceipt
+        |
+        v
+    Consumer acceptance
 
-`model(s) + memory/context policy + harness/loop + tools + verifier(s) + search/stopping policy + fallback/human policy + runtime/hardware`
+The Consumer may be a Local Agent, CLI, enterprise workflow, or another service. A local AI model is not required.
 
-A model score, parameter count, advertised context window, or tokens-per-second figure that omits material configuration is incomplete evidence.
+The Provider may host multiple Agent capacities and Skills. Provider-internal cognitive topology is implementation-specific unless it materially affects an external contract or evidence claim.
 
+The mandatory isolation invariant is:
+
+> **A Dexinode Provider receives no ambient requester authority.**
+
+Provider execution receives only explicitly disclosed task material and explicit execution capabilities. Requester filesystem, credentials, browser/session state, LAN access, local Agent memory, tools, and durable state do not cross the boundary implicitly.
+
+Provider task state is ephemeral by default.
+
+The v0.3 reference slice uses a static registry, hard-constraint provider matching, sandbox-only filesystem access, network deny-by-default, no credential delegation, and Artifact + ExecutionReceipt return.
+
+The older Local Decision Configuration and Cognitive Decomposition material remains useful for understanding possible Provider internals and historical research, but it is no longer the required Consumer-side architecture.
+
+### Responsibility and trust hypothesis
 ### Responsibility and trust hypothesis
 
 | Component or logical role | Candidate responsibility | Constraint / uncertainty |
@@ -112,7 +139,7 @@ This can guarantee round-trip behavior only for approved mappings. It cannot gua
 - DMoE supports modular parametric knowledge in its evaluated setting, not general procedural Skill injection.
 - J-Space provides causal evidence for a privileged deliberative workspace in evaluated Claude models; J-CoT reports a usable recurrent J-Space interface on resource-bounded open backbones, but does not prove an 8B core is sufficient.
 - The [Cognitive Decomposition route review](research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) closes standalone model-node specialization and broad-domain replacement routing as primary project directions.
-- No runtime prototype, benchmark, model selection, or experimental Gate is currently authorized.
+- Reference implementation v0.3 is authorized. Model selection remains implementation-specific and no experimental Gate is active.
 
 ## Provisional long-horizon cognitive decomposition hypothesis
 
@@ -168,7 +195,7 @@ Whole-model Specialists and distributed compute remain permissible implementatio
 
 ## Long-term network interaction
 
-The local execution fabric can later become one node or trust domain in a wider network. A provider may publish a knowledge source, parameter artifact, operator, tool, verifier, complete Skill service, or compute endpoint under a signed versioned declaration.
+The v0.3 reference slice tests one Consumer-to-Provider execution boundary. A later network may compose multiple independent Providers that publish Agent capacity, knowledge sources, parameter artifacts, Operators, tools, Verifiers, complete Skill services, or compute endpoints under versioned declarations.
 
 A generic interaction remains:
 
@@ -262,17 +289,18 @@ The architecture distinguishes at least:
 
 Each state requires an observable transition and bounded recovery action.
 
-## Later network prototype boundary
+## Post-v0.3 expansion boundary
 
-Only if later evidence supports the local execution fabric and independent-provider value, a small prototype might include:
+The current task is the single-Provider reference vertical slice defined by v0.3.
 
-- three independently provided capabilities across at least two operators or trust domains;
-- at least two different capability substrates, such as knowledge plus operator or operator plus verifier;
-- one replaceable router／selector;
-- JSON-based declarations and invocation contracts;
-- signed execution, verification, and selection receipts;
-- deterministic and model-assisted verifiers with disclosed independence;
-- replayable event and attempt logs;
-- no token, blockchain, or global reputation.
+Only after that slice satisfies its contract, isolation, evidence, failure, and cleanup criteria should a later human decision consider:
 
-This is not the current task. [Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) accepted specification v0.2 as the current architecture boundary, and the cognitive-decomposition review changed research priorities without authorizing implementation, an experimental Gate, or a network prototype.
+- a second independently implemented Provider;
+- provider failover or redundancy;
+- controlled network capabilities;
+- capability-artifact distribution in addition to remote invocation;
+- provider strategy comparison using time-to-verified-result;
+- signed declarations and portable execution evidence;
+- limited federation.
+
+Marketplace, global reputation, payment, token, settlement, and permissionless participation remain deferred.
