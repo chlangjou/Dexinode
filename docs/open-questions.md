@@ -1,32 +1,43 @@
 # Open questions
 
-This is the active research backlog. Questions should move into bounded decision records or experiments only when they become concrete and receive explicit human authorization.
+This is the active implementation and research backlog. Questions should move into code, bounded decision records, or later experiments only when they materially affect the active architecture.
 
-## Resolved architecture-boundary question
+## Resolved phase-transition question
 
-Does the [v0.2 bounded repository-repair specification](specifications/bounded-repository-repair-verifiable-execution-v0.2.md) define a sufficiently narrow, attributable, and falsifiable execution／search boundary while keeping model size, reasoning architecture, inference hardware, attempt count, benchmark, and thresholds replaceable?
+[ADR 0004](decisions/0004-distributed-cognitive-execution-reference-slice.md) and [Issue #42](https://github.com/chlangjou/Dexinode/issues/42) authorize the transition from research-first exploration to the first implementation-oriented reference slice.
 
-[Human review](research/2026-08-14-verifiable-execution-v0.2-human-review.md) answered **yes** and accepted v0.2 as the current architecture boundary. This is an architecture decision, not evidence that the design works.
+The active architecture is:
 
-## Current provisional long-horizon hypothesis
+> **Distributed Cognitive Execution Fabric**
 
-The [Cognitive Decomposition Hypothesis and route review](research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) adopts this research framing:
+Consumer and Provider are separate security domains, and a Provider receives no ambient requester authority.
 
-> A useful system may be partially decomposable into a trusted Local Control Plane; a resource-bounded Cognitive Core with semantic grounding, automatic foundation capabilities, and deliberate／recurrent integration; external Knowledge／Memory and Operator／Capability planes; and independent Verification.
+## Highest-decision-value implementation questions
 
-Knowledge–reasoning decoupling is expected to be partial. J-Space and DMoE are evidence examples, not selected Dexinode components. Skill remains a capability contract rather than a model, Adapter, node, or cognitive location.
+The current highest-value questions now require implementation evidence:
 
-## Highest-decision-value unresolved question
+1. Can TaskIntent express useful cognitive requirements without becoming provider-specific prompt syntax?
+2. Can ProviderDescriptor describe Agent capacity and capabilities without exposing irrelevant internals?
+3. Can a Provider swap one Agent topology for another without changing the Consumer contract?
+4. Can sandbox isolation prevent access to requester-local files, credentials, network, and prior task state?
+5. Is ExecutionReceipt detailed enough to attribute what actually ran without exposing private chain-of-thought?
+6. Can a deterministic/mock backend and a real Agent backend complete the same lifecycle?
+7. Does the abstraction remain simpler than a conventional single-runtime plugin system once isolation and evidence overhead are counted?
+8. Which Provider-capacity fields are actually needed for later scheduling by time-to-verified-result?
 
-Should Dexinode open a separate decision issue to formulate exactly one decomposition-attribution experiment, and can the chosen bounded workflow distinguish these failure sources well enough to justify execution?
+These questions are answered by v0.3 implementation and acceptance evidence, not by a new model benchmark.
 
-1. missing, stale, conflicting, or incorrectly selected knowledge;
-2. missing or incorrect operator capability;
-3. Cognitive Core comprehension, reasoning, or integration failure;
-4. candidate selection or verifier failure;
-5. hidden Remote or human substitution.
+## Research watch
 
-No experiment, benchmark, Gate, model run, J-Space work, DMoE work, or implementation is authorized while this remains unresolved.
+The following remain important but do not block v0.3 unless they change the external contract:
+
+- minimum Cognitive Core and decomposition boundary;
+- Decision Skills and high-frequency Agent control;
+- runtime-composable Skill systems;
+- latent/recurrent collaboration and Cognitive ABI;
+- Agent Swarm epistemic independence and contamination;
+- deterministic post-compromise execution governance;
+- modular knowledge and capability artifacts.
 
 ## Cognitive Core and decomposition boundary
 
