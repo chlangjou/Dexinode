@@ -95,60 +95,84 @@ The Cognitive Core includes semantic grounding, automatic foundation capabilitie
 
 The [route review](research/2026-08-17-cognitive-decomposition-hypothesis-route-review.md) did not supersede ADR 0003 or specification v0.2 and did not authorize execution.
 
-## Current research priorities
+## Current phase — Specification Convergence and Reference Implementation
 
-### Priority 1 — Identify the minimum viable Cognitive Core boundary
+[ADR 0004](decisions/0004-distributed-cognitive-execution-reference-slice.md) formally transitions Dexinode from research-first exploration to implementation-driven validation.
 
-Determine what must remain in a broadly pretrained core:
+The active sequence is:
 
-- language and semantic grounding;
-- reusable concepts and world priors;
-- automatic foundation capabilities;
-- deliberate reasoning, planning, integration, clarification, abstention, and escalation;
-- intermediate-state and recurrence mechanisms.
+    Specification Convergence
+        ->
+    Reference Implementation
+        ->
+    Implementation Validation
+        ->
+    later protocol / adoption decision
 
-The question is configuration- and task-conditioned, not a fixed parameter target.
+Research remains a watch lane and no longer blocks implementation unless it changes a core contract, isolation invariant, verification assumption, or Provider boundary.
 
-### Priority 2 — Separate missing knowledge from reasoning／integration failure
+### Priority 1 — Freeze protocol objects in working code
 
-Investigate:
+Implement and validate:
 
-- external factual, current, private, long-tail, and episodic knowledge;
-- retrieval, structured memory, parametric memory, and hybrid systems;
-- provenance, conflict, freshness, revocation, poisoning, and recovery;
-- whether correct evidence is actually reconciled and used;
-- what foundational semantic knowledge cannot be externalized safely.
+- TaskIntent;
+- TaskBundle;
+- ProviderDescriptor;
+- ExecutionContract;
+- Artifact;
+- VerificationRecord;
+- ExecutionReceipt.
 
-### Priority 3 — Define operator contributions and integration packets
+The code must preserve provider-internal implementation freedom.
 
-Explore how deterministic tools, solvers, learned operators, Specialists, Remote services, and humans return bounded artifacts or intermediate claims with:
+### Priority 2 — Prove Consumer / Provider isolation
 
-- entities and role bindings;
-- relations and constraints;
-- uncertainty;
-- evidence and coverage;
-- unresolved questions;
-- actual contribution attribution.
+Demonstrate:
 
-### Priority 4 — Monitor workspace and recurrent reasoning only when evidence is material
+- no ambient requester filesystem access;
+- no Consumer credentials;
+- no requester-home-directory mount;
+- network disabled for the reference task;
+- per-task ephemeral workspace;
+- no cross-task workspace leakage;
+- output returned only as protocol Artifact(s).
 
-Track J-Space-like structures, latent／recurrent methods, and inference-time depth when they materially change the minimum-core or full-system question. Require compute-, parameter-, memory-, and task-matched evidence. Do not make a model-specific latent representation into a protocol requirement.
+### Priority 3 — Complete the end-to-end lifecycle with a mock backend
 
-### Priority 5 — Preserve control-plane and verifier falsifiability
+Build:
 
-Continue refining authority, state, provenance, sandboxing, candidate lineage, verifier independence, false acceptance, stopping, Remote／human substitution, and full workflow cost. These remain stable research questions across model and substrate turnover.
+- Consumer CLI;
+- static Provider Registry;
+- deterministic hard-constraint matcher;
+- Provider Runtime;
+- sandbox lifecycle;
+- deterministic verifier;
+- Artifact / Receipt validation;
+- explicit failure states and cleanup receipts.
 
-## Candidate future evidence stages — not authorized
+### Priority 4 — Swap in one real Agent backend
 
-Only after a separate human decision should the project formulate exactly one bounded experiment. Candidate stages, in order of decision value, are:
+Use an existing Agent runtime or model API behind the same Provider adapter.
 
-1. **Decomposition attribution design:** demonstrate that a bounded workflow can distinguish missing knowledge, missing operator capability, Cognitive Core integration failure, verifier failure, and human／Remote substitution.
-2. **Knowledge-complete core comparison:** hold the Cognitive Core fixed and compare core-only, complete gold knowledge, automatically compiled knowledge, and strong monolithic／Remote baselines on structurally fresh tasks.
-3. **Typed operator integration:** test whether bounded operator outputs improve verified completion when the final requirement requires composition not seen in the operator's own training or contract examples.
-4. **Full-system value:** compare quality, false acceptance, active human time, privacy, latency, resource use, and total lifecycle cost for complete configurations.
-5. **Independent-provider value:** only after one trust domain succeeds, test whether independently operated knowledge, operator, or verifier providers add value beyond a conventional local plugin system.
+Do not change the Consumer contract to accommodate backend-specific details.
 
-No item above is a Gate, benchmark, execution plan, or authorization.
+### Priority 5 — Produce reproducible implementation evidence
+
+Record:
+
+- successful reference run;
+- unsupported capability rejection;
+- execution failure;
+- verifier failure;
+- cleanup failure or quarantine path;
+- isolation sentinel test;
+- two consecutive tasks showing no workspace leakage.
+
+### Implementation completion question
+
+The v0.3 slice is successful only if the same external contract can support both a deterministic/mock backend and a real Agent backend while preserving the required isolation and evidence semantics.
+
+No benchmark leaderboard or new model-selection Gate is required.
 
 ## Routes closed as primary project directions
 
@@ -209,9 +233,15 @@ Original goal: accounting, payments, disputes, Sybil resistance, liability, and 
 
 Current disposition: deferred; blockchain or token remains neither prerequisite nor default.
 
-## Immediate next decisions
+## Immediate next actions
 
-1. Complete repository-level review and disposition of Draft PR [#28](https://github.com/chlangjou/Dexinode/pull/28); research-record acceptance does not itself authorize merge.
-2. Remain stopped unless a separate human decision concludes that one decomposition-attribution question has enough decision value to formulate.
-3. Before any later Gate, freeze how missing knowledge, missing operator capability, core integration failure, verifier failure, and human／Remote substitution will be distinguished.
-4. Do not infer a model run, benchmark, implementation, J-Space work, DMoE work, FIM work, or network prototype from this roadmap update.
+1. Implement v0.3 data models and schema validation.
+2. Implement the static Provider Registry and deterministic matcher.
+3. Implement the Provider sandbox lifecycle with network disabled.
+4. Complete a mock end-to-end path that produces Artifact + ExecutionReceipt.
+5. Add deterministic verification and failure-path tests.
+6. Connect one real Agent backend behind the same adapter.
+7. Run the v0.3 acceptance suite and record reproducibility evidence.
+8. Stop for human review before adding a second Provider, controlled network access, capability-artifact distribution, failover, or federation.
+
+Do not add marketplace, reputation, payment, token, settlement, permissionless discovery, or cross-provider latent communication during v0.3.
