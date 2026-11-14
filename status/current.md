@@ -150,6 +150,7 @@ The following remain relevant but are not implementation prerequisites:
 - Functional Cognitive Nodes;
 - latent collaboration and Cognitive ABI questions;
 - [NCM / hierarchical discrete codes / nested dropout](../docs/research/2026-11-14-next-concept-modeling-hierarchical-exploration-watch.md) as a **passive architecture-diversity watch item** (2026-11-14); no new research or implementation authorization;
+- [Agent context lifecycle / Fork-and-Flush / memory assembly](../docs/research/2026-11-14-agent-context-lifecycle-memory-assembly-watch.md) as a **passive, architecture-conditional research watch** (2026-11-14); no new research or implementation authorization;
 - Agent Swarm coupling, epistemic independence, and memory contamination;
 - deterministic post-compromise execution governance.
 

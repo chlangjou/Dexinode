@@ -20,6 +20,8 @@ This directory holds durable pre-Gate research baselines, Worker briefs, Worker 
 - [2026-09-16 Jev / System One decision primitives — Agent reflex-layer watch note](2026-09-16-jev-system-one-agent-reflex-watch.md)
 - [2026-09-16 Functional Cognitive Node reframing — from distributed models to distributed capability nodes](2026-09-16-functional-cognitive-node-reframing.md)
 - [2026-09-19 Latent collaboration and heterogeneous context exchange — architecture watch](2026-09-19-latent-collaboration-context-exchange-watch.md)
+- [2026-11-14 NCM / hierarchical discrete codes — architecture-diversity watch](2026-11-14-next-concept-modeling-hierarchical-exploration-watch.md)
+- [2026-11-14 Agent context lifecycle and memory assembly — architecture-diversity watch](2026-11-14-agent-context-lifecycle-memory-assembly-watch.md)
 
 ## Interpretation
 
