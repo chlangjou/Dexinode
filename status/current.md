@@ -1,6 +1,6 @@
 # Current Project Status
 
-- Updated: 2026-09-28
+- Updated: 2026-11-14 (watch index only; implementation status unchanged from 2026-09-28)
 - Current phase: **Specification Convergence -> Reference Implementation**
 - Active implementation: **Distributed Cognitive Execution Reference v0.3**
 - Active experimental Gate: **none**
@@ -149,6 +149,7 @@ The following remain relevant but are not implementation prerequisites:
 - Jev／System-One-like high-frequency Decision Skills;
 - Functional Cognitive Nodes;
 - latent collaboration and Cognitive ABI questions;
+- [NCM / hierarchical discrete codes / nested dropout](../docs/research/2026-11-14-next-concept-modeling-hierarchical-exploration-watch.md) as a **passive architecture-diversity watch item** (2026-11-14); no new research or implementation authorization;
 - Agent Swarm coupling, epistemic independence, and memory contamination;
 - deterministic post-compromise execution governance.
 
